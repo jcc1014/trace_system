@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trace.dao.VideoDao" >
+  <resultMap id="BaseResultMap" type="com.trace.po.Video" >
+    <id column="video_id" property="video_id" jdbcType="VARCHAR" />
+    <result column="video_path" property="video_path" jdbcType="VARCHAR" />
+    <result column="createtimt" property="createtime" jdbcType="VARCHAR" />
+    <result column="video_type" property="video_type" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    video_id,video_path,video_type,createtime,username
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from video
+    where video_id = #{video_id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from video
+    where username = #{username,jdbcType=VARCHAR}
+    and video_type = '0'
+  </select>
+  <select id="selectAllVideo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from video
+  </select>
+  
+  <insert id="insert" parameterType="com.trace.po.Video">
+  	insert into video ( video_id,video_path,video_type,createtime,username) values
+  	(#{video_id},#{video_path},#{video_type},#{createtime},#{username})
+  </insert>
+  <update id="update" parameterType="com.trace.po.Video">
+  	UPDATE video
+	 <trim prefix="set" suffixOverrides=",">
+	  <if test="video_path !=null and video_path != ''">video_path=#{video_path},</if>
+	  <if test="video_type !=null and video_type != ''">video_type=#{video_type},</if>
+	  <if test="createtime !=null and createtime != ''">createtime=#{createtime},</if>
+	  <if test="username !=null and username != ''">username=#{username},</if>
+	 </trim>
+	 WHERE video_id=#{video_id}
+  </update>
+  <delete id="deleteById" parameterType="java.lang.String">
+  	delete from video where video_id = #{video_id}
+  </delete>
+</mapper>

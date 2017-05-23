@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trace.dao.TestDao" >
+  <resultMap id="BaseResultMap" type="com.trace.po.Test" >
+    <id column="test_id" property="test_id" jdbcType="VARCHAR" />
+    <result column="test_time" property="test_time" jdbcType="VARCHAR" />
+    <result column="test_machine" property="test_machine" jdbcType="VARCHAR" />
+    <result column="test_result" property="test_result" jdbcType="VARCHAR" />
+    <result column="test_influence" property="test_influence" jdbcType="VARCHAR" />
+    <result column="test_type" property="test_type" jdbcType="VARCHAR" />
+    <result column="test_name" property="test_name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    test_name,test_id,test_time, test_machine, test_result,test_influence,test_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from test
+    where test_id = #{test_id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from test
+    where test_name like '%${test_name,jdbcType=VARCHAR}%'
+  </select>
+  <select id="selectAllTest" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from test
+    <!--where userid = #{userid,jdbcType=VARCHAR} -->
+  </select>
+  
+  <insert id="insert" parameterType="com.trace.po.Test">
+  	insert into test (test_id,test_name,test_time, test_machine, test_result,test_influence,test_type) values
+  	(#{test_id},#{test_name},#{test_time},#{test_machine},#{test_result},#{test_influence},#{test_type})
+  </insert>
+  
+</mapper>

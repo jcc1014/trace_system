@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trace.dao.FarmerDao" >
+  <resultMap id="BaseResultMap" type="com.trace.po.Farmer" >
+    <id column="farmer_id" property="farmer_id" jdbcType="VARCHAR" />
+    <result column="farmer_name" property="farmer_name" jdbcType="VARCHAR" />
+    <result column="farmer_phone" property="farmer_phone" jdbcType="VARCHAR" />
+    <result column="video_id" property="video_id" jdbcType="VARCHAR" />
+    <result column="farmer_hzs" property="farmer_hzs" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    farmer_id, farmer_name, farmer_phone,video_id,farmer_hzs
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from farmer
+    where farmer_id = #{farmer_id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from farmer
+    where farmer_name like '%${farmer_name,jdbcType=VARCHAR}%'
+  </select>
+  <select id="selectAllFarmer" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from farmer
+    <!--where userid = #{userid,jdbcType=VARCHAR} -->
+  </select>
+  
+  <insert id="insert" parameterType="com.trace.po.Farmer">
+  	insert into farmer (farmer_id, farmer_name, farmer_phone,video_id,farmer_hzs) values
+  	(#{farmer_id},#{farmer_name},#{farmer_phone},#{video_id},#{farmer_hzs})
+  </insert>
+  
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trace.dao.PurchaseDao" >
+  <resultMap id="BaseResultMap" type="com.trace.po.Purchase" >
+    <id column="purchase_id" property="purchase_id" jdbcType="VARCHAR" />
+    <result column="purchase_name" property="purchase_name" jdbcType="VARCHAR" />
+    <result column="purchase_time" property="purchase_time" jdbcType="VARCHAR" />
+    <result column="purchase_num" property="purchase_num" jdbcType="DOUBLE" />
+    <result column="purchase_video" property="purchase_video" jdbcType="DOUBLE" />
+    <result column="purchase_type" property="purchase_type" jdbcType="DOUBLE" />
+    <result column="purchase_parentid" property="purchase_parentid" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    purchase_id, purchase_name, purchase_time,purchase_num,
+    purchase_video,purchase_type,purchase_parentid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from purchase
+    where purchase_id = #{purchase_id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from purchase
+    where purchase_name like '%${purchase_name,jdbcType=VARCHAR}%'
+  </select>
+  <select id="selectAllPurchase" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from purchase
+    <!--where userid = #{userid,jdbcType=VARCHAR} -->
+  </select>
+  
+  <insert id="insert" parameterType="com.trace.po.Purchase">
+  	insert into purchase (purchase_id, purchase_name, purchase_time,purchase_num,
+    purchase_video,purchase_type,purchase_parentid) values
+  	(#{purchase_id},#{purchase_name},#{purchase_time},#{purchase_num},
+  	#{purchase_video},#{purchase_type},#{purchase_parentid})
+  </insert>
+  
+</mapper>

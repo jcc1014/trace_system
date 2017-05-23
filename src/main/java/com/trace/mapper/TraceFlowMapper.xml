@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trace.dao.TraceFlowDao" >
+  <resultMap id="BaseResultMap" type="com.trace.po.TraceFlow" >
+    <id column="trace_id" property="trace_id" jdbcType="VARCHAR" />
+    <result column="farmer_id" property="farmer_id" jdbcType="VARCHAR" />
+    <result column="purchase_id" property="purchase_id" jdbcType="VARCHAR" />
+    <result column="test_id" property="test_id" jdbcType="VARCHAR" />
+    <result column="sampling_id" property="sampling_id" jdbcType="VARCHAR" />
+    <result column="transport_id" property="transport_id" jdbcType="VARCHAR" />
+    <result column="sale_id" property="sale_id" jdbcType="VARCHAR" />
+    <result column="trace_status" property="trace_status" jdbcType="VARCHAR" />
+    <result column="qrcode" property="qrcode" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    trace_id,farmer_id, purchase_id, test_id,sampling_id,transport_id,sale_id,trace_status,qrcode,createtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from trace_flow
+    where trace_id = #{trace_id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllTraceFlow" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from trace_flow
+    <!--where userid = #{userid,jdbcType=VARCHAR} -->
+  </select>
+  
+  <select id="query" resultType="java.util.Map" parameterType="java.util.Map">
+  	SELECT *,
+	(SELECT farmer_name from farmer f where f.farmer_id = t.farmer_id)as farmer_name,
+	(SELECT purchase_name from purchase p where p.purchase_id = t.purchase_id)as purchase_name,
+	(SELECT test_name from test  where test.test_id = t.test_id)as test_name,
+	(SELECT test_name from test  where test.test_id = t.sampling_id)as sampling_name,
+	(SELECT transport_destination from transport  where transport.transport_id = t.transport_id)as transport_destination,
+	(SELECT transport_user from transport  where transport.transport_id = t.transport_id)as transport_user,
+	(SELECT purchase_type from purchase  where purchase.purchase_id = t.purchase_id)as purchase_type,
+	(SELECT qrcode_path from qrcode  where qrcode.qrcode_id = t.qrcode)as qrcode_path
+	 from trace_flow t
+	 where 1=1
+	 <if test="starttime != null and starttime !=''">
+	 	t.createtime &gt;= #{starttime}
+	 </if>
+	 <if test="endtime != null and endtime !=''">
+	 	t.createtime &lt;= #{endtime}
+	 </if>
+	 <if test="farmer_name != null and farmer_name !=''">
+	 	 and EXISTS (SELECT 1 from farmer f where f.farmer_name like '%${farmer_name}%' and f.farmer_id=t.farmer_id)
+	 </if>
+  	 ORDER BY t.trace_status,t.createtime
+	 limit ${index},8
+  </select>
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+  	SELECT count(1) as num
+	 from trace_flow t
+	 where 1=1
+	 <if test="starttime != null and starttime !=''">
+	 	t.createtime &gt;= #{starttime}
+	 </if>
+	 <if test="endtime != null and endtime !=''">
+	 	t.createtime &lt;= #{endtime}
+	 </if>
+	 <if test="farmer_name != null and farmer_name !=''">
+	 	 and EXISTS (SELECT 1 from farmer f where f.farmer_name like '%${farmer_name}%' and f.farmer_id=t.farmer_id)
+	 </if>
+  </select>
+  
+  <update id="update" parameterType="com.trace.po.TraceFlow">
+	  UPDATE trace_flow
+	 <trim prefix="set" suffixOverrides=",">
+	  <if test="farmer_id !=null and farmer_id != ''">farmer_id=#{farmer_id},</if>
+	  <if test="purchase_id !=null and purchase_id != ''">purchase_id=#{purchase_id},</if>
+	  <if test="test_id !=null and test_id != ''">test_id=#{test_id},</if>
+	  <if test="sampling_id !=null and sampling_id != ''">sampling_id=#{sampling_id},</if>
+	  <if test="transport_id !=null and transport_id != ''">transport_id=#{transport_id},</if>
+	  <if test="trace_status !=null and trace_status != ''">trace_status=#{trace_status},</if>
+	  <if test="qrcode !=null and qrcode != ''">qrcode=#{qrcode},</if>
+	  <if test="sale_id !=null and sale_id != ''">sale_id=#{sale_id},</if>
+	 </trim>
+	 WHERE trace_id=#{trace_id}
+	</update>
+  
+  <insert id="insert" parameterType="com.trace.po.TraceFlow">
+  	insert into trace_flow (trace_id,farmer_id, purchase_id, test_id,sampling_id,
+  	transport_id,sale_id,trace_status,qrcode,createtime) values
+  	(#{trace_id},#{farmer_id},#{purchase_id},#{test_id},#{sampling_id},
+  	#{transport_id},#{sale_id},#{trace_status},#{qrcode},#{createtime})
+  </insert>
+  
+</mapper>

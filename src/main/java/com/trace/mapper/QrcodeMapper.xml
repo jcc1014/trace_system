@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trace.dao.QrcodeDao" >
+  <resultMap id="BaseResultMap" type="com.trace.po.Qrcode" >
+    <id column="qrcode_id" property="qrcode_id" jdbcType="VARCHAR" />
+    <result column="qrcode_path" property="qrcode_path" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    qrcode_id, qrcode_path
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from qrcode
+    where qrcode_id = #{qrcode_id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllQrcode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from qrcode
+    <!--where userid = #{userid,jdbcType=VARCHAR} -->
+  </select>
+  
+  <insert id="insert" parameterType="com.trace.po.Test">
+  	insert into qrcode (qrcode_id, qrcode_path) values
+  	(#{qrcode_id},#{qrcode_path})
+  </insert>
+  
+</mapper>

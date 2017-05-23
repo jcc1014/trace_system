@@ -1,0 +1,8 @@
+@font-face {
+	font-family: layui-icon;
+	src: url(iconfont.eot?v=1.0.9);
+	src: url(iconfont.eot?v=1.0.9#iefix) format('embedded-opentype'),
+		url(iconfont.svg?v=1.0.9#iconfont) format('svg'),
+		url(iconfont.woff?v=1.0.9) format('woff'),
+		url(iconfont.ttf?v=1.0.9) format('truetype')
+}

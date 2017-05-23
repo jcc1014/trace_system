@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trace.dao.VegetablesDao" >
+  <resultMap id="BaseResultMap" type="com.trace.po.Vegetables" >
+    <id column="vegetables_id" property="vegetables_id" jdbcType="VARCHAR" />
+    <result column="vegetables_name" property="vegetables_name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    vegetables_id,vegetables_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from vegetables
+    where vegetables_id = #{vegetables_id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from vegetables
+    where vegetables_name like '%${vegetables_name,jdbcType=VARCHAR}%'
+  </select>
+  <select id="selectAllVegetables" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from vegetables
+  </select>
+  
+  <insert id="insert" parameterType="com.trace.po.Transport">
+  	insert into test ( vegetables_id,vegetables_name) values
+  	(#{vegetables_id},#{vegetables_name})
+  </insert>
+  
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mall.dao.DictMapper" >
+  <resultMap id="BaseResultMap" type="com.mall.po.Dict" >
+    <id column="dict_id" property="dict_id" jdbcType="VARCHAR" />
+    <result column="dict_name" property="dict_name" jdbcType="VARCHAR" />
+    <result column="dict_type" property="dict_type" jdbcType="VARCHAR" />
+    <result column="parentid" property="parentid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    dict_id, dict_name, dict_type, parentid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from dict
+    where dict_id = #{dict_id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from dict
+    where dict_id = #{dict_id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mall.po.Dict" >
+    insert into dict (dict_id, dict_name, dict_type, 
+      parentid)
+    values (#{dict_id,jdbcType=VARCHAR}, #{dict_name,jdbcType=VARCHAR}, #{dict_type,jdbcType=VARCHAR}, 
+      #{parentid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mall.po.Dict" >
+    insert into dict
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dict_id != null" >
+        dict_id,
+      </if>
+      <if test="dict_name != null" >
+        dict_name,
+      </if>
+      <if test="dict_type != null" >
+        dict_type,
+      </if>
+      <if test="parentid != null" >
+        parentid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dict_id != null" >
+        #{dict_id,jdbcType=VARCHAR},
+      </if>
+      <if test="dict_name != null" >
+        #{dict_name,jdbcType=VARCHAR},
+      </if>
+      <if test="dict_type != null" >
+        #{dict_type,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mall.po.Dict" >
+    update dict
+    <set >
+      <if test="dict_name != null" >
+        dict_name = #{dict_name,jdbcType=VARCHAR},
+      </if>
+      <if test="dict_type != null" >
+        dict_type = #{dict_type,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        parentid = #{parentid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dict_id = #{dict_id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mall.po.Dict" >
+    update dict
+    set dict_name = #{dict_name,jdbcType=VARCHAR},
+      dict_type = #{dict_type,jdbcType=VARCHAR},
+      parentid = #{parentid,jdbcType=VARCHAR}
+    where dict_id = #{dict_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

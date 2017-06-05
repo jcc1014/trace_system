@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- 配置别名 -->
 	<typeAliases>
 		<!-- 批量扫描别名 -->
-		<package name="com.trace.*.po"/>
+		<package name="com.*.*.po"/>
 	</typeAliases> 
 
 	<!-- 配置mapper

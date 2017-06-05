@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mall.dao.GoodsPicMapper" >
+  <resultMap id="BaseResultMap" type="com.mall.po.GoodsPic" >
+    <id column="pic_id" property="pic_id" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goods_id" jdbcType="VARCHAR" />
+    <result column="pic_path" property="pic_path" jdbcType="VARCHAR" />
+    <result column="index" property="index" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pic_id, goods_id, pic_path, index, createtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_pic
+    where pic_id = #{pic_id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from goods_pic
+    where pic_id = #{pic_id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mall.po.GoodsPic" >
+    insert into goods_pic (pic_id, goods_id, pic_path, 
+      index, createtime)
+    values (#{pic_id,jdbcType=VARCHAR}, #{goods_id,jdbcType=VARCHAR}, #{pic_path,jdbcType=VARCHAR}, 
+      #{index,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mall.po.GoodsPic" >
+    insert into goods_pic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pic_id != null" >
+        pic_id,
+      </if>
+      <if test="goods_id != null" >
+        goods_id,
+      </if>
+      <if test="pic_path != null" >
+        pic_path,
+      </if>
+      <if test="index != null" >
+        index,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pic_id != null" >
+        #{pic_id,jdbcType=VARCHAR},
+      </if>
+      <if test="goods_id != null" >
+        #{goods_id,jdbcType=VARCHAR},
+      </if>
+      <if test="pic_path != null" >
+        #{pic_path,jdbcType=VARCHAR},
+      </if>
+      <if test="index != null" >
+        #{index,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mall.po.GoodsPic" >
+    update goods_pic
+    <set >
+      <if test="goods_id != null" >
+        goods_id = #{goods_id,jdbcType=VARCHAR},
+      </if>
+      <if test="pic_path != null" >
+        pic_path = #{pic_path,jdbcType=VARCHAR},
+      </if>
+      <if test="index != null" >
+        index = #{index,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pic_id = #{pic_id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mall.po.GoodsPic" >
+    update goods_pic
+    set goods_id = #{goods_id,jdbcType=VARCHAR},
+      pic_path = #{pic_path,jdbcType=VARCHAR},
+      index = #{index,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=VARCHAR}
+    where pic_id = #{pic_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

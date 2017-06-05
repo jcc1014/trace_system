@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mall.dao.GoodsDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.mall.po.GoodsDetail" >
+    <id column="goods_detail_id" property="goods_detail_id" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goods_id" jdbcType="VARCHAR" />
+    <result column="goods_type" property="goods_type" jdbcType="VARCHAR" />
+    <result column="nowprice" property="nowprice" jdbcType="DOUBLE" />
+    <result column="oldprice" property="oldprice" jdbcType="DOUBLE" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    goods_detail_id, goods_id, goods_type, nowprice, oldprice, number
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_detail
+    where goods_detail_id = #{goods_detail_id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from goods_detail
+    where goods_detail_id = #{goods_detail_id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mall.po.GoodsDetail" >
+    insert into goods_detail (goods_detail_id, goods_id, goods_type, 
+      nowprice, oldprice, number
+      )
+    values (#{goods_detail_id,jdbcType=VARCHAR}, #{goods_id,jdbcType=VARCHAR}, #{goods_type,jdbcType=VARCHAR}, 
+      #{nowprice,jdbcType=DOUBLE}, #{oldprice,jdbcType=DOUBLE}, #{number,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mall.po.GoodsDetail" >
+    insert into goods_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goods_detail_id != null" >
+        goods_detail_id,
+      </if>
+      <if test="goods_id != null" >
+        goods_id,
+      </if>
+      <if test="goods_type != null" >
+        goods_type,
+      </if>
+      <if test="nowprice != null" >
+        nowprice,
+      </if>
+      <if test="oldprice != null" >
+        oldprice,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goods_detail_id != null" >
+        #{goods_detail_id,jdbcType=VARCHAR},
+      </if>
+      <if test="goods_id != null" >
+        #{goods_id,jdbcType=VARCHAR},
+      </if>
+      <if test="goods_type != null" >
+        #{goods_type,jdbcType=VARCHAR},
+      </if>
+      <if test="nowprice != null" >
+        #{nowprice,jdbcType=DOUBLE},
+      </if>
+      <if test="oldprice != null" >
+        #{oldprice,jdbcType=DOUBLE},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mall.po.GoodsDetail" >
+    update goods_detail
+    <set >
+      <if test="goods_id != null" >
+        goods_id = #{goods_id,jdbcType=VARCHAR},
+      </if>
+      <if test="goods_type != null" >
+        goods_type = #{goods_type,jdbcType=VARCHAR},
+      </if>
+      <if test="nowprice != null" >
+        nowprice = #{nowprice,jdbcType=DOUBLE},
+      </if>
+      <if test="oldprice != null" >
+        oldprice = #{oldprice,jdbcType=DOUBLE},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=INTEGER},
+      </if>
+    </set>
+    where goods_detail_id = #{goods_detail_id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mall.po.GoodsDetail" >
+    update goods_detail
+    set goods_id = #{goods_id,jdbcType=VARCHAR},
+      goods_type = #{goods_type,jdbcType=VARCHAR},
+      nowprice = #{nowprice,jdbcType=DOUBLE},
+      oldprice = #{oldprice,jdbcType=DOUBLE},
+      number = #{number,jdbcType=INTEGER}
+    where goods_detail_id = #{goods_detail_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

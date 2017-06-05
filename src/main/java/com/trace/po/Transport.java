@@ -7,6 +7,7 @@ public class Transport {
 	private String transport_user; //运输人
 	private String transport_destination; //目的地
 	private String coordinate; //坐标
+	private String transport_pic; //运输照片
 	
 	
 	public String getTransport_id() {
@@ -38,6 +39,12 @@ public class Transport {
 	}
 	public void setCoordinate(String coordinate) {
 		this.coordinate = coordinate;
+	}
+	public String getTransport_pic() {
+		return transport_pic;
+	}
+	public void setTransport_pic(String transport_pic) {
+		this.transport_pic = transport_pic;
 	}
 	
 	

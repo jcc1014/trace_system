@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mall.dao.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.mall.po.Order" >
+    <id column="order_id" property="order_id" jdbcType="VARCHAR" />
+    <result column="member_id" property="member_id" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="goods_id" property="goods_id" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="current_status" property="current_status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_id, member_id, number, goods_id, createtime, current_status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from order
+    where order_id = #{order_id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from order
+    where order_id = #{order_id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mall.po.Order" >
+    insert into order (order_id, member_id, number, 
+      goods_id, createtime, current_status
+      )
+    values (#{order_id,jdbcType=VARCHAR}, #{member_id,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
+      #{goods_id,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{current_status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mall.po.Order" >
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="order_id != null" >
+        order_id,
+      </if>
+      <if test="member_id != null" >
+        member_id,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="goods_id != null" >
+        goods_id,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="current_status != null" >
+        current_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="order_id != null" >
+        #{order_id,jdbcType=VARCHAR},
+      </if>
+      <if test="member_id != null" >
+        #{member_id,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="goods_id != null" >
+        #{goods_id,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="current_status != null" >
+        #{current_status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mall.po.Order" >
+    update order
+    <set >
+      <if test="member_id != null" >
+        member_id = #{member_id,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="goods_id != null" >
+        goods_id = #{goods_id,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="current_status != null" >
+        current_status = #{current_status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_id = #{order_id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mall.po.Order" >
+    update order
+    set member_id = #{member_id,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      goods_id = #{goods_id,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      current_status = #{current_status,jdbcType=VARCHAR}
+    where order_id = #{order_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

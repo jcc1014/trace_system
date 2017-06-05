@@ -6,7 +6,9 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+String address = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
 %>
 <c:set var="path" value="<%=basePath %>"/>
+<c:set var="address" value="<%=address %>"/>
 <c:set var="ftpctx" value="<%=basePath %>"/>
 <c:set var="sysname" value="生鲜追溯后台管理系统"/>

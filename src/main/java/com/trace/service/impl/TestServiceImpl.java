@@ -38,4 +38,9 @@ public class TestServiceImpl implements TestService {
 		return testDao.selectByPrimaryKey(test_id);
 	}
 
+	@Override
+	public int update(Test test) {
+		return testDao.update(test);
+	}
+
 }

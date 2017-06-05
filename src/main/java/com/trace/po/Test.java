@@ -9,6 +9,7 @@ public class Test {
 	private String test_influence;
 	private String test_type;
 	private String test_name;
+	private String test_video;
 	
 	
 	public String getTest_id() {
@@ -52,6 +53,12 @@ public class Test {
 	}
 	public void setTest_name(String test_name) {
 		this.test_name = test_name;
+	}
+	public String getTest_video() {
+		return test_video;
+	}
+	public void setTest_video(String test_video) {
+		this.test_video = test_video;
 	}
 	
 	

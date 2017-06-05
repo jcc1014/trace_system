@@ -34,11 +34,11 @@ public class QRCodeUtil {
 	private static final String CHARSET = "utf-8";
 	private static final String FORMAT = "JPG";
 	// 二维码尺寸
-	private static final int QRCODE_SIZE = 150;
+	private static final int QRCODE_SIZE = 600;
 	// LOGO宽度
-	private static final int LOGO_WIDTH = 30;
+	private static final int LOGO_WIDTH = 120;
 	// LOGO高度
-	private static final int LOGO_HEIGHT = 30;
+	private static final int LOGO_HEIGHT = 120;
 
 	private static BufferedImage createImage(String content, String logoPath, boolean needCompress) throws Exception {
 		Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();

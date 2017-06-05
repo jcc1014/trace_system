@@ -11,7 +11,7 @@
     <result column="test_name" property="test_name" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    test_name,test_id,test_time, test_machine, test_result,test_influence,test_type
+    test_name,test_id,test_time, test_machine, test_result,test_influence,test_type,test_video
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -33,8 +33,24 @@
   </select>
   
   <insert id="insert" parameterType="com.trace.po.Test">
-  	insert into test (test_id,test_name,test_time, test_machine, test_result,test_influence,test_type) values
-  	(#{test_id},#{test_name},#{test_time},#{test_machine},#{test_result},#{test_influence},#{test_type})
+  	insert into test (test_id,test_name,test_time, test_machine, test_result,
+  	test_influence,test_type,test_video) values
+  	(#{test_id},#{test_name},#{test_time},#{test_machine},#{test_result},
+  	#{test_influence},#{test_type},#{test_video})
   </insert>
+  
+  <update id="update" parameterType="com.trace.po.Test">
+	UPDATE test
+		 <trim prefix="set" suffixOverrides=",">
+		  <if test="test_time !=null and test_time != ''">test_time=#{test_time},</if>
+		  <if test="test_machine !=null and test_machine != ''">test_machine=#{test_machine},</if>
+		  <if test="test_result !=null and test_result !=''">test_result=#{test_result},</if>
+		  <if test="test_influence !=null and test_influence != ''">test_influence=#{test_influence},</if>
+		  <if test="test_name !=null and test_name !=''">test_name=#{test_name},</if>
+		  <if test="test_video!=null and test_video !=''">test_video=#{test_video},</if>
+		  <if test="test_type !=null and test_type !=''">test_type=#{test_type},</if>
+		 </trim>
+	WHERE test_id=#{test_id}
+  </update>
   
 </mapper>

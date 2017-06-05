@@ -9,7 +9,7 @@
     <result column="coordinate" property="coordinate" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    transport_id,transport_truck, transport_user,transport_destination,transport_user
+    transport_id,transport_truck, transport_user,transport_destination,transport_user,transport_pic
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -32,8 +32,8 @@
   
   <insert id="insert" parameterType="com.trace.po.Transport">
   	insert into transport ( transport_id,transport_truck, transport_user,
-  	transport_destination) values
-  	(#{transport_id},#{transport_truck},#{transport_user},#{transport_destination})
+  	transport_destination,transport_pic) values
+  	(#{transport_id},#{transport_truck},#{transport_user},#{transport_destination},#{transport_pic})
   </insert>
   
 </mapper>

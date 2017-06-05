@@ -6,20 +6,57 @@
 <head>
 <link rel="stylesheet" href="${path}/layui/css/layui.css">
 <link rel="stylesheet" href="${path}/res/global.css">
-<script type="text/javascript" src="${path}/layui/layui.js"></script>
+<script type="text/javascript" src="${path}/js/jquery.min.js"></script>
+<script type="text/javascript" src="${path}/layer/layer.js"></script>
 <style type="text/css" media=print> 
-img{
-width: 3cm;
-height: 3cm;
-}
 </style> 
 </head>
 <body style="text-align: center;padding-top: 10px;"> 
 <input id="btnPrint"  class="layui-btn layui-btn-mini" type="button" value="打印" onclick="javascript:window.print();" /> 
 
-<input id="btnPrint2" class="layui-btn layui-btn-mini" type="button" value="打印预览" onclick="preview(1);" /> 
+<input id="btnPrint2" class="layui-btn layui-btn-mini" type="button" value="预览" onclick="preview(1);" /> 
+<input id="large" class="layui-btn layui-btn-mini" type="button" value="大" onclick="large();" /> 
+<input id="small" class="layui-btn layui-btn-mini" type="button" value="小" onclick="small();" /> 
+<input id="up" class="layui-btn layui-btn-mini" type="button" value="上" onclick="up();" />
+<input id="down" class="layui-btn layui-btn-mini" type="button" value="下" onclick="down();" /> 
 <hr/>
 <script> 
+function large(){
+	var width = $("#img").width();
+	if(width<160){
+		width = width+10+"px";
+		$("#img").width(width).height(width);
+	}else{
+		layer.msg("不能放大了！",{time:1000});
+	}
+}
+function small(){
+	var width = $("#img").width();
+	if(width>100){
+		width = width-10+"px";
+		$("#img").width(width).height(width);
+	}else{
+		layer.msg("不能缩小了！",{time:1000});
+	}
+}
+function up(){
+	var f = $("#img").offset();
+	//alert(f.top+","+f.left);
+	if(f.top>36){
+		$("#img").offset({top:f.top-2,left:f.left})
+	}else{
+		layer.msg("不能向上了！",{time:1000});
+	}
+}
+function down(){
+	var f = $("#img").offset();
+	//alert(f.top+","+f.left);
+	if(f.top<50){
+		$("#img").offset({top:f.top+2,left:f.left})
+	}else{
+		layer.msg("不能向下了！",{time:1000});
+	}
+}
 function preview(oper) 
 { 
 if (oper < 10) 
@@ -38,6 +75,6 @@ window.print();
 } 
 } 
 </script> 
-<!--startprint1--><c:if test="${qrcode.qrcode_path eq ''||qrcode.qrcode_path ==null}">暂时无法打印</c:if><c:if test="${qrcode.qrcode_path ne ''&&qrcode.qrcode_path !=null}"><img src="${path}/qrcode/${qrcode.qrcode_path}" width="150" height="150"></c:if><!--endprint1--> 
+<!--startprint1--><c:if test="${qrcode.qrcode_path eq ''||qrcode.qrcode_path ==null}">暂时无法打印</c:if><c:if test="${qrcode.qrcode_path ne ''&&qrcode.qrcode_path !=null}"><table><tr><td rowspan="2"><img id="img" style="width: 3cm;height: 3cm;margin-top: -10px;margin-left: 20px;" src="${path}/qrcode/${qrcode.qrcode_path}" /></td><td style="vertical-align: bottom;">县域电商</td></tr><tr><td style="vertical-align: top;">食安济阳</td></tr></table></c:if><!--endprint1--> 
 </body> 
 </html> 

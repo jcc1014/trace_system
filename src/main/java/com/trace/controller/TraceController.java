@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.trace.po.Farmer;
 import com.trace.po.Purchase;
 import com.trace.po.Qrcode;
@@ -22,6 +23,7 @@ import com.trace.po.TraceFlow;
 import com.trace.po.Transport;
 import com.trace.po.User;
 import com.trace.service.QrcodeService;
+import com.trace.service.TestService;
 import com.trace.service.TraceFlowService;
 import com.trace.service.UserService;
 
@@ -35,6 +37,8 @@ public class TraceController {
 	private QrcodeService qrcodeService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private TestService testService;
 	
 	@RequestMapping(value="/list.do",produces="text/plain")
 	public String list(HttpServletRequest request,Model model,String farmer_name,String starttime,String endtime,String page){
@@ -117,6 +121,31 @@ public class TraceController {
 		rs = traceService.samplingAdd(trace_id, test);
 		return rs;
 	}
+	@RequestMapping("sampling.do")
+	public String sampling(HttpServletRequest request,Model model,String sampling_id){
+		String page = "trace/samplingEdit";
+		Test sampling = testService.getById(sampling_id);
+		User test = new User();
+		test.setUsertype("2");
+		List<User> testList = userService.query(test);
+		model.addAttribute("testList", testList);
+		model.addAttribute("sampling", sampling);
+		return page;
+	}
+	
+	@RequestMapping("samplingSave.do")
+	@ResponseBody
+	public String samplingSave(HttpServletRequest request,Test sampling){
+		Map<String,Object> map = new HashMap<String, Object>(); 
+		int r = testService.update(sampling);
+		if(r==1){
+			map.put("code", "200");
+		}else{
+			map.put("code", "-1");
+		}
+		return JSON.toJSONString(map);
+	}
+	
 	
 	@RequestMapping("transportAdd.do")
 	@ResponseBody

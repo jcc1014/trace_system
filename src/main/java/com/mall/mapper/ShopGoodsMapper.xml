@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.dao.ShopGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.mall.po.ShopGoods">
+    <id column="shop_goods_id" jdbcType="VARCHAR" property="shop_goods_id" />
+    <result column="shop_id" jdbcType="VARCHAR" property="shop_id" />
+    <result column="goods_id" jdbcType="VARCHAR" property="goods_id" />
+    <result column="goods_num" jdbcType="DOUBLE" property="goods_num" />
+    <result column="createtime" jdbcType="VARCHAR" property="createime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    shop_goods_id, shop_id, goods_id, goods_num,createtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_goods
+    where shop_goods_id = #{shop_goods_id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from shop_goods
+    where shop_goods_id = #{shop_goods_id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mall.po.ShopGoods">
+    insert into shop_goods (shop_goods_id, shop_id, goods_id, 
+      goods_num,createtime)
+    values (#{shop_goods_id,jdbcType=VARCHAR}, #{shop_id,jdbcType=VARCHAR}, #{goods_id,jdbcType=VARCHAR}, 
+      #{goods_num,jdbcType=DOUBLE},#{createtime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mall.po.ShopGoods">
+    insert into shop_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shop_goods_id != null">
+        shop_goods_id,
+      </if>
+      <if test="shop_id != null">
+        shop_id,
+      </if>
+      <if test="goods_id != null">
+        goods_id,
+      </if>
+      <if test="goods_num != null">
+        goods_num,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shop_goods_id != null">
+        #{shop_goods_id,jdbcType=VARCHAR},
+      </if>
+      <if test="shop_id != null">
+        #{shop_id,jdbcType=VARCHAR},
+      </if>
+      <if test="goods_id != null">
+        #{goods_id,jdbcType=VARCHAR},
+      </if>
+      <if test="goods_num != null">
+        #{goods_num,jdbcType=DOUBLE},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mall.po.ShopGoods">
+    update shop_goods
+    <set>
+      <if test="shop_id != null">
+        shop_id = #{shop_id,jdbcType=VARCHAR},
+      </if>
+      <if test="goods_id != null">
+        goods_id = #{goods_id,jdbcType=VARCHAR},
+      </if>
+      <if test="goods_num != null">
+        goods_num = #{goods_num,jdbcType=DOUBLE},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where shop_goods_id = #{shop_goods_id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mall.po.ShopGoods">
+    update shop_goods
+    set shop_id = #{shop_id,jdbcType=VARCHAR},
+      goods_id = #{goods_id,jdbcType=VARCHAR},
+      goods_num = #{goods_num,jdbcType=DOUBLE}
+    where shop_goods_id = #{shop_goods_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

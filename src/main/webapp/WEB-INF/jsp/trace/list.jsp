@@ -48,8 +48,8 @@
               <th>目的地</th>
               <!-- <th>状态</th> -->
               <th>创建时间</th>
-              <!-- <th>二维码</th>
-              <th>操作</th> -->
+              <th>二维码</th>
+              <th>操作</th>
             </tr> 
           </thead>
           <tbody>
@@ -64,6 +64,8 @@
           			<td>${trace.transport_destination}</td>
           			<%-- <td>${trace.trace_status}</td> --%>
           			<td>${trace.createtime }</td>
+          			<td align="center" width="60"><a href="javascript:void(0);" onclick="qrcode('${trace.trace_id}')"><img alt="打印二维码" width="18" height="18" src="${path}/images/qrcode-mini.png"></a></td>
+          			<td><a href="javascript:void(0);" onclick="sampling('${trace.sampling_id}')">抽检</a></td>
           			<%-- <td>
           			<c:if test="${trace.qrcode !=null && trace.qrcode ne ''}">
           				<img src="${path}/images/qrcode.png" id="${trace.qrcode}" />
@@ -264,6 +266,21 @@ layui.use('laydate', function(){
   }
   
 });
+
+function qrcode(id){
+	layer.open({
+		  type: 2,
+		  title: "打印",
+		  area: ['250px', '260px'],
+		  shade: 0.8,
+		  closeBtn: 1,
+		  shadeClose: true,
+		  content: '${path}/trace/print.do?trace_id='+id
+		});
+}
+function sampling(id){
+	window.location.href = '${path}/trace/sampling.do?sampling_id='+id;
+}
 </script>
 
 </body>

@@ -24,4 +24,5 @@ public interface TestDao {
 	List<Test> selectByName(@Param("test_name")String test_name);
 	int insert(Test test);
 	Test selectByPrimaryKey(@Param("test_id")String test_id);
+	int update(Test test);
 }

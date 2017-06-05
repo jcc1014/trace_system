@@ -15,7 +15,7 @@
     	.disable{border: 0 !important;}
     	.hide{display: none !important;}
     	.inline{display: inline-block !important;}
-    	.layui-form{height: 380px;width: 330px; padding-top: 5px;border-bottom: 1px solid #e2e2e2;}
+    	.layui-form{height: 490px;width: 330px; padding-top: 5px;border-bottom: 1px solid #e2e2e2;}
     	.layui-form-label{width: 80px;}
     	#farmer_video_span{margin-left: 5px;width: 50px;overflow: hidden; margin-top: 20px;line-height: 38px;}
     	#purchase_video_span{margin-left: 5px;width: 50px;overflow: hidden; margin-top: 20px;line-height: 38px;}
@@ -64,7 +64,7 @@
 			  <div class="layui-form-item">
 			    <label class="layui-form-label">上传视频</label>
 			    <div class="layui-input-inline" style="float: left;">
-			      <input type="file" id="farmer_video_upload" name="farmer_video" lay-type="file" lay-ext="mp4|rmvb|avi|3GP" class="layui-upload-file">
+			      <input type="file" id="farmer_video_upload" name="farmer_video" lay-type="file" lay-ext="mp4|rmvb|avi|3GP|mov" class="layui-upload-file">
 			      
 			    </div>
 			    <input type="text" class="hide" id="farmer_video_input"/>
@@ -115,7 +115,7 @@
 			  <div class="layui-form-item">
 			    <label class="layui-form-label">上传视频</label>
 			    <div class="layui-input-inline">
-			      <input type="file" name="purchase_video" id="purchase_video_upload" lay-type="file" lay-ext="mp4|rmvb|avi|3GP" >
+			      <input type="file" name="purchase_video" id="purchase_video_upload" lay-type="file" lay-ext="mp4|rmvb|avi|3GP|mov" >
 			    </div>
 			    <input type="text" class="hide" id="purchase_video_input"/>
 			  </div>
@@ -169,6 +169,19 @@
 			      <textarea id="test_influence" placeholder="请输入结果影响" class="layui-textarea"></textarea>
 			    </div>
 			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">上传视频</label>
+			    <div class="layui-input-inline">
+			      <input type="file" name="test_video" id="test_video_upload" lay-type="file" lay-ext="mp4|rmvb|avi|3GP|mov" >
+			    </div>
+			    <input type="text" class="hide" id="test_video_input"/>
+			  </div>
+			  <div class="layui-form-item">
+			   	<label class="layui-form-label">已传视频</label>
+			    <div class="layui-input-inline">
+					<span id="test_video_span" style="line-height: 38px;"></span>
+			    </div>
+			  </div>
 			</div>
 	    </div>
 	    <div class="layui-tab-item layui-show inline">
@@ -212,6 +225,19 @@
 			      <textarea id="test_influence2" placeholder="请输入结果影响" class="layui-textarea"></textarea>
 			    </div>
 			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">上传视频</label>
+			    <div class="layui-input-inline">
+			      <input type="file" name="test_video2" id="test_video_upload2" lay-type="file" lay-ext="mp4|rmvb|avi|3GP|mov" >
+			    </div>
+			    <input type="text" class="hide" id="test_video_input2"/>
+			  </div>
+			  <div class="layui-form-item">
+			   	<label class="layui-form-label">已传视频</label>
+			    <div class="layui-input-inline">
+					<span id="test_video_span2" style="line-height: 38px;"></span>
+			    </div>
+			  </div>
 			</div>
 	    </div>
 	    <div class="layui-tab-item layui-show inline">
@@ -220,7 +246,7 @@
 			    <label class="layui-form-label" style="width: 100%;text-align: center !important;">运输信息</label>
 			  </div>
 			  <div class="layui-form-item">
-			    <label class="layui-form-label">运输司机</label>
+			    <label class="layui-form-label">运输人</label>
 			    <div class="layui-input-inline">
 			      <input type="text" id="transport_user" placeholder="请输入运输司机"  class="layui-input">
 			    </div>
@@ -235,6 +261,20 @@
 			    <label class="layui-form-label">目的地</label>
 			    <div class="layui-input-inline">
 			      <input type="text" id="transport_destination" placeholder="请输入目的地"  class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">上传照片</label>
+			    <div class="layui-input-inline">
+			      <input type="file" name="transport_pic" id="transport_pic_upload" lay-type="file" lay-ext="png|jpg|jpeg" >
+			    </div>
+			    <input type="text" class="hide" id="transport_pic_input"/>
+			  </div>
+			  <div class="layui-form-item">
+			   	<label class="layui-form-label">已传图片</label>
+			    <div class="layui-input-inline">
+					<span id="transport_pic_span" style="display: none;"></span>
+					<img  id="transport_pic_img" width="150" height="150" src="" style="display: none;">
 			    </div>
 			  </div>
 			</div>
@@ -331,6 +371,97 @@ layui.use(['element', 'layer', 'form','laydate'], function(){
 				jq("#purchase_video_span").html(rs.filename);
 				jq("#purchase_video_span").attr("title",rs.filename);
 				jq("#purchase_video_input").val(rs.name);
+			}
+			
+		});
+
+	});
+  layui.use('upload', function() {
+		var index;
+		layui.upload({
+			elem:'#test_video_upload',
+			title:'上传',
+			url : '${path}/video/uploadTestVideo.do',
+			before: function(input){
+				index = layer.msg('视频上传中', {
+					  icon: 16
+					  ,shade: 0.01
+					});
+			    //返回的参数item，即为当前的input DOM对象
+			    console.log('视频上传中');
+			},
+			success : function(rs) {
+				layer.close(index);
+				layer.msg('视频上传成功', {
+					  icon: 1,
+					  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+					}, function(){
+					  	
+					});
+				jq("#test_video_span").html(rs.filename);
+				jq("#test_video_span").attr("title",rs.filename);
+				jq("#test_video_input").val(rs.name);
+			}
+			
+		});
+
+	});
+  layui.use('upload', function() {
+		var index;
+		layui.upload({
+			elem:'#test_video_upload2',
+			title:'上传',
+			url : '${path}/video/uploadTestVideo.do',
+			before: function(input){
+				index = layer.msg('视频上传中', {
+					  icon: 16
+					  ,shade: 0.01
+					});
+			    //返回的参数item，即为当前的input DOM对象
+			    console.log('视频上传中');
+			},
+			success : function(rs) {
+				layer.close(index);
+				layer.msg('视频上传成功', {
+					  icon: 1,
+					  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+					}, function(){
+					  	
+					});
+				jq("#test_video_span2").html(rs.filename);
+				jq("#test_video_span2").attr("title",rs.filename);
+				jq("#test_video_input2").val(rs.name);
+			}
+			
+		});
+
+	});
+  layui.use('upload', function() {
+		var index;
+		layui.upload({
+			elem:'#transport_pic_upload',
+			title:'上传',
+			url : '${path}/video/uploadTransportPic.do',
+			before: function(input){
+				index = layer.msg('图片上传中', {
+					  icon: 16
+					  ,shade: 0.01
+					});
+			    //返回的参数item，即为当前的input DOM对象
+			    console.log('图片上传中');
+			},
+			success : function(rs) {
+				layer.close(index);
+				layer.msg('图片上传成功', {
+					  icon: 1,
+					  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+					}, function(){
+					  	
+					});
+				jq("#transport_pic_span").html(rs.filename);
+				jq("#transport_pic_span").attr("title",rs.filename);
+				jq("#transport_pic_input").val(rs.name);
+				jq("#transport_pic_img").attr("src",'${path}/uploadPic/'+rs.name).show();
 			}
 			
 		});
@@ -506,7 +637,7 @@ $(document).on('click','#btn',function(){
 		  async: false,
 		  dataType:'json',
 		  data:{'trace_id':trace_id,'test_name':test_name,'test_time':test_time,'test_machine':test_machine,
-			  'test_result':test_result,'test_influence':test_influence},
+			  'test_result':test_result,'test_influence':test_influence,'test_video':$("#test_video_input").val()},
 		  success:function(rs){
 			  rs = eval("(" + rs + ")");
 			  if(rs.code=="200"){
@@ -523,7 +654,7 @@ $(document).on('click','#btn',function(){
 		  async: false,
 		  dataType:'json',
 		  data:{'trace_id':trace_id,'transport_user':transport_user,
-			  'transport_truck':transport_truck,'transport_destination':transport_destination},
+			  'transport_truck':transport_truck,'transport_destination':transport_destination,'transport_pic':$("#transport_pic_input").val()},
 		  success:function(rs){
 			  rs = eval("(" + rs + ")");
 			  if(rs.code=="200"){
@@ -540,7 +671,7 @@ $(document).on('click','#btn',function(){
 		  async: false,
 		  dataType:'json',
 		  data:{'trace_id':trace_id,'test_name':test_name2,'test_time':test_time2,'test_machine':test_machine2,
-			  'test_result':test_result2,'test_influence':test_influence2},
+			  'test_result':test_result2,'test_influence':test_influence2,'test_video':$("#test_video_input2").val()},
 		  success:function(rs){
 			  rs = eval("(" + rs + ")");
 			  if(rs.code=="200"){

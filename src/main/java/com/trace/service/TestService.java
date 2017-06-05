@@ -21,5 +21,6 @@ public interface TestService {
 	List<Test> selectAlltest();
 	List<Test> selectByName(String test_name);
 	int add(Test test);
+	int update(Test test);
 	Test getById(String test_id);
 }

@@ -7,25 +7,30 @@
     <result column="dict_type" property="dict_type" jdbcType="VARCHAR" />
     <result column="parentid" property="parentid" jdbcType="VARCHAR" />
   </resultMap>
+  
   <sql id="Base_Column_List" >
     dict_id, dict_name, dict_type, parentid
   </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from dict
     where dict_id = #{dict_id,jdbcType=VARCHAR}
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from dict
     where dict_id = #{dict_id,jdbcType=VARCHAR}
   </delete>
+  
   <insert id="insert" parameterType="com.mall.po.Dict" >
     insert into dict (dict_id, dict_name, dict_type, 
       parentid)
     values (#{dict_id,jdbcType=VARCHAR}, #{dict_name,jdbcType=VARCHAR}, #{dict_type,jdbcType=VARCHAR}, 
       #{parentid,jdbcType=VARCHAR})
   </insert>
+  
   <insert id="insertSelective" parameterType="com.mall.po.Dict" >
     insert into dict
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -57,6 +62,7 @@
       </if>
     </trim>
   </insert>
+  
   <update id="updateByPrimaryKeySelective" parameterType="com.mall.po.Dict" >
     update dict
     <set >
@@ -72,6 +78,7 @@
     </set>
     where dict_id = #{dict_id,jdbcType=VARCHAR}
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.mall.po.Dict" >
     update dict
     set dict_name = #{dict_name,jdbcType=VARCHAR},
@@ -79,4 +86,19 @@
       parentid = #{parentid,jdbcType=VARCHAR}
     where dict_id = #{dict_id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="selectByExample" parameterType="com.mall.po.Dict" resultType="com.mall.po.Dict">
+  	select * 
+  	from dict 
+  	where 1=1
+  	<if test="dict_name != null and dict_name != ''">
+  		and dict_name = #{dict_name}
+  	</if> 
+  	<if test="dict_type != null and dict_type != ''">
+  		and dict_type = #{dict_type}
+  	</if> 
+  	<if test="parentid != null and parentid != ''">
+  		and parentid = #{parentid}
+  	</if> 
+  </select>
 </mapper>

@@ -1,5 +1,7 @@
 package com.mall.po;
 
+import com.mall.enums.DictTypes;
+
 public class Dict {
     private String dict_id;
 
@@ -9,7 +11,13 @@ public class Dict {
 
     private String parentid;
 
-    public String getDict_id() {
+    public Dict() {}
+
+    public Dict(DictTypes dictTypes) {
+    	this.dict_type = dictTypes.value();
+    }
+
+	public String getDict_id() {
         return dict_id;
     }
 

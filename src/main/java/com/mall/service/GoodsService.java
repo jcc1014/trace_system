@@ -2,6 +2,7 @@ package com.mall.service;
 
 import java.util.List;
 
+import com.mall.dto.PageParam;
 import com.mall.po.Goods;
 
 public interface GoodsService {
@@ -27,6 +28,15 @@ public interface GoodsService {
      * @param pageSize
      * @return
      */
-    List<Goods> selectByPage(Goods goods, Integer pno, Integer pageSize);
+    List<Goods> selectByPage(PageParam<Goods> pageParam);
+    
+    /**
+     * Description: 筛选并统计总记录数 
+     * @author Li Zheng
+     * @date 2017年6月7日下午11:31:04
+     * @param goods
+     * @return
+     */
+    Long count(Goods goods);
     
 }

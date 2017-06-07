@@ -19,4 +19,6 @@ public interface GoodsMapper {
     int updateByPrimaryKey(Goods record);
     
     List<Goods> selectByPage(PageParam<Goods> params);
+    
+    Long count(Goods goods);
 }

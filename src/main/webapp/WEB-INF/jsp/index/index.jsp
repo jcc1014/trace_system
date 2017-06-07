@@ -132,7 +132,7 @@
                 </a>
               </li>
               <li class="layui-nav-item ">
-                <a href="${path}/goods/list.do" target="main">
+                <a href="${path}/goods/list.do?page=1" target="main">
                   <i class="layui-icon">&#xe613;</i>
                   <cite>商品列表</cite>
                 </a>

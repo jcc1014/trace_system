@@ -34,6 +34,9 @@
 	          <li class="layui-nav-item">
 	            <a href="javascript:void(0)">用户管理</a>
 	          </li>
+	          <li class="layui-nav-item">
+                <a href="javascript:void(0)">菜单商品管理</a>
+              </li>
           </c:if>
           <!-- <li class="layui-nav-item">
             <a href="javascript:void(0)">设置</a>
@@ -95,6 +98,23 @@
                 <a href="${path}/user/list.do" target="main">
                   <i class="layui-icon">&#xe613;</i>
                   <cite>用户列表</cite>
+                </a>
+              </li>
+              <%-- <li class="layui-nav-item">
+                <a href="${path}/user/add.do" target="main">
+                  <i class="layui-icon">&#xe613;</i>
+                  <cite>新增用户</cite>
+                </a>
+              </li> --%>
+            </ul>
+            <ul class="layui-nav layui-nav-tree left_menu_ul hide">
+              <li class="layui-nav-item layui-nav-title">
+                <a>菜单商品管理</a>
+              </li>
+              <li class="layui-nav-item first-item">
+                <a href="${path}/user/list.do" target="main">
+                  <i class="layui-icon">&#xe613;</i>
+                  <cite>菜单商品列表</cite>
                 </a>
               </li>
               <%-- <li class="layui-nav-item">

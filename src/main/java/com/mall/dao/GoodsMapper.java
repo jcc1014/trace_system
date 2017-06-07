@@ -1,5 +1,8 @@
 package com.mall.dao;
 
+import java.util.List;
+
+import com.mall.dto.PageParam;
 import com.mall.po.Goods;
 
 public interface GoodsMapper {
@@ -14,4 +17,6 @@ public interface GoodsMapper {
     int updateByPrimaryKeySelective(Goods record);
 
     int updateByPrimaryKey(Goods record);
+    
+    List<Goods> selectByPage(PageParam<Goods> params);
 }

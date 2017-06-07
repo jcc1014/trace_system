@@ -10,6 +10,10 @@ public class Goods {
     private String goods_description;
 
     private String shop_id;
+    
+    private Float new_price;
+    
+    private Float old_price;
 
     public String getGoods_id() {
         return goods_id;
@@ -49,5 +53,21 @@ public class Goods {
 
     public void setShop_id(String shop_id) {
         this.shop_id = shop_id == null ? null : shop_id.trim();
+    }
+
+    public Float getNew_price() {
+        return new_price;
+    }
+
+    public void setNew_price(Float new_price) {
+        this.new_price = new_price;
+    }
+
+    public Float getOld_price() {
+        return old_price;
+    }
+
+    public void setOld_price(Float old_price) {
+        this.old_price = old_price;
     }
 }

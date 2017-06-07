@@ -19,6 +19,19 @@ public class GoodsController {
 	private GoodsService goodsService;
 	
 	/**
+	 * Description: 打开商品列表 
+	 * @author Li Zheng
+	 * @date 2017年6月7日下午4:56:41
+	 * @return
+	 */
+	@RequestMapping("list.do")
+	public String goodsList(Goods goods, Integer pno, Integer PageSize) {
+	    return "goods/goods_list";
+	}
+	
+	
+	
+	/**
 	 * 测试系统前后台连通，以及数据库连通（测试成功）
 	 * @param request
 	 * @param goods

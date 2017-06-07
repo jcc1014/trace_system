@@ -10,8 +10,18 @@ public class Shop {
     private String coordinate;
 
     private String createtime;
+    
+    private String shop_name;
+    
+	public String getShop_name() {
+		return shop_name;
+	}
 
-    public String getShop_id() {
+	public void setShop_name(String shop_name) {
+		this.shop_name = shop_name;
+	}
+
+	public String getShop_id() {
         return shop_id;
     }
 

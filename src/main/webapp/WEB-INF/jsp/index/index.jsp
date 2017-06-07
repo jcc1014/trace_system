@@ -30,6 +30,7 @@
           <li class="layui-nav-item">
             <a href="javascript:void(0)">追溯管理</a>
           </li>
+          
           <c:if test="${sessionScope.user.usertype eq '0' }">
 	          <li class="layui-nav-item">
 	            <a href="javascript:void(0)">用户管理</a>
@@ -38,6 +39,11 @@
           <!-- <li class="layui-nav-item">
             <a href="javascript:void(0)">设置</a>
           </li> -->
+          <li class="layui-nav-item">
+	         <a href="javascript:void(0)">商家管理</a>
+	      </li>
+	     
+          
         </ul>
         <div class="top_admin_user">
         	<span>当前用户：${sessionScope.user.username }&nbsp;&nbsp;&nbsp;|</span>
@@ -87,6 +93,7 @@
                 </a>
               </li>    -->           
             </ul>
+            <c:if test="${sessionScope.user.usertype eq '0' }">
             <ul class="layui-nav layui-nav-tree left_menu_ul hide">
               <li class="layui-nav-item layui-nav-title">
                 <a>用户管理</a>
@@ -97,6 +104,7 @@
                   <cite>用户列表</cite>
                 </a>
               </li>
+              </c:if>
               <%-- <li class="layui-nav-item">
                 <a href="${path}/user/add.do" target="main">
                   <i class="layui-icon">&#xe613;</i>
@@ -115,6 +123,19 @@
                 </a>
               </li>
             </ul> -->
+            
+           <ul class="layui-nav layui-nav-tree left_menu_ul hide">
+              <li class="layui-nav-item layui-nav-title">
+                <a>商家管理</a>
+              </li>
+              <li class="layui-nav-item first-item">
+                <a href="${path}/shop/addshop.do" target="main">
+                  <i class="layui-icon">&#xe654;</i>
+                  <cite>新增商家</cite>
+                </a>
+              </li>
+            </ul>
+             
     			<div class="content_manage_container left_menu_ul hide">
     				<div class="content_manage_title">内容管理</div>
         		<div id="content_manage_tree"></div>

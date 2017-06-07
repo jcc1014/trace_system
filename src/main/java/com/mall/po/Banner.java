@@ -2,12 +2,16 @@ package com.mall.po;
 
 public class Banner {
     private String banner_id;
+    
+    private String banner_title;
 
     private String banner_path;
 
     private String banner_url;
 
-    private String bannner_index;
+    private String banner_index;
+    
+    private String banner_type;
 
     private String createtime;
 
@@ -35,12 +39,12 @@ public class Banner {
         this.banner_url = banner_url == null ? null : banner_url.trim();
     }
 
-    public String getBannner_index() {
-        return bannner_index;
+    public String getBanner_index() {
+        return banner_index;
     }
 
-    public void setBannner_index(String bannner_index) {
-        this.bannner_index = bannner_index == null ? null : bannner_index.trim();
+    public void setBanner_index(String bannner_index) {
+        this.banner_index = bannner_index == null ? null : bannner_index.trim();
     }
 
     public String getCreatetime() {
@@ -50,4 +54,22 @@ public class Banner {
     public void setCreatetime(String createtime) {
         this.createtime = createtime == null ? null : createtime.trim();
     }
+    
+    public String getBanner_type() {
+    	return banner_type;
+    }
+    
+    public void setBanner_type(String banner_type) {
+    	this.banner_type = banner_type == null ? null : banner_type.trim();
+    }
+    
+    public String getBanner_title() {
+    	return banner_title;
+    }
+    
+    public void setBanner_title(String banner_title) {
+    	this.banner_title = banner_title == null ? null : banner_title.trim();
+    }
+    
+    
 }

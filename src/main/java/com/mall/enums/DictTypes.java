@@ -1,9 +1,9 @@
 package com.mall.enums;
 
 /**
- * Description: Î¬»¤dictÖĞµÄdict_type 
+ * Description: ç»´æŠ¤dictä¸­çš„dict_type 
  * @author Li Zheng
- * @date 2017Äê6ÔÂ7ÈÕÏÂÎç10:36:32
+ * @date 2017å¹´6æœˆ7æ—¥ä¸‹åˆ10:36:32
  */
 public enum DictTypes {
 	VEGETABLES("vegetables");

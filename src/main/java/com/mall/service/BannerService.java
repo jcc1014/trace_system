@@ -1,13 +1,13 @@
-package com.mall.dao;
+package com.mall.service;
 
 import java.util.List;
 import java.util.Map;
 
 import com.mall.po.Banner;
 
-public interface BannerMapper {
-	
-    int deleteByPrimaryKey(String banner_id);
+public interface BannerService {
+
+	int deleteByPrimaryKey(String banner_id);
 
     int insert(Banner record);
 

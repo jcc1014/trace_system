@@ -7,6 +7,7 @@
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="coordinate" property="coordinate" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="shop_name" property="shop_name" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     shop_id, member_id, address, coordinate, createtime, shop_name

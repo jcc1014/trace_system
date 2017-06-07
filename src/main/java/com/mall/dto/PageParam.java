@@ -1,39 +1,39 @@
 package com.mall.dto;
 
 /**
- * Description: ½«²éÑ¯Ìõ¼şºÍ·ÖÒ³²ÎÊıÕûºÏµ½Ò»Æğ 
+ * Description: å°†æŸ¥è¯¢æ¡ä»¶å’Œåˆ†é¡µå‚æ•°æ•´åˆåˆ°ä¸€èµ· 
  * @author Li Zheng
- * @date 2017Äê6ÔÂ7ÈÕÏÂÎç5:06:44
+ * @date 2017å¹´6æœˆ7æ—¥ä¸‹åˆ5:06:44
  */
 public class PageParam<T> {
 
     /**
-     * Ò³Âë
+     * é¡µç 
      */
     private Integer page;
     
     /**
-     * Ò³´óĞ¡
+     * é¡µå¤§å°
      */
     private Integer pageSize;
     
     /**
-     * ¿ªÊ¼ĞĞ£¨ÓÃÓÚsql limit£©
+     * å¼€å§‹è¡Œï¼ˆç”¨äºsql limitï¼‰
      */
     private Integer startRow;
     
     /**
-     * ×ÜÒ³Êı
+     * æ€»é¡µæ•°
      */
     private Integer totalPages;
     
     /**
-     * ×Ü¼ÇÂ¼Êı
+     * æ€»è®°å½•æ•°
      */
     private Long totalRecords;
     
     /**
-     * Ğ¯´ø²ÎÊı
+     * æºå¸¦å‚æ•°
      */
     private T obj;
 

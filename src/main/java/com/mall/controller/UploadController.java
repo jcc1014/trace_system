@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
-import com.trace.po.Video;
 import com.trace.util.DateUtils;
 
 @Controller

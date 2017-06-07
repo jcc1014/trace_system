@@ -90,4 +90,17 @@
       shop_id = #{shop_id,jdbcType=VARCHAR}
     where goods_id = #{goods_id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="selectByPage" parameterType="com.mall.dto.PageParam" resultType="com.mall.po.Goods">
+    select * 
+    from Goods 
+    where 1=1 
+    <if test="obj != null">
+        and goods_name like #{obj.goods_name}
+        and goods_type = #{obj.goods_type}
+    </if>
+    <if test="pno != null and pno != 0 and pageSize != null and pageSize != 0">
+        limit pno, pageSize
+    </if>
+  </select>
 </mapper>

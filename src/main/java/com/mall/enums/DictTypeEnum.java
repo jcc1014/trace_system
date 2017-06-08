@@ -5,18 +5,18 @@ package com.mall.enums;
  * @author Li Zheng
  * @date 2017年6月7日下午10:36:32
  */
-public enum DictTypes {
+public enum DictTypeEnum {
 	VEGETABLES("vegetables");
 	
 	private String value;
 
-	private DictTypes() {}
+	private DictTypeEnum() {}
 
-	private DictTypes(String value) {
+	private DictTypeEnum(String value) {
 		this.value = value;
 	}
 
-	public String value() {
+	public String getValue() {
 		return value;
 	}
 

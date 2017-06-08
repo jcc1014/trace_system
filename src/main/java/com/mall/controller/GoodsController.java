@@ -1,7 +1,6 @@
 package com.mall.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mall.dto.PageParam;
-import com.mall.enums.DictTypes;
+import com.mall.dto.Result;
+import com.mall.enums.DictTypeEnum;
+import com.mall.enums.ResultEnum;
 import com.mall.po.Dict;
 import com.mall.po.Goods;
 import com.mall.service.DictService;
@@ -28,17 +30,21 @@ public class GoodsController {
 	private DictService dictService;
 	
 	/**
-	 * Description: ´ò¿ªÉÌÆ·ÁĞ±í 
+	 * Description: æ‰“å¼€å•†å“åˆ—è¡¨é¡µ
 	 * @author Li Zheng
-	 * @date 2017Äê6ÔÂ7ÈÕÏÂÎç4:56:41
+	 * @date 2017å¹´6æœˆ8æ—¥ä¸‹åˆ10:28:39
+	 * @param goods æŸ¥è¯¢æ¡ä»¶
+	 * @param page
+	 * @param pageSize
+	 * @param modelMap
 	 * @return
 	 */
 	@RequestMapping("list.do")
-	public String goodsList(Goods goods, Integer page, Integer pageSize, ModelMap modelMap) {
+	public String listGoods(Goods goods, Integer page, Integer pageSize, ModelMap modelMap) {
 		Long total = goodsService.count(goods);
 		PageParam<Goods> pageParam = new PageParam<Goods>(page, pageSize, total, goods);
 		List<Goods> list = goodsService.selectByPage(pageParam);
-		List<Dict> types = dictService.selectByExample(new Dict(DictTypes.VEGETABLES));
+		List<Dict> types = dictService.selectByExample(new Dict(DictTypeEnum.VEGETABLES));
 		modelMap.put("list", list);
 		modelMap.put("types", types);
 		modelMap.put("condition", pageParam);
@@ -48,17 +54,32 @@ public class GoodsController {
 	
 	
 	/**
-	 * ²âÊÔÏµÍ³Ç°ºóÌ¨Á¬Í¨£¬ÒÔ¼°Êı¾İ¿âÁ¬Í¨£¨²âÊÔ³É¹¦£©
+	 * Description: æ·»åŠ å•†å“
+	 * @author Li Zheng
+	 * @date 2017å¹´6æœˆ8æ—¥ä¸‹åˆ10:29:04
 	 * @param request
 	 * @param goods
 	 * @return
 	 */
-	@RequestMapping("add")
+	@RequestMapping("add.do")
 	public String addGoods(HttpServletRequest request,Goods goods){
-		goods.setGoods_id(UUID.randomUUID().toString());
-		goods.setGoods_name("Î÷ºìÊÁ");
-		goods.setGoods_type("tomato");
-		goodsService.insertSelective(goods);
 		return null;
+	}
+	
+	/**
+	 * Description: åˆ é™¤å•†å“
+	 * @author Li Zheng
+	 * @date 2017å¹´6æœˆ8æ—¥ä¸‹åˆ11:34:34
+	 * @param goods_id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "delete.do", produces = "application/json;charset=utf-8")
+	public Result<Goods> deleteGoods(String id) {
+		int rows = goodsService.deleteByPrimaryKey(id);
+		if (rows > 0) {
+			return new Result<>(ResultEnum.SUCCESS);
+		}
+		return new Result<>(ResultEnum.FAILURE);
 	}
 }

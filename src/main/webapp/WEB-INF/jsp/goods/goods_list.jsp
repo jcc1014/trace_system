@@ -13,7 +13,7 @@
 <body>
 <div class="layui-tab layui-tab-brief main-tab-container" style="margin-top: 20px;">
     <ul class="layui-tab-title main-tab-title">
-      <div class="main-tab-item">菜单商品列表</div>
+      <div class="main-tab-item">商品列表</div>
     </ul>
     <div class="layui-tab-content">
       <div class="layui-tab-item layui-show">
@@ -49,8 +49,9 @@
               <th>序号</th>
               <th>名称</th>
               <th>类型</th>
-              <th>最新价格</th>
-              <th>历史价格</th>
+              <th>最新价格（单位：元）</th>
+              <th>历史价格（单位：元）</th>
+              <th>操作</th>
             </tr> 
           </thead>
           <tbody>
@@ -66,14 +67,22 @@
           				</c:forEach>
           			</td>
           			<td>${goods.new_price}</td>
-          			<td>${goods.old_price}</td> 
+          			<td>${goods.old_price}</td>
+          			<td>
+          				<a class="layui-btn layui-btn-small layui-btn-warm detail_btn" data-id="${goods.goods_id}" data-name="${goods.goods_name}" title="详细信息">
+          					<i class="layui-icon">&#xe63c;</i>
+          				</a>
+          				<a class="layui-btn layui-btn-small layui-btn-danger del_btn" data-id="${goods.goods_id}" data-name="${goods.goods_name}" title="删除">
+          					<i class="layui-icon"></i>
+          				</a>
+          			</td>
           		</tr>
           	</c:forEach>
           </tbody>
           <thead>
             <tr>
                <!-- <th><button class="layui-btn layui-btn-small" lay-submit lay-filter="delete">删除</button></th> -->
-              <th colspan="5"><div id="page"></div></th>
+              <th colspan="6"><div id="page"></div></th>
             </tr> 
           </thead>
         </table>
@@ -94,29 +103,28 @@ layui.use(['element', 'laypage', 'layer', 'form'], function(){
 
   //ajax删除
   jq('.del_btn').click(function(){
-    var name = jq(this).data('name');
+	var name = jq(this).data('name');
     var id = jq(this).data('id');
     layer.confirm('确定删除【'+name+'】?', function(index){
       loading = layer.load(2, {
         shade: [0.2,'#000'] //0.2透明度的白色背景
       });
-      jq.post('${path}/user/deleteUser.do',{'id':id},function(data){
+      jq.post('${path}/goods/delete.do',{'id':id},function(data){
     	  data = jq.parseJSON(data);
           layer.close(loading);
-          layer.msg("删除成功！", {icon: 1, time: 1000}, function(){
+          layer.msg("删除" + data.msg, {icon: 1, time: 1000}, function(){
             location.reload();//do something
           });
-
       });
     });
     
   });
   
   jq("#search").on('click',function(){
-	 jq("#search-form").submit();
+	  jq("#search-form").submit();
   })
   jq("#add").on('click',function(){
-	url = '${path}/user/add.do';
+	  url = '${path}/goods/add.do';
 	  jq('.admin-iframe', window.parent.document).attr('src',url);
   })
   

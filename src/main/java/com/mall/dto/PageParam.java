@@ -39,12 +39,16 @@ public class PageParam<T> {
 
     public PageParam() {}
 
+    public PageParam(T obj) {
+    	this(null, null, obj);
+    }
+    
     public PageParam(Integer page, T obj) {
     	this(page, null, obj);
     }
     
     public PageParam(Integer page, Integer pageSize, T obj) {
-        this.page = page;
+        this.page = page == null || page == 0 ? 1 : page;
         this.pageSize = pageSize == null || pageSize == 0 ? 8 : pageSize;
         this.obj = obj;
         this.startRow = this.page != null && this.page != 0 && this.pageSize != null && this.pageSize != 0 ? (this.page - 1) * this.pageSize : 0;

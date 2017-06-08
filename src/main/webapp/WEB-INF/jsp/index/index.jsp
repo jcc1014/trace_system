@@ -113,12 +113,6 @@
               <li class="layui-nav-item layui-nav-title">
                 <a>商城管理</a>
               </li>
-              <li class="layui-nav-item">
-                <a href="${path}/goods/list.do" target="main">
-                  <i class="layui-icon">&#xe613;</i>
-                  <cite>菜单商品列表</cite>
-                </a>
-              </li>
               <li class="layui-nav-item first-item">
                 <a href="${path}/order/list.do" target="main">
                   <i class="layui-icon">&#xe613;</i>

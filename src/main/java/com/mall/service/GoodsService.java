@@ -19,24 +19,8 @@ public interface GoodsService {
 
     int updateByPrimaryKey(Goods record);
 	
-    /**
-     * Description: 按条件分页查询商品
-     * @author Li Zheng
-     * @date 2017年6月7日下午5:01:15
-     * @param goods
-     * @param pno
-     * @param pageSize
-     * @return
-     */
     List<Goods> selectByPage(PageParam<Goods> pageParam);
     
-    /**
-     * Description: 筛选并统计总记录数 
-     * @author Li Zheng
-     * @date 2017年6月7日下午11:31:04
-     * @param goods
-     * @return
-     */
     Long count(Goods goods);
     
 }

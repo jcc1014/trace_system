@@ -1,6 +1,9 @@
 package com.mall.service;
 
-import org.springframework.ui.Model;
+import java.util.Map;
+
+import com.mall.po.Shop;
+import com.trace.po.User;
 
 /**
  * @description 商店service接口类
@@ -11,5 +14,5 @@ import org.springframework.ui.Model;
  * @CopyRight(C) 生鲜追溯管理
  */
 public interface ShopService {
-	Model getShopDetail(Model model,String shop_id);
+	Map<String,Object> addSave(Shop shop,User user);
 }

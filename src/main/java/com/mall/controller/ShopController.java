@@ -1,5 +1,7 @@
 package com.mall.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -7,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.mall.po.Address;
+import com.mall.po.Shop;
 import com.mall.service.ShopService;
 import com.trace.po.User;
 
@@ -31,15 +37,24 @@ public class ShopController {
 	@RequestMapping("/addshop.do")
 	public String addShop(HttpServletRequest request,Model model){
 		String page = "shop/addshop";
-		HttpSession session = request.getSession();
+		//HttpSession session = request.getSession();
 		//String shop_id = (String)session.getAttribute("shop_id");
-		User user = (User) session.getAttribute("user");//获取当前登录的
+		//User user = (User) session.getAttribute("user");//获取当前登录的
 		//model.addAttribute("shop_id", shop_id);
-		model.addAttribute("member_id", user.getUserid());
-		model.addAttribute("member_name",user.getUsername());
-		/*if (null != shop_id && !"".equals(shop_id)) {
-			//shopService.get
-		}*/
+		//model.addAttribute("member_id", user.getUserid());
+		//model.addAttribute("member_name",user.getUsername());
 		return page;
+	}
+	
+	/*
+	 * 添加商家
+	 */
+	@RequestMapping("/addSave.do")
+	@ResponseBody
+	public String addSave(HttpServletRequest request,HttpSession session,Shop shop){
+		session = request.getSession();
+		User user = (User) session.getAttribute("user");//获取当前登录的
+		Map<String,Object> map = shopService.addSave(shop,user);
+		return JSON.toJSONString(map);
 	}
 }

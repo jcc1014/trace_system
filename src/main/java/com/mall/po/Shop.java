@@ -3,7 +3,7 @@ package com.mall.po;
 public class Shop {
     private String shop_id;
 
-    private Integer member_id;
+    private String member_id;
 
     private String address;
 
@@ -28,16 +28,17 @@ public class Shop {
     public void setShop_id(String shop_id) {
         this.shop_id = shop_id == null ? null : shop_id.trim();
     }
+    
 
-    public Integer getMember_id() {
-        return member_id;
-    }
+    public String getMember_id() {
+		return member_id;
+	}
 
-    public void setMember_id(Integer member_id) {
-        this.member_id = member_id;
-    }
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
+	}
 
-    public String getAddress() {
+	public String getAddress() {
         return address;
     }
 

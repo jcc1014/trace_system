@@ -145,10 +145,10 @@ layui.use(
 			layer.msg('详细地址不可包含特殊字符');
 			return;
 		}
-		if(zipcode==null || zipcode=="" || zipcode==undefined){
+		/* if(zipcode==null || zipcode=="" || zipcode==undefined){
 			layer.msg('邮政编码不可为空');
 			return;
-		}
+		} */
 		/* var re= /^[1-9][0-9]{5}$/;
 		if(!re.test(zipcode)){
 			layer.msg('邮政编码格式不正确，请重新输入');

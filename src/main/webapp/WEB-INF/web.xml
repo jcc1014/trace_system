@@ -9,6 +9,11 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring-mybatis.xml</param-value>
 	</context-param>
+	
+	<welcome-file-list>
+		<welcome-file>/login.do</welcome-file>
+	</welcome-file-list>
+	
 	<!-- 编码过滤器 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>

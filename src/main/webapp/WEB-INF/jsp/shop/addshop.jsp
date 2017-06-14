@@ -17,7 +17,7 @@
     <script type="text/javascript" src="${path}/js/citypicker/city-picker.data.js"></script>
     <script type="text/javascript" src="${path}/js/citypicker/city-picker.js"></script>
     <!-- 百度地图api 秘钥=DD279b2a90afdf0ae7a3796787a0742e -->
-    <script src="http://api.map.baidu.com/getscript?v=2.0&ak=DD279b2a90afdf0ae7a3796787a0742e" type="text/javascript"></script>
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=DD279b2a90afdf0ae7a3796787a0742e" type="text/javascript"></script>
   </head>
  <body>
  <div class="layui-tab layui-tab-brief main-tab-container" style="margin-top: 20px;">

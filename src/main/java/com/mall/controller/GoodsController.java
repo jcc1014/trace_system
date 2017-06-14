@@ -1,15 +1,29 @@
 package com.mall.controller;
 
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.mall.dto.PageParam;
+import com.mall.dto.Result;
+import com.mall.enums.DictTypeEnum;
+import com.mall.enums.ResultEnum;
+import com.mall.po.Dict;
+import com.mall.po.Goods;
+import com.mall.service.DictService;
+import com.mall.service.GoodsPicService;
+import com.mall.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.mall.po.Goods;
-import com.mall.service.GoodsService;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("goods")
@@ -18,31 +32,118 @@ public class GoodsController {
 	@Autowired
 	private GoodsService goodsService;
 	
+	@Autowired
+	private DictService dictService;
+
+	@Autowired
+	private GoodsPicService goodsPicService;
+
 	/**
-	 * Description: ¥Úø™…Ã∆∑¡–±Ì 
+	 * Description: ÊâìÂºÄÂïÜÂìÅÂàóË°®È°µ
 	 * @author Li Zheng
-	 * @date 2017ƒÍ6‘¬7»’œ¬ŒÁ4:56:41
+	 * @date 2017Âπ¥6Êúà8Êó•‰∏ãÂçà10:28:39
+	 * @param goods Êü•ËØ¢Êù°‰ª∂
+	 * @param page
+	 * @param pageSize
+	 * @param modelMap
 	 * @return
 	 */
 	@RequestMapping("list.do")
-	public String goodsList(Goods goods, Integer pno, Integer PageSize) {
+	public String listGoods(Goods goods, Integer page, Integer pageSize, ModelMap modelMap) {
+		Long total = goodsService.count(goods);
+		PageParam<Goods> pageParam = new PageParam<Goods>(page, pageSize, total, goods);
+		List<Goods> list = goodsService.selectByPage(pageParam);
+		List<Dict> types = dictService.selectByExample(new Dict(DictTypeEnum.VEGETABLES));
+		modelMap.put("list", list);
+		modelMap.put("types", types);
+		modelMap.put("condition", pageParam);
 	    return "goods/goods_list";
 	}
-	
-	
-	
+
 	/**
-	 * ≤‚ ‘œµÕ≥«∞∫ÛÃ®¡¨Õ®£¨“‘º∞ ˝æ›ø‚¡¨Õ®£®≤‚ ‘≥…π¶£©
-	 * @param request
-	 * @param goods
+	 * Description: Ê∑ªÂä†ÂïÜÂìÅ
+	 * @author Li Zheng
+	 * @date 2017Âπ¥6Êúà8Êó•‰∏ãÂçà10:29:04
+	 * @param add
 	 * @return
 	 */
-	@RequestMapping("add")
-	public String addGoods(HttpServletRequest request,Goods goods){
-		goods.setGoods_id(UUID.randomUUID().toString());
-		goods.setGoods_name("Œ˜∫Ï ¡");
-		goods.setGoods_type("tomato");
-		goodsService.insertSelective(goods);
-		return null;
+	@RequestMapping("edit.do")
+	public String addGoods(boolean add, ModelMap modelMap){
+		modelMap.put("add", add);
+		return "goods/goods_add";
 	}
+	
+	/**
+	 * Description: Âà†Èô§ÂïÜÂìÅ
+	 * @author Li Zheng
+	 * @date 2017Âπ¥6Êúà8Êó•‰∏ãÂçà11:34:34
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "delete.do", produces = "application/json;charset=utf-8")
+	public Result<Goods> deleteGoods(String id) {
+		int rows = goodsService.deleteByPrimaryKey(id);
+		if (rows > 0) {
+			return new Result<>(ResultEnum.SUCCESS);
+		}
+		return new Result<>(ResultEnum.FAILURE);
+	}
+
+    /**
+     * Description: ‰∏ä‰º†ÂïÜÂìÅÂõæÁâá
+     * @author Li Zheng
+     * @date 2017Âπ¥6Êúà14Êó•16:41:29
+     * @return
+     */
+	@ResponseBody
+	@RequestMapping(value = "uploadPic.do", produces = "application/json;charset=utf-8")
+    public Result<Map<String, String>> uploadPic(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+        try {
+            String dirName = "/uploadPic";
+            String path = request.getSession().getServletContext().getRealPath(dirName);
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            //ÂêéÁºÄ
+            String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+            String fileName = sdf.format(new Date()) + (int)(Math.random() * 10000) + suffix;
+            String picPath = path + File.separator + fileName;
+
+            File pic = new File(picPath);
+            file.transferTo(pic);
+            String src = request.getContextPath() + dirName + "/" + fileName;
+            Map<String, String> map = new HashMap<>();
+            map.put("realPath", picPath);
+            map.put("src", src);
+            return new Result<>(ResultEnum.SUCCESS, map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result<>(ResultEnum.FAILURE);
+        }
+    }
+
+    /**
+     * Description: Âà†Èô§Â∑≤‰∏ä‰º†ÁöÑÂõæÁâá
+     * @author liz
+     * @date 2017-06-14 22ÁÇπ40ÂàÜ
+     * @param realPath
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "deletePic.do", produces = "application/json;charset=utf-8")
+    public Result<String> deletePic(String realPath) {
+	    try {
+	        File file = new File(realPath);
+	        if (file.exists()) {
+	            file.delete();
+            }
+            return new Result<>(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+	        e.printStackTrace();
+	        return new Result<>(ResultEnum.FAILURE);
+        }
+    }
 }

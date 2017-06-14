@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mall.dto.PageParam;
 import com.mall.po.Goods;
+import org.springframework.stereotype.Repository;
 
 public interface GoodsMapper {
     int deleteByPrimaryKey(String goods_id);
@@ -19,4 +20,6 @@ public interface GoodsMapper {
     int updateByPrimaryKey(Goods record);
     
     List<Goods> selectByPage(PageParam<Goods> params);
+
+    Long count(Goods goods);
 }

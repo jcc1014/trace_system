@@ -124,7 +124,7 @@ layui.use(['element', 'laypage', 'layer', 'form'], function(){
 	  jq("#search-form").submit();
   })
   jq("#add").on('click',function(){
-	  url = '${path}/goods/add.do';
+	  url = '${path}/goods/edit.do?edit=true';
 	  jq('.admin-iframe', window.parent.document).attr('src',url);
   })
   

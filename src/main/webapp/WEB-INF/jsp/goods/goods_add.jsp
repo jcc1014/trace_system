@@ -1,0 +1,182 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@include file="../common/common.jsp" %>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+    <title>${sysname}</title>
+   <link rel="stylesheet" href="${path}/layui/css/layui.css">
+    <link rel="stylesheet" href="${path}/res/global.css">
+    <script type="text/javascript" src="${path}/layui/layui.js"></script>
+    <script type="text/javascript" src="${path}/js/commonUtil.js"></script>
+</head>
+<body>
+<div class="layui-tab layui-tab-brief main-tab-container" style="margin-top: 20px;">
+    <ul class="layui-tab-title main-tab-title">
+      <div class="main-tab-item">商品信息</div>
+    </ul>
+    <div class="layui-tab-content" style="margin-top: 40px;margin-left: 200px;">
+			<form class="layui-form">
+				<div class="layui-tab-item layui-show">
+					<input type="hidden" name="id" value="">
+					<div class="layui-form-item">
+						<label class="layui-form-label">商品名称</label>
+						<div class="layui-input-inline input-custom-width">
+							<input type="text" required lay-verify="required" id="goods_name" name="goods_name" autocomplete="off" placeholder="请输入商品名称" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">商品类型</label>
+						<div class="layui-input-inline input-custom-width">
+							<select name="goods_type" id="goods_type" required lay-verify="required">
+								<option value="">--选择--</option>
+								<c:forEach items="${types}" var="type">
+									<option value="${type.dict_id}">${type.dict_name}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">商品描述</label>
+						<div class="layui-input-inline input-custom-width">
+							<textarea required lay-verify="required" name="goods_description" placeholder="请输入商品描述" class="layui-textarea"></textarea>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">最新价格(元)</label>
+						<div class="layui-input-inline input-custom-width">
+							<input required lay-verify="required" type="text" id="new_price" name="new_price" autocomplete="off" placeholder="请输入最新价格" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">原始价格(元)</label>
+						<div class="layui-input-inline input-custom-width">
+							<input type="text" id="old_price" name="old_price" autocomplete="off" placeholder="请输入原始价格" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+                        <label class="layui-form-label">上传图片</label>
+                        <div class="layui-input-inline" style="width:113px;">
+						    <input type="file" name="file" id="upload" class="layui-upload-file">
+                        </div>
+					</div>
+                    <div class="layui-form-item" id="pic_display" style="display: none">
+                        <label class="layui-form-label">已传图片</label>
+                    </div>
+					<div class="layui-form-item" style="margin-top: 50px;">
+						<div class="layui-input-block">
+							<button type="button" class="layui-btn" id="save">保存</button>
+							<button type="button" class="layui-btn layui-btn-primary" id="back">返回</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+</div>
+<script type="text/javascript">
+    layui.use([ 'element', 'form', 'upload', 'layedit', 'laydate' ],function() {
+		var element = layui.element(),
+		form = layui.form(),
+		layedit = layui.layedit,
+		laydate = layui.laydate,
+		jq = layui.jquery;
+
+		var pic_index = 0;
+        layui.upload({
+            elem:'#upload',
+            title:'点击上传',
+            url : '${path}/goods/uploadPic.do',
+            before: function(input){
+                index = layer.msg('图片上传中', {
+                    icon: 16
+                    ,shade: 0.01
+                });
+            },
+            success : function(rs) {
+                layer.close(index);
+                if (rs.code == 200) {
+                    pic_index ++;
+                    layer.msg('图片上传' + rs.msg + ',点击上传按钮继续上传', {
+                        icon: 1,
+                        time: 2000 //2秒关闭（默认3秒）
+                    }, function(){});
+                    var html = '';
+                    html += '<div id="pic' + pic_index + '" class="layui-input-block">';
+                    html += '<input type="hidden" name="goods_pic" value="' + rs.data.src + '">';
+                    html += '<img class="input-custom-width" src="' + rs.data.src + '" />';
+                    html += '<a id="pic' + pic_index + '_btn" style="margin-left:10px" class="layui-btn layui-btn-small layui-btn-danger" data-realPath="' + rs.data.realPath + '" title="删除"><i class="layui-icon"></i></a>';
+                    html += '<div style="min-height: 10px"></div></div>';
+                    jq('#pic_display').append(html);
+                    jq('#pic_display').show();
+                    jq('#pic' + pic_index + '_btn').click(function(){
+                        var realPath = jq(this).data('realPath') || jq(this).attr("data-realPath");
+                        var id = jq(this).attr('id');
+                        id = id.substring(0, id.lastIndexOf('_'));
+                        layer.confirm('确定删除?', function(index){
+                            loading = layer.load(2, {
+                                shade: [0.2,'#000'] //0.2透明度的白色背景
+                            });
+                            jq.post('${path}/goods/deletePic.do',{'realPath':realPath},function(data){
+                                data = jq.parseJSON(data);
+                                layer.close(loading);
+                                layer.msg("删除" + data.msg, {icon: 1, time: 1000}, function(){
+                                    if (data.code == 200) {
+                                        jq('#' + id).remove();
+                                        pic_index --;
+                                        if (pic_index == 0) {
+                                            jq('#pic_display').hide();
+                                        }
+                                    }
+                                });
+                            });
+                        });
+                    });
+                } else {
+                    layer.msg('图片上传' + rs.msg + ',请检查图片或重试', {
+                        icon: 2,
+                        time: 2000 //2秒关闭（默认3秒）
+                    }, function(){});
+                }
+            }
+        });
+		jq("#save").on('click', function() {
+			var username = jq("#username").val();
+			if ("" == username) {
+				layer.msg("请填写姓名！");
+				return;
+			}
+			var usertype = jq("#usertype").val();
+			if ("" == usertype) {
+				layer.msg("请选择类型！");
+				return;
+			}
+			var phone = jq("#phone").val();
+			if ("" != phone ) {
+				if(!isTelephone(phone)){
+					layer.msg("手机号不合法！");
+					return;
+				}
+			}
+			jq.ajax({
+				url : '${path}/user/addSave.do',
+				type : 'post',
+				data:{'username':username,'usertype':usertype,'phone':phone},
+				dataType : 'json',
+				success : function(rs) {
+					rs = eval("(" + rs + ")");
+					layer.msg(rs.msg,{time:1000}, function() {
+						self.location.reload();
+					});
+				}
+			})
+		})
+		jq("#back").on('click', function() {
+			var url = "${path}/user/list.do";
+			//jq('.admin-iframe', window.parent.document).attr('src',url);
+			window.location.href = url;
+		})
+	})
+</script>
+</body>
+</html>

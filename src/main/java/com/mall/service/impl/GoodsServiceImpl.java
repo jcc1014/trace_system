@@ -13,7 +13,6 @@ import com.mall.po.Goods;
 import com.mall.service.GoodsService;
 
 @Service
-@Transactional
 public class GoodsServiceImpl implements GoodsService{
 
 	@Autowired

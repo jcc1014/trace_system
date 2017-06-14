@@ -1,7 +1,7 @@
 package com.mall.enums;
 
 /**
- * Description: 删除结果枚举
+ * Description: 处理结果枚举
  * @author Li Zheng
  * @date 2017年6月8日下午11:11:11
  */

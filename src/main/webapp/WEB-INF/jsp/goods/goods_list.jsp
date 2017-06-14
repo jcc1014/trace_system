@@ -13,23 +13,29 @@
 <body>
 <div class="layui-tab layui-tab-brief main-tab-container" style="margin-top: 20px;">
     <ul class="layui-tab-title main-tab-title">
-      <div class="main-tab-item">菜单商品列表</div>
+      <div class="main-tab-item">商品列表</div>
     </ul>
     <div class="layui-tab-content">
       <div class="layui-tab-item layui-show">
       <!-- 搜索 -->
-      <form class="layui-form layui-form-pane search-form" action="${path}/user/list.do">
+      <form class="layui-form layui-form-pane search-form" action="${path}/goods/list.do">
         <div class="layui-form-item">
-          <label class="layui-form-label">姓名</label>
+          <label class="layui-form-label">商品名称</label>
           <div class="layui-input-inline">
-            <input type="text" style="display: inline-block;" name="username" id="username" value="${username}" placeholder="请输入姓名搜索" autocomplete="off" class="layui-input">
+            <input type="text" style="display: inline-block;" name="goods_name" id="goods_name" value="${condition.obj.goods_name}" placeholder="请输入商品名称搜索" autocomplete="off" class="layui-input">
           </div>
-          <label class="layui-form-label">类型</label>
+          <label class="layui-form-label">商品类型</label>
           <div class="layui-input-inline">
-            <select id="usertype" name="usertype">
+            <select id="goods_type" name="goods_type">
             	<option value="">--选择--</option>
-            	<option value="1" <c:if test="${usertype eq '1'}">checked="checked""</c:if> >采购员</option>
-            	<option value="2" <c:if test="${usertype eq '2'}">checked="checked""</c:if>>检验员</option>
+            	<c:forEach items="${types}" var="type">
+            		<c:if test="${condition.obj.goods_type eq type.dict_id}">
+            			<option value="${type.dict_id}" selected="selected">${type.dict_name}</option>
+            		</c:if>
+            		<c:if test="${condition.obj.goods_type ne type.dict_id}">
+            			<option value="${type.dict_id}">${type.dict_name}</option>
+            		</c:if>
+            	</c:forEach>
             </select>
           </div>
           <button class="layui-btn" id="search">搜索</button>
@@ -41,42 +47,42 @@
           <thead>
             <tr align="center">
               <th>序号</th>
-              <th>姓名</th>
+              <th>名称</th>
               <th>类型</th>
-              <th>手机</th>
+              <th>最新价格（单位：元）</th>
+              <th>历史价格（单位：元）</th>
               <th>操作</th>
             </tr> 
           </thead>
           <tbody>
-          	<c:forEach var="user" items="${userList}" varStatus="index">
-          		<tr id="${user.userid}" align="center">
-          			<td align="center">${index.index+1}</td>
-          			<td>${user.username}</td>
+          	<c:forEach var="goods" items="${list}" varStatus="status">
+          		<tr id="${goods.goods_id}" align="center">
+          			<td align="center">${status.index+1}</td>
+          			<td>${goods.goods_name}</td>
           			<td>
-          				<c:if test="${user.usertype eq '0'}">
-	          			管理员
-	          			</c:if>
-	          			<c:if test="${user.usertype eq '1'}">
-	          			采购员
-	          			</c:if>
-	          			<c:if test="${user.usertype eq '2'}">
-	          			检验员
-	          			</c:if>
+          				<c:forEach items="${types}" var="type">
+          					<c:if test="${type.dict_id eq goods.goods_type}">
+          						${type.dict_name}
+          					</c:if>
+          				</c:forEach>
           			</td>
-          			<td>${user.phone}</td>
-          			<td style="text-align: center;">
-          				<c:if test="${user.usertype ne '0' }">
-			                <a class="layui-btn layui-btn-small layui-btn-danger del_btn"
-			                data-id="${user.userid}" data-name="${user.username}" title="删除"><i class="layui-icon"></i></a> 
-          				</c:if>
-		            </td> 
+          			<td>${goods.new_price}</td>
+          			<td>${goods.old_price}</td>
+          			<td>
+          				<a class="layui-btn layui-btn-small layui-btn-warm detail_btn" data-id="${goods.goods_id}" data-name="${goods.goods_name}" title="详细信息">
+          					<i class="layui-icon">&#xe63c;</i>
+          				</a>
+          				<a class="layui-btn layui-btn-small layui-btn-danger del_btn" data-id="${goods.goods_id}" data-name="${goods.goods_name}" title="删除">
+          					<i class="layui-icon"></i>
+          				</a>
+          			</td>
           		</tr>
           	</c:forEach>
           </tbody>
           <thead>
             <tr>
                <!-- <th><button class="layui-btn layui-btn-small" lay-submit lay-filter="delete">删除</button></th> -->
-              <th colspan="5"><div id="page"></div></th>
+              <th colspan="6"><div id="page"></div></th>
             </tr> 
           </thead>
         </table>
@@ -85,8 +91,8 @@
     </div>
 </div>
 <script type="text/javascript">
-var num = parseInt('${num}');
-var curr = parseInt('${curr}');
+var num = parseInt('${condition.totalPages}');
+var curr = parseInt('${condition.page}');
 layui.use(['element', 'laypage', 'layer', 'form'], function(){
   var element = layui.element()
   ,jq = layui.jquery
@@ -97,29 +103,28 @@ layui.use(['element', 'laypage', 'layer', 'form'], function(){
 
   //ajax删除
   jq('.del_btn').click(function(){
-    var name = jq(this).data('name');
+	var name = jq(this).data('name');
     var id = jq(this).data('id');
     layer.confirm('确定删除【'+name+'】?', function(index){
       loading = layer.load(2, {
         shade: [0.2,'#000'] //0.2透明度的白色背景
       });
-      jq.post('${path}/user/deleteUser.do',{'id':id},function(data){
+      jq.post('${path}/goods/delete.do',{'id':id},function(data){
     	  data = jq.parseJSON(data);
           layer.close(loading);
-          layer.msg("删除成功！", {icon: 1, time: 1000}, function(){
+          layer.msg("删除" + data.msg, {icon: 1, time: 1000}, function(){
             location.reload();//do something
           });
-
       });
     });
     
   });
   
   jq("#search").on('click',function(){
-	 jq("#search-form").submit();
+	  jq("#search-form").submit();
   })
   jq("#add").on('click',function(){
-	url = '${path}/user/add.do';
+	  url = '${path}/goods/add.do';
 	  jq('.admin-iframe', window.parent.document).attr('src',url);
   })
   
@@ -134,8 +139,8 @@ layui.use(['element', 'laypage', 'layer', 'form'], function(){
         loading = layer.load(2, {
           shade: [0.2,'#000'] //0.2透明度的白色背景
         });
-        location.href = '${path}/user/list.do?username='
-        		+jq('#username').val()+'&usertype='+jq("#usertype").val()+'&page='+e.curr;
+        location.href = '${path}/goods/list.do?goods_name='
+        		+jq('#goods_name').val()+'&goods_type='+jq("#goods_type").val()+'&page='+e.curr;
       }
     }
   });

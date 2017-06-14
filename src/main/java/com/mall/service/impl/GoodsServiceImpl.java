@@ -50,11 +50,13 @@ public class GoodsServiceImpl implements GoodsService{
 	}
 
     @Override
-    public List<Goods> selectByPage(Goods goods, Integer pno, Integer pageSize) {
-        if (pno != null && pno != 0 && pageSize != 0 && pageSize != null) {
-            pno = (pno - 1) * pageSize;
-        }
-        return goodsMapper.selectByPage(new PageParam<Goods>(pno, pageSize, goods));
+    public List<Goods> selectByPage(PageParam<Goods> pageParam) {
+        return goodsMapper.selectByPage(pageParam);
     }
+
+	@Override
+	public Long count(Goods goods) {
+		return goodsMapper.count(goods);
+	}
 
 }

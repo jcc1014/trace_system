@@ -93,14 +93,30 @@
   
   <select id="selectByPage" parameterType="com.mall.dto.PageParam" resultType="com.mall.po.Goods">
     select * 
-    from Goods 
+    from goods 
     where 1=1 
     <if test="obj != null">
-        and goods_name like #{obj.goods_name}
-        and goods_type = #{obj.goods_type}
+    	<if test="obj.goods_name != null and obj.goods_name != ''">
+       		and goods_name like '%${obj.goods_name}%'
+        </if>
+        <if test="obj.goods_type != null and obj.goods_type != ''">
+        	and goods_type = #{obj.goods_type}
+        </if>
     </if>
-    <if test="pno != null and pno != 0 and pageSize != null and pageSize != 0">
-        limit pno, pageSize
+    <if test="startRow != null and pageSize != null">
+        limit #{startRow}, #{pageSize}
+    </if>
+  </select>
+  
+  <select id="count" parameterType="com.mall.po.Goods" resultType="java.lang.Long">
+  	select count(goods_id) 
+    from goods 
+    where 1=1 
+	<if test="goods_name != null and goods_name != ''">
+    	and goods_name like '%${goods_name}%'
+    </if>
+    <if test="goods_type != null and goods_type != ''">
+    	and goods_type = #{goods_type}
     </if>
   </select>
 </mapper>

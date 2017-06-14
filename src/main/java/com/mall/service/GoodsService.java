@@ -2,6 +2,7 @@ package com.mall.service;
 
 import java.util.List;
 
+import com.mall.dto.PageParam;
 import com.mall.po.Goods;
 
 public interface GoodsService {
@@ -18,15 +19,8 @@ public interface GoodsService {
 
     int updateByPrimaryKey(Goods record);
 	
-    /**
-     * Description: 按条件分页查询商品
-     * @author Li Zheng
-     * @date 2017年6月7日下午5:01:15
-     * @param goods
-     * @param pno
-     * @param pageSize
-     * @return
-     */
-    List<Goods> selectByPage(Goods goods, Integer pno, Integer pageSize);
+    List<Goods> selectByPage(PageParam<Goods> pageParam);
+    
+    Long count(Goods goods);
     
 }

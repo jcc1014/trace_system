@@ -1,5 +1,6 @@
 package com.mall.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.mall.po.Shop;
@@ -15,4 +16,7 @@ import com.trace.po.User;
  */
 public interface ShopService {
 	Map<String,Object> addSave(Shop shop,User user);
+	int querycount(Map<String,Object> map,String str);
+	List<Shop> selectList(Map<String,Object> map,String str);
+	Map<String,Object> deleteByPrimaryKey(String id);
 }

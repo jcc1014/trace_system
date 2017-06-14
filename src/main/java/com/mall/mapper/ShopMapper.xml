@@ -10,7 +10,7 @@
     <result column="shop_name" property="shop_name" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    shop_id, member_id, address, coordinate, createtime
+    shop_id, member_id, address, coordinate, createtime,shop_name
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -18,6 +18,49 @@
     from shop
     where shop_id = #{shop_id,jdbcType=VARCHAR}
   </select>
+  <select id="queryCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select 
+    count(1) as num
+    from shop where 1=1
+    <if test="shop_name != null and shop_name != ''">
+     and shop_name like '%${shop_name}%'
+    </if>
+    <if test="member_id != null and member_id != ''">
+     and member_id = #{member_id}
+    </if>
+  </select>
+  
+  <select id="queryCountAll" resultType="java.lang.Integer" parameterType="java.util.Map" >
+  	select 
+    count(1) as num
+    from shop where 1=1
+  </select>
+  
+  <select id="selectList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from shop where 1=1
+    <if test="shop_name != null and shop_name != ''">
+     and shop_name like '%${shop_name}%'
+    </if>
+    <if test="member_id != null and member_id != ''">
+     and member_id = #{member_id}
+    </if>
+    order by shop_name,member_id
+    limit ${index},8
+  </select>
+  
+  <select id="selectListAll" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select
+    <include refid="Base_Column_List" />
+    from shop where 1=1
+    <if test="shop_name != null and shop_name != ''">
+     and shop_name like '%${shop_name}%'
+    </if>
+    order by shop_name
+    limit ${index},8
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from shop
     where shop_id = #{shop_id,jdbcType=VARCHAR}

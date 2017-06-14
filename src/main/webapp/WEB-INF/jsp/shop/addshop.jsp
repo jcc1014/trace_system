@@ -17,12 +17,12 @@
     <script type="text/javascript" src="${path}/js/citypicker/city-picker.data.js"></script>
     <script type="text/javascript" src="${path}/js/citypicker/city-picker.js"></script>
     <!-- 百度地图api 秘钥=DD279b2a90afdf0ae7a3796787a0742e -->
-    <script src="http://api.map.baidu.com/api?v=2.0&ak=DD279b2a90afdf0ae7a3796787a0742e" type="text/javascript"></script>
+    <script src="http://api.map.baidu.com/getscript?v=2.0&ak=DD279b2a90afdf0ae7a3796787a0742e" type="text/javascript"></script>
   </head>
  <body>
  <div class="layui-tab layui-tab-brief main-tab-container" style="margin-top: 20px;">
   	<ul class="layui-tab-title main-tab-title">
-      <div class="main-tab-item">商家信息</div>
+      <div class="main-tab-item">新增商家</div>
     </ul>
     
     <div class="layui-tab-content" style="margin-top: 40px;margin-left: 200px;">
@@ -94,7 +94,7 @@ layui.use(
 		
 	jq("#shop_coordinate").on('click',function() {
 		if (navigator.geolocation) {
-			var i =layer.load({offset: '45%',time: 300000}) ;
+			var i =layer.load({offset: '45%'}) ;
 			navigator.geolocation.getCurrentPosition(function(position) {
 				lat = position.coords.latitude;//经度
 				lon = position.coords.longitude;//纬度
@@ -154,10 +154,11 @@ layui.use(
 			layer.msg('邮政编码格式不正确，请重新输入');
 			return;
 		} */
+		
 		if(shop_coordinate==null || shop_coordinate=="" || shop_coordinate==undefined){
 			layer.msg('商家坐标不可空，请重新加载');
 			return;
-		} 
+		}
 		
 		jq.ajax({
 			url : '${path}/shop/addSave.do',

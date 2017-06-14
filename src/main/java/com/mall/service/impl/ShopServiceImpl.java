@@ -3,6 +3,7 @@ package com.mall.service.impl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -38,6 +39,42 @@ public class ShopServiceImpl implements ShopService{
 			e.printStackTrace();
 			map.put("code", -1);
 			map.put("msg", "新增失败！");
+			throw new RuntimeException();
+		}
+		return map;
+	}
+
+	@Override
+	public int querycount(Map<String, Object> map,String str) {
+		if("0".equals(str)){
+			return shopmapper.queryCountAll(map);
+		}else{
+			return shopmapper.queryCount(map);
+		}
+	}
+
+	@Override
+	public List<Shop> selectList(Map<String, Object> map,String str) {
+		if("0".equals(str)){
+			return shopmapper.selectListAll(map);
+		}else{
+			return shopmapper.selectList(map);
+		}
+		
+	}
+
+	@Override
+	public Map<String, Object> deleteByPrimaryKey(String id) {
+		Map<String,Object> map = new HashMap<String, Object>();
+		try {
+			shopmapper.deleteByPrimaryKey(id);
+			map.put("code", "200");
+			map.put("msg", "删除成功！");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("code", -1);
+			map.put("msg", "删除失败！");
 			throw new RuntimeException();
 		}
 		return map;

@@ -1,5 +1,8 @@
 package com.mall.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.mall.po.Address;
 import com.mall.po.Shop;
 import com.mall.service.ShopService;
 import com.trace.po.User;
@@ -37,13 +39,43 @@ public class ShopController {
 	@RequestMapping("/addshop.do")
 	public String addShop(HttpServletRequest request,Model model){
 		String page = "shop/addshop";
-		//HttpSession session = request.getSession();
-		//String shop_id = (String)session.getAttribute("shop_id");
-		//User user = (User) session.getAttribute("user");//获取当前登录的
-		//model.addAttribute("shop_id", shop_id);
-		//model.addAttribute("member_id", user.getUserid());
-		//model.addAttribute("member_name",user.getUsername());
 		return page;
+	}
+	
+	/*
+	 * 显示商家列表初始化界面
+	 */
+	@RequestMapping("/listshop.do")
+	public String listShop(HttpServletRequest request,HttpSession session,String shopname,String page,Model model){
+		String p = "shop/listshop";
+		if(null!=shopname&&!"".equals(shopname)){
+			try {
+				shopname = new String(shopname.getBytes("ISO8859-1"),"UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		String usertype = user.getUsertype();
+		Map<String,Object> map = new HashMap<String, Object>();
+		if("".equals(page)||null==page){
+			page = "1";
+		}
+		map.put("shop_name", shopname);
+		map.put("member_id", user.getUserid());
+		int num = shopService.querycount(map,usertype);
+		if(num%8==0){
+			num = num/8;
+		}else{
+			num = num/8+1;
+		}
+		model.addAttribute("num", num);
+		model.addAttribute("curr", page);
+		map.put("index", (Integer.parseInt(page)-1)*8);
+		List<Shop> shoplist = shopService.selectList(map,usertype);
+		model.addAttribute("shoplist", shoplist);
+		return p;
 	}
 	
 	/*
@@ -55,6 +87,16 @@ public class ShopController {
 		session = request.getSession();
 		User user = (User) session.getAttribute("user");//获取当前登录的
 		Map<String,Object> map = shopService.addSave(shop,user);
+		return JSON.toJSONString(map);
+	}
+	
+	/*
+	 * 删除商家
+	 */
+	@RequestMapping("/deleteShop.do")
+	@ResponseBody
+	public String del(HttpServletRequest request,HttpSession session,String id){
+		Map<String,Object> map = shopService.deleteByPrimaryKey(id);
 		return JSON.toJSONString(map);
 	}
 }

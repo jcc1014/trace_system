@@ -97,7 +97,7 @@
     where goods_id = #{goods_id}
   </delete>
 
-  <select id="selectByGoodsId" parameterType="java.lang.String" resultMap="com.mall.po.GoodsPic">
+  <select id="selectByGoodsId" parameterType="java.lang.String" resultType="com.mall.po.GoodsPic">
     SELECT
     <include refid="Base_Column_List" />
     FROM goods_pic

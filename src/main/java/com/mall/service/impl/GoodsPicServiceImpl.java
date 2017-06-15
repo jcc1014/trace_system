@@ -6,6 +6,8 @@ import com.mall.service.GoodsPicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GoodsPicServiceImpl implements GoodsPicService{
 
@@ -15,5 +17,15 @@ public class GoodsPicServiceImpl implements GoodsPicService{
     @Override
     public int insert(GoodsPic goodsPic) {
         return goodsPicMapper.insert(goodsPic);
+    }
+
+    @Override
+    public int deleteByGoodsId(String goods_id) {
+        return goodsPicMapper.deleteByGoodsId(goods_id);
+    }
+
+    @Override
+    public List<GoodsPic> selectByGoodsId(String goods_id) {
+        return goodsPicMapper.selectByGoodsId();
     }
 }

@@ -7,16 +7,18 @@ public class GoodsPic {
 
     private String pic_path;
 
-    private String index;
+    private String real_path;
 
-    private String createtime;
+    private String pic_index;
+
+    private String create_time;
 
     public String getPic_id() {
         return pic_id;
     }
 
     public void setPic_id(String pic_id) {
-        this.pic_id = pic_id == null ? null : pic_id.trim();
+        this.pic_id = pic_id;
     }
 
     public String getGoods_id() {
@@ -24,7 +26,7 @@ public class GoodsPic {
     }
 
     public void setGoods_id(String goods_id) {
-        this.goods_id = goods_id == null ? null : goods_id.trim();
+        this.goods_id = goods_id;
     }
 
     public String getPic_path() {
@@ -32,22 +34,30 @@ public class GoodsPic {
     }
 
     public void setPic_path(String pic_path) {
-        this.pic_path = pic_path == null ? null : pic_path.trim();
+        this.pic_path = pic_path;
     }
 
-    public String getIndex() {
-        return index;
+    public String getReal_path() {
+        return real_path;
     }
 
-    public void setIndex(String index) {
-        this.index = index == null ? null : index.trim();
+    public void setReal_path(String real_path) {
+        this.real_path = real_path;
     }
 
-    public String getCreatetime() {
-        return createtime;
+    public String getPic_index() {
+        return pic_index;
     }
 
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime == null ? null : createtime.trim();
+    public void setPic_index(String pic_index) {
+        this.pic_index = pic_index;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 }

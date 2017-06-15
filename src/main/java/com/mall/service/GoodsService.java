@@ -22,5 +22,7 @@ public interface GoodsService {
     List<Goods> selectByPage(PageParam<Goods> pageParam);
     
     Long count(Goods goods);
+
+    void insertGoodsAndPic(Goods goods, String[] goods_pic, String[] real_path) throws Exception;
     
 }

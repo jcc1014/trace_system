@@ -17,13 +17,13 @@
       <div class="main-tab-item">商品信息</div>
     </ul>
     <div class="layui-tab-content" style="margin-top: 40px;margin-left: 200px;">
-			<form class="layui-form">
+			<form class="layui-form" action="">
 				<div class="layui-tab-item layui-show">
 					<input type="hidden" name="id" value="">
 					<div class="layui-form-item">
 						<label class="layui-form-label">商品名称</label>
 						<div class="layui-input-inline input-custom-width">
-							<input type="text" required lay-verify="required" id="goods_name" name="goods_name" autocomplete="off" placeholder="请输入商品名称" class="layui-input">
+							<input value="${goods.goods_name}" type="text" required lay-verify="required" id="goods_name" name="goods_name" autocomplete="off" placeholder="请输入商品名称" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
@@ -32,7 +32,12 @@
 							<select name="goods_type" id="goods_type" required lay-verify="required">
 								<option value="">--选择--</option>
 								<c:forEach items="${types}" var="type">
-									<option value="${type.dict_id}">${type.dict_name}</option>
+                                    <c:if test="${goods.goods_type eq type.dict_id}">
+                                        <option value="${type.dict_id}" selected="selected">${type.dict_name}</option>
+                                    </c:if>
+                                    <c:if test="${goods.goods_type ne type.dict_id}">
+                                        <option value="${type.dict_id}" selected="selected">${type.dict_name}</option>
+                                    </c:if>
 								</c:forEach>
 							</select>
 						</div>
@@ -40,19 +45,19 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">商品描述</label>
 						<div class="layui-input-inline input-custom-width">
-							<textarea required lay-verify="required" name="goods_description" placeholder="请输入商品描述" class="layui-textarea"></textarea>
+							<textarea required lay-verify="required" name="goods_description" placeholder="请输入商品描述" class="layui-textarea">${goods.goods_description}</textarea>
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">最新价格(元)</label>
 						<div class="layui-input-inline input-custom-width">
-							<input required lay-verify="required" type="text" id="new_price" name="new_price" autocomplete="off" placeholder="请输入最新价格" class="layui-input">
+							<input value="${goods.new_price}" required lay-verify="required" type="text" id="new_price" name="new_price" autocomplete="off" placeholder="请输入最新价格" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">原始价格(元)</label>
 						<div class="layui-input-inline input-custom-width">
-							<input type="text" id="old_price" name="old_price" autocomplete="off" placeholder="请输入原始价格" class="layui-input">
+							<input value="${goods.old_price}" type="text" id="old_price" name="old_price" autocomplete="off" placeholder="请输入原始价格" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
@@ -61,12 +66,30 @@
 						    <input type="file" name="file" id="upload" class="layui-upload-file">
                         </div>
 					</div>
-                    <div class="layui-form-item" id="pic_display" style="display: none">
-                        <label class="layui-form-label">已传图片</label>
-                    </div>
+                    <c:if test="${empty pics}">
+                        <div class="layui-form-item" id="pic_display" style="display: none">
+                            <label class="layui-form-label">已传图片</label>
+                        </div>
+                    </c:if>
+                    <c:if test="${!empty pics}">
+                        <div class="layui-form-item" id="pic_display">
+                            <label class="layui-form-label">已传图片</label>
+                            <c:forEach items="${pics}" var="pic" varStatus="status">
+                                <div id="pic${status.index + 1}" class="layui-input-block">
+                                    <input type="hidden" name="goods_pic" value="${pic.pic_path}">
+                                    <input type="hidden" name="real_path" value="${pic.real_path}">
+                                    <img class="input-custom-width" src="${pic.pic_path}" />
+                                    <a id="pic${status.index + 1}_btn" style="margin-left:10px" class="layui-btn layui-btn-small layui-btn-danger" data-realPath="' + rs.data.realPath + '" title="删除">
+                                        <i class="layui-icon"></i>
+                                    </a>
+                                    <div style="min-height: 10px"></div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </c:if>
 					<div class="layui-form-item" style="margin-top: 50px;">
 						<div class="layui-input-block">
-							<button type="button" class="layui-btn" id="save">保存</button>
+							<button type="button" class="layui-btn" lay-filter="save" lay-submit>保存</button>
 							<button type="button" class="layui-btn layui-btn-primary" id="back">返回</button>
 						</div>
 					</div>
@@ -104,6 +127,7 @@
                     var html = '';
                     html += '<div id="pic' + pic_index + '" class="layui-input-block">';
                     html += '<input type="hidden" name="goods_pic" value="' + rs.data.src + '">';
+                    html += '<input type="hidden" name="real_path" value="' + rs.data.realPath + '">';
                     html += '<img class="input-custom-width" src="' + rs.data.src + '" />';
                     html += '<a id="pic' + pic_index + '_btn" style="margin-left:10px" class="layui-btn layui-btn-small layui-btn-danger" data-realPath="' + rs.data.realPath + '" title="删除"><i class="layui-icon"></i></a>';
                     html += '<div style="min-height: 10px"></div></div>';
@@ -140,40 +164,38 @@
                 }
             }
         });
-		jq("#save").on('click', function() {
-			var username = jq("#username").val();
-			if ("" == username) {
-				layer.msg("请填写姓名！");
-				return;
-			}
-			var usertype = jq("#usertype").val();
-			if ("" == usertype) {
-				layer.msg("请选择类型！");
-				return;
-			}
-			var phone = jq("#phone").val();
-			if ("" != phone ) {
-				if(!isTelephone(phone)){
-					layer.msg("手机号不合法！");
-					return;
-				}
-			}
-			jq.ajax({
-				url : '${path}/user/addSave.do',
-				type : 'post',
-				data:{'username':username,'usertype':usertype,'phone':phone},
-				dataType : 'json',
-				success : function(rs) {
-					rs = eval("(" + rs + ")");
-					layer.msg(rs.msg,{time:1000}, function() {
-						self.location.reload();
-					});
-				}
-			})
-		})
+
+		//监听提交  
+        form.on('submit(save)', function(data){
+            if (data.field.goods_pic) {
+                var goods_pics = '';
+                jq('input[name=goods_pic]').each(function(){
+                    goods_pics += jq(this).val() + ',';
+                });
+                data.field.goods_pic = goods_pics.substring(0, goods_pics.length - 1);
+                var real_path = '';
+                jq('input[name=real_path]').each(function(){
+                    real_path += jq(this).val() + ',';
+                });
+                data.field.real_path = real_path.substring(0, real_path.length - 1);
+            }
+            jq.ajax({
+                url : '${path}/goods/save.do',
+                type: 'post',
+                data: data.field,
+                dataType : 'json',
+                success : function(rs) {
+                    layer.msg("保存" + rs.msg,{time:1000}, function() {
+                        if (rs.code == 200) {
+                            var url = "${path}/goods/list.do";
+                            window.location.href = url;
+                        }
+                    });
+                }
+            })
+        });
 		jq("#back").on('click', function() {
-			var url = "${path}/user/list.do";
-			//jq('.admin-iframe', window.parent.document).attr('src',url);
+			var url = "${path}/goods/list.do";
 			window.location.href = url;
 		})
 	})

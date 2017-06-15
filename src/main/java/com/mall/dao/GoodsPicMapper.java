@@ -2,6 +2,8 @@ package com.mall.dao;
 
 import com.mall.po.GoodsPic;
 
+import java.util.List;
+
 public interface GoodsPicMapper {
     int deleteByPrimaryKey(String pic_id);
 
@@ -14,4 +16,8 @@ public interface GoodsPicMapper {
     int updateByPrimaryKeySelective(GoodsPic record);
 
     int updateByPrimaryKey(GoodsPic record);
+
+    int deleteByGoodsId(String goods_id);
+
+    List<GoodsPic> selectByGoodsId();
 }

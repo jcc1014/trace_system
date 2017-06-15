@@ -60,7 +60,6 @@ public class GoodsController {
 	 * Description: 添加商品
 	 * @author Li Zheng
 	 * @date 2017年6月8日下午10:29:04
-	 * @param add 新增商品true，编辑商品false
 	 * @return
 	 */
 	@RequestMapping("edit.do")
@@ -105,7 +104,21 @@ public class GoodsController {
 		int rows = goodsService.deleteByPrimaryKey(id);
 		if (rows > 0) {
 		    //删除图片
-            goodsPicService.deleteByGoodsId(id);
+			List<GoodsPic> pics = goodsPicService.selectByGoodsId(id);
+			if (pics != null && pics.size() > 0) {
+				for (int i = 0; i < pics.size(); i ++) {
+					GoodsPic pic = pics.get(i);
+					String real_path = pic.getReal_path();
+					if (StringUtils.isEmpty(real_path)) {
+						continue;
+					}
+					File file = new File(real_path);
+					if (file.exists()) {
+						file.delete();
+					}
+				}
+				goodsPicService.deleteByGoodsId(id);
+			}
 			return new Result<>(ResultEnum.SUCCESS);
 		}
 		return new Result<>(ResultEnum.FAILURE);

@@ -19,5 +19,5 @@ public interface GoodsPicMapper {
 
     int deleteByGoodsId(String goods_id);
 
-    List<GoodsPic> selectByGoodsId();
+    List<GoodsPic> selectByGoodsId(String goods_id);
 }

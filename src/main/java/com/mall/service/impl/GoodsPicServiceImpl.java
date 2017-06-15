@@ -26,6 +26,6 @@ public class GoodsPicServiceImpl implements GoodsPicService{
 
     @Override
     public List<GoodsPic> selectByGoodsId(String goods_id) {
-        return goodsPicMapper.selectByGoodsId();
+        return goodsPicMapper.selectByGoodsId(goods_id);
     }
 }

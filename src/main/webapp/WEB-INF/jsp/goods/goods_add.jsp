@@ -19,7 +19,7 @@
     <div class="layui-tab-content" style="margin-top: 40px;margin-left: 200px;">
 			<form class="layui-form" action="">
 				<div class="layui-tab-item layui-show">
-					<input type="hidden" name="id" value="">
+					<input type="hidden" name="goods_id" value="${goods.goods_id}">
 					<div class="layui-form-item">
 						<label class="layui-form-label">商品名称</label>
 						<div class="layui-input-inline input-custom-width">
@@ -36,7 +36,7 @@
                                         <option value="${type.dict_id}" selected="selected">${type.dict_name}</option>
                                     </c:if>
                                     <c:if test="${goods.goods_type ne type.dict_id}">
-                                        <option value="${type.dict_id}" selected="selected">${type.dict_name}</option>
+                                        <option value="${type.dict_id}">${type.dict_name}</option>
                                     </c:if>
 								</c:forEach>
 							</select>
@@ -79,7 +79,7 @@
                                     <input type="hidden" name="goods_pic" value="${pic.pic_path}">
                                     <input type="hidden" name="real_path" value="${pic.real_path}">
                                     <img class="input-custom-width" src="${pic.pic_path}" />
-                                    <a id="pic${status.index + 1}_btn" style="margin-left:10px" class="layui-btn layui-btn-small layui-btn-danger" data-realPath="' + rs.data.realPath + '" title="删除">
+                                    <a style="margin-left:10px" class="layui-btn layui-btn-small layui-btn-danger del_btn" data-div="pic${status.index + 1}" data-realPath="${pic.real_path}" title="删除">
                                         <i class="layui-icon"></i>
                                     </a>
                                     <div style="min-height: 10px"></div>
@@ -105,12 +105,34 @@
 		laydate = layui.laydate,
 		jq = layui.jquery;
 
+        jq('.del_btn').click(function(){
+            var realPath = jq(this).data('realPath') || jq(this).attr("data-realPath");
+            var div_id = jq(this).data('div') || jq(this).attr('data-div');
+            layer.confirm('确定删除?', function(index){
+                loading = layer.load(2, {
+                    shade: [0.2,'#000'] //0.2透明度的白色背景
+                });
+                jq.post('${path}/goods/deletePic.do',{'realPath':realPath},function(data){
+                    data = jq.parseJSON(data);
+                    layer.close(loading);
+                    layer.msg("删除" + data.msg, {icon: 1, time: 1000}, function(){
+                        if (data.code == 200) {
+                            jq('#' + div_id).remove();
+                            if (jq('.del_btn').length == 0) {
+                                jq('#pic_display').hide();
+                            }
+                        }
+                    });
+                });
+            });
+        });
+
 		var pic_index = 0;
         layui.upload({
             elem:'#upload',
             title:'点击上传',
             url : '${path}/goods/uploadPic.do',
-            before: function(input){
+            before: function(){
                 index = layer.msg('图片上传中', {
                     icon: 16
                     ,shade: 0.01
@@ -125,18 +147,17 @@
                         time: 2000 //2秒关闭（默认3秒）
                     }, function(){});
                     var html = '';
-                    html += '<div id="pic' + pic_index + '" class="layui-input-block">';
+                    html += '<div id="pic' + pic_index + '_new" class="layui-input-block">';
                     html += '<input type="hidden" name="goods_pic" value="' + rs.data.src + '">';
                     html += '<input type="hidden" name="real_path" value="' + rs.data.realPath + '">';
                     html += '<img class="input-custom-width" src="' + rs.data.src + '" />';
-                    html += '<a id="pic' + pic_index + '_btn" style="margin-left:10px" class="layui-btn layui-btn-small layui-btn-danger" data-realPath="' + rs.data.realPath + '" title="删除"><i class="layui-icon"></i></a>';
+                    html += '<a id="btn' + pic_index + '_new" style="margin-left:10px" class="layui-btn layui-btn-small layui-btn-danger del_btn" data-div="pic' + pic_index + '_new" data-realPath="' + rs.data.realPath + '" title="删除"><i class="layui-icon"></i></a>';
                     html += '<div style="min-height: 10px"></div></div>';
                     jq('#pic_display').append(html);
                     jq('#pic_display').show();
-                    jq('#pic' + pic_index + '_btn').click(function(){
+                    jq('#btn' + pic_index + '_new').click(function(){
                         var realPath = jq(this).data('realPath') || jq(this).attr("data-realPath");
-                        var id = jq(this).attr('id');
-                        id = id.substring(0, id.lastIndexOf('_'));
+                        var div_id = jq(this).data('div') || jq(this).attr('data-div');
                         layer.confirm('确定删除?', function(index){
                             loading = layer.load(2, {
                                 shade: [0.2,'#000'] //0.2透明度的白色背景
@@ -146,9 +167,8 @@
                                 layer.close(loading);
                                 layer.msg("删除" + data.msg, {icon: 1, time: 1000}, function(){
                                     if (data.code == 200) {
-                                        jq('#' + id).remove();
-                                        pic_index --;
-                                        if (pic_index == 0) {
+                                        jq('#' + div_id).remove();
+                                        if (jq('.del_btn').length == 0) {
                                             jq('#pic_display').hide();
                                         }
                                     }

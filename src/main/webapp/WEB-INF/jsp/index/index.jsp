@@ -113,28 +113,28 @@
               <li class="layui-nav-item layui-nav-title">
                 <a>商城管理</a>
               </li>
-              <li class="layui-nav-item">
+              <li class="layui-nav-item first-item">
                 <a href="${path}/goods/list.do" target="main">
                   <i class="layui-icon">&#xe613;</i>
-                  <cite>菜单商品列表</cite>
+                  <cite>商品列表</cite>
                 </a>
               </li>
-              <li class="layui-nav-item first-item">
+              <li class="layui-nav-item">
                 <a href="${path}/order/list.do" target="main">
                   <i class="layui-icon">&#xe613;</i>
                   <cite>订单列表</cite>
                 </a>
               </li>
               <li class="layui-nav-item ">
-                <a href="${path}/shop/list.do" target="main">
+                <a href="${path}/shop/listshop.do" target="main">
                   <i class="layui-icon">&#xe613;</i>
                   <cite>商店列表</cite>
                 </a>
               </li>
               <li class="layui-nav-item ">
-                <a href="${path}/goods/list.do" target="main">
+                <a href="${path}/dict/listParent.do" target="main">
                   <i class="layui-icon">&#xe613;</i>
-                  <cite>商品列表</cite>
+                  <cite>种类列表</cite>
                 </a>
               </li>
               <li class="layui-nav-item ">

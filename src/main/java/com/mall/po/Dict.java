@@ -10,6 +10,8 @@ public class Dict {
     private String dict_type;
 
     private String parentid;
+    
+    private String dict_index;
 
     public Dict() {}
 
@@ -47,5 +49,13 @@ public class Dict {
 
     public void setParentid(String parentid) {
         this.parentid = parentid == null ? null : parentid.trim();
+    }
+    
+    public String getDict_index() {
+    	return dict_index;
+    }
+    
+    public void setDict_index(String dict_index) {
+    	this.dict_index = dict_index == null ? null : dict_index.trim();
     }
 }

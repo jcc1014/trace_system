@@ -3,13 +3,14 @@
 <mapper namespace="com.mall.dao.ShopMapper" >
   <resultMap id="BaseResultMap" type="com.mall.po.Shop" >
     <id column="shop_id" property="shop_id" jdbcType="VARCHAR" />
-    <result column="member_id" property="member_id" jdbcType="INTEGER" />
+    <result column="member_id" property="member_id" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="coordinate" property="coordinate" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="shop_name" property="shop_name" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    shop_id, member_id, address, coordinate, createtime, shop_name
+    shop_id, member_id, address, coordinate, createtime,shop_name
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -17,15 +18,58 @@
     from shop
     where shop_id = #{shop_id,jdbcType=VARCHAR}
   </select>
+  <select id="queryCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select 
+    count(1) as num
+    from shop where 1=1
+    <if test="shop_name != null and shop_name != ''">
+     and shop_name like '%${shop_name}%'
+    </if>
+    <if test="member_id != null and member_id != ''">
+     and member_id = #{member_id}
+    </if>
+  </select>
+  
+  <select id="queryCountAll" resultType="java.lang.Integer" parameterType="java.util.Map" >
+  	select 
+    count(1) as num
+    from shop where 1=1
+  </select>
+  
+  <select id="selectList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from shop where 1=1
+    <if test="shop_name != null and shop_name != ''">
+     and shop_name like '%${shop_name}%'
+    </if>
+    <if test="member_id != null and member_id != ''">
+     and member_id = #{member_id}
+    </if>
+    order by shop_name,member_id
+    limit ${index},8
+  </select>
+  
+  <select id="selectListAll" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select
+    <include refid="Base_Column_List" />
+    from shop where 1=1
+    <if test="shop_name != null and shop_name != ''">
+     and shop_name like '%${shop_name}%'
+    </if>
+    order by shop_name
+    limit ${index},8
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from shop
     where shop_id = #{shop_id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.mall.po.Shop" >
     insert into shop (shop_id, member_id, address, 
-      coordinate, createtime, shop_name)
-    values (#{shop_id,jdbcType=VARCHAR}, #{member_id,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
-      #{coordinate,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{shop_name,jdbcType=VARCHAR})
+      coordinate, createtime,shop_name)
+    values (#{shop_id,jdbcType=VARCHAR}, #{member_id,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{coordinate,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR},#{shop_name,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.po.Shop" >
     insert into shop
@@ -45,16 +89,13 @@
       <if test="createtime != null" >
         createtime,
       </if>
-      <if test="shop_name != null">
-      	shop_name,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="shop_id != null" >
         #{shop_id,jdbcType=VARCHAR},
       </if>
       <if test="member_id != null" >
-        #{member_id,jdbcType=INTEGER},
+        #{member_id,jdbcType=VARCHAR},
       </if>
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
@@ -65,16 +106,13 @@
       <if test="createtime != null" >
         #{createtime,jdbcType=VARCHAR},
       </if>
-      <if test="shop_name != null">
-      	#{shop_name,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.mall.po.Shop" >
     update shop
     <set >
       <if test="member_id != null" >
-        member_id = #{member_id,jdbcType=INTEGER},
+        member_id = #{member_id,jdbcType=VARCHAR},
       </if>
       <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
@@ -85,19 +123,15 @@
       <if test="createtime != null" >
         createtime = #{createtime,jdbcType=VARCHAR},
       </if>
-      <if test="shop_name != null">
-      	shop_name = #{shop_name,jdbcType=VARCHAR},
-      </if>
     </set>
     where shop_id = #{shop_id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.mall.po.Shop" >
     update shop
-    set member_id = #{member_id,jdbcType=INTEGER},
+    set member_id = #{member_id,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       coordinate = #{coordinate,jdbcType=VARCHAR},
-      createtime = #{createtime,jdbcType=VARCHAR},
-      shop_name = #{shop_name,jdbcType=VARCHAR}
+      createtime = #{createtime,jdbcType=VARCHAR}
     where shop_id = #{shop_id,jdbcType=VARCHAR}
   </update>
 </mapper>

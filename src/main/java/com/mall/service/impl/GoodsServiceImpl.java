@@ -100,4 +100,9 @@ public class GoodsServiceImpl implements GoodsService{
 		}
 		throw new RuntimeException();
 	}
+
+	@Override
+	public List<Goods> select(Goods goods) {
+		return goodsMapper.select(goods);
+	}
 }

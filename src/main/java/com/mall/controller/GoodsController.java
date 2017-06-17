@@ -49,7 +49,7 @@ public class GoodsController {
 		Long total = goodsService.count(goods);
 		PageParam<Goods> pageParam = new PageParam<Goods>(page, pageSize, total, goods);
 		List<Goods> list = goodsService.selectByPage(pageParam);
-		List<Dict> types = dictService.selectByExample(new Dict(DictTypeEnum.VEGETABLES));
+		List<Dict> types = dictService.selectByParentId("0");
 		modelMap.put("list", list);
 		modelMap.put("types", types);
 		modelMap.put("condition", pageParam);
@@ -70,7 +70,7 @@ public class GoodsController {
             List<GoodsPic> pics = goodsPicService.selectByGoodsId(goods_id);
             modelMap.put("pics", pics);
         }
-		List<Dict> types = dictService.selectByExample(new Dict(DictTypeEnum.VEGETABLES));
+		List<Dict> types = dictService.selectByParentId("0");
 		modelMap.put("types", types);
         return "goods/goods_add";
     }

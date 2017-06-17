@@ -5,12 +5,44 @@
     <id column="banner_id" property="banner_id" jdbcType="VARCHAR" />
     <result column="banner_path" property="banner_path" jdbcType="VARCHAR" />
     <result column="banner_url" property="banner_url" jdbcType="VARCHAR" />
-    <result column="bannner_index" property="bannner_index" jdbcType="VARCHAR" />
+    <result column="banner_index" property="banner_index" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="banner_type" property="banner_type" jdbcType="VARCHAR" />
+    <result column="banner_title" property="banner_title" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    banner_id, banner_path, banner_url, bannner_index, createtime
+    banner_id, banner_path, banner_url, banner_index, createtime,banner_type,banner_title
   </sql>
+  
+  <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select 
+    <include refid="Base_Column_List" />
+    from banner where 1=1
+    <if test="banner_type != null">
+    	and banner_type = #{banner_type}
+    </if>
+    order by banner_index
+    limit ${index},8
+  </select>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.mall.po.Banner">
+  	select 
+    <include refid="Base_Column_List" />
+    from banner where 1=1
+    <if test="banner_type != null">
+    	and banner_type = #{banner_type}
+    </if>
+    order by banner_index
+  </select>
+  
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+  	select 
+    count(1) as num
+    from banner where 1=1
+    <if test="banner_type != null">
+    	and banner_type = #{banner_type}
+    </if>
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -23,9 +55,9 @@
   </delete>
   <insert id="insert" parameterType="com.mall.po.Banner" >
     insert into banner (banner_id, banner_path, banner_url, 
-      bannner_index, createtime)
+      banner_index, createtime)
     values (#{banner_id,jdbcType=VARCHAR}, #{banner_path,jdbcType=VARCHAR}, #{banner_url,jdbcType=VARCHAR}, 
-      #{bannner_index,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR})
+      #{banner_index,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.po.Banner" >
     insert into banner
@@ -39,11 +71,17 @@
       <if test="banner_url != null" >
         banner_url,
       </if>
-      <if test="bannner_index != null" >
-        bannner_index,
+      <if test="banner_index != null" >
+        banner_index,
       </if>
       <if test="createtime != null" >
         createtime,
+      </if>
+      <if test="banner_type != null" >
+        banner_type,
+      </if>
+      <if test="banner_title != null" >
+        banner_title,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -56,11 +94,17 @@
       <if test="banner_url != null" >
         #{banner_url,jdbcType=VARCHAR},
       </if>
-      <if test="bannner_index != null" >
-        #{bannner_index,jdbcType=VARCHAR},
+      <if test="banner_index != null" >
+        #{banner_index,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null" >
         #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="banner_type != null" >
+        #{banner_type,jdbcType=VARCHAR},
+      </if>
+      <if test="banner_title != null" >
+        #{banner_title,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -73,11 +117,17 @@
       <if test="banner_url != null" >
         banner_url = #{banner_url,jdbcType=VARCHAR},
       </if>
-      <if test="bannner_index != null" >
-        bannner_index = #{bannner_index,jdbcType=VARCHAR},
+      <if test="banner_index != null" >
+        banner_index = #{banner_index,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null" >
         createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="banner_type != null" >
+        banner_type = #{banner_type,jdbcType=VARCHAR},
+      </if>
+      <if test="banner_title != null" >
+        banner_title = #{banner_title,jdbcType=VARCHAR},
       </if>
     </set>
     where banner_id = #{banner_id,jdbcType=VARCHAR}
@@ -86,7 +136,7 @@
     update banner
     set banner_path = #{banner_path,jdbcType=VARCHAR},
       banner_url = #{banner_url,jdbcType=VARCHAR},
-      bannner_index = #{bannner_index,jdbcType=VARCHAR},
+      banner_index = #{banner_index,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=VARCHAR}
     where banner_id = #{banner_id,jdbcType=VARCHAR}
   </update>

@@ -19,6 +19,25 @@
     from goods
     where goods_id = #{goods_id,jdbcType=VARCHAR}
   </select>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.mall.po.Goods" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where 1=1
+    <if test="goods_name != null">
+    	and good_name like '%${good_name}%'
+    </if>
+    <if test="goods_type != null">
+    	and goods_type = #{goods_type}
+    </if>
+    <if test="goods_description != null">
+    	and goods_description like '%${goods_description}%'
+    </if>
+    <if test="new_price != null">
+    	and new_price = #{new_price}
+    </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from goods
     where goods_id = #{goods_id,jdbcType=VARCHAR}

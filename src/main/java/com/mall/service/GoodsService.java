@@ -25,4 +25,5 @@ public interface GoodsService {
 
     void insertGoodsAndPic(Goods goods, String[] goods_pic, String[] real_path) throws Exception;
     
+    List<Goods> select(Goods goods);
 }

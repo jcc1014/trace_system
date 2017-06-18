@@ -11,6 +11,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href="${path}/css/bass.css" rel="stylesheet" />
 <link href="${path}/css/style.css" rel="stylesheet" />
+<!-- 引入js资源 -->
+	<script type="text/javascript" src="${path}/js/jquery.min.js"></script>
+	<script>jQuery.noConflict()</script>
+	<script type="text/javascript" src="${path}/layer/layer.js"></script>
+	<script type="text/javascript" src="${path}/js/zepto.min.js"></script>
+	<script type="text/javascript" src="${path}/js/zepto.kslider.js"></script>
+	<script type="text/javascript">
+	  $(function(){
+	     //slider
+	      $('#slider').slider({
+	        className: 'slider_box',
+	        tick: 4000 //播放间隔
+	     });
+	     var imgPieces=$('.m-slider').find('.ks_wrap');
+	     for(var i=0;i<imgPieces.length;i++){
+	       $('.ks_wt').append('<li></li>');
+	       $('.ks_wt').find('li').eq(0).addClass('active');
+	     }
+
+	  });
+	</script>
+<style type="text/css">
+.btn-mini{width: 50px;padding: 2px;margin-bottom: 5px;}
+.norms-content-two {
+    line-height: 1.5rem;
+    padding: .5rem;
+    font-size: .8rem;
+}
+.norms-content-t{
+	line-height: 1.5rem;
+	padding: .5rem;
+	font-size: .8rem;
+}
+.addIcon{background-image: url("${path}/images/add_icon.png");width: 16px;height: 16px;}
+.subIcon{background-image: url("${path}/images/sub_icon.png");width: 16px;height: 16px;}
+</style>
 </head>
 <body>
 
@@ -98,48 +134,97 @@
 		<ul class="commodity">
 			<c:forEach var="item" items="${list}">
 				<li>
-					<a href="${path}/mall/goodsDetails.do?goods_id=${item.goods.goods_id}"> 
+					<%-- <a href="${path}/mall/goodsDetails.do?goods_id=${item.goods.goods_id}"> 
+					</a> --%>
 						<img src="${address}/${item.goodsPic.pic_path}"> 
-						<span>${item.goods.goods_name}</span> 
+						<span>${item.goods.goods_name}
+						</span> 
 						<span class="price">￥${item.goods.new_price} <s>￥${item.goods.old_price}</s></span>
-					</a>
+						<button type="button" onclick="addCart('${item.goods.goods_id}','${item.goods.goods_name}','${item.goods.new_price}');" class="btn btn-primary btn-mini" >购买</button>
 				</li>
 			</c:forEach>
 		</ul>
 	</div>
 	<!-- footer 底部菜单 -->
 	<footer>
-		<a href="javascript:;" class="pick"> <i class="icon icon-f1"></i>
+		<!-- <a href="javascript:;" class="pick"> <i class="icon icon-f1"></i>
+			追溯
+		</a>  -->
+		<a href="${path}/mall/mall_index.do" class="pick"> <i class="icon icon-f1"></i>
 			首页
-		</a> <a href="community.html"> <i class="icon icon-f2"></i>
-			 社区
-		</a> <a href="shoppingCart.html"> <i class="icon icon-f3"></i> 
+		</a> 
+		<a href="${path}/mall/community.do"> <i class="icon icon-f2"></i>
+			 店铺
+		</a>
+		<a href="${path}/mall/getCartList.do"> <i class="icon icon-f3"></i> 
 			购物车
-		</a> <a href="user.html"> <i class="icon icon-f4"></i>
+		</a>
+		<a href="${path}/mall/user.do"> <i class="icon icon-f4"></i>
 			 我
 		</a>
 	</footer>
-	<!-- 引入js资源 -->
-	<script type="text/javascript" src="${path}/js/zepto.min.js"></script>
+	<div id="cartPage" style="display: none;">
+		<input type="hidden" id="add_goods_id"/>
+		<div  class="norms-content-t">名称：<span id="add_goods_name"></span></div>
+		<div  class="norms-content-t">单价：<span id="add_goods_price"></span>&nbsp;元/斤</div>
+		<div  class="norms-content-t">
+			数量 ：<a class="addIcon"></a> <input id="add_goods_num" type="number" value="0" style="width: 50px;height: 30px;padding: 0px;margin: 0px;"/><a
+				class="subIcon"></a>
 
-	<script type="text/javascript" src="${path}/js/zepto.kslider.js"></script>
+		</div>
+		<div class="norms-content-t"><input type="button" onclick="saveCart();" class="btn" value="加入购物车"/></div>
+	</div>
+	
 	<script type="text/javascript">
-	  $(function(){
-	     //slider
-	      $('#slider').slider({
-	        className: 'slider_box',
-	        tick: 4000 //播放间隔
-	     });
-	     var imgPieces=$('.m-slider').find('.ks_wrap');
-	     for(var i=0;i<imgPieces.length;i++){
-	       $('.ks_wt').append('<li></li>');
-	       $('.ks_wt').find('li').eq(0).addClass('active');
-	     }
-
-	  });
-
+	  function addCart(id,name,price){
+		  //先验证登录状态
+		  userid = '${sessionScope.user.userid}';
+		  if(''==userid){
+			  alert("请先进行登录！",function(){
+				  window.location.href = "${path}/mall/login.do";
+			  })
+		  }else{
+			  $("#add_goods_id").val(id);
+			  $("#add_goods_name").html(name);
+			  $("#add_goods_price").html(price);
+			  layer.open({
+				  type: 1,
+				  title: '加入购物车',
+				  closeBtn: 1,
+				  area: ['300px','300px'],
+				  content: $('#cartPage') 
+			  }) 
+		  }
+	  }
+	  
+	  function saveCart(){
+		  var add_goods_num = $("#add_goods_num").val();
+		  if(0==add_goods_num||"0"==add_goods_num||""==add_goods_num){
+			  layer.msg('请填写数量！',{time:1000});
+			  return;
+		  }
+		  if(isNaN(add_goods_num)){
+			  layer.msg('数量应为数字！',{time:1000});
+			  return;
+		  }
+		  var number = parseFloat(add_goods_num);
+		  var goods_id = $("#add_goods_id").val();
+		  var price = parseFloat($("#add_goods_price").html().trim());
+		  var amount = number*price;
+		  $.ajax({
+			  type:'post',
+			  url:'${path}/mall/addCart.do',
+			  data:{'number':number,'goods_id':goods_id,'price':price,'amount':amount},
+			  success:function(rs){
+				  if(null!=rs){
+					layer.msg('加入购物车成功！',{time:1000},function(){
+						layer.closeAll();
+					});
+				  }
+			  }
+			  
+		  })
+	  }
 	</script>
-
 </body>
-
 </html>

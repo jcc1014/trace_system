@@ -1,23 +1,40 @@
 package com.mall.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.mall.po.Banner;
 import com.mall.po.Goods;
 import com.mall.po.GoodsPic;
+import com.mall.po.Member;
+import com.mall.po.Order;
+import com.mall.po.Shop;
 import com.mall.service.BannerService;
 import com.mall.service.GoodsPicService;
 import com.mall.service.GoodsService;
+import com.mall.service.MemberService;
+import com.mall.service.OrderService;
+import com.mall.service.ShopService;
+import com.trace.po.User;
+import com.trace.service.UserService;
+import com.trace.util.DateUtils;
+import com.trace.util.ResultUtil;
 
 @Controller
 @RequestMapping("mall")
@@ -29,6 +46,14 @@ public class MallController {
 	private GoodsService goodsService;
 	@Autowired
 	private GoodsPicService goodsPicService;
+	@Autowired
+	private ShopService shopService;
+	@Autowired
+	private MemberService memberService;
+	@Autowired
+	private OrderService orderService;
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping("mall_index")
 	public String index(HttpServletRequest request,Model model){
@@ -50,9 +75,208 @@ public class MallController {
 		return "mall/index";
 	}
 	
-	@RequestMapping("goodsDetails")
-	public String goodsDetail(HttpServletRequest request,String good_id){
-		return null;
+	@RequestMapping("addCart")
+	@ResponseBody
+	public String addCart(HttpServletRequest request,Order order){
+		String rs = null;
+		Member member = (Member)request.getAttribute("member");
+		order.setOrder_id(UUID.randomUUID().toString());
+		order.setCreatetime(DateUtils.getCurrentDate());
+		order.setCurrent_status("0");
+		//order.setMember_id(member.getMember());
+		order.setMember_id("1");
+		try {
+			int r = orderService.insertSelective(order);
+			rs = ResultUtil.resultString(r);
+		} catch (Exception e) {
+			e.printStackTrace();
+			rs = ResultUtil.resultString(0);
+		}
+		return rs;
 	}
 	
+	@RequestMapping("getCartList")
+	public String getCartList(HttpServletRequest request,Model model){
+		String page = "mall/cartList";
+		double sum_amount = 0.0;
+		Member member = (Member)request.getSession().getAttribute("member");
+		Order order = new Order();
+		order.setCurrent_status("0"); //购物车
+		order.setMember_id("1");
+//		order.setMember_id(member.getMember());
+		List<Order> orderList = orderService.select(order);
+		if(null!=orderList&&0<orderList.size()){
+			List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+			Map<String, Object> map = null;
+			Goods goods = null;
+			GoodsPic goodsPic = null;
+			for (int i = 0; i < orderList.size(); i++) {
+				goods = goodsService.selectByPrimaryKey(orderList.get(i).getGoods_id());
+				goodsPic = goodsPicService.selectByGoodsId(orderList.get(i).getGoods_id()).get(0);
+				map = new HashMap<String, Object>();
+				map.put("goods", goods);
+				map.put("goodsPic", goodsPic);
+				map.put("order", orderList.get(i));
+				list.add(map);
+				sum_amount += orderList.get(i).getAmount();
+			}
+			model.addAttribute("list", list);
+			model.addAttribute("sum_amount", sum_amount);
+		}
+		return page;
+	}
+	
+	/**
+	 * 商品详情
+	 * @param request
+	 * @param model
+	 * @param goods_id
+	 * @return
+	 */
+	@RequestMapping("goodsDetails")
+	public String goodsDetail(HttpServletRequest request,Model model,String goods_id){
+		String page = "mall/goodsDetails";
+		//String page = "mall/map";
+		Goods goods = goodsService.selectByPrimaryKey(goods_id);
+		List<GoodsPic> goodsPicList = goodsPicService.selectByGoodsId(goods_id);
+		model.addAttribute("goods", goods);
+		model.addAttribute("goodsPicList", goodsPicList);
+		model.addAttribute("goodsPic", goodsPicList.get(0));
+		return page;
+	}
+	
+	/**
+	 * 测试地图页面
+	 * @param request
+	 * @param model
+	 * @param goods_id
+	 * @return
+	 */
+	@RequestMapping("map")
+	public String map(HttpServletRequest request,Model model,String goods_id){
+		String page = "mall/map";
+		return page;
+	}
+	
+	/**
+	 * 商店列表
+	 * @param request
+	 * @param coordinate
+	 * @return
+	 */
+	@RequestMapping("getShop")
+	@ResponseBody
+	public String getShopList(HttpServletRequest request,String coordinate){
+		String rs = "";
+		Shop shop = new Shop();
+		List<Shop> shopList = shopService.select(shop);
+		if(null!=shopList&&0<shopList.size()){
+			List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+			Member member = null;
+			Map<String,Object> map = null;
+			for (int i = 0; i < shopList.size(); i++) {
+				map = new HashMap<String, Object>();
+				member = memberService.selectByPrimaryKey(shopList.get(i).getMember_id());
+				map.put("member", member);
+				map.put("shop", shopList.get(i));
+				list.add(map);
+			}
+			rs = JSON.toJSONString(list);
+		}
+		return rs;
+	}
+	
+	/**
+	 * 用户中心
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("user")
+	public String user(HttpServletRequest request,Model model){
+		String page = "mall/user";
+		return page;
+	}
+	
+	/**
+	 * 登录页面
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("login")
+	public String login(HttpServletRequest request,Model model){
+		String page = "mall/login";
+		return page;
+	}
+	
+	/**
+	 * 登录校验
+	 * @param request
+	 * @param model
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	@RequestMapping("loginCheck")
+	@ResponseBody
+	public String loginCheck(HttpServletRequest request,Model model,String username,String password){
+		String rs = "";
+		User user = userService.selectByusernameAndpassword(username, DigestUtils.md5Hex(password));
+		if(null!=user){
+			Member member = memberService.selectByPrimaryKey(user.getUserid());
+			request.getSession().setAttribute("member", member);
+			request.getSession().setAttribute("user", user);
+			rs = ResultUtil.resultString(1);
+		}else{
+			model.addAttribute("msg", "登录失败！");
+			rs = ResultUtil.resultString(0);
+		}
+		return rs;
+	}
+	
+	/**
+	 * 会员注册页面
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("register")
+	public String register(HttpServletRequest request,Model model){
+		String page = "mall/register";
+		return page;
+	}
+	
+	/**
+	 * 检查手机号是否被注册
+	 * @param request
+	 * @param phone
+	 * @return
+	 */
+	@RequestMapping(value="checkPhone")
+	@ResponseBody
+	public String register(HttpServletRequest request,String phone){
+		String rs = "0";
+		User user = new User();
+		user.setUsername(phone);
+		List<User> list = userService.query(user);
+		if(null!=list&&0<list.size()){
+			rs = "1";
+		}
+		return rs;
+	}
+	
+	/**
+	 * 注册功能
+	 * @param request
+	 * @param user
+	 * @param member
+	 * @return
+	 */
+	@RequestMapping(value="addSave",produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public String addSave(HttpServletRequest request,HttpServletResponse response,User user,Member member){
+		String rs = memberService.addMember(user, member);
+		return rs;
+	}
 }

@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
     <title>${sysname}</title>
-   <link rel="stylesheet" href="${path}/layui/css/layui.css">
+   	<link rel="stylesheet" href="${path}/layui/css/layui.css">
     <link rel="stylesheet" href="${path}/res/global.css">
     <script type="text/javascript" src="${path}/layui/layui.js"></script>
     <script type="text/javascript" src="${path}/js/commonUtil.js"></script>

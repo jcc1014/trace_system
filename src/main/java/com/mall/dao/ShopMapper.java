@@ -25,4 +25,6 @@ public interface ShopMapper {
     List<Shop> selectList(Map<String,Object> map);
     
     List<Shop> selectListAll(Map<String,Object> map);
+    
+    List<Shop> select(Shop shop);
 }

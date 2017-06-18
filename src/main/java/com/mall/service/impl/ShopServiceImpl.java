@@ -79,5 +79,10 @@ public class ShopServiceImpl implements ShopService{
 		}
 		return map;
 	}
+
+	@Override
+	public List<Shop> select(Shop shop) {
+		return shopmapper.select(shop);
+	}
 	
 }

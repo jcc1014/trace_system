@@ -103,7 +103,8 @@ layui.use(
 					layer.msg("获取位置失败，请重试");
 					return;
 				}
-				jq("#shop_coordinate").val("经度:"+lat+";纬度:"+lon);
+				//jq("#shop_coordinate").val("经度:"+lat+";纬度:"+lon);
+				jq("#shop_coordinate").val(lat+";"+lon);
 				jq("#shop_coordinate").unbind("click");
 				/* var point = new BMap.Point(lon, lat);    // 创建点坐标
 				var gc = new BMap.Geocoder();

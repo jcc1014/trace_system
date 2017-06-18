@@ -84,5 +84,20 @@ public class ShopServiceImpl implements ShopService{
 	public List<Shop> select(Shop shop) {
 		return shopmapper.select(shop);
 	}
+
+	@Override
+	public int insertSelective(Shop record) {
+		return shopmapper.insertSelective(record);
+	}
+
+	@Override
+	public Shop selectByPrimaryKey(String shop_id) {
+		return shopmapper.selectByPrimaryKey(shop_id);
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(Shop record) {
+		return shopmapper.updateByPrimaryKeySelective(record);
+	}
 	
 }

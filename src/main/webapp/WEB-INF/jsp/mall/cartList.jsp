@@ -33,7 +33,7 @@
 	<div>
 		<header>
 			<div class="header">
-				<a href="index.html"><i class="icon icon-return"></i></a>
+				<a href="${path}/mall/mall_index.do"><i class="icon icon-return"></i></a>
 				<h1>购物车</h1>
 				<a href="javaScript:void(0);" class="cart-edit" id="edit" onclick="editCart();">编辑</a>
 			</div>
@@ -77,13 +77,13 @@
 		<!-- <a href="javascript:;" class="pick"> <i class="icon icon-f1"></i>
 			追溯
 		</a>  -->
-		<a href="${path}/mall/mall_index.do" class="pick"> <i class="icon icon-f1"></i>
+		<a href="${path}/mall/mall_index.do" > <i class="icon icon-f1"></i>
 			首页
 		</a> 
 		<a href="${path}/mall/shopList.do"> <i class="icon icon-f2"></i>
 			 店铺
 		</a>
-		<a href="${path}/mall/getCartList.do"> <i class="icon icon-f3"></i> 
+		<a href="${path}/mall/getCartList.do" class="pick"> <i class="icon icon-f3"></i> 
 			购物车
 		</a>
 		<a href="${path}/mall/user.do"> <i class="icon icon-f4"></i>

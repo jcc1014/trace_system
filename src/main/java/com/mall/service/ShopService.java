@@ -19,4 +19,7 @@ public interface ShopService {
 	List<Shop> selectList(Map<String,Object> map,String str);
 	Map<String,Object> deleteByPrimaryKey(String id);
 	List<Shop> select(Shop shop);
+    int insertSelective(Shop record);
+    Shop selectByPrimaryKey(String shop_id);
+    int updateByPrimaryKeySelective(Shop record);
 }

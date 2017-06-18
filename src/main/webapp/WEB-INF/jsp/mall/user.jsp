@@ -64,7 +64,7 @@
 		<!-- <a href="javascript:;" class="pick"> <i class="icon icon-f1"></i>
 			追溯
 		</a>  -->
-		<a href="${path}/mall/mall_index.do" class="pick"> <i class="icon icon-f1"></i>
+		<a href="${path}/mall/mall_index.do"> <i class="icon icon-f1"></i>
 			首页
 		</a> 
 		<a href="${path}/mall/shopList.do"> <i class="icon icon-f2"></i>
@@ -73,7 +73,7 @@
 		<a href="${path}/mall/getCartList.do"> <i class="icon icon-f3"></i> 
 			购物车
 		</a>
-		<a href="${path}/mall/user.do"> <i class="icon icon-f4"></i>
+		<a href="${path}/mall/user.do" class="pick"> <i class="icon icon-f4"></i>
 			 我
 		</a>
 	</footer>

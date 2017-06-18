@@ -51,7 +51,7 @@
 			<div class="header">
 				<a href="${path}/mall/mall_index.do"><i class="icon icon-return"></i></a>
 				<h1>商家列表</h1>
-				<a href="#" class="cart-edit">搜索</a>
+				<a href="#" class="cart-edit"><i class="icon icon-soso"></i></a>
 			</div>
 		</header>
 		<div style="height: 2.5rem;"></div>
@@ -68,7 +68,7 @@
 					<span class="address">店址：${item.address}</span> 
 					<span class="hue" style="margin-top: 0.5rem;">电话：${item.shop_phone}</span>
 					<span style="text-align: right;margin-top: 0.5rem;">
-						<a href="#" class="btn btn-primary">进店</a>
+						<a href="${path}/mall/shopGoodsList.do?shop_id=${item.shop_id}"  class="btn btn-primary">进店</a>
 					</span>
 				</div>
 			</article>
@@ -79,10 +79,10 @@
 		<!-- <a href="javascript:;" class="pick"> <i class="icon icon-f1"></i>
 			追溯
 		</a>  -->
-		<a href="${path}/mall/mall_index.do" class="pick"> <i class="icon icon-f1"></i>
+		<a href="${path}/mall/mall_index.do"> <i class="icon icon-f1"></i>
 			首页
 		</a> 
-		<a href="${path}/mall/shopList.do"> <i class="icon icon-f2"></i>
+		<a href="${path}/mall/shopList.do" class="pick"> <i class="icon icon-f2"></i>
 			 店铺
 		</a>
 		<a href="${path}/mall/getCartList.do"> <i class="icon icon-f3"></i> 
@@ -93,45 +93,6 @@
 		</a>
 	</footer>
 <script type="text/javascript">
-function editCart(){
-	var edit = $("#edit").html();
-	if("编辑"==edit){
-		$("#edit").html("完成");
-		$("#del_btn").removeClass("hide");
-		$("#checkout").addClass("hide");
-	}else{
-		$("#edit").html("编辑");
-		$("#del_btn").addClass("hide");
-		$("#checkout").removeClass("hide");
-	}
-}
-
-function del(){
-	var ids = $("input[type='radio']:checked");
-	if(ids.length>0){
-		var str = "";
-		$.each(ids,function(i,obj){
-			str += $(this).attr("id")+";";
-		})
-		str = str.substr(0,str.length-1);
-		//layer.msg(str);
-		$.ajax({
-			url:'${ctx}/mall/delCart.do',
-			type:'post',
-			data:{'order_ids':str},
-			success:function(rs){
-				if(null!=rs&&""!=rs){
-					layer.msg("删除成功！",{time:1000},function(){
-						window.location.ref = '${path}/mall/getCartList.do';
-					});
-				}
-			}
-		})
-	}else{
-		layer.msg('请先选中再删除！',{time:1000});
-		return;
-	}
-}
 
 </script>
 </body>

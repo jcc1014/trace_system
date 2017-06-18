@@ -23,11 +23,13 @@ import com.mall.po.GoodsPic;
 import com.mall.po.Member;
 import com.mall.po.Order;
 import com.mall.po.Shop;
+import com.mall.po.ShopGoods;
 import com.mall.service.BannerService;
 import com.mall.service.GoodsPicService;
 import com.mall.service.GoodsService;
 import com.mall.service.MemberService;
 import com.mall.service.OrderService;
+import com.mall.service.ShopGoodsService;
 import com.mall.service.ShopService;
 import com.trace.po.User;
 import com.trace.service.UserService;
@@ -52,6 +54,8 @@ public class MallController {
 	private OrderService orderService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ShopGoodsService shopGoodsService;
 
 	@RequestMapping("mall_index")
 	public String index(HttpServletRequest request,Model model){
@@ -278,6 +282,13 @@ public class MallController {
 		return rs;
 	}
 	
+	/**
+	 * 商店列表
+	 * @param request
+	 * @param model
+	 * @param shop
+	 * @return
+	 */
 	@RequestMapping("shopList")
 	public String shopList(HttpServletRequest request,Model model,Shop shop){
 		String page = "mall/shopList";
@@ -286,9 +297,31 @@ public class MallController {
 		return page;
 	}
 	
-	@RequestMapping("footer")
-	public String footer(HttpServletRequest request){
-		String page = "mall/footpage";
+	
+	@RequestMapping("shopGoodsList")
+	public String footer(HttpServletRequest request,Model model,String shop_id){
+		String page = "mall/shopGoodsList";
+		Shop shop =shopService.selectByPrimaryKey(shop_id);
+		model.addAttribute("shop", shop);
+		ShopGoods shopGoods = new ShopGoods();
+		shopGoods.setShop_id(shop_id);
+		List<ShopGoods> shopGoodsList = shopGoodsService.select(shopGoods);
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		Map<String,Object> map = null;
+		Goods goods = null;
+		GoodsPic goodsPic = null;
+		if(null!=shopGoodsList&&0<shopGoodsList.size()){
+			for (int i = 0; i < shopGoodsList.size(); i++) {
+				map = new HashMap<String, Object>();
+				goods = goodsService.selectByPrimaryKey(shopGoodsList.get(i).getGoods_id());
+				goodsPic = goodsPicService.selectByGoodsId(shopGoodsList.get(i).getGoods_id()).get(0);
+				map.put("goods", goods);
+				map.put("goodsPic", goodsPic);
+				map.put("shopGoods", shopGoodsList.get(i));
+				list.add(map);
+			}
+			model.addAttribute("list", list);
+		}
 		return page;
 	}
 }

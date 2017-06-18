@@ -6,10 +6,11 @@
     <result column="dict_name" property="dict_name" jdbcType="VARCHAR" />
     <result column="dict_type" property="dict_type" jdbcType="VARCHAR" />
     <result column="parentid" property="parentid" jdbcType="VARCHAR" />
+    <result column="dict_index" property="dict_index" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    dict_id, dict_name, dict_type, parentid
+    dict_id, dict_name, dict_type, parentid,dict_index
   </sql>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -46,6 +47,9 @@
       <if test="parentid != null" >
         parentid,
       </if>
+      <if test="dict_index != null" >
+        dict_index,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="dict_id != null" >
@@ -59,6 +63,9 @@
       </if>
       <if test="parentid != null" >
         #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="dict_index != null" >
+        #{dict_index,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -75,6 +82,9 @@
       <if test="parentid != null" >
         parentid = #{parentid,jdbcType=VARCHAR},
       </if>
+      <if test="dict_index != null" >
+        dict_index = #{dict_index,jdbcType=VARCHAR},
+      </if>
     </set>
     where dict_id = #{dict_id,jdbcType=VARCHAR}
   </update>
@@ -83,7 +93,8 @@
     update dict
     set dict_name = #{dict_name,jdbcType=VARCHAR},
       dict_type = #{dict_type,jdbcType=VARCHAR},
-      parentid = #{parentid,jdbcType=VARCHAR}
+      parentid = #{parentid,jdbcType=VARCHAR},
+      dict_index = #{dict_index,jdbcType=VARCHAR}
     where dict_id = #{dict_id,jdbcType=VARCHAR}
   </update>
   
@@ -100,5 +111,86 @@
   	<if test="parentid != null and parentid != ''">
   		and parentid = #{parentid}
   	</if> 
+  	<if test="dict_index != null and dict_index != ''">
+  		and dict_index = #{dict_index}
+  	</if> 
   </select>
+  
+  <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select 
+    <include refid="Base_Column_List" />
+    from dict where 1=1
+    <if test="dict_name != null">
+    	and dict_name = #{dict_name}
+    </if>
+    <if test="dict_type != null">
+    	and dict_type = #{dict_type}
+    </if>
+    <if test="parentid != null">
+    	and parentid = #{parentid}
+    </if>
+    <if test="parentid == null">
+    	and parentid != '0'
+    </if>
+    order by parentid,dict_index
+    limit ${index},8
+  </select>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.mall.po.Dict">
+  	select 
+    <include refid="Base_Column_List" />
+    from dict where 1=1
+    <if test="dict_name != null">
+    	and dict_name = #{dict_name}
+    </if>
+    <if test="dict_type != null">
+    	and dict_type = #{dict_type}
+    </if>
+    <if test="parentid != null">
+    	and parentid = #{parentid}
+    </if>
+    <if test="parentid == null">
+    	and parentid != '0'
+    </if>
+    order by dict_type,dict_index
+  </select>
+  
+  <select id="selectByType" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from dict where 1=1
+    <if test="dict_type != null">
+    	and dict_type = #{dict_type}
+    </if>
+    order by dict_type,dict_index
+  </select>
+  
+  <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from dict where 1=1
+    <if test="parentid != null">
+    	and parentid = #{parentid}
+    </if>
+    order by dict_type,dict_index
+  </select>
+  
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+  	select 
+    count(1) as num
+    from dict where 1=1
+    <if test="dict_name != null">
+    	and dict_name = #{dict_name}
+    </if>
+    <if test="dict_type != null">
+    	and dict_type = #{dict_type}
+    </if>
+    <if test="parentid != null">
+    	and parentid = #{parentid}
+    </if>
+    <if test="parentid == null">
+    	and parentid != '0'
+    </if>
+  </select>
+  
 </mapper>

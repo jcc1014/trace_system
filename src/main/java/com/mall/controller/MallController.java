@@ -1,7 +1,5 @@
 package com.mall.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -101,7 +99,7 @@ public class MallController {
 		double sum_amount = 0.0;
 		Member member = (Member)request.getSession().getAttribute("member");
 		Order order = new Order();
-		order.setCurrent_status("0"); //¹ºÎï³µ
+		order.setCurrent_status("0"); //ï¿½ï¿½ï¿½ï³µ
 		order.setMember_id("1");
 //		order.setMember_id(member.getMember());
 		List<Order> orderList = orderService.select(order);
@@ -127,7 +125,7 @@ public class MallController {
 	}
 	
 	/**
-	 * ÉÌÆ·ÏêÇé
+	 * å•†å“è¯¦æƒ…
 	 * @param request
 	 * @param model
 	 * @param goods_id
@@ -146,7 +144,7 @@ public class MallController {
 	}
 	
 	/**
-	 * ²âÊÔµØÍ¼Ò³Ãæ
+	 * æµ‹è¯•åœ°å›¾
 	 * @param request
 	 * @param model
 	 * @param goods_id
@@ -159,7 +157,7 @@ public class MallController {
 	}
 	
 	/**
-	 * ÉÌµêÁĞ±í
+	 * è·å–å•†åº—
 	 * @param request
 	 * @param coordinate
 	 * @return
@@ -187,7 +185,7 @@ public class MallController {
 	}
 	
 	/**
-	 * ÓÃ»§ÖĞĞÄ
+	 * ä¼šå‘˜é¡µé¢
 	 * @param request
 	 * @param model
 	 * @return
@@ -199,7 +197,7 @@ public class MallController {
 	}
 	
 	/**
-	 * µÇÂ¼Ò³Ãæ
+	 * ç™»å½•é¡µé¢
 	 * @param request
 	 * @param model
 	 * @return
@@ -211,7 +209,7 @@ public class MallController {
 	}
 	
 	/**
-	 * µÇÂ¼Ğ£Ñé
+	 * ç™»å½•æ£€æŸ¥
 	 * @param request
 	 * @param model
 	 * @param username
@@ -229,14 +227,14 @@ public class MallController {
 			request.getSession().setAttribute("user", user);
 			rs = ResultUtil.resultString(1);
 		}else{
-			model.addAttribute("msg", "µÇÂ¼Ê§°Ü£¡");
+			model.addAttribute("msg", "ï¿½ï¿½Â¼Ê§ï¿½Ü£ï¿½");
 			rs = ResultUtil.resultString(0);
 		}
 		return rs;
 	}
 	
 	/**
-	 * »áÔ±×¢²áÒ³Ãæ
+	 * æ³¨å†Œ
 	 * @param request
 	 * @param model
 	 * @return
@@ -248,7 +246,7 @@ public class MallController {
 	}
 	
 	/**
-	 * ¼ì²éÊÖ»úºÅÊÇ·ñ±»×¢²á
+	 * æ£€æŸ¥æ‰‹æœºå·
 	 * @param request
 	 * @param phone
 	 * @return
@@ -267,7 +265,7 @@ public class MallController {
 	}
 	
 	/**
-	 * ×¢²á¹¦ÄÜ
+	 * ä¿å­˜
 	 * @param request
 	 * @param user
 	 * @param member

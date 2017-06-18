@@ -4,34 +4,77 @@
   <resultMap id="BaseResultMap" type="com.mall.po.Order" >
     <id column="order_id" property="order_id" jdbcType="VARCHAR" />
     <result column="member_id" property="member_id" jdbcType="VARCHAR" />
-    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="number" property="number" jdbcType="DOUBLE" />
     <result column="goods_id" property="goods_id" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
     <result column="current_status" property="current_status" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="real_amount" property="real_amount" jdbcType="DOUBLE" />
+    <result column="sub_amount" property="sub_amount" jdbcType="DOUBLE" />
+    <result column="rebate" property="rebate" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Base_Column_List" >
-    order_id, member_id, number, goods_id, createtime, current_status
+    order_id, member_id, number, goods_id, createtime, current_status,price,amount,real_amount,sub_amount,rebate
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from order
+    from goods_order
     where order_id = #{order_id,jdbcType=VARCHAR}
   </select>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.mall.po.Order" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_order 
+    where 1=1
+    <if test="member_id != null" >
+       and member_id = #{member_id,jdbcType=VARCHAR}
+      </if>
+      <if test="number != null and number != 0" >
+       and number = #{number,jdbcType=INTEGER}
+      </if>
+      <if test="goods_id != null" >
+       and goods_id = #{goods_id,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null" >
+       and createtime = #{createtime,jdbcType=VARCHAR}
+      </if>
+      <if test="current_status != null" >
+       and current_status = #{current_status,jdbcType=VARCHAR}
+      </if>
+      <if test="price != null and price != 0" >
+       and price = #{price,jdbcType=DOUBLE}
+      </if>
+      <if test="amount != null and amount != 0" >
+       and amount = #{amount,jdbcType=DOUBLE}
+      </if>
+      <if test="real_amount != null and real_amount!=0" >
+       and real_amount = #{real_amount,jdbcType=DOUBLE}
+      </if>
+      <if test="rebate != null and rebate != 0" >
+       and rebate = #{rebate,jdbcType=DOUBLE}
+      </if>
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from order
+    delete from goods_order
     where order_id = #{order_id,jdbcType=VARCHAR}
   </delete>
+  
   <insert id="insert" parameterType="com.mall.po.Order" >
-    insert into order (order_id, member_id, number, 
-      goods_id, createtime, current_status
+    insert into goods_order (order_id, member_id, number, 
+      goods_id, createtime, current_status,price,amount,real_amount,sub_amount,rebate
       )
     values (#{order_id,jdbcType=VARCHAR}, #{member_id,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
-      #{goods_id,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{current_status,jdbcType=VARCHAR}
+      #{goods_id,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{current_status,jdbcType=VARCHAR},
+      #{price,jdbcType=DOUBLE},#{amount,jdbcType=DOUBLE},#{real_amount,jdbcType=DOUBLE},
+      #{sub_amount,jdbcType=DOUBLE},#{rebate,jdbcType=DOUBLE}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.po.Order" >
-    insert into order
+    insert into goods_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="order_id != null" >
         order_id,
@@ -50,6 +93,21 @@
       </if>
       <if test="current_status != null" >
         current_status,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="real_amount != null" >
+        real_amount,
+      </if>
+      <if test="sub_amount != null" >
+        sub_amount,
+      </if>
+      <if test="rebate != null" >
+        rebate,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -71,10 +129,25 @@
       <if test="current_status != null" >
         #{current_status,jdbcType=VARCHAR},
       </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="real_amount != null" >
+        #{real_amount,jdbcType=DOUBLE},
+      </if>
+      <if test="sub_amount != null" >
+        #{sub_amount,jdbcType=DOUBLE},
+      </if>
+      <if test="rebate != null" >
+        #{rebate,jdbcType=DOUBLE}
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.mall.po.Order" >
-    update order
+    update goods_order
     <set >
       <if test="member_id != null" >
         member_id = #{member_id,jdbcType=VARCHAR},
@@ -91,16 +164,36 @@
       <if test="current_status != null" >
         current_status = #{current_status,jdbcType=VARCHAR},
       </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="real_amount != null" >
+        real_amount = #{real_amount,jdbcType=DOUBLE},
+      </if>
+      <if test="sub_amount != null" >
+        sub_amount = #{sub_amount,jdbcType=DOUBLE},
+      </if>
+      <if test="rebate != null" >
+        rebate = #{rebate,jdbcType=DOUBLE}
+      </if>
     </set>
     where order_id = #{order_id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.mall.po.Order" >
-    update order
+    update goods_order
     set member_id = #{member_id,jdbcType=VARCHAR},
       number = #{number,jdbcType=INTEGER},
       goods_id = #{goods_id,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=VARCHAR},
-      current_status = #{current_status,jdbcType=VARCHAR}
+      current_status = #{current_status,jdbcType=VARCHAR},
+        price = #{price,jdbcType=DOUBLE},
+        amount = #{amount,jdbcType=DOUBLE},
+        real_amount = #{real_amount,jdbcType=DOUBLE},
+        sub_amount = #{sub_amount,jdbcType=DOUBLE},
+        rebate = #{rebate,jdbcType=DOUBLE}
     where order_id = #{order_id,jdbcType=VARCHAR}
   </update>
 </mapper>

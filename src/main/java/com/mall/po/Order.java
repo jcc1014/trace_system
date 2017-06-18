@@ -5,13 +5,23 @@ public class Order {
 
     private String member_id;
 
-    private Integer number;
+    private double number;
 
     private String goods_id;
 
     private String createtime;
 
     private String current_status;
+    
+    private double price;
+    
+    private double amount;
+    
+    private double real_amount;
+    
+    private double sub_amount;
+    
+    private double rebate;
 
     public String getOrder_id() {
         return order_id;
@@ -29,11 +39,11 @@ public class Order {
         this.member_id = member_id == null ? null : member_id.trim();
     }
 
-    public Integer getNumber() {
+    public double getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(double number) {
         this.number = number;
     }
 
@@ -60,4 +70,46 @@ public class Order {
     public void setCurrent_status(String current_status) {
         this.current_status = current_status == null ? null : current_status.trim();
     }
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public double getReal_amount() {
+		return real_amount;
+	}
+
+	public void setReal_amount(double real_amount) {
+		this.real_amount = real_amount;
+	}
+
+	public double getSub_amount() {
+		return sub_amount;
+	}
+
+	public void setSub_amount(double sub_amount) {
+		this.sub_amount = sub_amount;
+	}
+
+	public double getRebate() {
+		return rebate;
+	}
+
+	public void setRebate(double rebate) {
+		this.rebate = rebate;
+	}
+    
+    
 }

@@ -99,7 +99,7 @@ public class MallController {
 		double sum_amount = 0.0;
 		Member member = (Member)request.getSession().getAttribute("member");
 		Order order = new Order();
-		order.setCurrent_status("0"); //���ﳵ
+		order.setCurrent_status("0");
 		order.setMember_id("1");
 //		order.setMember_id(member.getMember());
 		List<Order> orderList = orderService.select(order);
@@ -227,7 +227,7 @@ public class MallController {
 			request.getSession().setAttribute("user", user);
 			rs = ResultUtil.resultString(1);
 		}else{
-			model.addAttribute("msg", "��¼ʧ�ܣ�");
+			model.addAttribute("msg", "用户名或者密码错误！");
 			rs = ResultUtil.resultString(0);
 		}
 		return rs;

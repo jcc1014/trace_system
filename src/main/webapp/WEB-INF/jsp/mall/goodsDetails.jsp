@@ -95,7 +95,7 @@
 			<c:forEach var="item" items="${list}">
 				<div>
 					<div>${item.shop.shop_name}</div>
-					<div>${item.shop.shop_address}</div>
+					<div>${item.shop.address}</div>
 					<div>选择</div>
 				</div>
 			</c:forEach>

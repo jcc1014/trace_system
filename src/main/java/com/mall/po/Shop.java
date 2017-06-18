@@ -13,6 +13,10 @@ public class Shop {
     
     private String shop_name;
     
+    private String shop_phone;
+    
+    private int shop_order;
+    
 	public String getShop_name() {
 		return shop_name;
 	}
@@ -61,4 +65,20 @@ public class Shop {
     public void setCreatetime(String createtime) {
         this.createtime = createtime == null ? null : createtime.trim();
     }
+    
+    public String getShop_phone() {
+    	return shop_phone;
+    }
+    
+    public void setShop_phone(String shop_phone) {
+    	this.shop_phone = shop_phone == null ? null : shop_phone.trim();
+    }
+    public int getShop_order() {
+    	return shop_order;
+    }
+    
+    public void setShop_order(int shop_order) {
+    	this.shop_order = shop_order;
+    }
+    
 }

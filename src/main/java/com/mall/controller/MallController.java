@@ -277,4 +277,18 @@ public class MallController {
 		String rs = memberService.addMember(user, member);
 		return rs;
 	}
+	
+	@RequestMapping("shopList")
+	public String shopList(HttpServletRequest request,Model model,Shop shop){
+		String page = "mall/shopList";
+		List<Shop> list = shopService.select(shop);
+		model.addAttribute("shopList", list);
+		return page;
+	}
+	
+	@RequestMapping("footer")
+	public String footer(HttpServletRequest request){
+		String page = "mall/footpage";
+		return page;
+	}
 }

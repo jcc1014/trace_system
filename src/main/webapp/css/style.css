@@ -33,7 +33,7 @@ span.icon-uniE918{ color: #60abff; }
 	padding: .4rem;
     border-radius: 5px;
     border: initial;
-    background-color: #ff4e00;
+    background-color: #ed394a;
     color: #fff;
     margin-right: 0px;
     font-size: .75rem;
@@ -70,7 +70,7 @@ a.bottom-btn2{
 .btn-forbidden{background-color: #ccc; }
 .btn-upgrade{ background-color: #f10180; }
 .btn-set{background-color: #F90;}
-/*-- icon图标 --*/
+/*-- icon鍥炬爣 --*/
 .icon {
     display: inline-block;
     background-image: url(../images/icon.png);
@@ -100,7 +100,7 @@ a.bottom-btn2{
     .header i.icon-return,
     .header i.icon-addcommunity{ top: .55rem; }
 }
-/*-- 轮播图 banner --*/
+/*-- 杞挱鍥�banner --*/
 .m-slider {
     position: relative;
     overflow: hidden;
@@ -178,12 +178,12 @@ nav { background-color: #fff; padding: .5rem 0; margin-bottom: .5rem; border-bot
 .nav-box a{  float: left; width: 2.8rem; margin: .5rem .4rem; display: block; font-size: .7rem; text-align: center;}
 .nav-box a span,
 .client a span{ margin-top: .25rem; display: inherit;}
-/* 商城客户 */
+/* 鍟嗗煄瀹㈡埛 */
 .client{ overflow: hidden; margin: .5rem .25rem;}
 .client a{ width: 20.5%; float: left; margin-right: 6%; text-align: center; font-size: .8rem;}
 .client a img{ border-radius: 50%; }
 .client a:nth-of-type(4){ margin-right: 0; }
-/* 精选促销 */
+/* 绮鹃�淇冮攢 */
 .commodity-box{ padding: .5rem; margin-bottom: 3rem; }
 .commodity-box2{ margin-bottom: 0; }
 .commodity{ overflow: hidden;}
@@ -210,7 +210,7 @@ nav { background-color: #fff; padding: .5rem 0; margin-bottom: .5rem; border-bot
     -webkit-box-orient: vertical;}
 .commodity li span.price{ color: #ed394a; font-size: .75rem; }
 .commodity li span.price s{ color: #a6a6a6; font-size: .6rem; }
-/* classify 分类 */
+/* classify 鍒嗙被 */
 article.classify-box{ overflow: hidden; padding: 0; margin-bottom: 0; border-bottom: 0; }
 .classify-left{
     width: 6rem;
@@ -232,7 +232,7 @@ article.classify-box{ overflow: hidden; padding: 0; margin-bottom: 0; border-bot
     margin: .5rem;
     float: left;
 }
-/* 商品详情 */
+/* 鍟嗗搧璇︽儏 */
 .product-head{ position: relative; }
 .product-head a{
     position: absolute;
@@ -312,7 +312,7 @@ i.icon-select{
 .product-content-ul2{ margin-bottom: 3rem; }
 .product-content-ul2{ background-color: #fff; }
 .product-content-ul2 li{ padding: .5rem; }
-/* 选择规格 */
+/* 閫夋嫨瑙勬牸 */
 .norms-box{
     position: fixed;
     top: 0;
@@ -391,7 +391,7 @@ i.icon-select{
 }
 .norms-content-three span{ border: 1px solid #ccc; font-size: .7rem; padding: .1rem .5rem; margin-top: .5rem; display: inline-block;}
 .norms-content-three span.pick{ border: 1px solid #ee394a; background-color: #ee394a; color: #fff;}
-/* 用户评价 evaluate */
+/* 鐢ㄦ埛璇勪环 evaluate */
 .evaluate{ overflow: hidden; margin: .5rem 0; }
 .evaluate>p{ padding-left: 2.5rem; }
 .evaluate-head>img{ 
@@ -407,7 +407,7 @@ i.icon-select{
     float: right;
 }
 .evaluate-head p img{ width: 76px; height: 12px; }
-/* 加入购物车底部 */
+/* 鍔犲叆璐墿杞﹀簳閮�*/
 .add-shopping{
     position: fixed;
     right: 0;
@@ -449,7 +449,7 @@ i.icon-select{
 }
 .add-shopping a{ margin-right: .5rem; }
 .add-shopping a.btn{ margin-top: .2rem; }
-/* 确认订单 */
+/* 纭璁㈠崟 */
 article.orderSite{ padding: 0 ; border-bottom: 0;}
 .orderSite a{ position: relative; display: block; padding: .5rem; border-bottom: 1px solid #e6e6e6; }
 .orderSite p{ font-size: .85rem; color: #404040; }
@@ -550,7 +550,7 @@ article.confirmOrder{border-top: 0;}
 }
 .radio-la:checked+label:before{ background-position: -95px -128px;}
 .add-site{ position: fixed; right: 0; bottom: 0; left: 0;}
-/* 新增地址 */
+/* 鏂板鍦板潃 */
 .input-row {
     overflow: hidden;
     clear: left;
@@ -578,7 +578,7 @@ article.confirmOrder{border-top: 0;}
 }
 .addSite-radio .radio-la+label{ text-indent: .5rem; }
 .addSite-radio .radio-la+label:before{ right: .5rem; }
-/* 商家 merchant */
+/* 鍟嗗 merchant */
 .merchant{
     height: 10rem;
     background: url(../images/sj_bg.png) no-repeat center;
@@ -589,7 +589,7 @@ article.confirmOrder{border-top: 0;}
 .merchant p{ color: #fff; font-size: 1rem; margin: .25rem; }
 .merchant span{ display: inline-block; border: 1px solid #fff; border-radius: 4px; padding: .25rem 1rem; background: none; }
 .merchant-notice{ padding: .5rem; background-color: #fff;  }
-/* 个人中心 user */
+/* 涓汉涓績 user */
 article.user-head,
 article.user-list{ padding: 0; }
 article.user-list{ border-bottom: none; }
@@ -640,7 +640,7 @@ article.user-list{ border-bottom: none; }
 .user-nav a i.icon-f3{ background-position: -64px -250px; }
 .user-nav a i.icon-f4{ background-position: -92px -250px; }
 .user-nav a i.icon-f5{ background-position: -120px -250px; }
-/* 社区 community */
+/* 绀惧尯 community */
 .community-head{ 
     padding: 0 0 .25rem;
     font-size: .75rem;
@@ -714,7 +714,7 @@ article.user-list{ border-bottom: none; }
 }
 .btn-forbidden { background-color: #ccc !important;}
 .submit-btn button { width: 100%; margin: 0;}
-/* 购物车 */
+/* 璐墿杞�*/
 .Cart .radio-la+label{
     float: left;
     width: 30px;
@@ -740,7 +740,7 @@ span.price-cart .norms-content-two {
     top: 0;
     color: #fff;
 }
-/* footer 底部菜单 */
+/* footer 搴曢儴鑿滃崟 */
 footer{
     position: fixed;
     right: 0;

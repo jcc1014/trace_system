@@ -26,6 +26,22 @@
 }
 .hide{display: none;}
 #edit:FOCUS{color: #fff;}
+.Cart .select-btn-t {
+    padding-left: 2.5rem;
+}
+.Cart .select-btn-t img {
+    left: .45rem;
+}
+.product-text span {
+    display: initial;
+    color: #1a1a1a;
+    line-height: 1.0rem;
+    font-size: 0.85rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    text-overflow: clip !important;
+    overflow: visible;
 </style>
 </head>
 <body>
@@ -33,45 +49,31 @@
 	<div>
 		<header>
 			<div class="header">
-				<a href="index.html"><i class="icon icon-return"></i></a>
-				<h1>购物车</h1>
-				<a href="javaScript:void(0);" class="cart-edit" id="edit" onclick="editCart();">编辑</a>
+				<a href="${path}/mall/mall_index.do"><i class="icon icon-return"></i></a>
+				<h1>商家列表</h1>
+				<a href="#" class="cart-edit">搜索</a>
 			</div>
 		</header>
 		<div style="height: 2.5rem;"></div>
 	</div>
-	<!-- 购物车 -->
-	<form class="setCmp">
-		<c:forEach var="item" items="${list}">
+	<form class="setCmp" style="margin-top: 0.5rem;">
+		<c:forEach var="item" items="${shopList}">
 			<div class="Cart">
-				<div class="payment" >
-					<input type="radio" class="radio-la" value="" id="${item.order.order_id }"
-						name="radio_${item.order.order_id }"> <label for="${item.order.order_id }"></label>
-				</div>
+				<a href="javascript:;" class="select-btn select-btn-t"><img
+					src="${path}/images/sjlogo.png">${item.shop_name}</a>
 			</div>
 			<article class="confirmOrder">
-				<img src="${item.goodsPic.pic_path}" width="">
+				<img src="${path}/images/cp_gg.png">
 				<div class="product-text">
-					<span>${item.goods.goods_name}</span>
-					 <span class="price price-cart"> ￥${item.order.amount}
-						<div class="norms-content-t norms-content-two">
-							<!-- <span class="icon norms-out"></span>  -->
-							<span style="width: 8rem">${item.order.number}	（斤）</span> 
-							<!-- <span class="icon norms-add"></span> -->
-						</div>
+					<span class="address">店址：${item.address}</span> 
+					<span class="hue" style="margin-top: 0.5rem;">电话：${item.shop_phone}</span>
+					<span style="text-align: right;margin-top: 0.5rem;">
+						<a href="#" class="btn btn-primary">进店</a>
 					</span>
 				</div>
 			</article>
 		</c:forEach>
 	</form>
-	<nav class="navbar-fixed-bottom navbar-fixed-bottom-cart">
-		<div class="container container-cart">
-			<div class="navbar-text navbar-left pull-left m-cart-disbursement">
-				合计：￥${sum_amount}</div>
-			<a href="javascript:;" class="btn btn-warning navbar-btn pull-right" id="checkout">去结算</a>
-			<a href="javascript:;" class="btn btn-warning navbar-btn pull-right hide" id="del_btn" onclick="del();">删除</a>
-		</div>
-	</nav>
 	<!-- footer 底部菜单 -->
 	<footer>
 		<!-- <a href="javascript:;" class="pick"> <i class="icon icon-f1"></i>

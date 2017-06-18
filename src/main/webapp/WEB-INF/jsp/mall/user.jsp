@@ -67,8 +67,8 @@
 		<a href="${path}/mall/mall_index.do" class="pick"> <i class="icon icon-f1"></i>
 			首页
 		</a> 
-		<a href="${path}/mall/community.do"> <i class="icon icon-f2"></i>
-			店铺
+		<a href="${path}/mall/shopList.do"> <i class="icon icon-f2"></i>
+			 店铺
 		</a>
 		<a href="${path}/mall/getCartList.do"> <i class="icon icon-f3"></i> 
 			购物车

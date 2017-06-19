@@ -120,7 +120,7 @@ function del(){
 			success:function(rs){
 				if(null!=rs&&""!=rs){
 					layer.msg("删除成功！",{time:1000},function(){
-						window.location.ref = '${path}/mall/getCartList.do';
+						window.location.href = '${path}/mall/getCartList.do';
 					});
 				}
 			}

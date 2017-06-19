@@ -19,4 +19,6 @@ public interface OrderService {
     int updateByPrimaryKey(Order record);
     
     List<Order> select(Order order);
+    
+    String deleteOrder(String[] order_idArr);
 }

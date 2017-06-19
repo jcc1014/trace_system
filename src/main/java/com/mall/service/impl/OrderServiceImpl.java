@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.mall.dao.OrderMapper;
 import com.mall.po.Order;
 import com.mall.service.OrderService;
+import com.trace.util.ResultUtil;
 
 @Service
 @Transactional
@@ -51,6 +52,22 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<Order> select(Order order) {
 		return orderMapper.select(order);
+	}
+
+	@Override
+	public String deleteOrder(String[] order_idArr) {
+		String rs = "";
+		try {
+			for (int i = 0; i < order_idArr.length; i++) {
+				orderMapper.deleteByPrimaryKey(order_idArr[i]);
+			}
+			rs = ResultUtil.resultString(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			rs = ResultUtil.resultString(0);
+			throw new RuntimeException();
+		}
+		return rs;
 	}
 
 }

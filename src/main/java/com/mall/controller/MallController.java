@@ -324,4 +324,15 @@ public class MallController {
 		}
 		return page;
 	}
+	
+	@RequestMapping("delCart")
+	@ResponseBody
+	public String delCart(HttpServletRequest request,String order_ids){
+		String rs = "";
+		if(""!=order_ids){
+			String[] order_idArr = order_ids.split(";");
+			rs = orderService.deleteOrder(order_idArr);
+		}
+		return rs;
+	}
 }

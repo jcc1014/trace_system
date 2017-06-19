@@ -1,5 +1,7 @@
 package com.mall.dao;
 
+import java.util.List;
+
 import com.mall.po.ShopGoods;
 
 public interface ShopGoodsMapper {
@@ -14,4 +16,6 @@ public interface ShopGoodsMapper {
     int updateByPrimaryKeySelective(ShopGoods record);
 
     int updateByPrimaryKey(ShopGoods record);
+    
+    List<ShopGoods> select(ShopGoods shopGoods);
 }

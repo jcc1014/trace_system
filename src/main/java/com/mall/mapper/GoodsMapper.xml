@@ -113,17 +113,18 @@
   </update>
   
   <select id="selectByPage" parameterType="com.mall.dto.PageParam" resultType="com.mall.po.Goods">
-    select * 
-    from goods 
-    where 1=1 
+    SELECT *
+    FROM goods
+    WHERE 1=1
     <if test="obj != null">
     	<if test="obj.goods_name != null and obj.goods_name != ''">
-       		and goods_name like '%${obj.goods_name}%'
+       		AND goods_name LIKE '%${obj.goods_name}%'
         </if>
         <if test="obj.goods_type != null and obj.goods_type != ''">
-        	and goods_type = #{obj.goods_type}
+        	AND goods_type = #{obj.goods_type}
         </if>
     </if>
+    ORDER BY create_time DESC
     <if test="startRow != null and pageSize != null">
         limit #{startRow}, #{pageSize}
     </if>

@@ -417,7 +417,7 @@ public class MallController {
         try {
             if (StringUtils.isEmpty(address.getAddress_id())) {
                 String id = UUID.randomUUID().toString();
-                address.setMember_id(id);
+                address.setAddress_id(id);
                 int row = addressService.insert(address);
                 if (row > 0) {
                     result = new Result<>(ResultEnum.SUCCESS);
@@ -425,12 +425,34 @@ public class MallController {
                     result = new Result<>(ResultEnum.FAILURE);
                 }
             } else {
-                addressService.updateByPrimaryKey(address);
+                int row = addressService.updateByPrimaryKey(address);
+				if (row > 0) {
+					result = new Result<>(ResultEnum.SUCCESS);
+				} else {
+					result = new Result<>(ResultEnum.FAILURE);
+				}
             }
         } catch (Exception e) {
             e.printStackTrace();
             result = new Result<>(ResultEnum.FAILURE);
         }
         return result;
+    }
+    
+    /**
+     * @description: 更新默认地址
+     * @author liz
+     * @date 2017/6/20 21:43
+     */
+    @ResponseBody
+    @RequestMapping(value = "address_default_update", produces = "application/json;charset=utf-8")
+	public Result<String> updateDefaultAddress(String new_id, String old_id) {
+	    try {
+	    	addressService.updateDefaultAddress(new_id, old_id);
+	    	return new Result<>(ResultEnum.SUCCESS);
+	    } catch (Exception e) {
+		    e.printStackTrace();
+		    return new Result<>(ResultEnum.FAILURE);
+	    }
     }
 }

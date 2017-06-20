@@ -52,5 +52,15 @@ public class AddressServiceImpl implements AddressService {
 	public List<Address> select(Address address) {
 		return addressMapper.select(address);
 	}
-
+	
+	@Override
+	public void updateDefaultAddress(String new_id, String old_id) {
+		try {
+			addressMapper.updateStatus(new_id, "1");
+			addressMapper.updateStatus(old_id, "0");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+	}
 }

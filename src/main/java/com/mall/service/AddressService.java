@@ -19,5 +19,7 @@ public interface AddressService {
     int updateByPrimaryKey(Address record);
     
     List<Address> select(Address address);
+    
+    void updateDefaultAddress(String new_id, String old_id);
 
 }

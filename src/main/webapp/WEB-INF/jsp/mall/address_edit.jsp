@@ -19,6 +19,7 @@
     <script type="text/javascript" src="${path}/js/zepto.min.js"></script>
     <script type="text/javascript" src="${path}/js/zepto.kslider.js"></script>
     <script type="text/javascript" src="${path}/js/add/js/jquery.gcjs.js"></script>
+    <script type="text/javascript" src="${path}/js/commonUtil.js"></script>
     <style type="text/css">
         .confirmOrder img {
             width: 4.0rem;
@@ -96,39 +97,95 @@
 	<div class="t-line"></div>
 
     <div id="containers">
-        <form id="data_form">
-        <div class="address_main">
-            <input type="hidden" name="address_id" value="${ar.address_id}">
-            <div class="line"><input type="text" name="name" placeholder="收件人" value="${ar.name}"></div>
-            <div class="line"><input type="text" name="phone" placeholder="联系电话" value="${ar.phone}"></div>
-            <div class="line">
-            <!-- sel-provance -->
-            <select id="s_province" name="sheng"></select><br>
-            </div>
-             <div class="line">
-              <select id="s_city" name="shi" ></select><br><!-- sel -->
-             </div>
-             <div class="line">
-             <!-- sel-area -->
-             <select id="s_county" name="qu"></select><br>
-             </div>
-                <script type="text/javascript" src="${path}/js/add/js/area.js"></script>
-                <script type="text/javascript">_init_area();</script>
-
-            <div class="line"><input name="address_detail" type="text" placeholder="详细地址" value="${ar.address_detail}"></div>
-        </div>
-        </form>
-        <div class="address_sub1"  onclick="save();" >确认</div>
-        <%--<div class="address_sub2"  onclick="showLoader()">取消</div>--%>
-    </div><br>
+	    <form id="data_form">
+		    <div class="address_main">
+			    <input type="hidden" name="address_id" value="${ar.address_id}">
+			    <div class="line"><input id="name" name="name" placeholder="收件人" value="${ar.name}"></div>
+			    <div class="line"><input id="phone" name="phone" placeholder="联系电话" value="${ar.phone}"></div>
+			    <div class="line">
+				    <!-- sel-provance -->
+				    <select id="s_province" name="sheng"></select><br>
+			    </div>
+			    <div class="line">
+				    <select id="s_city" name="shi"></select><br><!-- sel -->
+			    </div>
+			    <div class="line">
+				    <!-- sel-area -->
+				    <select id="s_county" name="qu"></select><br>
+			    </div>
+			    <script type="text/javascript" src="${path}/js/add/js/area.js"></script>
+			    <script type="text/javascript">_init_area();</script>
+			
+			    <div class="line"><input id="address_detail" name="address_detail" placeholder="详细地址" value="${ar.address_detail}"></div>
+		    </div>
+	    </form>
+	    <div class="address_sub1" onclick="save();">确认</div>
+	    <%--<div class="address_sub2"  onclick="showLoader()">取消</div>--%>
+    </div>
+    <br>
     <script type="text/javascript">
+	    $(function () {
+		   var pre_sheng = '${ar.sheng}';
+		   var pre_shi = '${ar.shi}';
+		   var pre_qu = '${ar.qu}';
+		   
+		   hit($('#s_province'), pre_sheng);
+		   hit($('#s_city'), pre_shi);
+		   hit($('#s_county'), pre_qu);
+        });
+	    
+	    function hit(node, val) {
+            node.find('option').each(function () {
+			   if ($(this).val() == val) {
+			       $(this).attr("selected", "selected");
+                   node.trigger("change");
+			       return false;
+			   }
+            });
+        }
+	    
         function save() {
+            var name = $('#name').val();
+            if (!name) {
+                layer.msg("请填写姓名");
+                return;
+            }
+            var phone = $('#phone').val();
+            if (!phone) {
+                layer.msg("请填写手机号");
+                return;
+            } else {
+                if(!isTelephone(phone)){
+                    layer.msg("手机号不合法");
+                    return;
+                }
+            }
+            var sheng = $('#s_province').val();
+            var shi = $('#s_city').val();
+            var qu = $('#s_county').val();
+            if (sheng == "省份" || shi == "地级市" || qu == "市、县级市") {
+                layer.msg("请选择地区");
+                return;
+            }
+            var detail = $('#address_detail').val();
+            if (!detail) {
+                layer.msg("请填写详细地址");
+                return;
+            }
+            
             $.ajax({
                 url: '${path}/mall/address_save.do',
                 type: 'post',
                 data: $("#data_form").serialize(),
                 success: function (res) {
-                    console.log(res);
+                    res = JSON.parse(res);
+                    if (res.code == 200) {
+                        layer.msg("保存" + res.msg, {time:1500}, function () {
+	                        window.location.href = "${path}/mall/address_list.do";
+                        });
+                    } else {
+                        layer.msg("保存" + res.msg, {time:1500});
+                    }
                 }
             });
         }

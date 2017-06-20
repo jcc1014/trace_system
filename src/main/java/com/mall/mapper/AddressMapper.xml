@@ -165,4 +165,10 @@
       name = #{name,jdbcType=VARCHAR}
     where address_id = #{address_id,jdbcType=VARCHAR}
   </update>
+  
+  <update id="updateStatus">
+    UPDATE address
+    set status = #{status}
+    WHERE address_id = #{address_id}
+  </update>
 </mapper>

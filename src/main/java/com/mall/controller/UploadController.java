@@ -31,20 +31,15 @@ public class UploadController {
 		Map<String,Object> map = new HashMap<String, Object>();;
 		path  = request.getSession().getServletContext().getRealPath("/")+path+"\\";
 		
-         //将当前上下文初始化给  CommonsMutipartResolver （多部分解析器）
         CommonsMultipartResolver multipartResolver=new CommonsMultipartResolver(
                 request.getSession().getServletContext());
-        //检查form中是否有enctype="multipart/form-data"
         if(multipartResolver.isMultipart(request))
         {
-            //将request变成多部分request
             MultipartHttpServletRequest multiRequest=(MultipartHttpServletRequest)request;
-           //获取multiRequest 中所有的文件名
             Iterator<?> iter=multiRequest.getFileNames();
             String fileName = null;
             while(iter.hasNext())
             {
-                //一次遍历所有文件
                 MultipartFile file=multiRequest.getFile(iter.next().toString());
                 if(file!=null)
                 {
@@ -52,7 +47,6 @@ public class UploadController {
                 	String prefix=fileName.substring(fileName.lastIndexOf(".")+1);
                 	fileName = DateUtils.getCurrentDate("yyyyMMddHHmmss")+"."+prefix;
                 	map.put("filename",file.getOriginalFilename());
-                    //上传
                     file.transferTo(new File(path+fileName));
                     map.put("path",path+fileName);
                     map.put("name",fileName);

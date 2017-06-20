@@ -44,7 +44,7 @@
 	</article>
 
 	<article class="user-list"> 
-		<a href="javascript:;" class="select-btn select-btn-t">
+		<a href="${path}/mall/address_list.do" class="select-btn select-btn-t">
 			<img src="${path}/images/collct.png">收货地址<span>2</span> <i class="icon icon-select"></i>
 		</a> 
 		<a href="javascript:;" class="select-btn select-btn-t">

@@ -1,43 +1,27 @@
 package com.mall.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.mail.search.AddressStringTerm;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSON;
-import com.mall.po.Address;
-import com.mall.po.Banner;
-import com.mall.po.Goods;
-import com.mall.po.GoodsPic;
-import com.mall.po.Member;
-import com.mall.po.Order;
-import com.mall.po.Shop;
-import com.mall.po.ShopGoods;
-import com.mall.service.AddressService;
-import com.mall.service.BannerService;
-import com.mall.service.GoodsPicService;
-import com.mall.service.GoodsService;
-import com.mall.service.MemberService;
-import com.mall.service.OrderService;
-import com.mall.service.ShopGoodsService;
-import com.mall.service.ShopService;
+import com.mall.dto.Result;
+import com.mall.enums.ResultEnum;
+import com.mall.po.*;
+import com.mall.service.*;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.trace.po.User;
 import com.trace.service.UserService;
 import com.trace.util.DateUtils;
 import com.trace.util.ResultUtil;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 @Controller
 @RequestMapping("mall")
@@ -362,4 +346,91 @@ public class MallController {
 		model.addAttribute("shopList", shopList);
 		return page;
 	}
+
+	/**
+	 * @description 收货地址列表页
+	 * @author liz
+	 * @date 2017/6/20 15:08
+	 */
+	@RequestMapping("address_list")
+    public String listAddress(HttpServletRequest request, ModelMap modelMap) {
+        Address address = new Address();
+        Member member = (Member)request.getSession().getAttribute("member");
+        address.setMember_id(member.getMember());
+	    List<Address> list = addressService.select(address);
+        modelMap.put("list", list);
+        return "mall/address_list";
+    }
+
+	/**
+	 * @description 修改收货地址页
+	 * @author liz
+	 * @date 2017/6/20 15:15
+	 */
+	@RequestMapping("address_edit")
+    public String editAddress(String address_id, ModelMap modelMap) {
+	    if (!StringUtils.isEmpty(address_id)) {
+            Address address = addressService.selectByPrimaryKey(address_id);
+            modelMap.put("ar", address);
+        }
+        return "mall/address_edit";
+    }
+
+    /**
+     * @description 删除收货地址
+     * @author liz
+     * @date 2017/6/20 16:57
+     */
+    @ResponseBody
+    @RequestMapping(value = "address_delete", produces = "application/json;charset=utf-8")
+    public Result<String> deleteAddress(String address_id) {
+	    try {
+            int row = addressService.deleteByPrimaryKey(address_id);
+            if (row > 0) {
+                return new Result<>(ResultEnum.SUCCESS);
+            } else {
+                return new Result<>(ResultEnum.FAILURE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result<>(ResultEnum.FAILURE);
+        }
+    }
+
+    /**
+     * @description 保存收货地址
+     * @author liz
+     * @date 2017/6/20 16:09
+     */
+    @ResponseBody
+    @RequestMapping(value = "address_save", produces = "application/json;charset=utf-8")
+    public Result<String> saveAddress(HttpServletRequest request, Address address) {
+        Member member = (Member)request.getSession().getAttribute("member");
+        Address a2 = new Address();
+        a2.setMember_id(member.getMember());
+        List<Address> list = addressService.select(a2);
+        if (list == null || list.size() == 0) {
+            address.setStatus("1");
+        }
+        address.setMember_id(member.getMember());
+        Result<String> result = null;
+        try {
+            if (StringUtils.isEmpty(address.getAddress_id())) {
+                String id = UUID.randomUUID().toString();
+                address.setMember_id(id);
+                int row = addressService.insert(address);
+                if (row > 0) {
+                    result = new Result<>(ResultEnum.SUCCESS);
+                } else {
+                    result = new Result<>(ResultEnum.FAILURE);
+                }
+            } else {
+                addressService.updateByPrimaryKey(address);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = new Result<>(ResultEnum.FAILURE);
+        }
+        return result;
+    }
 }

@@ -1,5 +1,7 @@
 package com.mall.po;
 
+import org.springframework.util.StringUtils;
+
 public class Goods {
     private String goods_id;
 
@@ -14,6 +16,8 @@ public class Goods {
     private Float new_price;
     
     private Float old_price;
+
+    private String create_time;
 
     public String getGoods_id() {
         return goods_id;
@@ -69,5 +73,18 @@ public class Goods {
 
     public void setOld_price(Float old_price) {
         this.old_price = old_price;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        if (!StringUtils.isEmpty(create_time)) {
+            if (create_time.endsWith(".0")) {
+                create_time = create_time.substring(0, create_time.length() - 2);
+            }
+        }
+        this.create_time = create_time;
     }
 }

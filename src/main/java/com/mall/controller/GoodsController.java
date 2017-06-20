@@ -2,7 +2,6 @@ package com.mall.controller;
 
 import com.mall.dto.PageParam;
 import com.mall.dto.Result;
-import com.mall.enums.DictTypeEnum;
 import com.mall.enums.ResultEnum;
 import com.mall.po.Dict;
 import com.mall.po.Goods;
@@ -22,7 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("goods")
@@ -82,9 +84,18 @@ public class GoodsController {
      */
     @ResponseBody
     @RequestMapping(value = "save.do", produces = "application/json;charset=utf-8")
-    public Result<String> save(Goods goods, String goods_pic, String real_path) {
+    public Result<String> save(Goods goods, String goods_pic, String real_path, String del_pic_path) {
 	    try {
             goodsService.insertGoodsAndPic(goods, StringUtils.isEmpty(goods_pic) ? null : goods_pic.split(","), StringUtils.isEmpty(real_path) ? null : real_path.split(","));
+            if (!StringUtils.isEmpty(del_pic_path)) {
+            	String[] del_arr = del_pic_path.split(",");
+            	for (int i = 0; i < del_arr.length; i ++) {
+					File file = new File(del_arr[i]);
+					if (file.exists()) {
+						file.delete();
+					}
+				}
+			}
             return new Result<>(ResultEnum.SUCCESS);
         } catch (Exception e) {
 	        return new Result<>(ResultEnum.FAILURE);
@@ -158,25 +169,4 @@ public class GoodsController {
         }
     }
 
-    /**
-     * Description: 删除已上传的图片
-     * @author liz
-     * @date 2017-06-14 22点40分
-     * @param realPath
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value = "deletePic.do", produces = "application/json;charset=utf-8")
-    public Result<String> deletePic(String realPath) {
-	    try {
-	        File file = new File(realPath);
-	        if (file.exists()) {
-	            file.delete();
-            }
-            return new Result<>(ResultEnum.SUCCESS);
-        } catch (Exception e) {
-	        e.printStackTrace();
-	        return new Result<>(ResultEnum.FAILURE);
-        }
-    }
 }

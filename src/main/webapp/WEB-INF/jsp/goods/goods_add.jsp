@@ -94,6 +94,7 @@
 						</div>
 					</div>
 				</div>
+                <input type="hidden" name="del_pic_path" id="del_pic_path" value=""/>
 			</form>
 		</div>
 </div>
@@ -109,21 +110,13 @@
             var realPath = jq(this).data('realPath') || jq(this).attr("data-realPath");
             var div_id = jq(this).data('div') || jq(this).attr('data-div');
             layer.confirm('确定删除?', function(index){
-                loading = layer.load(2, {
-                    shade: [0.2,'#000'] //0.2透明度的白色背景
-                });
-                jq.post('${path}/goods/deletePic.do',{'realPath':realPath},function(data){
-                    data = jq.parseJSON(data);
-                    layer.close(loading);
-                    layer.msg("删除" + data.msg, {icon: 1, time: 1000}, function(){
-                        if (data.code == 200) {
-                            jq('#' + div_id).remove();
-                            if (jq('.del_btn').length == 0) {
-                                jq('#pic_display').hide();
-                            }
-                        }
-                    });
-                });
+                var del_pic_path = jq('#del_pic_path').val();
+                jq('#del_pic_path').val(del_pic_path ? del_pic_path + "," + realPath : realPath);
+                jq('#' + div_id).remove();
+                if (jq('.del_btn').length == 0) {
+                    jq('#pic_display').hide();
+                }
+                layer.close(index);
             });
         });
 
@@ -159,21 +152,13 @@
                         var realPath = jq(this).data('realPath') || jq(this).attr("data-realPath");
                         var div_id = jq(this).data('div') || jq(this).attr('data-div');
                         layer.confirm('确定删除?', function(index){
-                            loading = layer.load(2, {
-                                shade: [0.2,'#000'] //0.2透明度的白色背景
-                            });
-                            jq.post('${path}/goods/deletePic.do',{'realPath':realPath},function(data){
-                                data = jq.parseJSON(data);
-                                layer.close(loading);
-                                layer.msg("删除" + data.msg, {icon: 1, time: 1000}, function(){
-                                    if (data.code == 200) {
-                                        jq('#' + div_id).remove();
-                                        if (jq('.del_btn').length == 0) {
-                                            jq('#pic_display').hide();
-                                        }
-                                    }
-                                });
-                            });
+                            var del_pic_path = jq('#del_pic_path').val();
+                            jq('#del_pic_path').val(del_pic_path ? del_pic_path + "," + realPath : realPath);
+                            jq('#' + div_id).remove();
+                            if (jq('.del_btn').length == 0) {
+                                jq('#pic_display').hide();
+                            }
+                            layer.close(index);
                         });
                     });
                 } else {
@@ -198,7 +183,10 @@
                     real_path += jq(this).val() + ',';
                 });
                 data.field.real_path = real_path.substring(0, real_path.length - 1);
-            }
+            } else {
+                layer.msg("必须上传图片",function(){});
+                return;
+			}
             jq.ajax({
                 url : '${path}/goods/save.do',
                 type: 'post',

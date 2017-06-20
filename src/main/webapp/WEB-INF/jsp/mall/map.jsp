@@ -87,6 +87,6 @@
 <body>
   
 
-   <div id="container" style="width:1000px;height:800px"></div>
+   <div id="container"></div>
 </body>
 </html>

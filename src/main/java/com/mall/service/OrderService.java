@@ -1,6 +1,7 @@
 package com.mall.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mall.po.Order;
 
@@ -21,4 +22,8 @@ public interface OrderService {
     List<Order> select(Order order);
     
     String deleteOrder(String[] order_idArr);
+    
+    List<Order> query(Map<String,Object> map);
+    
+    int count(Map<String,Object> map);
 }

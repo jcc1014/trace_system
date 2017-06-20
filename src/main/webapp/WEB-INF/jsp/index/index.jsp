@@ -42,9 +42,9 @@
           <!-- <li class="layui-nav-item">
             <a href="javascript:void(0)">设置</a>
           </li> -->
-          <li class="layui-nav-item">
+         <!--  <li class="layui-nav-item">
 	         <a href="javascript:void(0)">商家管理</a>
-	      </li>
+	      </li> -->
 	     
           
         </ul>
@@ -157,7 +157,7 @@
               </li>
             </ul> -->
             
-           <ul class="layui-nav layui-nav-tree left_menu_ul hide">
+           <%-- <ul class="layui-nav layui-nav-tree left_menu_ul hide">
               <li class="layui-nav-item layui-nav-title">
                 <a>商家管理</a>
               </li>
@@ -167,7 +167,7 @@
                   <cite>新增商家</cite>
                 </a>
               </li>
-            </ul>
+            </ul> --%>
              
     			<div class="content_manage_container left_menu_ul hide">
     				<div class="content_manage_title">内容管理</div>

@@ -29,7 +29,7 @@
             <input type="text" style="display: inline-block;" name="shopname" id="shopname" value="${shopname}" placeholder="请输入商家名称搜索" autocomplete="off" class="layui-input">
           </div>
           <button class="layui-btn" id="search">搜索</button>
-          <!-- <button class="layui-btn" type="button" id="add">新增</button> -->
+          <button class="layui-btn" type="button" id="add">新增</button>
         </div>
       </form>
       <form class="layui-form">
@@ -123,6 +123,10 @@ layui.use(
       }
     }
   });
+})
+
+$("#add").click(function(){
+	window.location.href = "${path}/shop/addshop.do";
 })
 </script>
 </body>

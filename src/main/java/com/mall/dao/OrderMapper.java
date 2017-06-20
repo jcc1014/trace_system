@@ -1,6 +1,7 @@
 package com.mall.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -20,4 +21,8 @@ public interface OrderMapper {
     int updateByPrimaryKey(Order record);
     
     List<Order> select(Order order);
+    
+    List<Order> query(Map<String,Object> map);
+    
+    int count(Map<String,Object> map);
 }

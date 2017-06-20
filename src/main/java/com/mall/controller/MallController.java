@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.mail.search.AddressStringTerm;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.mall.po.Address;
 import com.mall.po.Banner;
 import com.mall.po.Goods;
 import com.mall.po.GoodsPic;
@@ -24,6 +26,7 @@ import com.mall.po.Member;
 import com.mall.po.Order;
 import com.mall.po.Shop;
 import com.mall.po.ShopGoods;
+import com.mall.service.AddressService;
 import com.mall.service.BannerService;
 import com.mall.service.GoodsPicService;
 import com.mall.service.GoodsService;
@@ -56,6 +59,9 @@ public class MallController {
 	private UserService userService;
 	@Autowired
 	private ShopGoodsService shopGoodsService;
+	@Autowired
+	private AddressService addressService;
+	
 
 	@RequestMapping("mall_index")
 	public String index(HttpServletRequest request,Model model){
@@ -334,5 +340,26 @@ public class MallController {
 			rs = orderService.deleteOrder(order_idArr);
 		}
 		return rs;
+	}
+	
+	@RequestMapping("selectAddress")
+	public String selectAddress(HttpServletRequest request,Model model,String str){
+		String page = "mall/selectAddress";
+		Member member = (Member)request.getSession().getAttribute("member");
+		Address address = new Address();
+		address.setMember_id(member.getMember());
+		List<Address> list = addressService.select(address);	
+		model.addAttribute("addressList", list);
+		request.getSession().setAttribute("goods_orders", str);
+		return page;
+	}
+	
+	@RequestMapping("selectShop")
+	public String selectShop(HttpServletRequest request,Model model,String address_id){
+		String page = "mall/getShop";
+		Shop shop = new Shop();
+		List<Shop> shopList = shopService.select(shop);
+		model.addAttribute("shopList", shopList);
+		return page;
 	}
 }

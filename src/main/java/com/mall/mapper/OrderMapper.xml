@@ -17,6 +17,13 @@
   <sql id="Base_Column_List" >
     order_id, member_id, number, goods_id, createtime, current_status,price,amount,real_amount,sub_amount,rebate
   </sql>
+  <sql id="queryId" >
+    order_id, 
+    (select name from member where member_id = member )as member_id, 
+    number, 
+    (select goods_name from goods  where goods.goods_id = goods_order.goods_id )goods_id, 
+    createtime, current_status,price,amount,real_amount,sub_amount,rebate
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -55,6 +62,75 @@
       </if>
       <if test="rebate != null and rebate != 0" >
        and rebate = #{rebate,jdbcType=DOUBLE}
+      </if>
+  </select>
+  
+  <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="queryId" />
+    from goods_order 
+    where 1=1
+    <if test="t.member_id != null" >
+       and member_id = #{t.member_id,jdbcType=VARCHAR}
+      </if>
+      <if test="t.number != null and t.number != 0" >
+       and number = #{t.number,jdbcType=INTEGER}
+      </if>
+      <if test="t.goods_id != null" >
+       and goods_id = #{t.goods_id,jdbcType=VARCHAR}
+      </if>
+      <if test="t.createtime != null" >
+       and createtime = #{t.createtime,jdbcType=VARCHAR}
+      </if>
+      <if test="t.current_status != null" >
+       and current_status = #{t.current_status,jdbcType=VARCHAR}
+      </if>
+      <if test="t.price != null and t.price != 0" >
+       and price = #{t.price,jdbcType=DOUBLE}
+      </if>
+      <if test="t.amount != null and t.amount != 0" >
+       and amount = #{t.amount,jdbcType=DOUBLE}
+      </if>
+      <if test="t.real_amount != null and t.real_amount!=0" >
+       and real_amount = #{t.real_amount,jdbcType=DOUBLE}
+      </if>
+      <if test="t.rebate != null and t.rebate != 0" >
+       and rebate = #{t.rebate,jdbcType=DOUBLE}
+      </if>
+       order by createtime desc
+    	limit ${index},8
+  </select>
+  
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+  	select 
+    count(1) as num
+    from goods_order where 1=1
+    <if test="t.member_id != null" >
+       and member_id = #{t.member_id,jdbcType=VARCHAR}
+      </if>
+      <if test="t.number != null and t.number != 0" >
+       and number = #{t.number,jdbcType=INTEGER}
+      </if>
+      <if test="t.goods_id != null" >
+       and goods_id = #{t.goods_id,jdbcType=VARCHAR}
+      </if>
+      <if test="t.createtime != null" >
+       and createtime = #{t.createtime,jdbcType=VARCHAR}
+      </if>
+      <if test="t.current_status != null" >
+       and current_status = #{t.current_status,jdbcType=VARCHAR}
+      </if>
+      <if test="t.price != null and t.price != 0" >
+       and price = #{t.price,jdbcType=DOUBLE}
+      </if>
+      <if test="t.amount != null and t.amount != 0" >
+       and amount = #{t.amount,jdbcType=DOUBLE}
+      </if>
+      <if test="t.real_amount != null and t.real_amount!=0" >
+       and real_amount = #{t.real_amount,jdbcType=DOUBLE}
+      </if>
+      <if test="t.rebate != null and t.rebate != 0" >
+       and rebate = #{t.rebate,jdbcType=DOUBLE}
       </if>
   </select>
   

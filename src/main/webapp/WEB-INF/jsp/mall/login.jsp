@@ -135,6 +135,8 @@ function login(){
 				rs = $.parseJSON(rs);
 				if(rs.code == "200"){
 					window.location.href= '${path}/mall/mall_index.do';
+				}else{
+					layer.msg("用户名或者密码不正确！",{time:1000});
 				}
 			}
 		}

@@ -1,6 +1,7 @@
 package com.mall.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -68,6 +69,16 @@ public class OrderServiceImpl implements OrderService {
 			throw new RuntimeException();
 		}
 		return rs;
+	}
+
+	@Override
+	public List<Order> query(Map<String, Object> map) {
+		return orderMapper.query(map);
+	}
+
+	@Override
+	public int count(Map<String, Object> map) {
+		return orderMapper.count(map);
 	}
 
 }

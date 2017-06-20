@@ -45,7 +45,7 @@
 		<c:forEach var="item" items="${list}">
 			<div class="Cart">
 				<div class="payment" >
-					<input type="radio" class="radio-la" value="" id="${item.order.order_id }"
+					<input type="radio" data-status="0" class="radio-la" value="${item.order.amount}" id="${item.order.order_id }"
 						name="radio_${item.order.order_id }"> <label for="${item.order.order_id }"></label>
 				</div>
 			</div>
@@ -67,8 +67,8 @@
 	<nav class="navbar-fixed-bottom navbar-fixed-bottom-cart">
 		<div class="container container-cart">
 			<div class="navbar-text navbar-left pull-left m-cart-disbursement">
-				合计：￥${sum_amount}</div>
-			<a href="javascript:;" class="btn btn-warning navbar-btn pull-right" id="checkout">去结算</a>
+				合计：￥<span id="sum">0.0</span></div>
+			<a href="javascript:;" class="btn btn-warning navbar-btn pull-right" onclick="checkout();" id="checkout">去结算</a>
 			<a href="javascript:;" class="btn btn-warning navbar-btn pull-right hide" id="del_btn" onclick="del();">删除</a>
 		</div>
 	</nav>
@@ -104,6 +104,19 @@ function editCart(){
 	}
 }
 
+$("input[type='radio']").click(function(){
+	var _this = $(this);
+	var sum = $("#sum").html();
+	if(_this.data('status')=="0"){
+		_this.prop("checked",true).data("status","1");
+		sum = parseFloat(sum)+parseFloat(_this.val());
+	}else{
+		_this.prop("checked",false).data("status","0");
+		sum = parseFloat(sum)-parseFloat(_this.val());
+	}
+	$("#sum").html(sum);
+})
+
 function del(){
 	var ids = $("input[type='radio']:checked");
 	if(ids.length>0){
@@ -131,6 +144,28 @@ function del(){
 	}
 }
 
+function checkout(){
+	var ids = $("input[type='radio']:checked");
+	if(ids.length>0){
+		var str = "";
+		$.each(ids,function(i,obj){
+			str += $(this).attr("id")+";";
+		})
+		str = str.substr(0,str.length-1);
+		//layer.msg(str);
+		layer.open({
+			title:'选择地址',
+			type : 2,
+			area : [ '80%', '80%' ], //宽高
+			content : '${path}/mall/selectAddress.do?str='+str
+		});
+	} else {
+		layer.msg('请先选中结算的商品！', {
+			time : 1000
+		});
+		return;
+	}
+}
 </script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 package com.mall.dao;
 
+import java.util.List;
+
 import com.mall.po.Address;
 
 public interface AddressMapper {
@@ -14,4 +16,6 @@ public interface AddressMapper {
     int updateByPrimaryKeySelective(Address record);
 
     int updateByPrimaryKey(Address record);
+    
+    List<Address> select(Address address);
 }

@@ -18,6 +18,8 @@ public class Address {
     private String phone;
 
     private String status;
+    
+    private String name;
 
     public String getAddress_id() {
         return address_id;
@@ -89,5 +91,13 @@ public class Address {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
+    }
+    
+    public String getName() {
+    	return name;
+    }
+    
+    public void setName(String name) {
+    	this.name = name == null ? null : name.trim();
     }
 }

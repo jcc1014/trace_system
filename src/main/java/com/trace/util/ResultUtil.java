@@ -13,8 +13,8 @@ public class ResultUtil {
 			map.put("code", "200");
 			map.put("msg", "成功！");
 		}else{
-			map.put("code", "200");
-			map.put("msg", "成功！");
+			map.put("code", "-1");
+			map.put("msg", "失败！");
 		}
 		String result = JSON.toJSONString(map);
 		return result;

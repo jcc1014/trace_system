@@ -44,7 +44,7 @@
     where goods_id = #{goods_id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.mall.po.Goods" >
-    replace into goods (goods_id, goods_name, goods_type,
+    insert into goods (goods_id, goods_name, goods_type,
       goods_description, shop_id, new_price, old_price)
     values (#{goods_id,jdbcType=VARCHAR}, #{goods_name,jdbcType=VARCHAR}, #{goods_type,jdbcType=VARCHAR}, 
       #{goods_description,jdbcType=VARCHAR}, #{shop_id,jdbcType=VARCHAR}, #{new_price}, #{old_price})

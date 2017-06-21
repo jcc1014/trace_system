@@ -350,6 +350,7 @@ public class MallController {
 		Shop shop = new Shop();
 		List<Shop> shopList = shopService.select(shop);
 		model.addAttribute("shopList", shopList);
+		model.addAttribute("shopJson", JSON.toJSONString(shopList));
 		return page;
 	}
 	

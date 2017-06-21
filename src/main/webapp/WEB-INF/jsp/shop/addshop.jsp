@@ -30,43 +30,49 @@
 				<div class="layui-tab-item layui-show">
 					<input type="hidden" name="id" value="">
 					<div class="layui-form-item">
-						<label class="layui-form-label">商家名称</label>
+						<label class="layui-form-label">商店名称</label>
 						<div class="layui-input-inline input-custom-width">
 							<input type="text" id="shop_name" name="shop_name"
-								 autocomplete="off" placeholder="请输入商家名"
+								 autocomplete="off" placeholder="请输入商店名称"
 								class="layui-input">
 						</div>
 					</div>
-					<!-- <div class="layui-form-item">
-						<label class="layui-form-label">所在地区</label>
+					<div class="layui-form-item">
+						<label class="layui-form-label">负责人姓名</label>
 						<div class="layui-input-inline input-custom-width">
-							<input id="shoparea" class="layui-input" readonly autocomplete="off" name="shoparea"
-								type="text" value="" data-toggle="city-picker">
+							<input type="text" id="username" name="username"
+								 autocomplete="off" placeholder="请输入负责人"
+								class="layui-input">
 						</div>
-					</div> -->
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">商店电话</label>
+						<div class="layui-input-inline input-custom-width">
+							<input type="text" id="shop_phone" name="shop_name"
+								 autocomplete="off" placeholder="请输入商店电话"
+								class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">负责人手机</label>
+						<div class="layui-input-inline input-custom-width">
+							<input type="text" id="phone" name="shop_name"
+								 autocomplete="off" placeholder="请输入负责人手机"
+								class="layui-input">
+						</div>
+					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">详细地址</label>
 						<div class="layui-input-inline input-custom-width">
 							<textarea id="address" style="resize:none;" placeholder="请输入商家详细地址" class="layui-textarea"></textarea>
 						</div>
 					</div>
-					<!-- <div class="layui-form-item">
-						<label class="layui-form-label">邮政编码</label>
-						<div class="layui-input-inline input-custom-width">
-							<input type="text" id="zipcode" name="zipcode"
-								 autocomplete="off" placeholder="请输入邮编"
-								class="layui-input">
-						</div>
-					</div> -->
 					<div class="layui-form-item">
 						<label class="layui-form-label">商家坐标</label>
 						<div class="layui-input-inline input-custom-width">
 							<input type="text" id="shop_coordinate" name="shop_coordinate"
 								 autocomplete="off" placeholder="点击获取经纬度" readonly
 								class="layui-input">
-								<!-- <input type="text" id="getcoordinate" name="getcoordinate" 
-								hidden="hidden" autocomplete="off"
-								class="layui-input"> -->
 						</div>
 					</div>
 					
@@ -74,7 +80,7 @@
 					<div class="layui-form-item" style="margin-top: 50px;">
 						<div class="layui-input-block">
 							<button type="button" class="layui-btn" id="shop_save">保存</button>
-							<!-- <button type="button" class="layui-btn layui-btn-primary" id="back">返回</button> -->
+							<button type="button" class="layui-btn layui-btn-primary" onclick="back();">返回</button>
 						</div>
 					</div>
 				</div>
@@ -93,50 +99,51 @@ layui.use(
 		jq = layui.jquery;
 		
 	jq("#shop_coordinate").on('click',function() {
-		if (navigator.geolocation) {
-			var i =layer.load({offset: '45%'}) ;
-			navigator.geolocation.getCurrentPosition(function(position) {
-				lat = position.coords.latitude;//经度
-				lon = position.coords.longitude;//纬度
-				layer.close(i);
-				if(lat=="" || lat==null || lat==undefined || lon=="" || lon==null || lon==undefined){
-					layer.msg("获取位置失败，请重试");
-					return;
-				}
-				//jq("#shop_coordinate").val("经度:"+lat+";纬度:"+lon);
-				jq("#shop_coordinate").val(lat+";"+lon);
-				jq("#shop_coordinate").unbind("click");
-				/* var point = new BMap.Point(lon, lat);    // 创建点坐标
-				var gc = new BMap.Geocoder();
-				gc.getLocation(point, function(rs){
-       				var addComp = rs.addressComponents;
-       				var getAddress = addComp.province+"/"+addComp.city+"/"+addComp.district;
-       				jq("#getcoordinate").val(getAddress);
-       			}); */
-			});
-		} else {
-			layer.msg("您的浏览器不支持GPS定位");
-		} 
+		var address = $("#address").val();
+		if(""==address){
+			layer.msg('请填写详细地址',{time:1000});
+			return;
+		}
+		layer.open({
+			type:2,
+			title:'选择位置',
+			closeBtn:1,
+			area:['80%','80%'],
+			content:['${path}/shop/selectAddress.do','no'],
+		})
 	});
 	
 	jq("#shop_save").on('click',function(){
 		var shopname = jq("#shop_name").val();
-		//var shoparea = jq("#shoparea").val();
+		var phone = jq("#phone").val();
+		var shop_phone = jq("#shop_phone").val();
 		var address = jq("#address").val();
 		var shop_coordinate = jq("#shop_coordinate").val();
-		//var zipcode = jq("#zipcode").val();
-		//var getcoordinate = jq("#getcoordinate").val();
+		var username = jq("#username").val();
 		if(shopname==null || shopname=="" || shopname==undefined){
-			 layer.msg('请输入商家名称');
+			 layer.msg('请输入商店名称',{time:1000});
 			 return;
 		}
-		/* if(shoparea==null || shoparea=="" || shoparea==undefined){
-			layer.msg('请选择商家所在地区');
-			return;
-		}else if(shoparea.indexOf("/")==-1 || shoparea.match(new RegExp("/","g")).length<2){
-			layer.msg('请完善商家所在地区');
-			return;
-		} */
+		if(username==null || username=="" || username==undefined){
+			 layer.msg('请输入负责人名称',{time:1000});
+			 return;
+		}
+		if(shop_phone==null || shop_phone==""){
+			 layer.msg('请输入商店电话',{time:1000});
+			 return;
+		}
+		if(!isTelephone(shop_phone)){
+			 layer.msg('商店电话不合法',{time:1000});
+			 return;
+		}
+		if(phone==null || phone==""){
+			 layer.msg('请输入负责人手机',{time:1000});
+			 return;
+		}
+		if(!isTelephone(phone)){
+			 layer.msg('负责人电话不合法',{time:1000});
+			 return;
+		}
 		if(address==null || address=="" || address==undefined){
 			layer.msg('请填写详细地址');
 			return;
@@ -146,16 +153,6 @@ layui.use(
 			layer.msg('详细地址不可包含特殊字符');
 			return;
 		}
-		/* if(zipcode==null || zipcode=="" || zipcode==undefined){
-			layer.msg('邮政编码不可为空');
-			return;
-		} */
-		/* var re= /^[1-9][0-9]{5}$/;
-		if(!re.test(zipcode)){
-			layer.msg('邮政编码格式不正确，请重新输入');
-			return;
-		} */
-		
 		if(shop_coordinate==null || shop_coordinate=="" || shop_coordinate==undefined){
 			layer.msg('商家坐标不可空，请重新加载');
 			return;
@@ -164,16 +161,48 @@ layui.use(
 		jq.ajax({
 			url : '${path}/shop/addSave.do',
 			type : 'post',
-			data:{'address':address,'coordinate':shop_coordinate,'shop_name':shopname},
+			data:{'address':address,'coordinate':shop_coordinate,'shop_name':shopname,
+				'shop_phone':shop_phone,'username':username,'phone':phone},
 			dataType : 'json',
 			success : function(rs) {
 				rs = eval("(" + rs + ")");
-				layer.msg(rs.msg,{time:1000}, function() {
-					self.location.reload();
-				});
+				if("200"==rs.code){
+					layer.msg("新增商店成功！管理人为"+username+",</br>登录密码为000000",{time:3000}, function() {
+						self.location.reload();
+					});
+				}
 			}
 		})
 	});
+})
+
+function closeLayer(){
+	layer.closeAll();
+}
+
+function back(){
+	window.location.href = "${path}/shop/listShop.do";
+}
+
+$("#username").blur(function(){
+	var username = $("#username").val();
+	$.ajax({
+		url : '${path}/shop/checkUser.do',
+		type : 'post',
+		data:{'username':username},
+		dataType : 'json',
+		success : function(rs) {
+			rs = eval("(" + rs + ")");
+			if("200"==rs.code){
+				layer.msg("负责人名称可用！",{time:1000});
+			}
+			else{
+				layer.msg("负责人名称已被占用！",{time:1000},function(){
+					$("#username").val("").focus();
+				});
+			}
+		}
+	})
 })
 </script>
 </body>

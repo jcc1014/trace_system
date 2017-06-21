@@ -4,10 +4,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,8 @@ import com.alibaba.fastjson.JSON;
 import com.mall.po.Shop;
 import com.mall.service.ShopService;
 import com.trace.po.User;
+import com.trace.service.UserService;
+import com.trace.util.ResultUtil;
 
 /**
  * @description 商店控制器类
@@ -32,6 +36,8 @@ import com.trace.po.User;
 public class ShopController {
 	@Autowired
 	private ShopService shopService;
+	@Autowired
+	private UserService userService;
 	
 	/*
 	 * 显示商家管理新增商家初始页面
@@ -83,12 +89,30 @@ public class ShopController {
 	 */
 	@RequestMapping("/addSave.do")
 	@ResponseBody
-	public String addSave(HttpServletRequest request,HttpSession session,Shop shop){
+	public String addSave(HttpServletRequest request,HttpSession session,User user,Shop shop){
 		session = request.getSession();
-		User user = (User) session.getAttribute("user");//获取当前登录的
+		user.setPassword(DigestUtils.md5Hex("000000"));
+		user.setUserid(UUID.randomUUID().toString());
+		user.setUsertype("3");
 		Map<String,Object> map = shopService.addSave(shop,user);
 		return JSON.toJSONString(map);
 	}
+	
+	@RequestMapping("/checkUser.do")
+	@ResponseBody
+	public String checkUser(HttpServletRequest request,User user){
+		int r = userService.countUser(user);
+		String rs = "";
+		if(r>0){
+			rs = ResultUtil.resultString(0);
+		}
+		if(r==0){
+			rs = ResultUtil.resultString(1);
+		}
+		return rs;
+	}
+	
+	
 	
 	/*
 	 * 删除商家
@@ -98,5 +122,11 @@ public class ShopController {
 	public String del(HttpServletRequest request,HttpSession session,String id){
 		Map<String,Object> map = shopService.deleteByPrimaryKey(id);
 		return JSON.toJSONString(map);
+	}
+	
+	@RequestMapping("selectAddress")
+	public String selectAddress(HttpServletRequest request,Model model){
+		String page = "shop/showMap";
+		return page;
 	}
 }

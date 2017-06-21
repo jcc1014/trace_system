@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.mall.dao.ShopMapper;
 import com.mall.po.Shop;
 import com.mall.service.ShopService;
+import com.trace.dao.UserDao;
 import com.trace.po.User;
 
 @Service
@@ -23,6 +24,8 @@ public class ShopServiceImpl implements ShopService{
 	
 	@Autowired
 	private ShopMapper shopmapper;
+	@Autowired
+	private UserDao userMapper;
 
 	@Override
 	public Map<String, Object> addSave(Shop shop,User user) {
@@ -33,6 +36,7 @@ public class ShopServiceImpl implements ShopService{
 			shop.setCreatetime(df.format(new Date()));
 			shop.setMember_id(user.getUserid());
 			shopmapper.insert(shop);
+			userMapper.insert(user);
 			map.put("code", "200");
 			map.put("msg", "新增成功");
 		} catch (Exception e) {

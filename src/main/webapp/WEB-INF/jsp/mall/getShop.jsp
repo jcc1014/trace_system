@@ -172,7 +172,6 @@
 	        map.setCenter(data.points[0]);
 	        var circle = new BMap.Circle(data.points[0],2000,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});
 	        map.addOverlay(circle);
-	        getMapShop(map);
 	      }
 	    }
 
@@ -182,22 +181,9 @@
 	        pointArr.push(point);
 	        convertor.translate(pointArr, 1, 5, translateCallback)
 	    }, 1000);
+	    
+	    getMapShop(map);
 
-	}
-	
-	function getMapShop(map){
-		$.ajax({
-			url:'${path}/mall/getMapShop.do',
-			type:'post',
-			success:function(rs){debugger
-				if(""!=rs){
-					rs = $.parseJOSN(rs);
-					$.each(rs,function(i,obj){
-						geocoder(map,obj.address,obj.shop_id);
-					})
-				}
-			}
-		})
 	}
 	
 	function geocoder(map,address,id){
@@ -253,18 +239,9 @@
 	}
 	
 	function getMapShop(map){
-		$.ajax({
-			url:'${path}/mall/getMapShop.do',
-			type:'post',
-			dataType:'json',
-			success:function(rs){
-				if(""!=rs){debugger
-					rs = $.parseJOSN(rs);
-					$.each(rs,function(i,obj){
-						geocoder(map,obj.address,obj.shop_id);
-					})
-				}
-			}
+		var json = $.parseJSON('${shopJson}');
+		$.each(json,function(i,obj){
+			geocoder(map,obj.address,obj.shop_id);
 		})
 	}
 	

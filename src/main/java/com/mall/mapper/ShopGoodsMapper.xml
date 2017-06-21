@@ -11,7 +11,7 @@
     <result column="goods_name" jdbcType="VARCHAR" property="goods_name" />
   </resultMap>
   <sql id="Base_Column_List">
-    shop_goods_id, shop_id, goods_id, goods_num,createtime,goods_name,shop_name
+    shop_goods_id, shop_id, goods_id, goods_num,createtime,shop_name,goods_name
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -40,6 +40,44 @@
     	and shop_name = #{shop_name,jdbcType=VARCHAR}
     </if>
   </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from shop_goods
+  	where 1=1
+  	<if test="goods_name != null and goods_name != ''">
+     and goods_name like '%${goods_name}%'
+    </if>
+ 	order by shop_goods_id
+    limit ${index},8
+  </select>
+  <select id="selectByShopId" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from shop_goods
+  	where 1=1 and shop_id in
+  	<foreach item="item" index="int" collection="list" open="(" separator="," close=")">  
+  		#{item}  
+ 	</foreach>
+ 	<if test="goods_name != null and goods_name != ''">
+     and goods_name like '%${goods_name}%'
+    </if>
+ 	order by shop_goods_id
+    limit ${index},8
+  </select>
+  
+  <select id="queryCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+  	select 
+    count(1) as num
+    from shop_goods where 1=1 and shop_id in
+    <foreach item="item" index="index" collection="templist" open="(" separator="," close=")">  
+  		#{item}  
+ 	</foreach>
+ 	<if test="goods_name != null and goods_name != ''">
+     and goods_name like '%${goods_name}%'
+    </if>
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from shop_goods
     where shop_goods_id = #{shop_goods_id,jdbcType=VARCHAR}
@@ -69,10 +107,10 @@
         createtime,
       </if>
       <if test="shop_name != null">
-        shop_name,
+      	shop_name,
       </if>
       <if test="goods_name != null">
-        goods_name,
+      	goods_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -92,10 +130,10 @@
         #{createtime,jdbcType=VARCHAR},
       </if>
       <if test="shop_name != null">
-        #{shop_name,jdbcType=VARCHAR},
+      	#{shop_name,jdbcType=VARCHAR},
       </if>
       <if test="goods_name != null">
-        #{goods_name,jdbcType=VARCHAR},
+      	#{goods_name,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -114,11 +152,11 @@
       <if test="createtime != null">
         createtime = #{createtime,jdbcType=VARCHAR},
       </if>
-      <if test="shop_name != null">
-        shop_name = #{shop_name,jdbcType=VARCHAR},
+       <if test="shop_name != null">
+      	shop_name=#{shop_name,jdbcType=VARCHAR},
       </if>
       <if test="goods_name != null">
-        goods_name = #{goods_name,jdbcType=VARCHAR},
+      	goods_name=#{goods_name,jdbcType=VARCHAR},
       </if>
     </set>
     where shop_goods_id = #{shop_goods_id,jdbcType=VARCHAR}
@@ -126,7 +164,9 @@
   <update id="updateByPrimaryKey" parameterType="com.mall.po.ShopGoods">
     update shop_goods
     set shop_id = #{shop_id,jdbcType=VARCHAR},
+    	shop_name = #{shop_name,jdbcType=VARCHAR},
       goods_id = #{goods_id,jdbcType=VARCHAR},
+      goods_name = #{goods_name,jdbcType=VARCHAR},
       goods_num = #{goods_num,jdbcType=DOUBLE}
     where shop_goods_id = #{shop_goods_id,jdbcType=VARCHAR}
   </update>

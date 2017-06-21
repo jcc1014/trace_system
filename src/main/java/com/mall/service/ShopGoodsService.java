@@ -1,22 +1,14 @@
 package com.mall.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mall.po.ShopGoods;
 
 public interface ShopGoodsService {
-
-	int deleteByPrimaryKey(String shop_goods_id);
-
-    int insert(ShopGoods record);
-
-    int insertSelective(ShopGoods record);
-
-    ShopGoods selectByPrimaryKey(String shop_goods_id);
-
-    int updateByPrimaryKeySelective(ShopGoods record);
-
-    int updateByPrimaryKey(ShopGoods record);
-    
-    List<ShopGoods> select(ShopGoods shopGoods);
+	Map<String,Object> addSave(ShopGoods shopgoods);
+	List<ShopGoods> selectByShopId(Map<String,Object> map,String userType);
+	int queryCount(Map<String,Object> map);
+	Map<String,Object> deleteByPrimaryKey(String id);
+	List<ShopGoods> select(ShopGoods shopGoods);
 }

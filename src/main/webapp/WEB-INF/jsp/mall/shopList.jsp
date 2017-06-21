@@ -60,10 +60,10 @@
 		<c:forEach var="item" items="${shopList}">
 			<div class="Cart">
 				<a href="javascript:;" class="select-btn select-btn-t"><img
-					src="${path}/images/sjlogo.png">${item.shop_name}</a>
+					src="${path}/images/shop.png">${item.shop_name}</a>
 			</div>
 			<article class="confirmOrder">
-				<img src="${path}/images/cp_gg.png">
+				<img src="${path}/images/shopFace.jpg">
 				<div class="product-text">
 					<span class="address">店址：${item.address}</span> 
 					<span class="hue" style="margin-top: 0.5rem;">电话：${item.shop_phone}</span>

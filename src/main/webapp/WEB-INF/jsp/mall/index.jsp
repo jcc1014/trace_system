@@ -180,7 +180,7 @@
 		  //先验证登录状态
 		  userid = '${sessionScope.user.userid}';
 		  if(''==userid){
-			  alert("请先进行登录！",function(){
+			  layer.msg("请先进行登录！",{time:1000},function(){
 				  window.location.href = "${path}/mall/login.do";
 			  })
 		  }else{

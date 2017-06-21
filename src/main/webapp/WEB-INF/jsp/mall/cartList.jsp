@@ -127,7 +127,7 @@ function del(){
 		str = str.substr(0,str.length-1);
 		//layer.msg(str);
 		$.ajax({
-			url:'${ctx}/mall/delCart.do',
+			url:'${path}/mall/delCart.do',
 			type:'post',
 			data:{'order_ids':str},
 			success:function(rs){

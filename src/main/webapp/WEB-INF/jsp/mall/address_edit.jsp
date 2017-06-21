@@ -10,8 +10,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="${path}/css/ui.css" rel="stylesheet" />
-    <link href="${path}/css/bass.css" rel="stylesheet" />
-    <link href="${path}/css/style.css" rel="stylesheet" />
     <!-- 引入js资源 -->
     <script type="text/javascript" src="${path}/js/jquery.min.js"></script>
     <script>jQuery.noConflict()</script>
@@ -94,7 +92,7 @@
         <a href="javascript:;" class="back" onclick="history.back()"><i class="fa fa-angle-left"></i></a>
         <div style="text-align:center; padding-top:10px">填写信息</div>
     </div>
-	<div class="t-line"></div>
+	<!-- <div class="t-line"></div> -->
 
     <div id="containers">
 	    <form id="data_form">
@@ -128,16 +126,17 @@
 		   var pre_sheng = '${ar.sheng}';
 		   var pre_shi = '${ar.shi}';
 		   var pre_qu = '${ar.qu}';
-		   
-		   hit($('#s_province'), pre_sheng);
-		   hit($('#s_city'), pre_shi);
-		   hit($('#s_county'), pre_qu);
+		   if(''!=pre_sheng&&''!=pre_shi&&''!=pre_qu){
+			   hit($('#s_province'), pre_sheng);
+			   hit($('#s_city'), pre_shi);
+			   hit($('#s_county'), pre_qu);
+		   }
         });
 	    
 	    function hit(node, val) {
             node.find('option').each(function () {
 			   if ($(this).val() == val) {
-			       $(this).attr("selected", "selected");
+			       $(this).attr("selected", true);
                    node.trigger("change");
 			       return false;
 			   }

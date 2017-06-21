@@ -92,10 +92,13 @@ public class MallController {
 		String page = "mall/cartList";
 		double sum_amount = 0.0;
 		Member member = (Member)request.getSession().getAttribute("member");
+		if(null==member){
+			page = "mall/login";
+			return page;
+		}
 		Order order = new Order();
 		order.setCurrent_status("0");
-		order.setMember_id("1");
-//		order.setMember_id(member.getMember());
+		order.setMember_id(member.getMember());
 		List<Order> orderList = orderService.select(order);
 		if(null!=orderList&&0<orderList.size()){
 			List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
@@ -187,6 +190,10 @@ public class MallController {
 	@RequestMapping("user")
 	public String user(HttpServletRequest request,Model model){
 		String page = "mall/user";
+		Member member = (Member)request.getSession().getAttribute("member");
+		if(null==member){
+			page = "mall/login";
+		}
 		return page;
 	}
 	
@@ -221,7 +228,6 @@ public class MallController {
 			request.getSession().setAttribute("user", user);
 			rs = ResultUtil.resultString(1);
 		}else{
-			model.addAttribute("msg", "用户名或者密码错误！");
 			rs = ResultUtil.resultString(0);
 		}
 		return rs;
@@ -346,6 +352,17 @@ public class MallController {
 		model.addAttribute("shopList", shopList);
 		return page;
 	}
+	
+	@RequestMapping("getMapShop")
+	@ResponseBody
+	public String getMapShop(HttpServletRequest request){
+		String rs = "";
+		Shop shop = new Shop();
+		List<Shop> shopList = shopService.select(shop);
+		rs = JSON.toJSONString(shopList);
+		return rs;
+	}
+	
 
 	/**
 	 * @description 收货地址列表页

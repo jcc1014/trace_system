@@ -30,30 +30,10 @@
           <li class="layui-nav-item">
             <a href="javascript:void(0)">追溯管理</a>
           </li>
-          
-          <c:if test="${sessionScope.user.usertype eq '0' }">
-	          <li class="layui-nav-item">
-	            <a href="javascript:void(0)">用户管理</a>
-	          </li>
-	          <li class="layui-nav-item">
-	            <a href="javascript:void(0)">商城管理</a>
-	          </li>
-          </c:if>
-          <li class="layui-nav-item">
-            <a href="javascript:void(0)">进货管理</a>
-          </li>
-          <!-- <li class="layui-nav-item">
-            <a href="javascript:void(0)">设置</a>
-          </li> -->
-         <!--  <li class="layui-nav-item">
-	         <a href="javascript:void(0)">商家管理</a>
-	      </li> -->
-	     
-          
         </ul>
         <div class="top_admin_user">
         	<span>当前用户：${sessionScope.user.username }&nbsp;&nbsp;&nbsp;|</span>
-          <!-- <a href="/" target="_blank">网站首页</a> |<a class="update_cache" href="javascript:void(0)">更新缓存</a> | --> <a class="logout_btn" href="javascript:void(0)">退出</a>
+        	<a class="logout_btn" href="javascript:void(0)">退出</a>
         </div>
       </div>
     </div>
@@ -63,18 +43,6 @@
               <li class="layui-nav-item layui-nav-title">
                 <a href="${path}/main.do" target="main" id="index">首页</a>
               </li>
-              <%-- <li class="layui-nav-item first-item layui-this">
-                <a href="${path}/main.do" target="main">
-                  <i class="layui-icon">&#xe638;</i>
-                  <cite>常用模块</cite>
-                </a>
-              </li> --%>
-              <!-- <li class="layui-nav-item ">
-                <a href="./form.html" target="main">
-                  <i class="layui-icon">&#xe642;</i>
-                  <cite>表单</cite>
-                </a>
-              </li> -->
             </ul>
             <ul class="layui-nav layui-nav-tree left_menu_ul content_put_manage hide">
               <li class="layui-nav-item layui-nav-title">
@@ -93,105 +61,8 @@
                 </a>
               </li>
             </ul>
-            <c:if test="${sessionScope.user.usertype eq '0' }">
-            <ul class="layui-nav layui-nav-tree left_menu_ul hide">
-              <li class="layui-nav-item layui-nav-title">
-                <a>用户管理</a>
-              </li>
-              <li class="layui-nav-item first-item">
-                <a href="${path}/user/list.do" target="main">
-                  <i class="layui-icon">&#xe613;</i>
-                  <cite>用户列表</cite>
-                </a>
-              </li>
-              <%-- <li class="layui-nav-item">
-                <a href="${path}/user/add.do" target="main">
-                  <i class="layui-icon">&#xe613;</i>
-                  <cite>新增用户</cite>
-                </a>
-              </li> --%>
-            </ul>
-            <ul class="layui-nav layui-nav-tree left_menu_ul hide">
-              <li class="layui-nav-item layui-nav-title">
-                <a>商城管理</a>
-              </li>
-              <li class="layui-nav-item first-item">
-                <a href="${path}/goods/list.do" target="main">
-                  <i class="layui-icon">&#xe613;</i>
-                  <cite>商品列表</cite>
-                </a>
-              </li>
-              <li class="layui-nav-item">
-                <a href="${path}/order/list.do" target="main">
-                  <i class="layui-icon">&#xe613;</i>
-                  <cite>订单列表</cite>
-                </a>
-              </li>
-              <li class="layui-nav-item ">
-                <a href="${path}/shop/listshop.do" target="main">
-                  <i class="layui-icon">&#xe613;</i>
-                  <cite>商店列表</cite>
-                </a>
-              </li>
-              <li class="layui-nav-item ">
-                <a href="${path}/dict/listParent.do" target="main">
-                  <i class="layui-icon">&#xe613;</i>
-                  <cite>种类列表</cite>
-                </a>
-              </li>
-              <li class="layui-nav-item ">
-                <a href="${path}/banner/list.do" target="main">
-                  <i class="layui-icon">&#xe613;</i>
-                  <cite>首页轮播图</cite>
-                </a>
-              </li>
-            </ul>
-             </c:if>
-				<ul class="layui-nav layui-nav-tree left_menu_ul hide">
-					<li class="layui-nav-item layui-nav-title"><a>进货管理</a></li>
-					<li class="layui-nav-item first-item"><a
-						href="${path}/shopgoods/list.do" target="main"> <i
-							class="layui-icon">&#xe613;</i> <cite>进货列表</cite>
-					</a></li>
-					<li class="layui-nav-item"><a href="${path}/shopgoods/add.do"
-						target="main"> <i class="layui-icon">&#xe654;</i> <cite>新增进货</cite>
-					</a></li>
-
-				</ul>
-				<!--  <ul class="layui-nav layui-nav-tree left_menu_ul setting_ul hide">
-              <li class="layui-nav-item layui-nav-title">
-                <a>相关设置</a>
-              </li>
-              <li class="layui-nav-item first-item ">
-                <a href="" target="main">
-                  <i class="layui-icon">&#xe620;</i>
-                  <cite>个人信息</cite>
-                </a>
-              </li>
-            </ul> -->
-            
-           <%-- <ul class="layui-nav layui-nav-tree left_menu_ul hide">
-              <li class="layui-nav-item layui-nav-title">
-                <a>商家管理</a>
-              </li>
-              <li class="layui-nav-item first-item">
-                <a href="${path}/shop/addshop.do" target="main">
-                  <i class="layui-icon">&#xe654;</i>
-                  <cite>新增商家</cite>
-                </a>
-              </li>
-            </ul> --%>
-             
-    			<div class="content_manage_container left_menu_ul hide">
-    				<div class="content_manage_title">内容管理</div>
-        		<div id="content_manage_tree"></div>
-        	</div>
-        </div>
-        
-        
-        
+    	</div>
     </div>
-
     <div class="layui-body iframe-container">
         <div class="iframe-mask" id="iframe-mask"></div>
         <iframe class="admin-iframe" id="admin-iframe" name="main" src="${path}/main.do"></iframe>

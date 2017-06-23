@@ -1,15 +1,14 @@
 package com.mall.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.mall.dto.Result;
-import com.mall.enums.ResultEnum;
-import com.mall.po.*;
-import com.mall.service.*;
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import com.trace.po.User;
-import com.trace.service.UserService;
-import com.trace.util.DateUtils;
-import com.trace.util.ResultUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,9 +18,29 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import com.alibaba.fastjson.JSON;
+import com.mall.dto.Result;
+import com.mall.enums.ResultEnum;
+import com.mall.po.Address;
+import com.mall.po.Banner;
+import com.mall.po.Goods;
+import com.mall.po.GoodsPic;
+import com.mall.po.Member;
+import com.mall.po.Order;
+import com.mall.po.Shop;
+import com.mall.po.ShopGoods;
+import com.mall.service.AddressService;
+import com.mall.service.BannerService;
+import com.mall.service.GoodsPicService;
+import com.mall.service.GoodsService;
+import com.mall.service.MemberService;
+import com.mall.service.OrderService;
+import com.mall.service.ShopGoodsService;
+import com.mall.service.ShopService;
+import com.trace.po.User;
+import com.trace.service.UserService;
+import com.trace.util.DateUtils;
+import com.trace.util.ResultUtil;
 
 @Controller
 @RequestMapping("mall")
@@ -72,17 +91,18 @@ public class MallController {
 	public String addCart(HttpServletRequest request,Order order){
 		String rs = null;
 		Member member = (Member)request.getAttribute("member");
-		order.setOrder_id(UUID.randomUUID().toString());
-		order.setCreatetime(DateUtils.getCurrentDate());
-		order.setCurrent_status("0");
-		//order.setMember_id(member.getMember());
-		order.setMember_id("1");
-		try {
-			int r = orderService.insertSelective(order);
-			rs = ResultUtil.resultString(r);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rs = ResultUtil.resultString(0);
+		if(null!=member){
+			order.setMember_id(member.getMember());
+			order.setOrder_id(UUID.randomUUID().toString());
+			order.setCreatetime(DateUtils.getCurrentDate());
+			order.setCurrent_status("0");
+			try {
+				int r = orderService.insertSelective(order);
+				rs = ResultUtil.resultString(r);
+			} catch (Exception e) {
+				e.printStackTrace();
+				rs = ResultUtil.resultString(0);
+			}
 		}
 		return rs;
 	}
@@ -349,6 +369,7 @@ public class MallController {
 		String page = "mall/getShop";
 		Shop shop = new Shop();
 		List<Shop> shopList = shopService.select(shop);
+		request.getSession().setAttribute("address_id", address_id);
 		model.addAttribute("shopList", shopList);
 		model.addAttribute("shopJson", JSON.toJSONString(shopList));
 		return page;
@@ -473,4 +494,169 @@ public class MallController {
 		    return new Result<>(ResultEnum.FAILURE);
 	    }
     }
+    
+    @RequestMapping("checkOrder")
+    @ResponseBody
+    public String checkOrder(HttpServletRequest request,String shop_id){
+    	Map<String,Object> map = new HashMap<String, Object>();
+    	String goods_orders = (String)request.getSession().getAttribute("goods_orders");
+    	if(null!=goods_orders&&!"".equals(goods_orders)){
+    		List<Order> orderList = new ArrayList<Order>();
+    		Order order = null;
+    		String[] goodsArr = goods_orders.split(";");
+    		for (int i = 0; i < goodsArr.length; i++) {
+				order = orderService.selectByPrimaryKey(goodsArr[i]);
+				orderList.add(order);
+			}
+    		ShopGoods shopGoods = null;
+    		List<ShopGoods> shopGoodsList = null;
+    		boolean f = false;
+    		boolean f2 = true;
+    		String msg = "您需要的：";
+    		String enoughOrder = "";
+    		if(0<orderList.size()){
+    			for (int i = 0; i < orderList.size(); i++) {
+					shopGoods = new ShopGoods();
+					shopGoods.setGoods_id(orderList.get(i).getGoods_id());
+					shopGoods.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+					shopGoods.setShop_id(shop_id);
+					shopGoodsList  = shopGoodsService.select(shopGoods);
+					if(null!=shopGoodsList&&0<shopGoodsList.size()){
+						shopGoods = shopGoodsList.get(0);
+					}
+					if(shopGoods.getGoods_remain()>orderList.get(i).getNumber()){
+						f = true;
+						msg += shopGoods.getGoods_name()+"("+orderList.get(i).getNumber()+")数量充足！</br>";
+						enoughOrder += orderList.get(i).getOrder_id()+";";
+					}else{
+						f2 = false; 
+						msg += shopGoods.getGoods_name()+"("+orderList.get(i).getNumber()+")数量不足！</br>";
+					}
+				}
+    			if(f2==true){
+    				map.put("code", "200");
+    				map.put("msg", msg);
+    			}else if(f==true&&f2==false){
+    				map.put("code", "1");
+    				map.put("msg", msg);
+    				if(null!=enoughOrder){
+    					request.getSession().setAttribute(enoughOrder,
+    							enoughOrder.substring(0, enoughOrder.length()-1));
+    				}
+    			}else{
+    				map.put("code", "-1");
+    				map.put("msg", "您需要的商品数量不足，请换一家店铺购买！");
+    			}
+    		}
+    	}else{
+    		map.put("code", "404");
+    	}
+    	return JSON.toJSONString(map);
+    }
+    
+    @RequestMapping("payOrder")
+    public String payOrder(HttpServletRequest request,Model model,String type){
+    	String page = "mall/payOrder";
+    	String orderStr = "";
+    	double sum_amount = 0.0;
+    	String address_id = (String)request.getSession().getAttribute("address_id");
+    	Address address = addressService.selectByPrimaryKey(address_id);
+    	if("1".equals(type)){
+    		orderStr = (String)request.getSession().getAttribute("goods_orders");
+    	}else if("2".equals(type)){
+    		orderStr = (String)request.getSession().getAttribute("enoughOrder");
+    	}
+    	if(!"".equals(orderStr)){
+    		String[] orderArr = orderStr.split(";");
+    		if(null!=orderArr){
+    			List<Order> orderList = new ArrayList<Order>();
+    			Order order = null;
+    			for (int i = 0; i < orderArr.length; i++) {
+    				order = orderService.selectByPrimaryKey(orderArr[i]);
+    				order.setCurrent_status("1");
+    				order.setAddress_id(address_id); 
+    				orderList.add(order);
+    				orderService.updateByPrimaryKeySelective(order);
+    			}
+    			if(null!=orderList&&0<orderList.size()){
+    				List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+    				Map<String, Object> map = null;
+    				Goods goods = null;
+    				GoodsPic goodsPic = null;
+    				for (int i = 0; i < orderList.size(); i++) {
+    					goods = goodsService.selectByPrimaryKey(orderList.get(i).getGoods_id());
+    					goodsPic = goodsPicService.selectByGoodsId(orderList.get(i).getGoods_id()).get(0);
+    					map = new HashMap<String, Object>();
+    					map.put("goods", goods);
+    					map.put("goodsPic", goodsPic);
+    					map.put("order", orderList.get(i));
+    					list.add(map);
+    					sum_amount += orderList.get(i).getAmount();
+    				}
+    				model.addAttribute("list", list);
+    				model.addAttribute("sum_amount", sum_amount);
+    				model.addAttribute("order_address",address);
+    				model.addAttribute("type",type);
+    			}
+    		}
+    	}
+    	return page;
+    }
+    
+    @RequestMapping("pay")
+    @ResponseBody
+    public String pay(HttpServletRequest request,String type,String orderType){
+    	String orderStr = "";
+    	Map<String,Object> map = new HashMap<String, Object>();
+    	if("1".equals(type)){
+    		orderStr = (String)request.getSession().getAttribute("goods_orders");
+    	}else if("2".equals(type)){
+    		orderStr = (String)request.getSession().getAttribute("enoughOrder");
+    	}
+    	if(!"".equals(orderStr)){
+    		String[] orderArr = orderStr.split(";");
+    		Order order = null;
+    		for (int i = 0; i < orderArr.length; i++) {
+				order = new Order();
+				order.setOrder_id(orderArr[i]);
+				order.setType(orderType);
+				order.setCurrent_status("2");
+				orderService.updateByPrimaryKeySelective(order);
+			}
+    		map.put("msg","支付成功！");
+    	}else{
+    		map.put("msg","支付失败！");
+    	}
+    	return JSON.toJSONString(map);
+    }
+    @RequestMapping("myOrder")
+    public String myOrder(HttpServletRequest request,Model model,String status){
+    	String page = "mall/myOrder";
+    	Member member = (Member)request.getSession().getAttribute("member");
+    	if(null==member){
+    		page = "mall/login";
+    		return page;
+    	}
+    	Order order = new Order();
+    	order.setCurrent_status(status);
+    	order.setMember_id(member.getMember());
+    	List<Order> orderList = orderService.select(order);
+    	List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+    	Map<String,Object> map = null;
+    	Goods goods = null;
+    	if(0<orderList.size()){
+    		for (int i = 0; i < orderList.size(); i++) {
+				map = new HashMap<String, Object>();
+				map.put("order", orderList.get(i));
+				goods = goodsService.selectByPrimaryKey(orderList.get(i).getGoods_id());
+				map.put("goods", goods);
+				list.add(map);
+			}
+    	}
+    	model.addAttribute("list", list);
+    	model.addAttribute("status", status);
+    	return page;
+    }
+    
+    
 }

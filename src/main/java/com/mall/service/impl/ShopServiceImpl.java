@@ -17,6 +17,7 @@ import com.mall.po.Shop;
 import com.mall.service.ShopService;
 import com.trace.dao.UserDao;
 import com.trace.po.User;
+import com.trace.util.ResultUtil;
 
 @Service
 @Transactional
@@ -102,6 +103,21 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public int updateByPrimaryKeySelective(Shop record) {
 		return shopmapper.updateByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public String editSave(Shop shop, User user) {
+		String rs = "";
+		try{
+			userMapper.modify(user);
+			shopmapper.updateByPrimaryKeySelective(shop);
+			rs = ResultUtil.resultString(1);
+		}catch(Exception e){
+			e.printStackTrace();
+			rs = ResultUtil.resultString(0);
+			throw new RuntimeException();
+		}
+		return rs;
 	}
 	
 }

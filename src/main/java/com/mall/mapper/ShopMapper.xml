@@ -150,23 +150,23 @@
       <if test="member_id != null" >
         member_id = #{member_id,jdbcType=VARCHAR},
       </if>
-      <if test="address != null" >
+      <if test="address != null and address != ''" >
         address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="coordinate != null" >
+      <if test="coordinate != null and coordinate != ''" >
         coordinate = #{coordinate,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null" >
+      <if test="createtime != null and createtime != ''" >
         createtime = #{createtime,jdbcType=VARCHAR},
       </if>
-      <if test="shop_name != null" >
-        #{shop_name,jdbcType=VARCHAR},
+      <if test="shop_name != null and shop_name != ''" >
+        shop_name = #{shop_name,jdbcType=VARCHAR},
       </if>
-      <if test="shop_order != null" >
-        #{shop_order,jdbcType=INTEGER},
+      <if test="shop_order != null and shop_order != ''" >
+        shaop_order = #{shop_order,jdbcType=INTEGER},
       </if>
-      <if test="shop_phone != null" >
-        #{shop_phone,jdbcType=VARCHAR}
+      <if test="shop_phone != null and shop_phone != ''" >
+        shop_phone = #{shop_phone,jdbcType=VARCHAR}
       </if>
     </set>
     where shop_id = #{shop_id,jdbcType=VARCHAR}

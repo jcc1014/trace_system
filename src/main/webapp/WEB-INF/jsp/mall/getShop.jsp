@@ -235,7 +235,31 @@
 	window.onload = getLocation;
 	
 	function selectShop(id){
-		window.location.href = "${path}/mall/shopGoodsList.do?shop_id="+id
+		//检查此店订单是否满足
+		$.ajax({
+			url:'${path}/mall/checkOrder.do',
+			type:'post',
+			data:{'shop_id':id},
+			success:function(rs){
+				if(""!=rs){
+					rs = $.parseJSON($.parseJSON(rs));
+					if("200"==rs.code){
+						window.location.href = "${path}/mall/payOrder.do?type=1"
+					}else if("1"==rs.code){
+						layer.confirm(rs.code,{tilte:'提示',btn:['确定','取消']},function(){
+							//结算数量够的
+							window.location.href = "${path}/mall/payOrder.do?type=2"
+						},function(){
+							layer.closeAll();
+						})
+					}else if("-1"==rs.code){
+						layer.msg(rs.msg,{time:2000});
+					}else{
+						layer.msg("出错了，请稍后再试！",{time:2000});
+					}
+				}
+			}
+		})
 	}
 	
 	function getMapShop(map){

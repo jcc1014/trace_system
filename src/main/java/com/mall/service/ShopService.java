@@ -15,6 +15,7 @@ import com.trace.po.User;
  */
 public interface ShopService {
 	Map<String,Object> addSave(Shop shop,User user);
+	String editSave(Shop shop,User user);
 	int querycount(Map<String,Object> map,String str);
 	List<Shop> selectList(Map<String,Object> map,String str);
 	Map<String,Object> deleteByPrimaryKey(String id);

@@ -13,16 +13,21 @@
     <result column="real_amount" property="real_amount" jdbcType="DOUBLE" />
     <result column="sub_amount" property="sub_amount" jdbcType="DOUBLE" />
     <result column="rebate" property="rebate" jdbcType="DOUBLE" />
+    <result column="address_id" property="address_id" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    order_id, member_id, number, goods_id, createtime, current_status,price,amount,real_amount,sub_amount,rebate
+    order_id, member_id, number, goods_id, createtime, current_status,price,amount,
+    real_amount,sub_amount,rebate,type,address_id
   </sql>
   <sql id="queryId" >
     order_id, 
     (select name from member where member_id = member )as member_id, 
     number, 
     (select goods_name from goods  where goods.goods_id = goods_order.goods_id )goods_id, 
-    createtime, current_status,price,amount,real_amount,sub_amount,rebate
+    createtime, current_status,price,amount,real_amount,sub_amount,rebate,type,
+    (select concat(sheng,shi,qu,address_detail)as address_id from address where address.address_id = goods_order.address_id)
+    as address_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -97,6 +102,12 @@
       <if test="t.rebate != null and t.rebate != 0" >
        and rebate = #{t.rebate,jdbcType=DOUBLE}
       </if>
+      <if test="t.address_id != null and t.address_id != ''" >
+       and address_id = #{t.address_id,jdbcType=DOUBLE}
+      </if>
+      <if test="t.type != null and t.type != ''" >
+       and type = #{t.type,jdbcType=DOUBLE}
+      </if>
        order by createtime desc
     	limit ${index},8
   </select>
@@ -132,6 +143,12 @@
       <if test="t.rebate != null and t.rebate != 0" >
        and rebate = #{t.rebate,jdbcType=DOUBLE}
       </if>
+      <if test="t.address_id != null and t.address_id != ''" >
+       and address_id = #{t.address_id,jdbcType=DOUBLE}
+      </if>
+      <if test="t.type != null and t.type != ''" >
+       and type = #{t.type,jdbcType=DOUBLE}
+      </if>
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -141,12 +158,12 @@
   
   <insert id="insert" parameterType="com.mall.po.Order" >
     insert into goods_order (order_id, member_id, number, 
-      goods_id, createtime, current_status,price,amount,real_amount,sub_amount,rebate
+      goods_id, createtime, current_status,price,amount,real_amount,sub_amount,rebate,type,address_id
       )
     values (#{order_id,jdbcType=VARCHAR}, #{member_id,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
       #{goods_id,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{current_status,jdbcType=VARCHAR},
       #{price,jdbcType=DOUBLE},#{amount,jdbcType=DOUBLE},#{real_amount,jdbcType=DOUBLE},
-      #{sub_amount,jdbcType=DOUBLE},#{rebate,jdbcType=DOUBLE}
+      #{sub_amount,jdbcType=DOUBLE},#{rebate,jdbcType=DOUBLE},#{type},#{address_id}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.po.Order" >
@@ -185,6 +202,12 @@
       <if test="rebate != null" >
         rebate,
       </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="address_id != null" >
+        address_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="order_id != null" >
@@ -220,6 +243,12 @@
       <if test="rebate != null" >
         #{rebate,jdbcType=DOUBLE}
       </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR}
+      </if>
+      <if test="address_id != null" >
+        #{address_id,jdbcType=VARCHAR}
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.mall.po.Order" >
@@ -228,7 +257,7 @@
       <if test="member_id != null" >
         member_id = #{member_id,jdbcType=VARCHAR},
       </if>
-      <if test="number != null" >
+      <if test="number != null and number != 0" >
         number = #{number,jdbcType=INTEGER},
       </if>
       <if test="goods_id != null" >
@@ -240,20 +269,26 @@
       <if test="current_status != null" >
         current_status = #{current_status,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
+      <if test="price != null and price != 0" >
         price = #{price,jdbcType=DOUBLE},
       </if>
-      <if test="amount != null" >
+      <if test="amount != null and amount != 0" >
         amount = #{amount,jdbcType=DOUBLE},
       </if>
-      <if test="real_amount != null" >
+      <if test="real_amount != null and real_amount !=0" >
         real_amount = #{real_amount,jdbcType=DOUBLE},
       </if>
-      <if test="sub_amount != null" >
+      <if test="sub_amount != null " >
         sub_amount = #{sub_amount,jdbcType=DOUBLE},
       </if>
-      <if test="rebate != null" >
-        rebate = #{rebate,jdbcType=DOUBLE}
+      <if test="rebate != null and rebate != 0" >
+        rebate = #{rebate,jdbcType=DOUBLE},
+      </if>
+      <if test="type != null and type != ''" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="address_id != null and address_id != ''" >
+        address_id = #{address_id,jdbcType=VARCHAR},
       </if>
     </set>
     where order_id = #{order_id,jdbcType=VARCHAR}
@@ -269,7 +304,9 @@
         amount = #{amount,jdbcType=DOUBLE},
         real_amount = #{real_amount,jdbcType=DOUBLE},
         sub_amount = #{sub_amount,jdbcType=DOUBLE},
-        rebate = #{rebate,jdbcType=DOUBLE}
+        rebate = #{rebate,jdbcType=DOUBLE},
+        type = #{type,jdbcType=VARCHAR},
+        address_id = #{address_id,jdbcType=VARCHAR},
     where order_id = #{order_id,jdbcType=VARCHAR}
   </update>
 </mapper>

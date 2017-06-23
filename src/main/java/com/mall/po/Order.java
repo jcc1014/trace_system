@@ -22,6 +22,10 @@ public class Order {
     private double sub_amount;
     
     private double rebate;
+    
+    private String address_id;
+    
+    private String type;
 
     public String getOrder_id() {
         return order_id;
@@ -110,6 +114,21 @@ public class Order {
 	public void setRebate(double rebate) {
 		this.rebate = rebate;
 	}
-    
+
+	public String getAddress_id() {
+		return address_id;
+	}
+
+	public void setAddress_id(String address_id) {
+		this.address_id = address_id;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
     
 }

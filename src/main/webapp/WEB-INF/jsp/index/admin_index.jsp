@@ -20,6 +20,7 @@
 </head>
 <body>
 <div class="layui-layout layui-layout-admin">
+
     <div class="layui-header header">
       <div class="layui-main">
         <div class="logo">生鲜追溯后台管理系统</div>
@@ -30,30 +31,17 @@
           <li class="layui-nav-item">
             <a href="javascript:void(0)">追溯管理</a>
           </li>
-          
-          <c:if test="${sessionScope.user.usertype eq '0' }">
-	          <li class="layui-nav-item">
-	            <a href="javascript:void(0)">用户管理</a>
-	          </li>
-	          <li class="layui-nav-item">
-	            <a href="javascript:void(0)">商城管理</a>
-	          </li>
-          </c:if>
           <li class="layui-nav-item">
-            <a href="javascript:void(0)">进货管理</a>
-          </li>
-          <!-- <li class="layui-nav-item">
-            <a href="javascript:void(0)">设置</a>
-          </li> -->
-         <!--  <li class="layui-nav-item">
-	         <a href="javascript:void(0)">商家管理</a>
-	      </li> -->
-	     
-          
+	        <a href="javascript:void(0)">用户管理</a>
+	      </li>
+	      <li class="layui-nav-item">
+	        <a href="javascript:void(0)">商城管理</a>
+	      </li>
+	          
         </ul>
         <div class="top_admin_user">
-        	<span>当前用户：${sessionScope.user.username }&nbsp;&nbsp;&nbsp;|</span>
-          <!-- <a href="/" target="_blank">网站首页</a> |<a class="update_cache" href="javascript:void(0)">更新缓存</a> | --> <a class="logout_btn" href="javascript:void(0)">退出</a>
+        	<span>当前用户：${sessionScope.user.username }（管理员）&nbsp;&nbsp;&nbsp;|</span>
+          <a class="logout_btn" href="javascript:void(0)">退出</a>
         </div>
       </div>
     </div>
@@ -93,7 +81,6 @@
                 </a>
               </li>
             </ul>
-            <c:if test="${sessionScope.user.usertype eq '0' }">
             <ul class="layui-nav layui-nav-tree left_menu_ul hide">
               <li class="layui-nav-item layui-nav-title">
                 <a>用户管理</a>
@@ -104,12 +91,6 @@
                   <cite>用户列表</cite>
                 </a>
               </li>
-              <%-- <li class="layui-nav-item">
-                <a href="${path}/user/add.do" target="main">
-                  <i class="layui-icon">&#xe613;</i>
-                  <cite>新增用户</cite>
-                </a>
-              </li> --%>
             </ul>
             <ul class="layui-nav layui-nav-tree left_menu_ul hide">
               <li class="layui-nav-item layui-nav-title">
@@ -146,18 +127,6 @@
                 </a>
               </li>
             </ul>
-             </c:if>
-				<ul class="layui-nav layui-nav-tree left_menu_ul hide">
-					<li class="layui-nav-item layui-nav-title"><a>进货管理</a></li>
-					<li class="layui-nav-item first-item"><a
-						href="${path}/shopgoods/list.do" target="main"> <i
-							class="layui-icon">&#xe613;</i> <cite>进货列表</cite>
-					</a></li>
-					<li class="layui-nav-item"><a href="${path}/shopgoods/add.do"
-						target="main"> <i class="layui-icon">&#xe654;</i> <cite>新增进货</cite>
-					</a></li>
-
-				</ul>
 				<!--  <ul class="layui-nav layui-nav-tree left_menu_ul setting_ul hide">
               <li class="layui-nav-item layui-nav-title">
                 <a>相关设置</a>
@@ -169,27 +138,7 @@
                 </a>
               </li>
             </ul> -->
-            
-           <%-- <ul class="layui-nav layui-nav-tree left_menu_ul hide">
-              <li class="layui-nav-item layui-nav-title">
-                <a>商家管理</a>
-              </li>
-              <li class="layui-nav-item first-item">
-                <a href="${path}/shop/addshop.do" target="main">
-                  <i class="layui-icon">&#xe654;</i>
-                  <cite>新增商家</cite>
-                </a>
-              </li>
-            </ul> --%>
-             
-    			<div class="content_manage_container left_menu_ul hide">
-    				<div class="content_manage_title">内容管理</div>
-        		<div id="content_manage_tree"></div>
-        	</div>
         </div>
-        
-        
-        
     </div>
 
     <div class="layui-body iframe-container">
@@ -203,7 +152,6 @@
       </div>
     </div>
 </div>
-
 
 <script type="text/javascript">
 layui.use(['layer', 'element','jquery','tree'], function(){

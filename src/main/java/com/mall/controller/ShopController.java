@@ -48,6 +48,19 @@ public class ShopController {
 		return page;
 	}
 	
+	@RequestMapping("/getMyShop.do")
+	public String getMyShop(HttpServletRequest request,Model model){
+		String page = "shop/myShop";
+		User user = (User)request.getSession().getAttribute("user");
+		if(null!=user){
+			Shop shop = new Shop();
+			shop.setMember_id(user.getUserid());
+			List<Shop> list = shopService.select(shop);
+			model.addAttribute("shop", list.size()>0?list.get(0):"");
+		}
+		return page;
+	}
+	
 	/*
 	 * 显示商家列表初始化界面
 	 */
@@ -96,6 +109,15 @@ public class ShopController {
 		user.setUsertype("3");
 		Map<String,Object> map = shopService.addSave(shop,user);
 		return JSON.toJSONString(map);
+	}
+	
+	@RequestMapping("/editSave.do")
+	@ResponseBody
+	public String editSave(HttpServletRequest request,HttpSession session,User user,Shop shop){
+		User u = (User)request.getSession().getAttribute("user");
+		user.setUserid(u.getUserid());
+		String rs = shopService.editSave(shop,user);
+		return rs;
 	}
 	
 	@RequestMapping("/checkUser.do")

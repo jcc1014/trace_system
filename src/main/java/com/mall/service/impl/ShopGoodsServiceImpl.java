@@ -27,8 +27,9 @@ public class ShopGoodsServiceImpl implements ShopGoodsService{
 		Map<String,Object> map = new HashMap<String, Object>();
 		try {
 			shopgoods.setShop_goods_id(UUID.randomUUID().toString());
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
 			shopgoods.setCreatetime(df.format(new Date()));
+			shopgoods.setGoods_remain(shopgoods.getGoods_num());
 			shopgoodsMapper.insert(shopgoods);
 			map.put("code", "200");
 			map.put("msg", "新增成功");

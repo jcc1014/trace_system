@@ -31,9 +31,9 @@
 		</div>
 	</div>
 	<div class="user-order">
-		<a href="javascript:;" class="select-btn select-btn-t"><img
+		<%-- <a href="javascript:;" class="select-btn select-btn-t"><img
 			src="${path}/images/indent.png">我的订单 <span onclick="getOrder('')">查看所有订单</span> <i
-			class="icon icon-select"></i></a>
+			class="icon icon-select"></i></a> --%>
 	</div>
 	<div class="user-nav">
 		<a href="javascript:'" onclick="getOrder('1')"> <i class="icon icon-f1"></i> 待付款</a> 
@@ -91,7 +91,7 @@ function about(){
 }
 
 function getOrder(type){
-	window.location.href = "${path}/mall/getOrder.do?type="+type;
+	window.location.href = "${path}/mall/myOrder.do?status="+type;
 }
 </script>
 </body>

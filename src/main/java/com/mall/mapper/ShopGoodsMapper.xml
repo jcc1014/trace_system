@@ -6,12 +6,13 @@
     <result column="shop_id" jdbcType="VARCHAR" property="shop_id" />
     <result column="goods_id" jdbcType="VARCHAR" property="goods_id" />
     <result column="goods_num" jdbcType="DOUBLE" property="goods_num" />
+    <result column="goods_remain" jdbcType="DOUBLE" property="goods_remain" />
     <result column="createtime" jdbcType="VARCHAR" property="createtime" />
     <result column="shop_name" jdbcType="VARCHAR" property="shop_name" />
     <result column="goods_name" jdbcType="VARCHAR" property="goods_name" />
   </resultMap>
   <sql id="Base_Column_List">
-    shop_goods_id, shop_id, goods_id, goods_num,createtime,shop_name,goods_name
+    shop_goods_id, shop_id, goods_id, goods_num,createtime,shop_name,goods_name,goods_remain
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -112,6 +113,9 @@
       <if test="goods_name != null">
       	goods_name,
       </if>
+      <if test="goods_remain != null">
+      	goods_remain,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="shop_goods_id != null">
@@ -134,6 +138,9 @@
       </if>
       <if test="goods_name != null">
       	#{goods_name,jdbcType=VARCHAR},
+      </if>
+      <if test="goods_remain != null">
+      	#{goods_remain,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -158,6 +165,9 @@
       <if test="goods_name != null">
       	goods_name=#{goods_name,jdbcType=VARCHAR},
       </if>
+      <if test="goods_remain != null">
+      	goods_remain=#{goods_remain,jdbcType=DOUBLE},
+      </if>
     </set>
     where shop_goods_id = #{shop_goods_id,jdbcType=VARCHAR}
   </update>
@@ -167,7 +177,8 @@
     	shop_name = #{shop_name,jdbcType=VARCHAR},
       goods_id = #{goods_id,jdbcType=VARCHAR},
       goods_name = #{goods_name,jdbcType=VARCHAR},
-      goods_num = #{goods_num,jdbcType=DOUBLE}
+      goods_num = #{goods_num,jdbcType=DOUBLE},
+      goods_remain = #{goods_remain,jdbcType=DOUBLE}
     where shop_goods_id = #{shop_goods_id,jdbcType=VARCHAR}
   </update>
 </mapper>

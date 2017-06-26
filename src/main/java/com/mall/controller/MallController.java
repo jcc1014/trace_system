@@ -1,5 +1,6 @@
 package com.mall.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mall.utils.MD5Util;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -90,7 +92,7 @@ public class MallController {
 	@ResponseBody
 	public String addCart(HttpServletRequest request,Order order){
 		String rs = null;
-		Member member = (Member)request.getAttribute("member");
+		Member member = (Member)request.getSession().getAttribute("member");
 		if(null!=member){
 			order.setMember_id(member.getMember());
 			order.setOrder_id(UUID.randomUUID().toString());
@@ -315,7 +317,7 @@ public class MallController {
 	
 	
 	@RequestMapping("shopGoodsList")
-	public String footer(HttpServletRequest request,Model model,String shop_id){
+	public String shopGoodsList(HttpServletRequest request,Model model,String shop_id){
 		String page = "mall/shopGoodsList";
 		Shop shop =shopService.selectByPrimaryKey(shop_id);
 		model.addAttribute("shop", shop);
@@ -573,7 +575,7 @@ public class MallController {
     			Order order = null;
     			for (int i = 0; i < orderArr.length; i++) {
     				order = orderService.selectByPrimaryKey(orderArr[i]);
-    				order.setCurrent_status("1");
+    				//order.setCurrent_status("1");
     				order.setAddress_id(address_id); 
     				orderList.add(order);
     				orderService.updateByPrimaryKeySelective(order);
@@ -657,6 +659,243 @@ public class MallController {
     	model.addAttribute("status", status);
     	return page;
     }
+	
+	/**
+	 * @description: 打开个人设置
+	 * @author liz
+	 * @date 2017/6/25 16:29
+	 */
+	@RequestMapping("personal_setting")
+	public String personalCenter() {
+		return "mall/personal_setting";
+	}
+	
+	/**
+	 * @description: 打开修改基本信息页
+	 * @author liz
+	 * @date 2017/6/25 16:54
+	 */
+	@RequestMapping("personal_setting_basic")
+	public String personalSettingBasic(HttpServletRequest request, ModelMap modelMap) {
+		Member member = (Member)request.getSession().getAttribute("member");
+		modelMap.put("username", member.getName());
+		return "mall/personal_setting_basic";
+	}
+	
+	/**
+	 * @description: 保存修改的基本信息
+	 * @author liz
+	 * @date 2017/6/25 17:33
+	 */
+	@ResponseBody
+	@RequestMapping(value = "personal_setting_basic_save", produces = "application/json;charset=utf-8")
+	public Result<String> personalSettingBasicSave(HttpServletRequest request, String username) {
+		try {
+			Member member = (Member)request.getSession().getAttribute("member");
+			member.setName(username);
+			memberService.updateByPrimaryKey(member);
+			request.getSession().setAttribute("member", member);
+			return new Result<>(ResultEnum.SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<>(ResultEnum.FAILURE);
+		}
+	}
+	
+	/**
+	 * @description: 打开修改密码页1
+	 * @author liz
+	 * @date 2017/6/25 16:55
+	 */
+	@RequestMapping("personal_setting_password_step1")
+	public String personalSettingPasswordStep1() {
+		return "mall/personal_setting_password_step1";
+	}
+	
+	/**
+	 * @description: 修改密码时校验原始密码
+	 * @author liz
+	 * @date 2017/6/25 18:11
+	 */
+	@ResponseBody
+	@RequestMapping(value = "personal_setting_password_check", produces = "application/json;charset=utf-8")
+	public Result<String> personalSettingPasswordCheck(HttpServletRequest request, String oldPassword) {
+		User user = (User) request.getSession().getAttribute("user");
+		if (!StringUtils.isEmpty(oldPassword)) {
+			if (DigestUtils.md5Hex(oldPassword).equals(user.getPassword())) {
+				return new Result<>(ResultEnum.SUCCESS, MD5Util.getMd5(oldPassword));
+			}
+		}
+		return new Result<>(ResultEnum.FAILURE);
+	}
+	
+	/**
+	 * @description: 打开修改密码页2
+	 * @author liz
+	 * @date 2017/6/25 18:14
+	 */
+	@RequestMapping("personal_setting_password_step2")
+	public String personalSettingPasswordStep2(String key, ModelMap modelMap) {
+		modelMap.put("key", key);
+		return "mall/personal_setting_password_step2";
+	}
+	
+	/**
+	 * @description: 修改密码保存
+	 * @author liz
+	 * @date 2017/6/25 18:35
+	 */
+	@ResponseBody
+	@RequestMapping(value = "personal_setting_password_save", produces = "application/json;charset=utf-8")
+	public Result<String> personalSettingPasswordSave(HttpServletRequest request, String newPassword, String key) {
+		User user = (User) request.getSession().getAttribute("user");
+		String pre_key = MD5Util.getMd5(user.getPassword(), false);
+		if (StringUtils.isEmpty(key) || !key.equals(pre_key)) {
+			return new Result<>(ResultEnum.UNAUTHORIZED);
+		}
+		if (StringUtils.isEmpty(newPassword)) {
+			return new Result<>(ResultEnum.FAILURE);
+		}
+		try {
+			user.setPassword(DigestUtils.md5Hex(newPassword));
+			userService.updatePasswordById(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<>(ResultEnum.FAILURE);
+		}
+		return new Result<>(ResultEnum.SUCCESS);
+	}
+	
+	/**
+	 * @description: 保存个人图片
+	 * @author liz
+	 * @date 2017/6/25 19:43
+	 */
+	@ResponseBody
+	@RequestMapping(value = "personal_setting_pic_save", produces = "application/json;charset=utf-8")
+	public Result<String> personalSettingPicSave(HttpServletRequest request, String path, String realPath) {
+		try {
+			Member member = (Member)request.getSession().getAttribute("member");
+			String photo = member.getPhotoRealPath();
+			if (!StringUtils.isEmpty(photo)) {
+				File file = new File(photo);
+				if (file.exists()) {
+					file.delete();
+				}
+			}
+			member.setPhoto(path);
+			member.setPhotoRealPath(realPath);
+			memberService.updateByPrimaryKey(member);
+			return new Result<>(ResultEnum.SUCCESS, path);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<>(ResultEnum.FAILURE);
+		}
+	}    
+    @RequestMapping("delPayOrder")
+    @ResponseBody
+    public String delPayOrder(HttpServletRequest request,String order_id,String orderType){
+    	String rs = "";
+    	String orderStr = (String)request.getSession().getAttribute("goods_orders");
+    	String newOrderStr = "";
+    	if(null!=orderStr&&!"".equals(orderStr)){
+    		String[] orderArr = orderStr.split(";");
+    		for (int i = 0; i < orderArr.length; i++) {
+				if(order_id.equals(orderArr[i])){
+					newOrderStr += orderArr[i]+";";
+				}
+			}
+    		if("".equals(newOrderStr)){
+    			newOrderStr = newOrderStr.substring(0,newOrderStr.length()-1);
+    		}
+    	}
+    	String enoughOrder = (String)request.getSession().getAttribute("enoughOrder");
+    	String newEnoughStr = "";
+    	if(null!=enoughOrder&&!"".equals(enoughOrder)){
+    		String[] enoughArr = orderStr.split(";");
+    		for (int i = 0; i < enoughArr.length; i++) {
+				if(order_id.equals(enoughArr[i])){
+					newEnoughStr += enoughArr[i]+";";
+				}
+			}
+    		if("".equals(newOrderStr)){
+    			newEnoughStr = newOrderStr.substring(0,newOrderStr.length()-1);
+    		}
+    	}
+    	int r = orderService.deleteByPrimaryKey(order_id);
+    	if(1==r){
+    		rs = ResultUtil.resultString(r);
+    		request.getSession().setAttribute("goods_orders", newOrderStr);
+    		request.getSession().setAttribute("enoughOrder", newEnoughStr);
+    	}else{
+    		rs = ResultUtil.resultString(0);
+    	}
+    	return rs;
+    }
     
+    @RequestMapping("addOrder")
+    public String addOrder(HttpServletRequest request,Model model,String shop_id,String type){
+    	String page = "mall/addOrder";
+    	String orderStr = "";
+    	if("1".equals(type)){
+    		orderStr = (String)request.getSession().getAttribute("goods_orders");
+    	}else if("2".equals(type)){
+    		orderStr = (String)request.getSession().getAttribute("enoughOrder");
+    	}
+    	Shop shop =shopService.selectByPrimaryKey(shop_id);
+		model.addAttribute("shop", shop);
+		ShopGoods shopGoods = new ShopGoods();
+		shopGoods.setShop_id(shop_id);
+		List<ShopGoods> shopGoodsList = shopGoodsService.select(shopGoods);
+		//去掉已经添加的种类
+		for (int i = 0; i < shopGoodsList.size(); i++) {
+			if(shopGoodsList.get(i).getGoods_id().indexOf(orderStr)>0){
+				shopGoodsList.remove(i);
+			}
+		}
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		Map<String,Object> map = null;
+		Goods goods = null;
+		GoodsPic goodsPic = null;
+		if(null!=shopGoodsList&&0<shopGoodsList.size()){
+			for (int i = 0; i < shopGoodsList.size(); i++) {
+				map = new HashMap<String, Object>();
+				goods = goodsService.selectByPrimaryKey(shopGoodsList.get(i).getGoods_id());
+				goodsPic = goodsPicService.selectByGoodsId(shopGoodsList.get(i).getGoods_id()).get(0);
+				map.put("goods", goods);
+				map.put("goodsPic", goodsPic);
+				map.put("shopGoods", shopGoodsList.get(i));
+				list.add(map);
+			}
+			model.addAttribute("list", list);
+			model.addAttribute("type", type);
+		}
+    	return page;
+    }
     
+    @RequestMapping("addOrderSave")
+    @ResponseBody
+    public String addOrderSave(HttpServletRequest request,Order order,String type){
+    	String rs = "";
+    	User user = (User)request.getSession().getAttribute("user");
+    	String orderStr = (String)request.getSession().getAttribute("goods_orders");
+    	String enoughOrder = (String)request.getSession().getAttribute("enoughOrder");
+    	String address_id = (String)request.getSession().getAttribute("address_id");
+    	String order_id = UUID.randomUUID().toString();
+    	order.setOrder_id(order_id);
+    	order.setAddress_id(address_id);
+    	order.setCreatetime(DateUtils.getCurrentDate());
+    	order.setMember_id(user.getUserid());
+    	try {
+    		int r = orderService.insertSelective(order);
+    		rs = ResultUtil.resultString(r);
+    		orderStr += orderStr+";"+order_id;
+    		enoughOrder += enoughOrder+";"+order_id;
+    		request.getSession().setAttribute("goods_orders",orderStr);
+    		request.getSession().setAttribute("enoughOrder",enoughOrder);
+    		
+		} catch (Exception e) {
+		}
+    	return rs;
+    }
 }

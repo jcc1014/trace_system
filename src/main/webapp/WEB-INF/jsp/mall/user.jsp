@@ -14,10 +14,11 @@
 <link href="iTunesArtwork@2x.png" sizes="114x114" rel="apple-touch-icon-precomposed"> -->
 <link href="${path}/css/bass.css" rel="stylesheet" />
 <link href="${path}/css/style.css" rel="stylesheet" />
+<link rel="stylesheet" href="${path}/layui/css/layui.css">
 <!-- 引入js资源 -->
+<script type="text/javascript" src="${path}/layui/layui.js"></script>
 <script type="text/javascript" src="${path}/js/jquery.min.js"></script>
 <script>jQuery.noConflict()</script>
-<script type="text/javascript" src="${path}/layer/layer.js"></script>
 <script type="text/javascript" src="${path}/js/zepto.min.js"></script>
 <script type="text/javascript" src="${path}/js/zepto.kslider.js"></script>
 </head>
@@ -25,9 +26,10 @@
 	<!-- 个人中心 -->
 	<article class="user-head">
 	<div class="user-bg-img">
+		<input id="upload" type="file" name="file" accept="image/*" style="display: none;"/>
 		<img src="${path}/images/user_bg.png">
 		<div class="user-img">
-			<img src="${path}/images/user-img0.jpg">
+			<img style="height:100%" id="my_pic" onclick="changePic();" src="${sessionScope.member.photo}">
 		</div>
 	</div>
 	<div class="user-order">
@@ -52,8 +54,8 @@
 		</a>
 		<a href="javascript:;" class="select-btn select-btn-t">
 		<img src="${path}/images/about.png">关于我们<i class="icon icon-select"></i>
-		</a> 
-		<a href="javascript:;" class="select-btn select-btn-t">
+		</a>
+		<a href="${path}/mall/personal_setting.do" class="select-btn select-btn-t">
 		<img src="${path}/images/set.png">个人设置<i class="icon icon-select"></i>
 		</a> 
 	</article>
@@ -93,6 +95,43 @@ function about(){
 function getOrder(type){
 	window.location.href = "${path}/mall/myOrder.do?status="+type;
 }
+function changePic() {
+    $("#upload").trigger("click");
+}
+layui.use([ 'element', 'form', 'upload', 'layedit', 'laydate' ],function() {
+    layui.upload({
+        elem:'#upload',
+        title:'点击上传',
+        url : '${path}/goods/uploadPic.do',
+        before: function(){
+            index = layer.msg('图片上传中', {
+                icon: 16
+                ,shade: 0.01
+            });
+        },
+        success : function(rs) {
+            if (rs.code == 200) {
+                $.ajax({
+	                url: '${path}/mall/personal_setting_pic_save.do',
+	                type: 'post',
+	                data: {path: rs.data.src, realPath: rs.data.realPath},
+	                success: function (res) {
+                        layer.close(index);
+                        res = JSON.parse(res);
+                        if (res.code == 200) {
+                            $("#my_pic").attr("src", res.data);
+                            layer.msg('上传' + res.msg, {time:1000});
+                        } else {
+                            layer.msg('上传' + rs.msg);
+                        }
+                    }
+                });
+            } else {
+                layer.msg('上传' + rs.msg);
+            }
+        }
+    });
+});
 </script>
 </body>
 

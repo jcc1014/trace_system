@@ -22,11 +22,12 @@ import com.trace.po.User;
  */
 public interface UserDao {
 	List<User> selectAllUser();
-	List<User> select(Map<String,Object> map);
+	List<User> select(Map<String, Object> map);
 	List<User> query(User user);
-	int count(Map<String,Object> map);
-	User selectByusernameAndpassword(@Param("username")String username,@Param("password")String password);
+	int count(Map<String, Object> map);
+	User selectByusernameAndpassword(@Param("username") String username, @Param("password") String password);
 	int insert(User user); 
-	User selectByPrimaryKey(@Param("userid")String userid);
+	User selectByPrimaryKey(@Param("userid") String userid);
 	int deleteById(@Param("id") String id);
+	int updatePasswordById(User user);
 }

@@ -84,4 +84,10 @@
   <delete id="deleteById" parameterType="java.lang.String">
   	delete from user where userid = #{id}
   </delete>
+  
+  <update id="updatePasswordById" parameterType="com.trace.po.User">
+    UPDATE user
+    SET password = #{password}
+	WHERE userid = #{userid}
+  </update>
 </mapper>

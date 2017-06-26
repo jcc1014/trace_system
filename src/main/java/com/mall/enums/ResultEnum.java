@@ -7,7 +7,8 @@ package com.mall.enums;
  */
 public enum ResultEnum {
 	SUCCESS(200, "成功"),
-	FAILURE(-1, "失败");
+	FAILURE(-1, "失败"),
+	UNAUTHORIZED(-2, "无法认证");
 	
 	private Integer code;
 	

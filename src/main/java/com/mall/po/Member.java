@@ -14,6 +14,8 @@ public class Member {
     private String sex;
 
     private String photo;
+    
+    private String photoRealPath;
 
     public String getMember() {
         return member;
@@ -69,5 +71,13 @@ public class Member {
 
     public void setPhoto(String photo) {
         this.photo = photo == null ? null : photo.trim();
+    }
+    
+    public String getPhotoRealPath() {
+        return photoRealPath;
+    }
+    
+    public void setPhotoRealPath(String photoRealPath) {
+        this.photoRealPath = photoRealPath;
     }
 }

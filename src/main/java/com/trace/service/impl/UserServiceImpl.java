@@ -99,5 +99,9 @@ public class UserServiceImpl implements UserService{
 		}
 		return map;
 	}
-
+	
+	@Override
+	public int updatePasswordById(User user) {
+		return userDao.updatePasswordById(user);
+	}
 }

@@ -23,6 +23,7 @@ public interface UserService {
 	List<User> select(Map<String, Object> map);
 	List<User> query(User user);
 	int count(Map<String, Object> map);
+	int countUser(User user);
 	User selectByusernameAndpassword(String username, String password);
 	Map<String,Object> add(User user);
 	User getById(String userid);

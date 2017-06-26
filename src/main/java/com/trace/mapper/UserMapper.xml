@@ -46,6 +46,22 @@
     order by usertype,username
     limit ${index},8
   </select>
+  
+  <select id="countUser" resultType="java.lang.Integer" parameterType="com.trace.po.User" >
+    select
+    count(1) as num
+    from user where 1=1
+    <if test="username != null and username != ''">
+      and username = #{username}
+    </if>
+    <if test="usertype != null and usertype != ''">
+      and usertype = #{usertype}
+    </if>
+    <if test="phone != null and phone != ''">
+      and phone = #{phone}
+    </if>
+  </select>
+  
   <select id="query" resultMap="BaseResultMap" parameterType="com.trace.po.User" >
     select 
     <include refid="Base_Column_List" />
@@ -84,6 +100,25 @@
   <delete id="deleteById" parameterType="java.lang.String">
   	delete from user where userid = #{id}
   </delete>
+  
+  <update id="modify" parameterType="com.trace.po.User" >
+    update user
+    <set >
+      <if test="username != null and username != ''" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password != ''" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="usertype != null and usertype != ''" >
+        usertype = #{usertype,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null and phone != ''" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userid = #{userid,jdbcType=VARCHAR}
+  </update>
   
   <update id="updatePasswordById" parameterType="com.trace.po.User">
     UPDATE user

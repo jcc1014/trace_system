@@ -7,10 +7,16 @@ public class ShopGoods {
 
     private String goods_id;
 
-    private Double goods_num;
+    private double goods_num;
     
     private String createtime;
-
+    
+    private String goods_name;
+    
+    private String shop_name;
+    
+    private double goods_remain;
+    
     public String getShop_goods_id() {
         return shop_goods_id;
     }
@@ -35,15 +41,15 @@ public class ShopGoods {
         this.goods_id = goods_id == null ? null : goods_id.trim();
     }
 
-    public Double getGoods_num() {
+    public double getGoods_num() {
         return goods_num;
     }
 
-    public void setGoods_num(Double goods_num) {
+    public void setGoods_num(double goods_num) {
         this.goods_num = goods_num;
     }
     
-    public String Createtime() {
+    public String getCreatetime() {
     	return createtime;
     }
     
@@ -51,5 +57,28 @@ public class ShopGoods {
     	this.createtime = createtime == null? null:createtime.trim();
     }
     
+    public String getGoods_name() {
+    	return goods_name;
+    }
+    
+    public void setGoods_name(String goods_name) {
+    	this.goods_name = goods_name == null? null:goods_name.trim();
+    }
+    public String getShop_name() {
+    	return shop_name;
+    }
+    
+    public void setShop_name(String shop_name) {
+    	this.shop_name = shop_name == null? null:shop_name.trim();
+    }
+
+	public double getGoods_remain() {
+		return goods_remain;
+	}
+
+	public void setGoods_remain(double goods_remain) {
+		this.goods_remain = goods_remain;
+	}
+
     
 }

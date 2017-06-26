@@ -76,31 +76,44 @@ public class TraceFlowServiceImpl implements TraceFlowService {
 	}
 
 	public Model getTraceDetail(Model model,String trace_id){
-		TraceFlow traceFlow = traceFlowDao.selectByPrimaryKey(trace_id);
-		model.addAttribute("traceFlow", traceFlow);
-		if(null!=traceFlow){
-			Farmer farmer = farmerDao.selectByPrimaryKey(traceFlow.getFarmer_id());
-			model.addAttribute("farmer", farmer);
-			if(null!=farmer.getVideo_id()&&!"".equals(farmer.getVideo_id())){
-				Video v = videoDao.selectByPrimaryKey(farmer.getVideo_id());
-				if(v!=null){
-					model.addAttribute("farmerVideo", v.getVideo_path());
+		try{
+			TraceFlow traceFlow = traceFlowDao.selectByPrimaryKey(trace_id);
+			model.addAttribute("traceFlow", traceFlow);
+			if(null!=traceFlow){
+				Farmer farmer = farmerDao.selectByPrimaryKey(traceFlow.getFarmer_id());
+				model.addAttribute("farmer", farmer);
+				if(null!=farmer.getVideo_id()&&!"".equals(farmer.getVideo_id())){
+					Video v = videoDao.selectByPrimaryKey(farmer.getVideo_id());
+					if(v!=null){
+						model.addAttribute("farmerVideo", v.getVideo_path());
+					}
+				}
+				Purchase purchase = purchaseDao.selectByPrimaryKey(traceFlow.getPurchase_id());
+				if(null!=purchase){
+					model.addAttribute("purchase", purchase);
+					if(null!=purchase.getPurchase_video()&&!"".equals(purchase.getPurchase_video())){
+						Video v = videoDao.selectByPrimaryKey(purchase.getPurchase_video());
+						if(v!=null){
+							model.addAttribute("pruchaseVideo", v.getVideo_path());
+						}
+					}
+				}
+				Test test = testDao.selectByPrimaryKey(traceFlow.getTest_id());
+				if(null!=test){
+					model.addAttribute("test", test);
+				}
+				Test sampling = testDao.selectByPrimaryKey(traceFlow.getSampling_id());
+				if(null!=sampling){
+					model.addAttribute("sampling", sampling);
+				}
+				Transport transport = transportDao.selectByPrimaryKey(traceFlow.getTransport_id());
+				if(null!=transport){
+					model.addAttribute("transport", transport);
 				}
 			}
-			Purchase purchase = purchaseDao.selectByPrimaryKey(traceFlow.getPurchase_id());
-			model.addAttribute("purchase", purchase);
-			if(null!=purchase.getPurchase_video()&&!"".equals(purchase.getPurchase_video())){
-				Video v = videoDao.selectByPrimaryKey(purchase.getPurchase_video());
-				if(v!=null){
-					model.addAttribute("pruchaseVideo", v.getVideo_path());
-				}
-			}
-			Test test = testDao.selectByPrimaryKey(traceFlow.getTest_id());
-			model.addAttribute("test", test);
-			Test sampling = testDao.selectByPrimaryKey(traceFlow.getSampling_id());
-			model.addAttribute("sampling", sampling);
-			Transport transport = transportDao.selectByPrimaryKey(traceFlow.getTransport_id());
-			model.addAttribute("transport", transport);
+		}catch(Exception e){
+			e.printStackTrace();
+			
 		}
 		return model;
 	}

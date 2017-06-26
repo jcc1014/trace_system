@@ -63,7 +63,7 @@
 					src="${path}/images/shop.png">${item.shop_name}</a>
 			</div>
 			<article class="confirmOrder">
-				<img src="${path}/images/shopFace.jpg">
+				<img src="${path}/shopPic/${item.shop_pic}">
 				<div class="product-text">
 					<span class="address">店址：${item.address}</span> 
 					<span class="hue" style="margin-top: 0.5rem;">电话：${item.shop_phone}</span>

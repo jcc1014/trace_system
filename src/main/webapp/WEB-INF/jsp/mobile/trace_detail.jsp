@@ -95,37 +95,40 @@
   <legend>追溯信息</legend>
 </fieldset>
 <div class="layui-collapse" >
-  <div class="layui-colla-item">
-    <h2 class="layui-colla-title">农户信息</h2>
-    <div class="layui-colla-content layui-show">
-		<div class="layui-form-item">
-			    <label class="layui-form-label">姓名:</label>
-			    <div class="layui-input-inline">
-			      <input type="text" name="title" required  value="${farmer.farmer_name}" disabled="disabled" class="layui-input">
-			    </div>
-		</div>
-		<div class="layui-form-item">
-			    <label class="layui-form-label">手机号:</label>
-			    <div class="layui-input-inline">
-			      <input type="text" name="title" required  value="${farmer.farmer_phone}" disabled="disabled" class="layui-input">
-			    </div>
-		</div>
-		<div class="layui-form-item">
-			    <label class="layui-form-label">合作社:</label>
-			    <div class="layui-input-inline">
-			      <input type="text" name="title" required  value="${farmer.farmer_hzs}" disabled="disabled" class="layui-input">
-			    </div>
-		</div>
-		<div class="layui-form-item">
-			 <c:if test="${farmerVideo ne '' && farmerVideo!=null}">
-					<video src="${path }/video/${farmerVideo }" controls="controls" height="300" width="100%">
-					</video>
-			 </c:if>
-			    <!-- <div class="layui-input-inline" style="width: 100%!important;">
-			    </div> -->
-		</div>
-    </div>
-  </div>
+	<c:if test="${farmer != null }">
+		<div class="layui-colla-item">
+		    <h2 class="layui-colla-title">农户信息</h2>
+		    <div class="layui-colla-content layui-show">
+				<div class="layui-form-item">
+					    <label class="layui-form-label">姓名:</label>
+					    <div class="layui-input-inline">
+					      <input type="text" name="title" required  value="${farmer.farmer_name}" disabled="disabled" class="layui-input">
+					    </div>
+				</div>
+				<div class="layui-form-item">
+					    <label class="layui-form-label">手机号:</label>
+					    <div class="layui-input-inline">
+					      <input type="text" name="title" required  value="${farmer.farmer_phone}" disabled="disabled" class="layui-input">
+					    </div>
+				</div>
+				<div class="layui-form-item">
+					    <label class="layui-form-label">合作社:</label>
+					    <div class="layui-input-inline">
+					      <input type="text" name="title" required  value="${farmer.farmer_hzs}" disabled="disabled" class="layui-input">
+					    </div>
+				</div>
+				<div class="layui-form-item">
+					 <c:if test="${farmerVideo ne '' && farmerVideo!=null}">
+							<video src="${path }/video/${farmerVideo }" controls="controls" height="300" width="100%">
+							</video>
+					 </c:if>
+					    <!-- <div class="layui-input-inline" style="width: 100%!important;">
+					    </div> -->
+				</div>
+		    </div>
+		  </div>
+	</c:if>
+  <c:if test="${purchase != null }">
   <div class="layui-colla-item">
     <h2 class="layui-colla-title">采购信息</h2>
     <div class="layui-colla-content layui-show">
@@ -164,6 +167,8 @@
 		</div>
     </div>
   </div>
+  </c:if>
+  <c:if test="${test != null }">
   <div class="layui-colla-item">
     <h2 class="layui-colla-title">检验信息</h2>
     <div class="layui-colla-content layui-show">
@@ -205,6 +210,8 @@
 		</div>
     </div>
   </div>
+  </c:if>
+  <c:if test="${sampling != null }">
   <div class="layui-colla-item">
     <h2 class="layui-colla-title">抽检信息</h2>
     <div class="layui-colla-content layui-show">
@@ -246,6 +253,8 @@
 		</div>
     </div>
   </div>
+  </c:if>
+  <c:if test="${transport != null }">
   <div class="layui-colla-item">
     <h2 class="layui-colla-title">运输信息</h2>
     <div class="layui-colla-content layui-show">
@@ -274,8 +283,9 @@
 		</div>
     </div>
   </div>
+  </c:if>
 </div>
-<footer>进入商城</footer>
+<footer class="bottom" style="margin-top: 20px;">进入商城</footer>
 	<script>
 		layui.use([ 'element', 'layer' ], function() {
 			var element = layui.element();

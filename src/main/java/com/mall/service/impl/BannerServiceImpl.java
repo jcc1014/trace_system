@@ -13,7 +13,7 @@ import com.mall.po.Banner;
 import com.mall.service.BannerService;
 
 /**
- * ÂÖ²¥Í¼ÒµÎñÂß¼­
+ * è½®æ’­å›¾
  * @author jingcc
  *
  */

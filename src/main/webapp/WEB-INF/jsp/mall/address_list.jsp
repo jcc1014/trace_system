@@ -21,7 +21,7 @@
 <div class="header">
 	<div class="header-background"></div>
 	<div class="toolbar statusbar-padding">
-		<button class="bar-button back-button" onclick="history.go(-1);" dwz-event-on-click="click"><i class="icon icon-back"></i></button>
+		<button class="bar-button back-button" onclick="window.location.href='${path}/mall/user.do';" dwz-event-on-click="click"><i class="icon icon-back"></i></button>
 		<!--<a class="bar-button" data-href="home.html?dwz_callback=home_render" target="navTab" rel="home"><i class="icon icon-back"></i></a>-->
 		<div class="header-title">
 			<div class="title">管理收货地址</div>

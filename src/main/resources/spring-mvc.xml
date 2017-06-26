@@ -58,6 +58,20 @@
                         <value>/logout.do</value>
                         <value>/loginCheck.do</value>
                         <value>/trace_detail.do</value>
+                        <value>/mall_index.do</value>
+                        <value>/goodsDetails.do</value>
+                        <value>/getShop.do</value>
+                        <value>/map.do</value>
+                        <value>/register.do</value>
+                        <value>/checkPhone.do</value>
+                        <value>/addSave.do</value>
+                        <value>/shopList.do</value>
+                        <value>/user.do</value>
+                        <value>/shopGoodsList.do</value>
+                        <value>/getCartList.do</value>
+                        <value>/personalInfo.do</value>
+                        <value>/about.do</value>
+                        <value>/getMapShop.do</value>
                     </list>
                 </property>
             </bean>

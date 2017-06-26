@@ -119,7 +119,7 @@ function register(){
 						success:function(rs){
 							if(""!=rs){
 								layer.msg('注册成功！',{time:1000},function(){
-									window.location.href = '${path}/mall/mine.do';
+									window.location.href = '${path}/mall/user.do';
 								})
 							}
 						},

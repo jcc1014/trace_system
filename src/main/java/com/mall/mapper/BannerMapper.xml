@@ -24,6 +24,7 @@
     order by banner_index
     limit ${index},8
   </select>
+  
   <select id="select" resultMap="BaseResultMap" parameterType="com.mall.po.Banner">
   	select 
     <include refid="Base_Column_List" />

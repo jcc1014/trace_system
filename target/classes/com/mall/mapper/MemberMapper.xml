@@ -9,9 +9,10 @@
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="sex" property="sex" jdbcType="VARCHAR" />
     <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="photo_real_path" property="photoRealPath" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    member, name, phone, mail, type, sex, photo
+    member, name, phone, mail, type, sex, photo, photo_real_path
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -25,10 +26,10 @@
   </delete>
   <insert id="insert" parameterType="com.mall.po.Member" >
     insert into member (member, name, phone, 
-      mail, type, sex, photo
+      mail, type, sex, photo, photo_real_path
       )
     values (#{member,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{mail,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}
+      #{mail,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR},  #{photoRealPath,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.po.Member" >
@@ -55,6 +56,9 @@
       <if test="photo != null" >
         photo,
       </if>
+      <if test="photoRealPath != null" >
+        photo_real_path,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="member != null" >
@@ -77,6 +81,9 @@
       </if>
       <if test="photo != null" >
         #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="photoRealPath != null" >
+        #{photoRealPath,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -101,6 +108,9 @@
       <if test="photo != null" >
         photo = #{photo,jdbcType=VARCHAR},
       </if>
+      <if test="photoRealPath != null" >
+        photo_real_path = #{photoRealPath,jdbcType=VARCHAR},
+      </if>
     </set>
     where member = #{member,jdbcType=VARCHAR}
   </update>
@@ -111,7 +121,8 @@
       mail = #{mail,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
-      photo = #{photo,jdbcType=VARCHAR}
+      photo = #{photo,jdbcType=VARCHAR},
+      photo_real_path = #{photoRealPath,jdbcType=VARCHAR}
     where member = #{member,jdbcType=VARCHAR}
   </update>
 </mapper>

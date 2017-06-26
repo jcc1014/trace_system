@@ -62,6 +62,12 @@
 	          			<c:if test="${user.usertype eq '2'}">
 	          			检验员
 	          			</c:if>
+	          			<c:if test="${user.usertype eq '3'}">
+	          			商店管理员
+	          			</c:if>
+	          			<c:if test="${user.usertype eq '4'}">
+	          			会员
+	          			</c:if>
           			</td>
           			<td>${user.phone}</td>
           			<td style="text-align: center;">

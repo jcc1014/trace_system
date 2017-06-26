@@ -15,10 +15,13 @@
     <result column="rebate" property="rebate" jdbcType="DOUBLE" />
     <result column="address_id" property="address_id" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="ordertime" property="ordertime" jdbcType="VARCHAR" />
+    <result column="finishtime" property="finishtime" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shop_id" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     order_id, member_id, number, goods_id, createtime, current_status,price,amount,
-    real_amount,sub_amount,rebate,type,address_id
+    real_amount,sub_amount,rebate,type,address_id,finishtime,ordertime,shop_id
   </sql>
   <sql id="queryId" >
     order_id, 
@@ -27,7 +30,7 @@
     (select goods_name from goods  where goods.goods_id = goods_order.goods_id )goods_id, 
     createtime, current_status,price,amount,real_amount,sub_amount,rebate,type,
     (select concat(sheng,shi,qu,address_detail)as address_id from address where address.address_id = goods_order.address_id)
-    as address_id
+    as address_id,finishtime,ordertime,shop_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -68,6 +71,15 @@
       <if test="rebate != null and rebate != 0" >
        and rebate = #{rebate,jdbcType=DOUBLE}
       </if>
+      <if test="finishtime != null and finishtime != 0" >
+       and finishtime = #{finishtime,jdbcType=VARCHAR}
+      </if>
+      <if test="ordertime != null and ordertime != 0" >
+       and ordertime = #{ordertime,jdbcType=VARCHAR}
+      </if>
+      <if test="shop_id != null and shop_id != 0" >
+       and shop_id = #{shop_id,jdbcType=VARCHAR}
+      </if>
   </select>
   
   <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map" >
@@ -103,10 +115,13 @@
        and rebate = #{t.rebate,jdbcType=DOUBLE}
       </if>
       <if test="t.address_id != null and t.address_id != ''" >
-       and address_id = #{t.address_id,jdbcType=DOUBLE}
+       and address_id = #{t.address_id,jdbcType=VARCHAR}
       </if>
       <if test="t.type != null and t.type != ''" >
-       and type = #{t.type,jdbcType=DOUBLE}
+       and type = #{t.type,jdbcType=VARCHAR}
+      </if>
+      <if test="t.shop_id != null and t.shop_id != ''" >
+       and shop_id = #{t.shop_id,jdbcType=VARCHAR}
       </if>
        order by createtime desc
     	limit ${index},8
@@ -144,10 +159,13 @@
        and rebate = #{t.rebate,jdbcType=DOUBLE}
       </if>
       <if test="t.address_id != null and t.address_id != ''" >
-       and address_id = #{t.address_id,jdbcType=DOUBLE}
+       and address_id = #{t.address_id,jdbcType=VARCHAR}
       </if>
       <if test="t.type != null and t.type != ''" >
-       and type = #{t.type,jdbcType=DOUBLE}
+       and type = #{t.type,jdbcType=VARCHAR}
+      </if>
+      <if test="t.shop_id != null and t.shop_id != ''" >
+       and shop_id = #{t.shop_id,jdbcType=VARCHAR}
       </if>
   </select>
   
@@ -158,12 +176,14 @@
   
   <insert id="insert" parameterType="com.mall.po.Order" >
     insert into goods_order (order_id, member_id, number, 
-      goods_id, createtime, current_status,price,amount,real_amount,sub_amount,rebate,type,address_id
+      goods_id, createtime, current_status,price,amount,real_amount,sub_amount,rebate,type,address_id,
+      finishtime,ordertime,shop_id
       )
     values (#{order_id,jdbcType=VARCHAR}, #{member_id,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
       #{goods_id,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{current_status,jdbcType=VARCHAR},
       #{price,jdbcType=DOUBLE},#{amount,jdbcType=DOUBLE},#{real_amount,jdbcType=DOUBLE},
-      #{sub_amount,jdbcType=DOUBLE},#{rebate,jdbcType=DOUBLE},#{type},#{address_id}
+      #{sub_amount,jdbcType=DOUBLE},#{rebate,jdbcType=DOUBLE},#{type},#{address_id},
+      #{finishtime},#{ordertime},#{shop_id}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.po.Order" >
@@ -205,8 +225,17 @@
       <if test="type != null" >
         type,
       </if>
-      <if test="address_id != null" >
+      <if test="address_id != null and address_id != ''" >
         address_id,
+      </if>
+      <if test="finishtime != null and finishtime != ''" >
+        finishtime,
+      </if>
+      <if test="ordertime != null and ordertime != ''" >
+        ordertime,
+      </if>
+      <if test="shop_id != null and shop_id != ''" >
+        shop_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -241,13 +270,22 @@
         #{sub_amount,jdbcType=DOUBLE},
       </if>
       <if test="rebate != null" >
-        #{rebate,jdbcType=DOUBLE}
+        #{rebate,jdbcType=DOUBLE},
       </if>
       <if test="type != null" >
-        #{type,jdbcType=VARCHAR}
+        #{type,jdbcType=VARCHAR},
       </if>
-      <if test="address_id != null" >
-        #{address_id,jdbcType=VARCHAR}
+      <if test="address_id != null and address_id != ''" >
+        #{address_id,jdbcType=VARCHAR},
+      </if>
+       <if test="finishtime != null and finishtime != ''" >
+        #{finishtime,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null and ordertime != ''" >
+        #{ordertime,jdbcType=VARCHAR},
+      </if>
+      <if test="shop_id != null and shop_id != ''" >
+        #{shop_id,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -290,6 +328,15 @@
       <if test="address_id != null and address_id != ''" >
         address_id = #{address_id,jdbcType=VARCHAR},
       </if>
+      <if test="finishtime != null and finishtime != ''" >
+        finishtime = #{finishtime,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null and ordertime != ''" >
+        ordertime = #{ordertime,jdbcType=VARCHAR}
+      </if>
+      <if test="shop_id != null and shop_id != ''" >
+        shop_id = #{shop_id,jdbcType=VARCHAR}
+      </if>
     </set>
     where order_id = #{order_id,jdbcType=VARCHAR}
   </update>
@@ -307,6 +354,8 @@
         rebate = #{rebate,jdbcType=DOUBLE},
         type = #{type,jdbcType=VARCHAR},
         address_id = #{address_id,jdbcType=VARCHAR},
+        ordertime = #{ordertime,jdbcType=VARCHAR},
+        finishtime = #{finishtime,jdbcType=VARCHAR}
     where order_id = #{order_id,jdbcType=VARCHAR}
   </update>
 </mapper>

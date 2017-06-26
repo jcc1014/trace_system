@@ -492,49 +492,49 @@ function produceQrcode(){
 }
 $(document).on('click','#btn',function(){
 	  var farmer_name = $("#farmer_name").val();
-	  if(""==farmer_name){
-		  layer.msg("请填写姓名！",function(){
+	  if(""==farmer_name||null==farmer_name){
+		  layer.msg("请填写姓名！",{time:1000},function(){
 			  $("#farmer_name").focus();
 		  });
 			  return;
 	  }
 	  var farmer_phone = $("#farmer_phone").val();
-	  if(""==farmer_phone){
-		  layer.msg("请填写手机号！",function(){
+	  if(""==farmer_phone||null==farmer_phone){
+		  layer.msg("请填写手机号！",{time:1000},function(){
 			  $("#farmer_phone").focus();
 		  });
 			  return;
 	  }else if(!isTelephone(farmer_phone)){
-		  layer.msg("手机号不合法！",function(){
+		  layer.msg("手机号不合法！",{time:1000},function(){
 			  $("#farmer_phone").focus().val("");
 		  });
 			  return;
 	  }
 	  var farmer_hzs = $("#farmer_hzs").val();
 	  var purchase_name = $("#purchase_name").val();
-	  if(""==purchase_name){
-		  layer.msg("请填写采购人！",function(){
+	  if(""==purchase_name||null==purchase_name){
+		  layer.msg("请填写采购人！",{time:1000},function(){
 			  $("#purchase_name").focus();
 		  });
 			  return;
 	  }
 	  var purchase_type = $("#purchase_type").val();
-	  if(""==purchase_type){
-		  layer.msg("请填写蔬菜名称！",function(){
+	  if(""==purchase_type||null==purchase_type){
+		  layer.msg("请填写蔬菜名称！",{time:1000},function(){
 			  $("#purchase_type").focus();
 		  });
 			  return;
 	  }
 	  var purchase_num = $("#purchase_num").val();
-	  if(""==purchase_num){
-		  layer.msg("请填写采购数量！",function(){
+	  if(""==purchase_num||null==purchase_num){
+		  layer.msg("请填写采购数量！",{time:1000},function(){
 			  $("#purchase_num").focus();
 		  });
 			  return;
 	  }
 	  var purchase_time = $("#purchase_time").val();
-	  if(""==purchase_time){
-		  layer.msg("请填写采购时间！",function(){
+	  if(""==purchase_time||null==purchase_time){
+		  layer.msg("请填写采购时间！",{time:1000},function(){
 			  $("#purchase_time").focus();
 		  });
 			  return;
@@ -542,14 +542,14 @@ $(document).on('click','#btn',function(){
 	  var test_name = $("#test_name").val();
 	  var test_name2 = $("#test_name2").val();
 	  if(""==test_name){
-		  layer.msg("请填写检验人！",function(){
+		  layer.msg("请填写检验人！",{time:1000},function(){
 			  $("#test_name").focus();
 		  });
 			  return;
 	  }
 	  var test_time = $("#test_time").val();
 	  var test_time2 = $("#test_time2").val();
-	  if(""==test_time){
+	  if(""==test_time||null==test_time){
 		  layer.msg("请填写检验时间！",function(){
 			  $("#test_time").focus();
 		  });
@@ -557,8 +557,8 @@ $(document).on('click','#btn',function(){
 	  }
 	  var test_machine = $("#test_machine").val();
 	  var test_machine2 = $("#test_machine2").val();
-	  if(""==test_machine){
-		  layer.msg("请填写机器编号！",function(){
+	  if(""==test_machine||null==test_machine){
+		  layer.msg("请填写机器编号！",{time:1000},function(){
 			  $("#test_machine").focus();
 		  });
 			  return;
@@ -567,34 +567,34 @@ $(document).on('click','#btn',function(){
 	  var test_result2 = $("#test_result2").val();
 	  var test_influence = $("#test_influence").val();
 	  var test_influence2 = $("#test_influence2").val();
-	  if(""==test_result){
-		  layer.msg("请填写检验结果！",function(){
+	  if(""==test_result||null==test_result){
+		  layer.msg("请填写检验结果！",{time:1000},function(){
 			  $("#test_result").focus();
 		  });
 		  return false;
 	  }
 	  var transport_user = $("#transport_user").val();
-	  if(""==transport_user){
-		  layer.msg("请填写运输司机！",function(){
+	  if(""==transport_user||null==transport_user){
+		  layer.msg("请填写运输人！",{time:1000},function(){
 			  $("#transport_user").focus();
 		  });
 			  return;
 	  }
 	  var transport_truck = $("#transport_truck").val();
 	  if(""==transport_truck){
-		  layer.msg("请填写车辆编号！",function(){
+		  layer.msg("请填写车辆编号！",{time:1000},function(){
 			  $("#transport_truck").focus();
 		  });
 			  return ;
 	  }
 	  var transport_destination = $("#transport_destination").val();
-	  if(""==transport_destination){
-		  layer.msg("请填写目的地！",function(){
+	  if(""==transport_destination||null==transport_destination){
+		  layer.msg("请填写目的地！",{time:1000},function(){
 			  $("#transport_destination").focus();
 		  });
 			  return;
 	  }
-	  if(""==$('#qrcode').val()){
+	  if(""==$('#qrcode').val()||null==$('#qrcode').val()){
 		  layer.msg("请重新生成二维码！");
 			  return;
 	  }
@@ -611,97 +611,100 @@ $(document).on('click','#btn',function(){
 			  rs = eval("(" + rs + ")");
 			  if(rs.code=="200"){
 				  trace_id = rs.trace_id;
+				  $.ajax({
+					  url:'${path}/trace/purchaseAdd.do', //购买
+					  type:'post',
+					  async: false,
+					  dataType:'json',
+					  data:{'trace_id':trace_id,
+						  'purchase_name':purchase_name,
+						  'purchase_type':purchase_type,
+						  'purchase_num':purchase_num,
+						  'purchase_time':purchase_time,
+						  'purchase_video':purchase_video},
+					  success:function(rs){
+						  rs = eval("(" + rs + ")");
+						  if(rs.code=="200"){ //检验
+							  $.ajax({
+								  url:'${path}/trace/testAdd.do',
+								  type:'post',
+								  async: false,
+								  dataType:'json',
+								  data:{'trace_id':trace_id,'test_name':test_name,'test_time':test_time,'test_machine':test_machine,
+									  'test_result':test_result,'test_influence':test_influence,'test_video':$("#test_video_input").val()},
+								  success:function(rs){
+									  rs = eval("(" + rs + ")");
+									  if(rs.code=="200"){ //运输
+										  $.ajax({
+											  url:'${path}/trace/transportAdd.do',
+											  type:'post',
+											  async: false,
+											  dataType:'json',
+											  data:{'trace_id':trace_id,'transport_user':transport_user,
+												  'transport_truck':transport_truck,'transport_destination':transport_destination,'transport_pic':$("#transport_pic_input").val()},
+											  success:function(rs){
+												  rs = eval("(" + rs + ")");
+												  if(rs.code=="200"){
+													  $.ajax({
+														  url:'${path}/trace/samplingAdd.do',
+														  type:'post',
+														  async: false,
+														  dataType:'json',
+														  data:{'trace_id':trace_id,'test_name':test_name2,'test_time':test_time2,'test_machine':test_machine2,
+															  'test_result':test_result2,'test_influence':test_influence2,'test_video':$("#test_video_input2").val()},
+														  success:function(rs){
+															  rs = eval("(" + rs + ")");
+															  if(rs.code=="200"){
+																 /*  layer.msg("提交成功！",function(){
+																	  
+																  }); */
+															  }else{
+															  }
+														  }
+													  }) 
+													  $.ajax({
+														  url:'${path}/trace/qrcodeAdd.do', //二维码
+														  type:'post',
+														  async: false,
+														  dataType:'json',
+														  data:{'trace_id':trace_id,'qrcode_path':$('#qrcode').val()},
+														  success:function(rs){
+															  rs = eval("(" + rs + ")");
+															  if(rs.code=="200"){
+																  $('#qrcode').val("");
+																  $("#print_btn").removeClass("layui-btn-disabled").attr("disabled",false);
+																  //$("#qrcode_div").show();
+																  //$("#qrcode_img").addClass("hide");
+																  layer.msg("提交成功！",{time:1000},function(){
+																	  
+																  }); 
+															  }else{
+																  layer.msg("提交失败！",{time:1000}); 
+															  }
+														  }
+													  }) 
+												  }else{
+													  layer.msg("提交失败！",{time:1000});
+												  }
+											  }
+										  })
+									  }else{
+										  layer.msg("提交失败！",{time:1000});
+									  }
+								  }
+							  }) 
+						  }
+					  }
+				  }) 
 			  }else{
-				  layer.msg("失败了")
+				  layer.msg("提交失败！",{time:1000});
 			  }
 		  }
 	  }) 
-	  $.ajax({
-		  url:'${path}/trace/purchaseAdd.do',
-		  type:'post',
-		  async: false,
-		  dataType:'json',
-		  data:{'trace_id':trace_id,
-			  'purchase_name':purchase_name,
-			  'purchase_type':purchase_type,
-			  'purchase_num':purchase_num,
-			  'purchase_time':purchase_time,
-			  'purchase_video':purchase_video},
-		  success:function(rs){
-			  rs = eval("(" + rs + ")");
-		  }
-	  }) 
-	  $.ajax({
-		  url:'${path}/trace/testAdd.do',
-		  type:'post',
-		  async: false,
-		  dataType:'json',
-		  data:{'trace_id':trace_id,'test_name':test_name,'test_time':test_time,'test_machine':test_machine,
-			  'test_result':test_result,'test_influence':test_influence,'test_video':$("#test_video_input").val()},
-		  success:function(rs){
-			  rs = eval("(" + rs + ")");
-			  if(rs.code=="200"){
-				  /* layer.msg("提交成功！",function(){
-					  
-				  }); */
-			  }else{
-			  }
-		  }
-	  }) 
-	  $.ajax({
-		  url:'${path}/trace/transportAdd.do',
-		  type:'post',
-		  async: false,
-		  dataType:'json',
-		  data:{'trace_id':trace_id,'transport_user':transport_user,
-			  'transport_truck':transport_truck,'transport_destination':transport_destination,'transport_pic':$("#transport_pic_input").val()},
-		  success:function(rs){
-			  rs = eval("(" + rs + ")");
-			  if(rs.code=="200"){
-				  /* layer.msg("提交成功！",function(){
-					  
-				  }); */
-			  }else{
-			  }
-		  }
-	  }) 
-	  $.ajax({
-		  url:'${path}/trace/samplingAdd.do',
-		  type:'post',
-		  async: false,
-		  dataType:'json',
-		  data:{'trace_id':trace_id,'test_name':test_name2,'test_time':test_time2,'test_machine':test_machine2,
-			  'test_result':test_result2,'test_influence':test_influence2,'test_video':$("#test_video_input2").val()},
-		  success:function(rs){
-			  rs = eval("(" + rs + ")");
-			  if(rs.code=="200"){
-				 /*  layer.msg("提交成功！",function(){
-					  
-				  }); */
-			  }else{
-			  }
-		  }
-	  }) 
-	  $.ajax({
-		  url:'${path}/trace/qrcodeAdd.do',
-		  type:'post',
-		  async: false,
-		  dataType:'json',
-		  data:{'trace_id':trace_id,'qrcode_path':$('#qrcode').val()},
-		  success:function(rs){
-			  rs = eval("(" + rs + ")");
-			  if(rs.code=="200"){
-				  $('#qrcode').val("");
-				  $("#print_btn").removeClass("layui-btn-disabled").attr("disabled",false);
-				  //$("#qrcode_div").show();
-				  //$("#qrcode_img").addClass("hide");
-				  layer.msg("提交成功！",function(){
-					  
-				  }); 
-			  }else{
-			  }
-		  }
-	  }) 
+	  
+	  
+	   
+	  
 })
 
 function print(){

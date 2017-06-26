@@ -17,6 +17,8 @@ public class Shop {
     
     private int shop_order;
     
+    private String shop_pic;
+    
 	public String getShop_name() {
 		return shop_name;
 	}
@@ -80,5 +82,12 @@ public class Shop {
     public void setShop_order(int shop_order) {
     	this.shop_order = shop_order;
     }
-    
+
+	public String getShop_pic() {
+		return shop_pic;
+	}
+
+	public void setShop_pic(String shop_pic) {
+		this.shop_pic = shop_pic;
+	}
 }

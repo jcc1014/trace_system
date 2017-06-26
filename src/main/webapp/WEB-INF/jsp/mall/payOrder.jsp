@@ -37,6 +37,7 @@
 		<header>
 			<div class="header">
 				<h1>结算订单</h1>
+				<a href="javaScript:void(0);" class="cart-edit" id="edit" onclick="editCart();">增加</a>
 			</div>
 		</header>
 		<div style="height: 2.5rem;"></div>
@@ -73,6 +74,9 @@
 							<!-- <span class="icon norms-add"></span> -->
 						</div>
 					</span>
+					<span style="text-align: right;margin-top: 0.5rem;">
+					<button type="button" class="btn btn-warning"
+					 onclick="delOrder('${item.order.order_id}')">删除</button></span>
 				</div>
 			</article>
 		</c:forEach>
@@ -93,7 +97,7 @@ function pay(){
 		var type = radio;
 		var sum = $("#sum").html();
 		//调用支付
-		layer.confirm('确定支付吗？',{title:'支付',btn:['确定','取消']},function(){debugger
+		layer.confirm('确定支付吗？',{title:'支付',btn:['确定','取消']},function(){
 			$.ajax({
 				url:'${path}/mall/pay.do',
 				type:'post',
@@ -105,7 +109,7 @@ function pay(){
 							rs = $.parseJSON(rs);
 						}
 						layer.msg(rs.msg,{tiem:1000},function(){
-							window.location.href = "${path}/mall/myOrder.do?status=3";
+							window.location.href = "${path}/mall/myOrder.do?status=2";
 						})
 					}
 				}
@@ -120,6 +124,34 @@ function pay(){
 		});
 		return;
 	}
+}
+
+function delOrder(order_id){
+	layer.confirm('确定删除吗？',{title:'删除',btn:['确定','取消']},function(){
+		$.ajax({
+			url:'${path}/mall/delPayOrder.do',
+			type:'post',
+			data:{'order_id':order_id,'orderType':'${type}'},
+			success:function(rs){
+				if(""!=rs){
+					rs = $.parseJSON(rs);
+					if(typeof(rs)!="object"){
+						rs = $.parseJSON(rs);
+					}
+					layer.msg(rs.msg,{tiem:1000},function(){
+						self.location.reload();
+					})
+				}
+			}
+		})
+	},function(){
+		layer.closeAll();
+	})
+}
+
+function addOrder(shopid){
+	//转到增加订单页面 shopid,
+	window.location.href = "${path}/mall/addOrder.do?shopid="+shopid+"&type=${type}";
 }
 </script>
 </body>

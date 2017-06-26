@@ -77,7 +77,15 @@ public class UserController {
 		String page = "login";
 		User user = (User)session.getAttribute("user");
 		if(null!=user){
-			page = "index/index";
+			if("0".equals(user.getUsertype())){
+				page = "index/admin_index";
+			}
+			else if("3".equals(user.getUsertype())){
+				page = "index/shop_index";
+			}
+			else{
+				page = "index/trace_index";
+			}
 		}
 		return page;
 	}

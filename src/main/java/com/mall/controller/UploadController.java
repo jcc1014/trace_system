@@ -19,13 +19,15 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.trace.util.DateUtils;
+import com.trace.util.DeleteFileUtil;
+import com.trace.util.Log4JUtils;
 
 @Controller
 @RequestMapping("upload")
 public class UploadController {
 
 	@RequestMapping("upload")
-	public void  uploadVideo(HttpServletRequest request,HttpServletResponse response,String path)
+	public void  upload(HttpServletRequest request,HttpServletResponse response,String path)
     		throws IllegalStateException, IOException, JSONException
     {
 		Map<String,Object> map = new HashMap<String, Object>();;
@@ -70,4 +72,31 @@ public class UploadController {
 			out.close();
 		}
     }
+	@RequestMapping("delUpload")
+	public void  delUpload(HttpServletRequest request,HttpServletResponse response,String path)
+			throws IllegalStateException, IOException, JSONException
+	{
+		Map<String,Object> map = new HashMap<String, Object>();
+		boolean f = DeleteFileUtil.deleteFile(path);
+		if(true==f)
+		{
+			Log4JUtils.getLogger().info("删除成功"+path);
+			map.put("code","200");
+			
+		}else{
+			Log4JUtils.getLogger().error("删除失败"+path);
+			map.put("code","-1");
+		}
+		PrintWriter out = null;
+		try {
+			String rs = JSON.toJSONString(map);
+			out = response.getWriter();
+			out.print(rs);
+			out.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			out.close();
+		}
+	}
 }

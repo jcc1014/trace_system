@@ -63,13 +63,13 @@
 	<ul class="product-content-ul2">
 		<li class="tab_content show">
 			<form class="setCmp" style="margin-top: 0.5rem;">
-				<c:forEach var="item" items="${shopList}">
+				<c:forEach var="item" items="${shopList}" varStatus="index">
 					<div class="Cart">
 						<a href="javascript:;" class="select-btn select-btn-t"><img
 							src="${path}/images/shop.png">${item.shop_name}</a>
 					</div>
-					<article class="confirmOrder">
-						<img src="${path}/images/shopFace.jpg">
+					<article class="confirmOrder" id="article_${item.shop_id }">
+						<img src="${path}/shopPic/${item.shop_pic}">
 						<div class="product-text">
 							<span class="address">店址：${item.address}</span> <span class="hue"
 								style="margin-top: 0.5rem;">电话：${item.shop_phone}</span> <span
@@ -86,7 +86,8 @@
 			<div id="container" style="width: 100%;height: 500px;"></div>
 		</li>
 	</ul>
-	
+<div id="selectMapPointDiv" style="display:none;">
+</div>	
 <script type="text/javascript">
 
 	//TAB切换
@@ -196,9 +197,17 @@
 			        		new BMap.Size(30,30));
 				var marker = new BMap.Marker(point,{icon:myIcon});
 				marker.addEventListener("click",function(){
-					if(confirm("该店地址是："+address+",是否选择？")){
+					$("#selectMapPointDiv").empty().append($("#article_"+id).clone());
+					layer.open({
+						type: 1,
+						title:'商店信息',
+						area:['90%','35%'],
+						content:$('#selectMapPointDiv'),
+					}); 
+				
+					/* if(confirm("该店地址是："+address+",是否选择？")){
 						selectShop(id);
-					}
+					} */
 				});
 				map.addOverlay(marker);
 			}else{

@@ -20,11 +20,13 @@ import com.trace.po.User;
  */
 public interface UserService {
 	List<User> selectAllUser();
-	List<User> select(Map<String,Object> map);
+	List<User> select(Map<String, Object> map);
 	List<User> query(User user);
-	int count(Map<String,Object> map);
-	User selectByusernameAndpassword(String username,String password);
+	int count(Map<String, Object> map);
+	int countUser(User user);
+	User selectByusernameAndpassword(String username, String password);
 	Map<String,Object> add(User user);
 	User getById(String userid);
 	Map<String,Object> deleteById(String id);
+	int updatePasswordById(User user);
 }

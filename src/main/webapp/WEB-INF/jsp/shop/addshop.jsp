@@ -75,8 +75,29 @@
 								class="layui-input">
 						</div>
 					</div>
-					
-					
+					<div class="layui-form-item">
+                        <label class="layui-form-label">上传图片</label>
+                        <div class="layui-input-inline" style="width:113px;">
+						    <input type="file" name="file" id="upload" class="layui-upload-file">
+                        </div>
+					</div>
+                   <div class="layui-form-item" id="pic_display" style="display: none">
+                            <label class="layui-form-label">已传图片</label>
+                   </div>
+					<div class="layui-form-item" id="pic_display">
+						<label class="layui-form-label">已传图片</label>
+						<div id="picDiv" class="layui-input-block">
+							<input type="hidden" id="shop_pic" name="shop_pic" value="">
+							<input type="hidden" id="real_path" name="real_path" value="">
+							<img class="input-custom-width" src="" id="picImg"/> <a
+								style="margin-left: 10px"
+								class="layui-btn layui-btn-small layui-btn-danger del_btn hide"
+								 title="删除"> <i class="layui-icon"></i>
+							</a>
+							<div style="min-height: 10px"></div>
+						</div>
+					</div>
+
 					<div class="layui-form-item" style="margin-top: 50px;">
 						<div class="layui-input-block">
 							<button type="button" class="layui-btn" id="shop_save">保存</button>
@@ -97,6 +118,63 @@ layui.use(
 		layedit = layui.layedit, 
 		laydate = layui.laydate, 
 		jq = layui.jquery;
+	
+		layui.upload({
+            elem:'#upload',
+            title:'点击上传',
+            url : '${path}/upload/upload.do?path=shopPic',
+            before: function(){
+                index = layer.msg('图片上传中', {
+                    icon: 16
+                    ,shade: 0.01
+                });
+            },
+            success : function(rs) {
+                layer.close(index);
+                if (rs.code == "success") {
+                    layer.msg('图片上传成功', {
+                        icon: 1,
+                        time: 2000 //2秒关闭（默认3秒）
+                    }, function(){
+                    	$("#shop_pic").val(rs.name);
+                    	$("#real_path").val(rs.path);
+                    	$("#picImg").attr('src','${path}/shopPic/'+rs.name);
+                    	$(".del_btn").removeClass('hide');
+                    });
+                   
+                } else {
+                    layer.msg('图片上传失败' + rs.msg + ',请检查图片或重试', {
+                        icon: 2,
+                        time: 2000 //2秒关闭（默认3秒）
+                    }, function(){});
+                }
+            }
+        });
+		
+	jq(".del_btn").on('click',function(){
+		var picPath = $('#real_path').val();
+		jq.ajax({
+			url:'${path}/upload/delUpload.do',
+			type:'post',
+			data:{'path':picPath},
+			success:function(rs){
+				if(""!=rs){
+					rs = jq.parseJSON(rs);
+					if(typeof(rs)!='object'){
+						rs = jq.parseJSON(rs);
+					}
+					if(rs.code=="200"){
+						layer.msg('删除成功！',{time:1000},function(){
+							$("#shop_pic").val("");
+							$("#real_path").val("");
+							$("#picImg").attr('src','');
+							$('.del_btn').addClass('hide');
+						})
+					}
+				}
+			}
+		})
+	})
 		
 	jq("#shop_coordinate").on('click',function() {
 		var address = $("#address").val();
@@ -157,17 +235,22 @@ layui.use(
 			layer.msg('商家坐标不可空，请重新加载');
 			return;
 		}
+		var shop_pic = $("#shop_pic").val();
+		if(shop_pic==null || shop_pic=="" || shop_pic==undefined){
+			layer.msg('请上传商店图片',{time:1000});
+			return;
+		}
 		
 		jq.ajax({
 			url : '${path}/shop/addSave.do',
 			type : 'post',
 			data:{'address':address,'coordinate':shop_coordinate,'shop_name':shopname,
-				'shop_phone':shop_phone,'username':username,'phone':phone},
+				'shop_phone':shop_phone,'username':username,'phone':phone,'shop_pic':shop_pic},
 			dataType : 'json',
 			success : function(rs) {
 				rs = eval("(" + rs + ")");
 				if("200"==rs.code){
-					layer.msg("新增商店成功！管理人为"+username+",</br>登录密码为000000",{time:3000}, function() {
+					layer.msg("新增商店成功！管理人为"+username+",</br>登录密码为000000",{time:2000}, function() {
 						self.location.reload();
 					});
 				}
@@ -181,7 +264,7 @@ function closeLayer(){
 }
 
 function back(){
-	window.location.href = "${path}/shop/listShop.do";
+	window.location.href = "${path}/shop/listshop.do";
 }
 
 $("#username").blur(function(){

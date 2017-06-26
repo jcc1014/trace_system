@@ -11,25 +11,45 @@
     <result column="zipcode" property="zipcode" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    address_id, member_id, sheng, shi, qu, address_detail, zipcode, phone, status
+    address_id, member_id, sheng, shi, qu, address_detail, zipcode, phone, status,name
   </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from address
     where address_id = #{address_id,jdbcType=VARCHAR}
   </select>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.mall.po.Address" >
+    select 
+    <include refid="Base_Column_List" />
+    from address
+    where 1=1
+    <if test="address_id != null">
+    	and address_id = #{address_id,jdbcType=VARCHAR}
+    </if>
+    <if test="member_id != null">
+    	and member_id = #{member_id,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+    	and status = #{status,jdbcType=VARCHAR}
+    </if>
+    order by status desc
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from address
     where address_id = #{address_id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.mall.po.Address" >
-    insert into address (address_id, member_id, sheng,shi, qu, address_detail, zipcode, phone, status)
+    insert into address (address_id, member_id, sheng,shi, qu, address_detail, zipcode, phone, status,name)
     values (#{address_id,jdbcType=VARCHAR}, #{member_id,jdbcType=VARCHAR}, #{sheng,jdbcType=VARCHAR}, 
       #{shi,jdbcType=VARCHAR}, #{qu,jdbcType=VARCHAR}, #{address_detail,jdbcType=VARCHAR}, 
-      #{zipcode,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      #{zipcode,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.po.Address" >
@@ -62,6 +82,9 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="name != null" >
+        name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="address_id != null" >
@@ -90,6 +113,9 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -120,6 +146,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
     </set>
     where address_id = #{address_id,jdbcType=VARCHAR}
   </update>
@@ -132,7 +161,14 @@
       address_detail = #{address_detail,jdbcType=VARCHAR},
       zipcode = #{zipcode,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR}
+      status = #{status,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR}
     where address_id = #{address_id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateStatus">
+    UPDATE address
+    set status = #{status}
+    WHERE address_id = #{address_id}
   </update>
 </mapper>

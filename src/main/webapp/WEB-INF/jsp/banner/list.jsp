@@ -18,7 +18,7 @@
     <div class="layui-tab-content">
       <div class="layui-tab-item layui-show">
       <!-- 搜索 -->
-      <form class="layui-form layui-form-pane search-form" action="${path}/user/list.do">
+      <form class="layui-form layui-form-pane search-form" action="${path}/banner/list.do">
         <div class="layui-form-item">
           <%-- <label class="layui-form-label">姓名</label>
           <div class="layui-input-inline">
@@ -32,8 +32,8 @@
             	<option value="2" <c:if test="${usertype eq '2'}">checked="checked""</c:if>>检验员</option>
             </select>
           </div> --%>
-          <button class="layui-btn" id="search">搜索</button>
-          <button class="layui-btn" type="button" id="add">新增</button>
+          <!-- <button class="layui-btn" id="search">搜索</button> -->
+          <button class="layui-btn" type="button" id="add" style="float: right;margin-right: 20px;">新增</button>
         </div>
       </form>
       <form class="layui-form">
@@ -54,7 +54,7 @@
           			<td align="center">${index.index+1}</td>
           			<td>${item.banner_title}</td>
           			<td>
-          				<a href="${item.banner_url}" target="_blank">${item.banner_url}</a>
+          				<a href="http://${item.banner_url}" target="_blank">http://${item.banner_url}</a>
           			</td>
           			<td>${item.banner_index}</td>
           			<td style="vertical-align: middle;">

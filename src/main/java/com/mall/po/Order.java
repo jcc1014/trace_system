@@ -26,6 +26,12 @@ public class Order {
     private String address_id;
     
     private String type;
+    
+    private String finishtime;
+    
+    private String ordertime;
+    
+    private String shop_id;
 
     public String getOrder_id() {
         return order_id;
@@ -130,5 +136,29 @@ public class Order {
 	public void setType(String type) {
 		this.type = type;
 	}
-    
+
+	public String getFinishtime() {
+		return finishtime;
+	}
+
+	public void setFinishtime(String finishtime) {
+		this.finishtime = finishtime;
+	}
+
+	public String getOrdertime() {
+		return ordertime;
+	}
+
+	public void setOrdertime(String ordertime) {
+		this.ordertime = ordertime;
+	}
+
+	public String getShop_id() {
+		return shop_id;
+	}
+
+	public void setShop_id(String shop_id) {
+		this.shop_id = shop_id == null ? null : shop_id.trim();;
+	}
+	
 }

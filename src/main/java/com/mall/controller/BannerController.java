@@ -44,15 +44,15 @@ public class BannerController {
 			int r = bannerService.insertSelective(banner);
 			if(r==1){
 				map.put("code", "200");
-				map.put("msg", "Ìí¼Ó³É¹¦£¡");
+				map.put("msg", "ä¿å­˜æˆåŠŸï¼");
 			}else{
 				map.put("code", "-1");
-				map.put("msg", "Ìí¼ÓÊ§°Ü£¡");
+				map.put("msg", "ä¿å­˜å¤±è´¥ï¼");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("code", "error");
-			map.put("msg", "³ö´íÁË£¬ÇëÖØÊÔ»òÕßÁªÏµ¹ÜÀíÔ±£¡");
+			map.put("msg", "å‡ºé”™äº†");
 		}
 		return JSON.toJSONString(map);
 	}

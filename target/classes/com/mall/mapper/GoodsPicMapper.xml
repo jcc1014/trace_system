@@ -5,11 +5,12 @@
     <id column="pic_id" property="pic_id" jdbcType="VARCHAR" />
     <result column="goods_id" property="goods_id" jdbcType="VARCHAR" />
     <result column="pic_path" property="pic_path" jdbcType="VARCHAR" />
-    <result column="index" property="index" jdbcType="VARCHAR" />
-    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="real_path" property="real_path" jdbcType="VARCHAR" />
+    <result column="pic_index" property="pic_index" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    pic_id, goods_id, pic_path, index, createtime
+    pic_id, goods_id, pic_path, real_path, pic_index, create_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -22,10 +23,10 @@
     where pic_id = #{pic_id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.mall.po.GoodsPic" >
-    insert into goods_pic (pic_id, goods_id, pic_path, 
-      index, createtime)
-    values (#{pic_id,jdbcType=VARCHAR}, #{goods_id,jdbcType=VARCHAR}, #{pic_path,jdbcType=VARCHAR}, 
-      #{index,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR})
+    insert into goods_pic (pic_id, goods_id, pic_path, real_path,
+      pic_index, create_time)
+    values (#{pic_id,jdbcType=VARCHAR}, #{goods_id,jdbcType=VARCHAR}, #{pic_path,jdbcType=VARCHAR}, #{real_path},
+      #{pic_index,jdbcType=VARCHAR}, #{create_time,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.po.GoodsPic" >
     insert into goods_pic
@@ -39,11 +40,11 @@
       <if test="pic_path != null" >
         pic_path,
       </if>
-      <if test="index != null" >
-        index,
+      <if test="pic_index != null" >
+        pic_index,
       </if>
-      <if test="createtime != null" >
-        createtime,
+      <if test="create_time != null" >
+        create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -56,11 +57,11 @@
       <if test="pic_path != null" >
         #{pic_path,jdbcType=VARCHAR},
       </if>
-      <if test="index != null" >
-        #{index,jdbcType=VARCHAR},
+      <if test="pic_index != null" >
+        #{pic_index,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null" >
-        #{createtime,jdbcType=VARCHAR},
+      <if test="create_time != null" >
+        #{create_time,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -73,11 +74,11 @@
       <if test="pic_path != null" >
         pic_path = #{pic_path,jdbcType=VARCHAR},
       </if>
-      <if test="index != null" >
-        index = #{index,jdbcType=VARCHAR},
+      <if test="pic_index != null" >
+        pic_index = #{pic_index,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null" >
-        createtime = #{createtime,jdbcType=VARCHAR},
+      <if test="create_time != null" >
+        create_time = #{create_time,jdbcType=VARCHAR},
       </if>
     </set>
     where pic_id = #{pic_id,jdbcType=VARCHAR}
@@ -86,8 +87,21 @@
     update goods_pic
     set goods_id = #{goods_id,jdbcType=VARCHAR},
       pic_path = #{pic_path,jdbcType=VARCHAR},
-      index = #{index,jdbcType=VARCHAR},
-      createtime = #{createtime,jdbcType=VARCHAR}
+      pic_index = #{pic_index,jdbcType=VARCHAR},
+      create_time = #{create_time,jdbcType=VARCHAR}
     where pic_id = #{pic_id,jdbcType=VARCHAR}
   </update>
+
+  <delete id="deleteByGoodsId" parameterType="java.lang.String">
+    delete from goods_pic
+    where goods_id = #{goods_id}
+  </delete>
+
+  <select id="selectByGoodsId" parameterType="java.lang.String" resultType="com.mall.po.GoodsPic">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM goods_pic
+    WHERE goods_id = #{goods_id}
+    ORDER BY pic_index ASC
+  </select>
 </mapper>

@@ -4,34 +4,190 @@
   <resultMap id="BaseResultMap" type="com.mall.po.Order" >
     <id column="order_id" property="order_id" jdbcType="VARCHAR" />
     <result column="member_id" property="member_id" jdbcType="VARCHAR" />
-    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="number" property="number" jdbcType="DOUBLE" />
     <result column="goods_id" property="goods_id" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
     <result column="current_status" property="current_status" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="real_amount" property="real_amount" jdbcType="DOUBLE" />
+    <result column="sub_amount" property="sub_amount" jdbcType="DOUBLE" />
+    <result column="rebate" property="rebate" jdbcType="DOUBLE" />
+    <result column="address_id" property="address_id" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="ordertime" property="ordertime" jdbcType="VARCHAR" />
+    <result column="finishtime" property="finishtime" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shop_id" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    order_id, member_id, number, goods_id, createtime, current_status
+    order_id, member_id, number, goods_id, createtime, current_status,price,amount,
+    real_amount,sub_amount,rebate,type,address_id,finishtime,ordertime,shop_id
+  </sql>
+  <sql id="queryId" >
+    order_id, 
+    (select name from member where member_id = member )as member_id, 
+    number, 
+    (select goods_name from goods  where goods.goods_id = goods_order.goods_id )goods_id, 
+    createtime, current_status,price,amount,real_amount,sub_amount,rebate,type,
+    (select concat(sheng,shi,qu,address_detail)as address_id from address where address.address_id = goods_order.address_id)
+    as address_id,finishtime,ordertime,shop_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from order
+    from goods_order
     where order_id = #{order_id,jdbcType=VARCHAR}
   </select>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.mall.po.Order" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_order 
+    where 1=1
+    <if test="member_id != null" >
+       and member_id = #{member_id,jdbcType=VARCHAR}
+      </if>
+      <if test="number != null and number != 0" >
+       and number = #{number,jdbcType=INTEGER}
+      </if>
+      <if test="goods_id != null" >
+       and goods_id = #{goods_id,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null" >
+       and createtime = #{createtime,jdbcType=VARCHAR}
+      </if>
+      <if test="current_status != null" >
+       and current_status = #{current_status,jdbcType=VARCHAR}
+      </if>
+      <if test="price != null and price != 0" >
+       and price = #{price,jdbcType=DOUBLE}
+      </if>
+      <if test="amount != null and amount != 0" >
+       and amount = #{amount,jdbcType=DOUBLE}
+      </if>
+      <if test="real_amount != null and real_amount!=0" >
+       and real_amount = #{real_amount,jdbcType=DOUBLE}
+      </if>
+      <if test="rebate != null and rebate != 0" >
+       and rebate = #{rebate,jdbcType=DOUBLE}
+      </if>
+      <if test="finishtime != null and finishtime != 0" >
+       and finishtime = #{finishtime,jdbcType=VARCHAR}
+      </if>
+      <if test="ordertime != null and ordertime != 0" >
+       and ordertime = #{ordertime,jdbcType=VARCHAR}
+      </if>
+      <if test="shop_id != null and shop_id != 0" >
+       and shop_id = #{shop_id,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
+  <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="queryId" />
+    from goods_order 
+    where 1=1
+    <if test="t.member_id != null" >
+       and member_id = #{t.member_id,jdbcType=VARCHAR}
+      </if>
+      <if test="t.number != null and t.number != 0" >
+       and number = #{t.number,jdbcType=INTEGER}
+      </if>
+      <if test="t.goods_id != null" >
+       and goods_id = #{t.goods_id,jdbcType=VARCHAR}
+      </if>
+      <if test="t.createtime != null" >
+       and createtime = #{t.createtime,jdbcType=VARCHAR}
+      </if>
+      <if test="t.current_status != null" >
+       and current_status = #{t.current_status,jdbcType=VARCHAR}
+      </if>
+      <if test="t.price != null and t.price != 0" >
+       and price = #{t.price,jdbcType=DOUBLE}
+      </if>
+      <if test="t.amount != null and t.amount != 0" >
+       and amount = #{t.amount,jdbcType=DOUBLE}
+      </if>
+      <if test="t.real_amount != null and t.real_amount!=0" >
+       and real_amount = #{t.real_amount,jdbcType=DOUBLE}
+      </if>
+      <if test="t.rebate != null and t.rebate != 0" >
+       and rebate = #{t.rebate,jdbcType=DOUBLE}
+      </if>
+      <if test="t.address_id != null and t.address_id != ''" >
+       and address_id = #{t.address_id,jdbcType=VARCHAR}
+      </if>
+      <if test="t.type != null and t.type != ''" >
+       and type = #{t.type,jdbcType=VARCHAR}
+      </if>
+      <if test="t.shop_id != null and t.shop_id != ''" >
+       and shop_id = #{t.shop_id,jdbcType=VARCHAR}
+      </if>
+       order by createtime desc
+    	limit ${index},8
+  </select>
+  
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+  	select 
+    count(1) as num
+    from goods_order where 1=1
+    <if test="t.member_id != null" >
+       and member_id = #{t.member_id,jdbcType=VARCHAR}
+      </if>
+      <if test="t.number != null and t.number != 0" >
+       and number = #{t.number,jdbcType=INTEGER}
+      </if>
+      <if test="t.goods_id != null" >
+       and goods_id = #{t.goods_id,jdbcType=VARCHAR}
+      </if>
+      <if test="t.createtime != null" >
+       and createtime = #{t.createtime,jdbcType=VARCHAR}
+      </if>
+      <if test="t.current_status != null" >
+       and current_status = #{t.current_status,jdbcType=VARCHAR}
+      </if>
+      <if test="t.price != null and t.price != 0" >
+       and price = #{t.price,jdbcType=DOUBLE}
+      </if>
+      <if test="t.amount != null and t.amount != 0" >
+       and amount = #{t.amount,jdbcType=DOUBLE}
+      </if>
+      <if test="t.real_amount != null and t.real_amount!=0" >
+       and real_amount = #{t.real_amount,jdbcType=DOUBLE}
+      </if>
+      <if test="t.rebate != null and t.rebate != 0" >
+       and rebate = #{t.rebate,jdbcType=DOUBLE}
+      </if>
+      <if test="t.address_id != null and t.address_id != ''" >
+       and address_id = #{t.address_id,jdbcType=VARCHAR}
+      </if>
+      <if test="t.type != null and t.type != ''" >
+       and type = #{t.type,jdbcType=VARCHAR}
+      </if>
+      <if test="t.shop_id != null and t.shop_id != ''" >
+       and shop_id = #{t.shop_id,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from order
+    delete from goods_order
     where order_id = #{order_id,jdbcType=VARCHAR}
   </delete>
+  
   <insert id="insert" parameterType="com.mall.po.Order" >
-    insert into order (order_id, member_id, number, 
-      goods_id, createtime, current_status
+    insert into goods_order (order_id, member_id, number, 
+      goods_id, createtime, current_status,price,amount,real_amount,sub_amount,rebate,type,address_id,
+      finishtime,ordertime,shop_id
       )
     values (#{order_id,jdbcType=VARCHAR}, #{member_id,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
-      #{goods_id,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{current_status,jdbcType=VARCHAR}
+      #{goods_id,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{current_status,jdbcType=VARCHAR},
+      #{price,jdbcType=DOUBLE},#{amount,jdbcType=DOUBLE},#{real_amount,jdbcType=DOUBLE},
+      #{sub_amount,jdbcType=DOUBLE},#{rebate,jdbcType=DOUBLE},#{type},#{address_id},
+      #{finishtime},#{ordertime},#{shop_id}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.po.Order" >
-    insert into order
+    insert into goods_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="order_id != null" >
         order_id,
@@ -50,6 +206,36 @@
       </if>
       <if test="current_status != null" >
         current_status,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="real_amount != null" >
+        real_amount,
+      </if>
+      <if test="sub_amount != null" >
+        sub_amount,
+      </if>
+      <if test="rebate != null" >
+        rebate,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="address_id != null and address_id != ''" >
+        address_id,
+      </if>
+      <if test="finishtime != null and finishtime != ''" >
+        finishtime,
+      </if>
+      <if test="ordertime != null and ordertime != ''" >
+        ordertime,
+      </if>
+      <if test="shop_id != null and shop_id != ''" >
+        shop_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -71,15 +257,45 @@
       <if test="current_status != null" >
         #{current_status,jdbcType=VARCHAR},
       </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="real_amount != null" >
+        #{real_amount,jdbcType=DOUBLE},
+      </if>
+      <if test="sub_amount != null" >
+        #{sub_amount,jdbcType=DOUBLE},
+      </if>
+      <if test="rebate != null" >
+        #{rebate,jdbcType=DOUBLE},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="address_id != null and address_id != ''" >
+        #{address_id,jdbcType=VARCHAR},
+      </if>
+       <if test="finishtime != null and finishtime != ''" >
+        #{finishtime,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null and ordertime != ''" >
+        #{ordertime,jdbcType=VARCHAR},
+      </if>
+      <if test="shop_id != null and shop_id != ''" >
+        #{shop_id,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.mall.po.Order" >
-    update order
+    update goods_order
     <set >
       <if test="member_id != null" >
         member_id = #{member_id,jdbcType=VARCHAR},
       </if>
-      <if test="number != null" >
+      <if test="number != null and number != 0" >
         number = #{number,jdbcType=INTEGER},
       </if>
       <if test="goods_id != null" >
@@ -91,16 +307,55 @@
       <if test="current_status != null" >
         current_status = #{current_status,jdbcType=VARCHAR},
       </if>
+      <if test="price != null and price != 0" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null and amount != 0" >
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="real_amount != null and real_amount !=0" >
+        real_amount = #{real_amount,jdbcType=DOUBLE},
+      </if>
+      <if test="sub_amount != null " >
+        sub_amount = #{sub_amount,jdbcType=DOUBLE},
+      </if>
+      <if test="rebate != null and rebate != 0" >
+        rebate = #{rebate,jdbcType=DOUBLE},
+      </if>
+      <if test="type != null and type != ''" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="address_id != null and address_id != ''" >
+        address_id = #{address_id,jdbcType=VARCHAR},
+      </if>
+      <if test="finishtime != null and finishtime != ''" >
+        finishtime = #{finishtime,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null and ordertime != ''" >
+        ordertime = #{ordertime,jdbcType=VARCHAR}
+      </if>
+      <if test="shop_id != null and shop_id != ''" >
+        shop_id = #{shop_id,jdbcType=VARCHAR}
+      </if>
     </set>
     where order_id = #{order_id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.mall.po.Order" >
-    update order
+    update goods_order
     set member_id = #{member_id,jdbcType=VARCHAR},
       number = #{number,jdbcType=INTEGER},
       goods_id = #{goods_id,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=VARCHAR},
-      current_status = #{current_status,jdbcType=VARCHAR}
+      current_status = #{current_status,jdbcType=VARCHAR},
+        price = #{price,jdbcType=DOUBLE},
+        amount = #{amount,jdbcType=DOUBLE},
+        real_amount = #{real_amount,jdbcType=DOUBLE},
+        sub_amount = #{sub_amount,jdbcType=DOUBLE},
+        rebate = #{rebate,jdbcType=DOUBLE},
+        type = #{type,jdbcType=VARCHAR},
+        address_id = #{address_id,jdbcType=VARCHAR},
+        ordertime = #{ordertime,jdbcType=VARCHAR},
+        finishtime = #{finishtime,jdbcType=VARCHAR}
     where order_id = #{order_id,jdbcType=VARCHAR}
   </update>
 </mapper>

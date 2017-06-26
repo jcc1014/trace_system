@@ -6,10 +6,13 @@
     <result column="shop_id" jdbcType="VARCHAR" property="shop_id" />
     <result column="goods_id" jdbcType="VARCHAR" property="goods_id" />
     <result column="goods_num" jdbcType="DOUBLE" property="goods_num" />
-    <result column="createtime" jdbcType="VARCHAR" property="createime" />
+    <result column="goods_remain" jdbcType="DOUBLE" property="goods_remain" />
+    <result column="createtime" jdbcType="VARCHAR" property="createtime" />
+    <result column="shop_name" jdbcType="VARCHAR" property="shop_name" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goods_name" />
   </resultMap>
   <sql id="Base_Column_List">
-    shop_goods_id, shop_id, goods_id, goods_num,createtime
+    shop_goods_id, shop_id, goods_id, goods_num,createtime,shop_name,goods_name,goods_remain
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -17,15 +20,74 @@
     from shop_goods
     where shop_goods_id = #{shop_goods_id,jdbcType=VARCHAR}
   </select>
+  <select id="select" parameterType="com.mall.po.ShopGoods" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_goods
+    where 1=1
+    <if test="shop_goods_id != null">
+    	and shop_goods_id = #{shop_goods_id,jdbcType=VARCHAR}
+    </if>
+    <if test="shop_id != null">
+    	and shop_id = #{shop_id,jdbcType=VARCHAR}
+    </if>
+    <if test="goods_id != null">
+    	and goods_id = #{goods_id,jdbcType=VARCHAR}
+    </if>
+    <if test="goods_name != null">
+    	and goods_name like '%${goods_name,jdbcType=VARCHAR}%'
+    </if>
+    <if test="shop_name != null">
+    	and shop_name = #{shop_name,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from shop_goods
+  	where 1=1
+  	<if test="goods_name != null and goods_name != ''">
+     and goods_name like '%${goods_name}%'
+    </if>
+ 	order by shop_goods_id
+    limit ${index},8
+  </select>
+  <select id="selectByShopId" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from shop_goods
+  	where 1=1 and shop_id in
+  	<foreach item="item" index="int" collection="list" open="(" separator="," close=")">  
+  		#{item}  
+ 	</foreach>
+ 	<if test="goods_name != null and goods_name != ''">
+     and goods_name like '%${goods_name}%'
+    </if>
+ 	order by shop_goods_id
+    limit ${index},8
+  </select>
+  
+  <select id="queryCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+  	select 
+    count(1) as num
+    from shop_goods where 1=1 and shop_id in
+    <foreach item="item" index="index" collection="templist" open="(" separator="," close=")">  
+  		#{item}  
+ 	</foreach>
+ 	<if test="goods_name != null and goods_name != ''">
+     and goods_name like '%${goods_name}%'
+    </if>
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from shop_goods
     where shop_goods_id = #{shop_goods_id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.mall.po.ShopGoods">
     insert into shop_goods (shop_goods_id, shop_id, goods_id, 
-      goods_num,createtime)
+      goods_num,createtime,shop_name,goods_name)
     values (#{shop_goods_id,jdbcType=VARCHAR}, #{shop_id,jdbcType=VARCHAR}, #{goods_id,jdbcType=VARCHAR}, 
-      #{goods_num,jdbcType=DOUBLE},#{createtime,jdbcType=VARCHAR})
+      #{goods_num,jdbcType=DOUBLE},#{createtime,jdbcType=VARCHAR},#{shop_name,jdbcType=VARCHAR},#{goods_name,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.po.ShopGoods">
     insert into shop_goods
@@ -45,6 +107,15 @@
       <if test="createtime != null">
         createtime,
       </if>
+      <if test="shop_name != null">
+      	shop_name,
+      </if>
+      <if test="goods_name != null">
+      	goods_name,
+      </if>
+      <if test="goods_remain != null">
+      	goods_remain,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="shop_goods_id != null">
@@ -61,6 +132,15 @@
       </if>
       <if test="createtime != null">
         #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="shop_name != null">
+      	#{shop_name,jdbcType=VARCHAR},
+      </if>
+      <if test="goods_name != null">
+      	#{goods_name,jdbcType=VARCHAR},
+      </if>
+      <if test="goods_remain != null">
+      	#{goods_remain,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -79,14 +159,26 @@
       <if test="createtime != null">
         createtime = #{createtime,jdbcType=VARCHAR},
       </if>
+       <if test="shop_name != null">
+      	shop_name=#{shop_name,jdbcType=VARCHAR},
+      </if>
+      <if test="goods_name != null">
+      	goods_name=#{goods_name,jdbcType=VARCHAR},
+      </if>
+      <if test="goods_remain != null">
+      	goods_remain=#{goods_remain,jdbcType=DOUBLE},
+      </if>
     </set>
     where shop_goods_id = #{shop_goods_id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.mall.po.ShopGoods">
     update shop_goods
     set shop_id = #{shop_id,jdbcType=VARCHAR},
+    	shop_name = #{shop_name,jdbcType=VARCHAR},
       goods_id = #{goods_id,jdbcType=VARCHAR},
-      goods_num = #{goods_num,jdbcType=DOUBLE}
+      goods_name = #{goods_name,jdbcType=VARCHAR},
+      goods_num = #{goods_num,jdbcType=DOUBLE},
+      goods_remain = #{goods_remain,jdbcType=DOUBLE}
     where shop_goods_id = #{shop_goods_id,jdbcType=VARCHAR}
   </update>
 </mapper>

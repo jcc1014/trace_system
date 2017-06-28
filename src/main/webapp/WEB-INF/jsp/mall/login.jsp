@@ -72,7 +72,6 @@
 <div class="header">
 	<div class="" style="background:none"></div>
 	<div class="toolbar statusbar-padding">
-		<button class="bar-button back-button" style="left:-10px" onclick="history.go(-1);" dwz-event-on-click="click"><i class="icon icon-back-s"></i></button>
 		<div class="header-title">
 			<div class="title"></div>
 		</div>

@@ -9,6 +9,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mysql.jdbc.log.LogUtils;
+import com.trace.util.Log4JUtils;
+
 
 public class UserSecurityInterceptor implements HandlerInterceptor{
 
@@ -48,8 +51,12 @@ public class UserSecurityInterceptor implements HandlerInterceptor{
         
         HttpSession session = arg0.getSession();
         if (session.getAttribute("user") == null) {
-            System.out.println(arg0.getContextPath());
-            arg1.sendRedirect(arg0.getContextPath() + "/login.do");
+            Log4JUtils.getLogger().info(arg0.getContextPath());
+            if(requestUri.contains("mall")){
+            	arg1.sendRedirect(arg0.getContextPath() + "/mall/login.do");
+            }else{
+            	arg1.sendRedirect(arg0.getContextPath() + "/login.do");
+            }
         }
         return true;
     }

@@ -10,10 +10,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="${path}/css/ui.css" rel="stylesheet" />
-    <!-- 引入js资源 -->
+    <link rel="stylesheet" href="${path}/layui/css/layui.css">
+	<!-- 引入js资源 -->
     <script type="text/javascript" src="${path}/js/jquery.min.js"></script>
+	<script type="text/javascript" src="${path}/layui/layui.js"></script>
     <script>jQuery.noConflict()</script>
-    <script type="text/javascript" src="${path}/layer/layer.js"></script>
     <script type="text/javascript" src="${path}/js/zepto.min.js"></script>
     <script type="text/javascript" src="${path}/js/zepto.kslider.js"></script>
     <script type="text/javascript" src="${path}/js/add/js/jquery.gcjs.js"></script>
@@ -47,6 +48,10 @@
             position:absolute;
             top:12px;
         }
+        .layui-upload-button{
+        	float: right;
+        	margin-top: 30px;
+        }
     </style>
 </head>
 <body>
@@ -57,14 +62,69 @@
 
     <div id="containers">
 	    <div class="address_main">
-		    <div class="line"><input placeholder="请输入用户名" name="username" value="${username}"/></div>
+		    <div class="line"><input placeholder="请输入用户名" id="name" name="name" value="${member.name}"/></div>
+	    </div>
+	    <div class="address_main">
+		    <div class="line"><input placeholder="手机号"  value="${member.phone}" readonly="readonly"/></div>
+	    </div>
+	    <div class="address_main">
+		    <div class="line">
+		    <select name="sex" id="sex" style="width: 100%;">
+		    	<option value="0" <c:if test="${member.sex eq '0'}">selected="selected"</c:if>>男</option>
+		    	<option value="1" <c:if test="${member.sex eq '1'}">selected="selected"</c:if>>女</option>
+		    </select>
+		    </div>
+	    </div>
+	    <div class="address_main">
+		    <div class="line" style="height: 90px;line-height: 90px;vertical-align: middle;">
+		    <img alt="头像" src="${path}/uploadPic/${member.photo}" id="picImg" width="80" height="80" style="float: left;margin-top: 5px;">
+		    <input type="file" name="file0" id="upload" class="layui-upload-file">
+		    <input type="hidden" name="photo" id="photo" >
+		    </div>
 	    </div>
     </div>
     <div class="address_sub1" onclick="save();">确认</div>
     <br>
     <script type="text/javascript">
+    layui.use(
+    		[ 'element', 'form', 'upload', 'layedit', 'laydate' ],function() {
+    		var element = layui.element(), 
+    		form = layui.form(), 
+    		layedit = layui.layedit, 
+    		laydate = layui.laydate, 
+    		jq = layui.jquery;
+		    layui.upload({
+	            elem:'#upload',
+	            title:'上传',
+	            url : '${path}/upload/upload.do?path=uploadPic',
+	            before: function(){
+	                index = layer.msg('图片上传中', {
+	                    icon: 16
+	                    ,shade: 0.01
+	                });
+	            },
+	            success : function(rs) {
+	                layer.close(index);
+	                if (rs.code == "success") {
+	                    layer.msg('图片上传成功', {
+	                        icon: 1,
+	                        time: 2000 //2秒关闭（默认3秒）
+	                    }, function(){
+	                    	$("#photo").val(rs.name);
+	                    	$("#picImg").attr('src','${path}/uploadPic/'+rs.name);
+	                    });
+	                   
+	                } else {
+	                    layer.msg('图片上传失败' + rs.msg + ',请检查图片或重试', {
+	                        icon: 2,
+	                        time: 2000 //2秒关闭（默认3秒）
+	                    }, function(){});
+	                }
+	            }
+	        });
+    	});
 	    function save() {
-	        var username = $("input[name=username]").val();
+	        var username = $("#name").val();
 	        if (username == null || username.trim() == "") {
 	            layer.msg("请输入用户名");
 	            return;
@@ -78,7 +138,7 @@
             $.ajax({
                 url: '${path}/mall/personal_setting_basic_save.do',
                 type: 'post',
-                data: {username: username},
+                data: {'name': username,'sex':$("#sex").val(),'photo':$('#photo').val()},
                 success: function (res) {
                     res = JSON.parse(res);
                     if (res.code == 200) {
@@ -91,6 +151,7 @@
                 }
             });
 	    }
+	    
     </script>
 </body>
 </html>

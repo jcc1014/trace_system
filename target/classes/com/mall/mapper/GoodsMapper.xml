@@ -101,6 +101,12 @@
       <if test="shop_id != null" >
         shop_id = #{shop_id,jdbcType=VARCHAR},
       </if>
+      <if test="new_price != null" >
+        new_price = #{new_price},
+      </if>
+      <if test="old_price != null" >
+        old_price = #{old_price},
+      </if>
     </set>
     where goods_id = #{goods_id,jdbcType=VARCHAR}
   </update>

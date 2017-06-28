@@ -9,8 +9,10 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mall.utils.MD5Util;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -679,6 +681,7 @@ public class MallController {
 	public String personalSettingBasic(HttpServletRequest request, ModelMap modelMap) {
 		Member member = (Member)request.getSession().getAttribute("member");
 		modelMap.put("username", member.getName());
+		modelMap.put("member", member);
 		return "mall/personal_setting_basic";
 	}
 	
@@ -689,10 +692,14 @@ public class MallController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "personal_setting_basic_save", produces = "application/json;charset=utf-8")
-	public Result<String> personalSettingBasicSave(HttpServletRequest request, String username) {
+	public Result<String> personalSettingBasicSave(HttpServletRequest request, String name,String sex,String photo) {
 		try {
 			Member member = (Member)request.getSession().getAttribute("member");
-			member.setName(username);
+			member.setName(name);
+			member.setSex(sex);
+			if(null!=photo&&!"".equals(photo)){
+				member.setPhoto(photo);
+			}
 			memberService.updateByPrimaryKey(member);
 			request.getSession().setAttribute("member", member);
 			return new Result<>(ResultEnum.SUCCESS);
@@ -899,9 +906,11 @@ public class MallController {
     	return rs;
     }
     
-    @RequestMapping("uploadHeadImg")
-    public String uploadHeadImg(HttpServletRequest request){
-		
-    	return null;
+    @RequestMapping("logout")
+    public String logout(HttpServletRequest request,HttpSession session){
+    	session.removeAttribute("user");
+    	session.removeAttribute("member");
+		session.setMaxInactiveInterval(0);
+    	return "mall/login";
     }
 }

@@ -18,9 +18,6 @@
 <!-- 引入js资源 -->
 <script type="text/javascript" src="${path}/layui/layui.js"></script>
 <script type="text/javascript" src="${path}/js/jquery.min.js"></script>
-<script>jQuery.noConflict()</script>
-<script type="text/javascript" src="${path}/js/zepto.min.js"></script>
-<script type="text/javascript" src="${path}/js/zepto.kslider.js"></script>
 <script src="${path}/js/vendor/jquery.ui.widget.js"></script>
 <script src="${path}/js/jquery.iframe-transport.js"></script>
 <script src="${path}/js/jquery.fileupload.js"></script>
@@ -38,10 +35,7 @@
 	<div class="user-bg-img">
 		<img src="${path}/images/user_bg.png">
 		<div class="user-img">
-			<img style="height:100%" id="my_pic" onclick="changePic();" src="${path}/${sessionScope.member.photo}">
-			<form action="${path}/mall/uploadHeadImg.do" method="post" id="form">
-				<input id="upload" type="file" name="file" accept="image/*"  multiple/>
-			</form>
+			<img style="height:100%" id="my_pic" src="${path}/uploadPic/${sessionScope.member.photo}">
 		</div>
 	</div>
 	<div class="user-order">
@@ -69,6 +63,9 @@
 		</a>
 		<a href="${path}/mall/personal_setting.do" class="select-btn select-btn-t">
 		<img src="${path}/images/set.png">个人设置<i class="icon icon-select"></i>
+		</a> 
+		<a href="${path}/mall/logout.do" class="select-btn select-btn-t">
+		<img src="${path}/images/logout.png">切换账号<i class="icon icon-select"></i>
 		</a> 
 	</article>
 
@@ -110,12 +107,6 @@ function about(){
 function getOrder(type){
 	window.location.href = "${path}/mall/myOrder.do?status="+type;
 }
-function changePic() {
-    if($("#upload").val()!=""){
-    	$("#form").submit();
-    }
-}
- 
 
 </script>
 </body>

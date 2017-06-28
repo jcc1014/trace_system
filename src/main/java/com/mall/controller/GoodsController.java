@@ -52,13 +52,13 @@ public class GoodsController {
 	@RequestMapping("list.do")
 	public String listGoods(Goods goods, Integer page, Integer pageSize, ModelMap modelMap) {
 		Long total = goodsService.count(goods);
-		if(null!=goods.getGoods_name()&&!"".equals(goods.getGoods_name())){
+		/*if(null!=goods.getGoods_name()&&!"".equals(goods.getGoods_name())){
 			try {
 				goods.setGoods_name(new String(goods.getGoods_name().getBytes("ISO8859-1"),"UTF-8")) ;
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		PageParam<Goods> pageParam = new PageParam<Goods>(page, pageSize, total, goods);
 		List<Goods> list = goodsService.selectByPage(pageParam);
 		List<Dict> types = dictService.selectByParentId("0");

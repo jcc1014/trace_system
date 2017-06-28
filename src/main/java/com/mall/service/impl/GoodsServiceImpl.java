@@ -72,13 +72,15 @@ public class GoodsServiceImpl implements GoodsService{
 	public void insertGoodsAndPic(Goods goods, String[] goods_pic, String[] real_path) throws Exception {
 		try {
             String goods_id = goods.getGoods_id();
+			int row = 0;
             if (StringUtils.isEmpty(goods_id)) {
                 goods_id = UUID.randomUUID().toString();
                 goods.setGoods_id(goods_id);
+	            row = goodsMapper.insert(goods);
             } else {
-                goodsPicMapper.deleteByGoodsId(goods_id);
+	            goodsPicMapper.deleteByGoodsId(goods_id);
+	            row = goodsMapper.updateByPrimaryKeySelective(goods);
             }
-            int row = goodsMapper.insert(goods);
             if (row > 0) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				if (goods_pic != null && goods_pic.length > 0) {

@@ -11,6 +11,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href="${path}/css/bass.css" rel="stylesheet" />
 <link href="${path}/css/style.css" rel="stylesheet" />
+<style type="text/css">
+.commodity li {
+    display: inline-block;
+    width: 31%;
+    height: 160px;
+    margin-right: 2%;
+    margin-bottom: .25rem;
+    background-color: #fff;
+}
+.commodity li>img {
+    width: 100%;
+    height: 80px;
+}
+.commodity-box {
+    padding-left: .9rem;
+    margin-bottom: 3rem;
+}
+</style>
 <!-- 引入js资源 -->
 	<script type="text/javascript" src="${path}/js/jquery.min.js"></script>
 	<script>jQuery.noConflict()</script>

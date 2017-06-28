@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.mall.po.Shop;
+import com.mall.service.MemberService;
 import com.mall.service.ShopService;
 import com.trace.po.User;
 import com.trace.service.UserService;
@@ -38,6 +39,8 @@ public class ShopController {
 	private ShopService shopService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private MemberService memberService;
 	
 	/*
 	 * 显示商家管理新增商家初始页面
@@ -55,6 +58,18 @@ public class ShopController {
 		if(null!=user){
 			Shop shop = new Shop();
 			shop.setMember_id(user.getUserid());
+			List<Shop> list = shopService.select(shop);
+			model.addAttribute("shop", list.size()>0?list.get(0):"");
+		}
+		return page;
+	}
+	
+	@RequestMapping("/watchShop.do")
+	public String watchShop(HttpServletRequest request,Model model,String shop_id){
+		String page = "shop/myShop";
+		if(null!=shop_id){
+			Shop shop = new Shop();
+			shop.setShop_id(shop_id);
 			List<Shop> list = shopService.select(shop);
 			model.addAttribute("shop", list.size()>0?list.get(0):"");
 		}
@@ -82,7 +97,7 @@ public class ShopController {
 			page = "1";
 		}
 		map.put("shop_name", shopname);
-		map.put("member_id", user.getUserid());
+		//map.put("member_id", user.getUserid());
 		int num = shopService.querycount(map,usertype);
 		if(num%8==0){
 			num = num/8;
@@ -93,7 +108,11 @@ public class ShopController {
 		model.addAttribute("curr", page);
 		map.put("index", (Integer.parseInt(page)-1)*8);
 		List<Shop> shoplist = shopService.selectList(map,usertype);
+		User u = new User();
+		u.setUsertype("3");
+		List<User> userList = userService.query(u);
 		model.addAttribute("shoplist", shoplist);
+		model.addAttribute("userList", userList);
 		return p;
 	}
 	

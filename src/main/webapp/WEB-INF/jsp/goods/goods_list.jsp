@@ -52,6 +52,7 @@
               <th>商品描述</th>
               <th>最新价格（单位：元）</th>
               <th>历史价格（单位：元）</th>
+              <th>创建时间</th>
               <th>操作</th>
             </tr> 
           </thead>
@@ -70,6 +71,7 @@
           			<td>${goods.goods_description}</td>
           			<td>${goods.new_price}</td>
           			<td>${goods.old_price}</td>
+          			<td>${goods.create_time}</td>
           			<td>
           				<a class="layui-btn layui-btn-small layui-btn-warm detail_btn" data-id="${goods.goods_id}" data-name="${goods.goods_name}" title="详细信息">
           					<i class="layui-icon">&#xe63c;</i>
@@ -84,7 +86,7 @@
           <thead>
             <tr>
                <!-- <th><button class="layui-btn layui-btn-small" lay-submit lay-filter="delete">删除</button></th> -->
-              <th colspan="7"><div id="page"></div></th>
+              <th colspan="8"><div id="page"></div></th>
             </tr> 
           </thead>
         </table>

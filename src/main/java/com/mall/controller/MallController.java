@@ -898,4 +898,10 @@ public class MallController {
 		}
     	return rs;
     }
+    
+    @RequestMapping("uploadHeadImg")
+    public String uploadHeadImg(HttpServletRequest request){
+		
+    	return null;
+    }
 }

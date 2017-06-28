@@ -21,15 +21,27 @@
 <script>jQuery.noConflict()</script>
 <script type="text/javascript" src="${path}/js/zepto.min.js"></script>
 <script type="text/javascript" src="${path}/js/zepto.kslider.js"></script>
+<script src="${path}/js/vendor/jquery.ui.widget.js"></script>
+<script src="${path}/js/jquery.iframe-transport.js"></script>
+<script src="${path}/js/jquery.fileupload.js"></script>
+<style type="text/css">
+.bar {
+    height: 18px;
+    background: #0c73cc;
+}
+.hide{display: none;}
+</style>
 </head>
 <body>
 	<!-- 个人中心 -->
 	<article class="user-head">
 	<div class="user-bg-img">
-		<input id="upload" type="file" name="file" accept="image/*" style="display: none;"/>
 		<img src="${path}/images/user_bg.png">
 		<div class="user-img">
-			<img style="height:100%" id="my_pic" onclick="changePic();" src="${sessionScope.member.photo}">
+			<img style="height:100%" id="my_pic" onclick="changePic();" src="${path}/${sessionScope.member.photo}">
+			<form action="${path}/mall/uploadHeadImg.do" method="post" id="form">
+				<input id="upload" type="file" name="file" accept="image/*"  multiple/>
+			</form>
 		</div>
 	</div>
 	<div class="user-order">
@@ -38,7 +50,7 @@
 			class="icon icon-select"></i></a> --%>
 	</div>
 	<div class="user-nav">
-		<a href="javascript:'" onclick="getOrder('1')"> <i class="icon icon-f1"></i> 待付款</a> 
+		<a href="javascript:;'" onclick="getOrder('1')"> <i class="icon icon-f1"></i> 待付款</a> 
 		<a href="javascript:;" onclick="getOrder('2')"> <i class="icon icon-f2"></i> 待收货</a> 
 		<a href="javascript:;" onclick="getOrder('3')"> <i class="icon icon-f3"></i> 已收货</a>
 	</div>
@@ -79,6 +91,9 @@
 			 我
 		</a>
 	</footer>
+<div id="progress" class="hide" style="z-index: 100;position: absolute;top: 45%;">
+	<div class="bar" style="width: 0%;"></div>
+</div>
 <script type="text/javascript">
 function commity(){
 	layer.msg('社区暂未开放，请等候通知！');
@@ -96,42 +111,12 @@ function getOrder(type){
 	window.location.href = "${path}/mall/myOrder.do?status="+type;
 }
 function changePic() {
-    $("#upload").trigger("click");
+    if($("#upload").val()!=""){
+    	$("#form").submit();
+    }
 }
-layui.use([ 'element', 'form', 'upload', 'layedit', 'laydate' ],function() {
-    layui.upload({
-        elem:'#upload',
-        title:'点击上传',
-        url : '${path}/goods/uploadPic.do',
-        before: function(){
-            index = layer.msg('图片上传中', {
-                icon: 16
-                ,shade: 0.01
-            });
-        },
-        success : function(rs) {
-            if (rs.code == 200) {
-                $.ajax({
-	                url: '${path}/mall/personal_setting_pic_save.do',
-	                type: 'post',
-	                data: {path: rs.data.src, realPath: rs.data.realPath},
-	                success: function (res) {
-                        layer.close(index);
-                        res = JSON.parse(res);
-                        if (res.code == 200) {
-                            $("#my_pic").attr("src", res.data);
-                            layer.msg('上传' + res.msg, {time:1000});
-                        } else {
-                            layer.msg('上传' + rs.msg);
-                        }
-                    }
-                });
-            } else {
-                layer.msg('上传' + rs.msg);
-            }
-        }
-    });
-});
+ 
+
 </script>
 </body>
 

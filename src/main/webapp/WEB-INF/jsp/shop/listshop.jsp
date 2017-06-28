@@ -39,7 +39,7 @@
               <td align="center">序号</td>
               <td align="center">商家名称</td>
               <td align="center">商家地址</td>
-              <td align="center">商家坐标</td>
+              <td align="center">负责人</td>
               <td align="center">创建时间</td>
               <td align="center">操作</td>
             </tr> 
@@ -50,9 +50,17 @@
           			<td align="center">${index.index+1}</td>
           			<td align="center">${shop.shop_name}</td>
           			<td align="center">${shop.address}</td>
-          			<td align="center">${shop.coordinate}</td>
+          			<td align="center">
+          				<c:forEach var="user" items="${userList }">
+          					<c:if test="${shop.member_id eq user.userid}">${user.username }</c:if>
+          				</c:forEach>
+          			</td>
           			<td align="center">${shop.createtime}</td>
           			<td style="text-align: center;">
+          				<a class="layui-btn layui-btn-small layui-btn-warm detail_btn" title="详细信息" 
+          				href="${path}/shop/watchShop.do?shop_id=${shop.member_id}">
+          					<i class="layui-icon">&#xe63c;</i>
+          				</a>
 			          <a class="layui-btn layui-btn-small layui-btn-danger del_btn"
 			             data-id="${shop.shop_id}" data-name="${shop.shop_name}" title="删除"><i class="layui-icon"></i></a> 
 		            </td> 

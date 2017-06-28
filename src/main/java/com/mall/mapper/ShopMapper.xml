@@ -13,7 +13,11 @@
     <result column="shop_pic" property="shop_pic" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    shop_id, member_id, address, coordinate, createtime,shop_name,shop_order,shop_phone,shop_pic
+    shop_id,member_id ,address, coordinate, createtime,shop_name,shop_order,shop_phone,shop_pic
+  </sql>
+  <sql id="queryId" >
+    shop_id, (select name from member where member.member=shop.member_id )as member_id ,
+     address, coordinate, createtime,shop_name,shop_order,shop_phone,shop_pic
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -37,6 +41,9 @@
   	select 
     count(1) as num
     from shop where 1=1
+    <if test="shop_name != null and shop_name != ''">
+     and shop_name like '%${shop_name}%'
+    </if>
   </select>
   
   <select id="selectList" resultMap="BaseResultMap" parameterType="java.util.Map" >
@@ -170,7 +177,7 @@
         shaop_order = #{shop_order,jdbcType=INTEGER},
       </if>
       <if test="shop_phone != null and shop_phone != ''" >
-        shop_phone = #{shop_phone,jdbcType=VARCHAR}
+        shop_phone = #{shop_phone,jdbcType=VARCHAR},
       </if>
       <if test="shop_pic != null and shop_pic != ''" >
         shop_pic = #{shop_pic,jdbcType=VARCHAR},

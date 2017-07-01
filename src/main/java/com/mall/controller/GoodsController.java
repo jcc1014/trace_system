@@ -1,14 +1,13 @@
 package com.mall.controller;
 
-import com.mall.dto.PageParam;
-import com.mall.dto.Result;
-import com.mall.enums.ResultEnum;
-import com.mall.po.Dict;
-import com.mall.po.Goods;
-import com.mall.po.GoodsPic;
-import com.mall.service.DictService;
-import com.mall.service.GoodsPicService;
-import com.mall.service.GoodsService;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,15 +18,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.mall.dto.PageParam;
+import com.mall.dto.Result;
+import com.mall.enums.ResultEnum;
+import com.mall.po.Dict;
+import com.mall.po.Goods;
+import com.mall.po.GoodsPic;
+import com.mall.service.DictService;
+import com.mall.service.GoodsPicService;
+import com.mall.service.GoodsService;
 
 @Controller
 @RequestMapping("goods")

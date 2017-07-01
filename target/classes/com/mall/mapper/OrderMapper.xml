@@ -55,7 +55,7 @@
        and goods_id = #{goods_id,jdbcType=VARCHAR}
       </if>
       <if test="createtime != null" >
-       and createtime = #{createtime,jdbcType=VARCHAR}
+       and createtime like '%${createtime}%'
       </if>
       <if test="current_status != null" >
        and current_status = #{current_status,jdbcType=VARCHAR}
@@ -73,10 +73,10 @@
        and rebate = #{rebate,jdbcType=DOUBLE}
       </if>
       <if test="finishtime != null and finishtime != ''" >
-       and finishtime = #{finishtime,jdbcType=VARCHAR}
+       and finishtime like '%${finishtime}%'
       </if>
       <if test="ordertime != null and ordertime != ''" >
-       and ordertime = #{ordertime,jdbcType=VARCHAR}
+       and ordertime like '%${ordertime}%'
       </if>
       <if test="shop_id != null and shop_id != ''" >
        and shop_id = #{shop_id,jdbcType=VARCHAR}
@@ -101,7 +101,7 @@
        and goods_id = #{t.goods_id,jdbcType=VARCHAR}
       </if>
       <if test="t.createtime != null" >
-       and createtime = #{t.createtime,jdbcType=VARCHAR}
+       and createtime like '%${t.createtime}%'
       </if>
       <if test="t.current_status != null" >
        and current_status = #{t.current_status,jdbcType=VARCHAR}
@@ -129,6 +129,12 @@
       </if>
       <if test="t.order_number != null and t.order_number != ''" >
        and order_number = #{t.order_number,jdbcType=VARCHAR}
+      </if>
+      <if test="t.order_time != null and t.order_time != ''" >
+       and order_time like '%${t.order_time}%'
+      </if>
+      <if test="t.finishtime != null and t.finishtime != ''" >
+       and finishtime like '%${t.finishtime}%'
       </if>
        order by createtime desc
     	limit ${index},8
@@ -148,7 +154,7 @@
        and goods_id = #{t.goods_id,jdbcType=VARCHAR}
       </if>
       <if test="t.createtime != null" >
-       and createtime = #{t.createtime,jdbcType=VARCHAR}
+       and createtime like '%${t.createtime,jdbcType=VARCHAR}%'
       </if>
       <if test="t.current_status != null" >
        and current_status = #{t.current_status,jdbcType=VARCHAR}
@@ -176,6 +182,12 @@
       </if>
       <if test="t.order_number != null and t.order_number != ''" >
        and order_number = #{t.order_number,jdbcType=VARCHAR}
+      </if>
+      <if test="t.order_time != null and t.order_time != ''" >
+       and order_time like '%${t.order_time}%'
+      </if>
+      <if test="t.finishtime != null and t.finishtime != ''" >
+       and finishtime like '%${t.finishtime}%'
       </if>
   </select>
   

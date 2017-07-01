@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mysql.jdbc.log.LogUtils;
 import com.trace.util.Log4JUtils;
 
 

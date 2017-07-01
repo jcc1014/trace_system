@@ -57,6 +57,9 @@ public class ShopGoodsController {
 	@RequestMapping("/addSave.do")
 	@ResponseBody
 	public String addSave(HttpServletRequest request,HttpSession session,ShopGoods shopgoods){
+		if(0!=shopgoods.getGoods_num()&&!"".equals(shopgoods.getGoods_num())){
+			shopgoods.setGoods_remain(shopgoods.getGoods_num());
+		}
 		Map<String,Object> map = shopgoodsService.addSave(shopgoods);
 		return JSON.toJSONString(map);
 	}

@@ -544,7 +544,7 @@ public class MallController {
     				map.put("code", "1");
     				map.put("msg", msg);
     				if(null!=enoughOrder){
-    					request.getSession().setAttribute(enoughOrder,
+    					request.getSession().setAttribute("enoughOrder",
     							enoughOrder.substring(0, enoughOrder.length()-1));
     				}
     			}else{
@@ -559,7 +559,7 @@ public class MallController {
     }
     
     @RequestMapping("payOrder")
-    public String payOrder(HttpServletRequest request,Model model,String type){
+    public String payOrder(HttpServletRequest request,Model model,String type,String shop_id){
     	String page = "mall/payOrder";
     	String orderStr = "";
     	double sum_amount = 0.0;
@@ -578,7 +578,8 @@ public class MallController {
     			for (int i = 0; i < orderArr.length; i++) {
     				order = orderService.selectByPrimaryKey(orderArr[i]);
     				//order.setCurrent_status("1");
-    				order.setAddress_id(address_id); 
+    				order.setAddress_id(address_id);
+    				order.setShop_id(shop_id);
     				orderList.add(order);
     				orderService.updateByPrimaryKeySelective(order);
     			}
@@ -601,6 +602,7 @@ public class MallController {
     				model.addAttribute("sum_amount", sum_amount);
     				model.addAttribute("order_address",address);
     				model.addAttribute("type",type);
+    				model.addAttribute("shop_id",shop_id);
     			}
     		}
     	}
@@ -609,7 +611,7 @@ public class MallController {
     
     @RequestMapping("pay")
     @ResponseBody
-    public String pay(HttpServletRequest request,String type,String orderType){
+    public String pay(HttpServletRequest request,String type,String orderType,String shop_id){
     	String orderStr = "";
     	Map<String,Object> map = new HashMap<String, Object>();
     	if("1".equals(type)){
@@ -623,8 +625,10 @@ public class MallController {
     		for (int i = 0; i < orderArr.length; i++) {
 				order = new Order();
 				order.setOrder_id(orderArr[i]);
+				order.setOrdertime(DateUtils.getCurrentDate());
 				order.setType(orderType);
 				order.setCurrent_status("2");
+				order.setOrder_number("DD"+DateUtils.getCurrentDate("yyyyMMddHHmmss"));
 				orderService.updateByPrimaryKeySelective(order);
 			}
     		map.put("msg","支付成功！");
@@ -808,11 +812,11 @@ public class MallController {
     	if(null!=orderStr&&!"".equals(orderStr)){
     		String[] orderArr = orderStr.split(";");
     		for (int i = 0; i < orderArr.length; i++) {
-				if(order_id.equals(orderArr[i])){
+				if(!order_id.equals(orderArr[i])){
 					newOrderStr += orderArr[i]+";";
 				}
 			}
-    		if("".equals(newOrderStr)){
+    		if(!"".equals(newOrderStr)){
     			newOrderStr = newOrderStr.substring(0,newOrderStr.length()-1);
     		}
     	}
@@ -825,13 +829,19 @@ public class MallController {
 					newEnoughStr += enoughArr[i]+";";
 				}
 			}
-    		if("".equals(newOrderStr)){
+    		if(!"".equals(newOrderStr)){
     			newEnoughStr = newOrderStr.substring(0,newOrderStr.length()-1);
     		}
     	}
     	int r = orderService.deleteByPrimaryKey(order_id);
     	if(1==r){
-    		rs = ResultUtil.resultString(r);
+    		Map<String,Object> map = new HashMap<String, Object>();
+    		map.put("code", "200");
+    		map.put("goods_orders", newOrderStr);
+    		map.put("enoughOrder", newEnoughStr);
+    		map.put("msg", "删除成功！");
+    		map.put("orderType", orderType);
+    		rs = JSON.toJSONString(map);
     		request.getSession().setAttribute("goods_orders", newOrderStr);
     		request.getSession().setAttribute("enoughOrder", newEnoughStr);
     	}else{
@@ -849,29 +859,35 @@ public class MallController {
     	}else if("2".equals(type)){
     		orderStr = (String)request.getSession().getAttribute("enoughOrder");
     	}
+    	String[] orderArr = orderStr.split(";");
+    	String goodsStr = "";
+    	for (int i = 0; i < orderArr.length; i++) {
+			goodsStr += orderService.selectByPrimaryKey(orderArr[i]).getGoods_id()+";";
+		}
     	Shop shop =shopService.selectByPrimaryKey(shop_id);
 		model.addAttribute("shop", shop);
 		ShopGoods shopGoods = new ShopGoods();
 		shopGoods.setShop_id(shop_id);
 		List<ShopGoods> shopGoodsList = shopGoodsService.select(shopGoods);
+		List<ShopGoods> shopGoodsList2 = new ArrayList<ShopGoods>();
 		//去掉已经添加的种类
 		for (int i = 0; i < shopGoodsList.size(); i++) {
-			if(shopGoodsList.get(i).getGoods_id().indexOf(orderStr)>0){
-				shopGoodsList.remove(i);
+			if(goodsStr.indexOf(shopGoodsList.get(i).getGoods_id())<0 ){
+				shopGoodsList2.add(shopGoodsList.get(i));
 			}
 		}
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		Map<String,Object> map = null;
 		Goods goods = null;
 		GoodsPic goodsPic = null;
-		if(null!=shopGoodsList&&0<shopGoodsList.size()){
-			for (int i = 0; i < shopGoodsList.size(); i++) {
+		if(null!=shopGoodsList2&&0<shopGoodsList2.size()){
+			for (int i = 0; i < shopGoodsList2.size(); i++) {
 				map = new HashMap<String, Object>();
-				goods = goodsService.selectByPrimaryKey(shopGoodsList.get(i).getGoods_id());
-				goodsPic = goodsPicService.selectByGoodsId(shopGoodsList.get(i).getGoods_id()).get(0);
+				goods = goodsService.selectByPrimaryKey(shopGoodsList2.get(i).getGoods_id());
+				goodsPic = goodsPicService.selectByGoodsId(shopGoodsList2.get(i).getGoods_id()).get(0);
 				map.put("goods", goods);
 				map.put("goodsPic", goodsPic);
-				map.put("shopGoods", shopGoodsList.get(i));
+				map.put("shopGoods", shopGoodsList2.get(i));
 				list.add(map);
 			}
 			model.addAttribute("list", list);
@@ -893,11 +909,12 @@ public class MallController {
     	order.setAddress_id(address_id);
     	order.setCreatetime(DateUtils.getCurrentDate());
     	order.setMember_id(user.getUserid());
+    	order.setCurrent_status("0");
     	try {
     		int r = orderService.insertSelective(order);
     		rs = ResultUtil.resultString(r);
-    		orderStr += orderStr+";"+order_id;
-    		enoughOrder += enoughOrder+";"+order_id;
+    		orderStr = orderStr+";"+order_id;
+    		enoughOrder = enoughOrder+";"+order_id;
     		request.getSession().setAttribute("goods_orders",orderStr);
     		request.getSession().setAttribute("enoughOrder",enoughOrder);
     		

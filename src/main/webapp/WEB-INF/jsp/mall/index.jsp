@@ -75,7 +75,7 @@
 			<div class="header">
 				<a href="#"><i class="icon icon-menu"></i></a>
 				<h1>特产商城</h1>
-				<i class="icon icon-soso"></i>
+				<!-- <i class="icon icon-soso"></i> -->
 			</div>
 		</header>
 		<div style="height: 2.5rem;"></div>

@@ -40,7 +40,7 @@
 	<div>
 		<header>
 			<div class="header">
-				<a href="${path}/mall/shopList.do"><i class="icon icon-return"></i></a>
+				<a href="javascript:;" onclick="window.history.go(-1);"><i class="icon icon-return"></i></a>
 				<h1>${shop.shop_name }</h1>
 				<i class="icon icon-soso"></i>
 			</div>
@@ -120,7 +120,7 @@
 				  if(null!=rs){
 					layer.msg('加入成功！',{time:1000},function(){
 						layer.closeAll();
-						window.location.href = "${path}/mall/payOrder.do?type=${type}";
+						window.location.href = "${path}/mall/payOrder.do?type=${type}&shop_id=${shop.shop_id}";
 					});
 				  }
 			  }

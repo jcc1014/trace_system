@@ -75,7 +75,7 @@
 		<!-- <a href="javascript:;" class="pick"> <i class="icon icon-f1"></i>
 			追溯
 		</a>  -->
-		<a href="${path}/mall/mall_index.do"> <i class="icon icon-f1"></i>
+		<a href="${path}/mall/mall_index.do" > <i class="icon icon-f1"></i>
 			首页
 		</a> 
 		<a href="${path}/mall/shopList.do"> <i class="icon icon-f2"></i>
@@ -88,9 +88,6 @@
 			 我
 		</a>
 	</footer>
-<div id="progress" class="hide" style="z-index: 100;position: absolute;top: 45%;">
-	<div class="bar" style="width: 0%;"></div>
-</div>
 <script type="text/javascript">
 function commity(){
 	layer.msg('社区暂未开放，请等候通知！');

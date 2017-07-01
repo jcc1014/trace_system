@@ -253,11 +253,11 @@
 				if(""!=rs){
 					rs = $.parseJSON($.parseJSON(rs));
 					if("200"==rs.code){
-						window.location.href = "${path}/mall/payOrder.do?type=1"
+						window.location.href = "${path}/mall/payOrder.do?type=1&shop_id="+id
 					}else if("1"==rs.code){
 						layer.confirm(rs.code,{tilte:'提示',btn:['确定','取消']},function(){
 							//结算数量够的
-							window.location.href = "${path}/mall/payOrder.do?type=2"
+							window.location.href = "${path}/mall/payOrder.do?type=2&shop_id"+id
 						},function(){
 							layer.closeAll();
 						})

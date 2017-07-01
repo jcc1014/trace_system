@@ -26,6 +26,7 @@
 }
 .hide{display: none;}
 #edit:FOCUS{color: #fff;}
+article{margin-top: 0.5rem;background-color: #eee;}
 </style>
 </head>
 <body>
@@ -33,6 +34,7 @@
 	<div>
 		<header>
 			<div class="header">
+				<a href="${path}/mall/user.do"><i class="icon icon-return"></i></a>
 				<h1>
 				<c:if test="${status eq '1' }">待付款</c:if>
 				<c:if test="${status eq '2' }">已付款</c:if>
@@ -47,13 +49,15 @@
 		<c:forEach var="item" items="${list}">
 			<article class="confirmOrder" id="${item.order.order_id }">
 				<div class="product-text">
-					<span>${item.goods.goods_name}</span>
-					 <span class="price price-cart"> ￥${item.order.amount}
+					<span>订单号：${item.order.order_number }</span>
+					<span>订单时间：${item.order.ordertime }</span>
+					<span>商品名称：${item.goods.goods_name}</span>
+					 <span class="price price-cart">单价： ￥${item.order.amount}
 						<div class="norms-content-t norms-content-two">
-							<span style="width: 8rem">${item.order.number}	（斤）</span> 
+							<span style="width: 8rem">数量：${item.order.number}	（斤）</span> 
 						</div>
 					</span>
-					<span>${item.order.amount}</span>
+					<span>总价：${item.order.amount}</span>
 				</div>
 			</article>
 		</c:forEach>

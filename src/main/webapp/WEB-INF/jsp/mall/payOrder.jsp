@@ -37,7 +37,7 @@
 		<header>
 			<div class="header">
 				<h1>结算订单</h1>
-				<a href="javaScript:void(0);" class="cart-edit" id="edit" onclick="editCart();">增加</a>
+				<a href="javaScript:void(0);" class="cart-edit" id="edit" onclick="addOrder();">增加</a>
 			</div>
 		</header>
 		<div style="height: 2.5rem;"></div>
@@ -101,7 +101,7 @@ function pay(){
 			$.ajax({
 				url:'${path}/mall/pay.do',
 				type:'post',
-				data:{'type':type.val(),'orderType':'${type}'},
+				data:{'type':type.val(),'orderType':'${type}','shop_id':'${shop_id}'},
 				success:function(rs){
 					if(""!=rs){
 						rs = $.parseJSON(rs);
@@ -138,8 +138,19 @@ function delOrder(order_id){
 					if(typeof(rs)!="object"){
 						rs = $.parseJSON(rs);
 					}
-					layer.msg(rs.msg,{tiem:1000},function(){
-						self.location.reload();
+					layer.msg(rs.msg,{time:1000},function(){
+						if(""==rs.goods_orders&&"1"==rs.orderType){
+							layer.msg('没有可以结算的商品！',{time:1000},function(){
+								window.location.href = '${path}/mall/mall_index.do';
+							})
+						}else if(""==rs.enoughOrder&&"2"==rs.orderType){
+							layer.msg('没有可以结算的商品！',{time:1000},function(){
+								window.location.href = '${path}/mall/mall_index.do';
+							})
+						}
+						else{
+							self.location.reload();
+						}
 					})
 				}
 			}
@@ -149,9 +160,9 @@ function delOrder(order_id){
 	})
 }
 
-function addOrder(shopid){
+function addOrder(){
 	//转到增加订单页面 shopid,
-	window.location.href = "${path}/mall/addOrder.do?shopid="+shopid+"&type=${type}";
+	window.location.href = "${path}/mall/addOrder.do?shop_id=${shop_id}&type=${type}";
 }
 </script>
 </body>

@@ -19,10 +19,11 @@
     <result column="finishtime" property="finishtime" jdbcType="VARCHAR" />
     <result column="shop_id" property="shop_id" jdbcType="VARCHAR" />
     <result column="order_number" property="order_number" jdbcType="VARCHAR" />
+    <result column="mall_order_id" property="mall_order_id" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     order_id, member_id, number, goods_id, createtime, current_status,price,amount,
-    real_amount,sub_amount,rebate,type,address_id,finishtime,ordertime,shop_id,order_number
+    real_amount,sub_amount,rebate,type,address_id,finishtime,ordertime,shop_id,order_number,mall_order_id
   </sql>
   <sql id="queryId" >
     order_id, 
@@ -83,6 +84,9 @@
       </if>
       <if test="order_number != null and order_number != ''" >
        and order_number = #{order_number,jdbcType=VARCHAR}
+      </if>
+      <if test="mall_order_id != null and mall_order_id != ''" >
+       and mall_order_id = #{mall_order_id,jdbcType=VARCHAR}
       </if>
   </select>
   
@@ -199,13 +203,13 @@
   <insert id="insert" parameterType="com.mall.po.Order" >
     insert into goods_order (order_id, member_id, number, 
       goods_id, createtime, current_status,price,amount,real_amount,sub_amount,rebate,type,address_id,
-      finishtime,ordertime,shop_id,order_number
+      finishtime,ordertime,shop_id,order_number,mall_order_id
       )
     values (#{order_id,jdbcType=VARCHAR}, #{member_id,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
       #{goods_id,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{current_status,jdbcType=VARCHAR},
       #{price,jdbcType=DOUBLE},#{amount,jdbcType=DOUBLE},#{real_amount,jdbcType=DOUBLE},
       #{sub_amount,jdbcType=DOUBLE},#{rebate,jdbcType=DOUBLE},#{type},#{address_id},
-      #{finishtime},#{ordertime},#{shop_id},#{order_number}
+      #{finishtime},#{ordertime},#{shop_id},#{order_number},#{mall_order_id}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.po.Order" >
@@ -262,6 +266,9 @@
       <if test="order_number != null and order_number != ''" >
         order_number,
       </if>
+      <if test="mall_order_id != null and mall_order_id != ''" >
+	    mall_order_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="order_id != null" >
@@ -315,11 +322,14 @@
       <if test="order_number != null and order_number != ''" >
         #{order_number,jdbcType=VARCHAR},
       </if>
+      <if test="mall_order_id != null and mall_order_id != ''" >
+        #{mall_order_id,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.mall.po.Order" >
     update goods_order
-    <set >
+    <set>
       <if test="member_id != null" >
         member_id = #{member_id,jdbcType=VARCHAR},
       </if>
@@ -366,7 +376,10 @@
         shop_id = #{shop_id,jdbcType=VARCHAR}
       </if>
       <if test="order_number != null and order_number != ''" >
-        order_number = #{order_number,jdbcType=VARCHAR}
+        order_number = #{order_number,jdbcType=VARCHAR},
+      </if>
+      <if test="mall_order_id != null and mall_order_id != ''" >
+	    mall_order_id = #{mall_order_id,jdbcType=VARCHAR}
       </if>
     </set>
     where order_id = #{order_id,jdbcType=VARCHAR}
@@ -388,7 +401,8 @@
         ordertime = #{ordertime,jdbcType=VARCHAR},
         finishtime = #{finishtime,jdbcType=VARCHAR},
         shop_id = #{shop_id,jdbcType=VARCHAR},
-        order_number = #{order_number,jdbcType=VARCHAR}
+        order_number = #{order_number,jdbcType=VARCHAR},
+	    mall_order_id = #{mall_order_id,jdbcType=VARCHAR}
     where order_id = #{order_id,jdbcType=VARCHAR}
   </update>
 </mapper>

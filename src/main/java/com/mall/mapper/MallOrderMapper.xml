@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mall.dao.MallOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.mall.po.MallOrder" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="member_id" property="member_id" jdbcType="VARCHAR" />
+    <result column="current_status" property="current_status" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="discount" property="discount" jdbcType="DECIMAL" />
+    <result column="final_price" property="final_price" jdbcType="DECIMAL" />
+    <result column="address_id" property="address_id" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shop_id" jdbcType="VARCHAR" />
+    <result column="order_number" property="order_number" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,member_id,current_status,price,discount,final_price,address_id,shop_id,order_number,create_time
+  </sql>
+  
+  <insert id="insert" parameterType="com.mall.po.MallOrder">
+    INSERT INTO mall_order (
+    <include refid="Base_Column_List"/>
+    ) VALUES (
+    #{id},#{member_id},#{current_status},#{price},#{discount},#{final_price},#{address_id},#{shop_id},#{order_number},#{create_time}
+    )
+  </insert>
+  
+  <select id="select" parameterType="com.mall.po.MallOrder" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mall_order
+    WHERE 1 = 1
+	<if test="member_id != null and member_id != ''">
+		AND member_id = #{member_id}
+	</if>
+	<if test="shop_id != null and shop_id != ''">
+		AND shop_id = #{shop_id}
+	</if>
+	<if test="current_status != null and current_status != ''">
+		AND current_status = #{current_status}
+	</if>
+	<if test="create_time != null and create_time != ''">
+		${create_time}
+	</if>
+	 
+  </select>
+  
+</mapper>

@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.mall.dao.MallOrderMapper;
+import com.mall.po.*;
+import com.mall.service.*;
 import com.mall.utils.MD5Util;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -25,22 +28,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.mall.dto.Result;
 import com.mall.enums.ResultEnum;
-import com.mall.po.Address;
-import com.mall.po.Banner;
-import com.mall.po.Goods;
-import com.mall.po.GoodsPic;
-import com.mall.po.Member;
-import com.mall.po.Order;
-import com.mall.po.Shop;
-import com.mall.po.ShopGoods;
-import com.mall.service.AddressService;
-import com.mall.service.BannerService;
-import com.mall.service.GoodsPicService;
-import com.mall.service.GoodsService;
-import com.mall.service.MemberService;
-import com.mall.service.OrderService;
-import com.mall.service.ShopGoodsService;
-import com.mall.service.ShopService;
 import com.trace.po.User;
 import com.trace.service.UserService;
 import com.trace.util.DateUtils;
@@ -68,6 +55,8 @@ public class MallController {
 	private ShopGoodsService shopGoodsService;
 	@Autowired
 	private AddressService addressService;
+	@Autowired
+	private MallOrderService mallOrderService;
 	
 
 	@RequestMapping("mall_index")
@@ -622,6 +611,16 @@ public class MallController {
     	if(!"".equals(orderStr)){
     		String[] orderArr = orderStr.split(";");
     		Order order = null;
+    		String mall_order_id = UUID.randomUUID().toString();
+    		// 添加总订单
+		    Member member = (Member) request.getSession().getAttribute("member");
+		    MallOrder mallOrder = new MallOrder();
+		    mallOrder.setId(mall_order_id);
+		    mallOrder.setCreate_time(DateUtils.getCurrentDate());
+		    mallOrder.setCurrent_status("2");
+		    mallOrder.setMember_id(member.getMember());
+		    mallOrder.setOrder_number("DD" + DateUtils.getCurrentDate("yyyyMMddHHmmss"));
+		    float price = 0;
     		for (int i = 0; i < orderArr.length; i++) {
 				order = new Order();
 				order.setOrder_id(orderArr[i]);
@@ -629,9 +628,18 @@ public class MallController {
 				order.setType(orderType);
 				order.setCurrent_status("2");
 				order.setOrder_number("DD"+DateUtils.getCurrentDate("yyyyMMddHHmmss"));
-				orderService.updateByPrimaryKeySelective(order);
-			}
-    		map.put("msg","支付成功！");
+			    order.setMall_order_id(mall_order_id);
+			    orderService.updateByPrimaryKeySelective(order);
+			    // 组装总订单
+			    order = orderService.selectByPrimaryKey(orderArr[i]);
+			    mallOrder.setAddress_id(order.getAddress_id());
+			    mallOrder.setShop_id(order.getShop_id());
+			    price += order.getPrice() * order.getNumber();
+		    }
+		    mallOrder.setPrice(price);
+		    mallOrder.setFinal_price(price);
+    		mallOrderService.insert(mallOrder);
+		    map.put("msg","支付成功！");
     	}else{
     		map.put("msg","支付失败！");
     	}

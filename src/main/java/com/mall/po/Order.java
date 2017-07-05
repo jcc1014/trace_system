@@ -34,6 +34,8 @@ public class Order {
     private String shop_id;
     
     private String order_number;
+    
+    private String mall_order_id;
 
     public String getOrder_id() {
         return order_id;
@@ -171,4 +173,11 @@ public class Order {
 		this.order_number = order_number == null ? null : order_number;
 	}
 	
+	public String getMall_order_id() {
+		return mall_order_id;
+	}
+	
+	public void setMall_order_id(String mall_order_id) {
+		this.mall_order_id = mall_order_id;
+	}
 }

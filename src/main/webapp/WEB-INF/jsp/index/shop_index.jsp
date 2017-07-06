@@ -109,6 +109,7 @@ layui.use(['layer', 'element','jquery','tree'], function(){
   });
   //左边菜单点击
   jq('.left_menu_ul .layui-nav-item').click(function(){
+	if(jq(this).hasClass("layui-nav-title")){return;}
     jq('.left_menu_ul .layui-nav-item').removeClass('layui-this');
     jq(this).addClass('layui-this');
     var id = jq(this).find("a").attr("id");

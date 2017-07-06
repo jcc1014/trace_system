@@ -8,6 +8,7 @@
 package com.trace.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.trace.po.Purchase;
 
@@ -18,8 +19,10 @@ import com.trace.po.Purchase;
  * @Created 2017 2017年4月10日 下午10:15:06
  */
 public interface PurchaseService {
-	List<Purchase> selectAllPurchase();
+	List<Map<String,Object>> selectPurchase(Purchase purchase);
 	List<Purchase> selectByName(String purchase_name);
 	int add(Purchase purchase);
+	int update(Purchase purchase);
+	int updateByPid(Purchase purchase);
 	Purchase getById(String purchase_id);
 }

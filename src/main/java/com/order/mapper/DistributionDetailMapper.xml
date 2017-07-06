@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.order.dao.DistributionDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.order.po.DistributionDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="distribution_id" property="distribution_id" jdbcType="VARCHAR" />
+    <result column="distribution_num" property="distribution_num" jdbcType="DOUBLE" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="distribution_car" property="distribution_car" jdbcType="VARCHAR" />
+    <result column="distribution_user" property="distribution_user" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="distribution_qrcode" property="distribution_qrcode" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="signname" property="signname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, distribution_id, distribution_num, price, distribution_car, distribution_user, 
+    phone, distribution_qrcode, status, signname
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from distribution_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from distribution_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.order.po.DistributionDetail" >
+    insert into distribution_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="distribution_id != null" >
+        distribution_id,
+      </if>
+      <if test="distribution_num != null" >
+        distribution_num,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="distribution_car != null" >
+        distribution_car,
+      </if>
+      <if test="distribution_user != null" >
+        distribution_user,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="distribution_qrcode != null" >
+        distribution_qrcode,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="signname != null" >
+        signname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="distribution_id != null" >
+        #{distribution_id,jdbcType=VARCHAR},
+      </if>
+      <if test="distribution_num != null" >
+        #{distribution_num,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="distribution_car != null" >
+        #{distribution_car,jdbcType=VARCHAR},
+      </if>
+      <if test="distribution_user != null" >
+        #{distribution_user,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="distribution_qrcode != null" >
+        #{distribution_qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="signname != null" >
+        #{signname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.order.po.DistributionDetail" >
+    update distribution_detail
+    <set >
+      <if test="distribution_id != null" >
+        distribution_id = #{distribution_id,jdbcType=VARCHAR},
+      </if>
+      <if test="distribution_num != null" >
+        distribution_num = #{distribution_num,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="distribution_car != null" >
+        distribution_car = #{distribution_car,jdbcType=VARCHAR},
+      </if>
+      <if test="distribution_user != null" >
+        distribution_user = #{distribution_user,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="distribution_qrcode != null" >
+        distribution_qrcode = #{distribution_qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="signname != null" >
+        signname = #{signname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

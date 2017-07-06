@@ -8,6 +8,7 @@
 package com.trace.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.trace.po.Transport;
 
@@ -22,4 +23,5 @@ public interface TransportService {
 	List<Transport> selectByName(String transport_user);
 	int add(Transport transport);
 	Transport getById(String test_id);
+	List<Map<String,Object>> selectTodayTranportList(Map<String,Object> map);
 }

@@ -42,7 +42,7 @@ filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')
 <!-- 用户登录 -->
 <div class="login-main" id="login">
 	<form class="layui-form" id="loginform">
-	<header class="layui-elip">追溯后台管理系统</header>
+	<header class="layui-elip">后台管理系统登录</header>
 		<div class="layui-form-item">
 			<div class="layui-input-inline">
 				<input name="username" lay-verify="required" placeholder="请输入登录用户名"  type="text" autocomplete="off" class="layui-input">

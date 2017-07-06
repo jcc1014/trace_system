@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.order.dao.RequireInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.order.po.RequireInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="dwid" property="dwid" jdbcType="VARCHAR" />
+    <result column="dwmc" property="dwmc" jdbcType="VARCHAR" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
+    <result column="kind" property="kind" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="DOUBLE" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="parentid" property="parentid" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dwid, dwmc, creater, kind, num, source, createtime, parentid, status,grade
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from require_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="select" resultType="java.util.Map" parameterType="com.order.po.RequireInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from require_info
+    where 1=1
+    <if test="creater != null and creater != ''">
+    	and creater = #{creater}
+    </if>
+    <if test="createtime != null and createtime != ''">
+    	and createtime like '%${creater}%'
+    </if>
+    <if test="parentid != null and parentid != ''">
+    	and parentid = #{parentid}
+    </if>
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+  </select>
+  <select id="query" resultType="java.util.Map" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from require_info
+    where 1=1
+    <if test="creater != null and creater != ''">
+    	and creater = #{creater}
+    </if>
+    <if test="createtime != null and createtime != ''">
+    	and createtime like '%${creater}%'
+    </if>
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+    <if test="parentid != null and parentid != ''">
+    	and parentid = #{parentid}
+    </if>
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+    limit ${index},8
+    order by createtime desc
+  </select>
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select 
+    count(1) as num
+    from require_info
+    where 1=1
+    <if test="creater != null and creater != ''">
+    	and creater = #{creater}
+    </if>
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+    <if test="createtime != null and createtime != ''">
+    	and createtime like '%${creater}%'
+    </if>
+    <if test="parentid != null and parentid != ''">
+    	and parentid = #{parentid}
+    </if>
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from require_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.order.po.RequireInfo" >
+    insert into require_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dwid != null" >
+        dwid,
+      </if>
+      <if test="dwmc != null" >
+        dwmc,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="kind != null" >
+        kind,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="parentid != null" >
+        parentid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="dwid != null" >
+        #{dwid,jdbcType=VARCHAR},
+      </if>
+      <if test="dwmc != null" >
+        #{dwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null" >
+        #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=DOUBLE},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.order.po.RequireInfo" >
+    update require_info
+    <set >
+      <if test="dwid != null" >
+        dwid = #{dwid,jdbcType=VARCHAR},
+      </if>
+      <if test="dwmc != null" >
+        dwmc = #{dwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null" >
+        kind = #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=DOUBLE},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        parentid = #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByParentid" parameterType="com.order.po.RequireInfo" >
+    update require_info
+    <set >
+      <if test="dwid != null" >
+        dwid = #{dwid,jdbcType=VARCHAR},
+      </if>
+      <if test="dwmc != null" >
+        dwmc = #{dwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null" >
+        kind = #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=DOUBLE},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        parentid = #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where parentid = #{parentid,jdbcType=VARCHAR}
+  </update>
+</mapper>

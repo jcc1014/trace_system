@@ -1,6 +1,7 @@
 package com.trace.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -19,8 +20,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 	private PurchaseDao purchaseDao;
 	
 	@Override
-	public List<Purchase> selectAllPurchase() {
-		return purchaseDao.selectAllPurchase();
+	public List<Map<String,Object>> selectPurchase(Purchase purchase) {
+		return purchaseDao.selectPurchase(purchase);
 	}
 
 	@Override
@@ -36,6 +37,16 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public Purchase getById(String purchase_id) {
 		return purchaseDao.selectByPrimaryKey(purchase_id);
+	}
+
+	@Override
+	public int update(Purchase purchase) {
+		return purchaseDao.update(purchase);
+	}
+
+	@Override
+	public int updateByPid(Purchase purchase) {
+		return purchaseDao.updateByPid(purchase);
 	}
 
 }

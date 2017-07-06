@@ -12,4 +12,5 @@ String address = request.getScheme()+"://"+request.getServerName()+":"+request.g
 <c:set var="address" value="<%=address %>"/>
 <c:set var="ftpctx" value="<%=basePath %>"/>
 <c:set var="sysname" value="生鲜追溯后台管理系统"/>
+<c:set var="ordername" value="订单后台管理系统"/>
 <c:set var="mall" value="特产商城"/>

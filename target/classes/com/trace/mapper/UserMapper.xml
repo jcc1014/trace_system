@@ -100,6 +100,9 @@
   <delete id="deleteById" parameterType="java.lang.String">
   	delete from user where userid = #{id}
   </delete>
+  <delete id="deleteByUsername" parameterType="java.lang.String">
+  	delete from user where username = #{username}
+  </delete>
   
   <update id="modify" parameterType="com.trace.po.User" >
     update user

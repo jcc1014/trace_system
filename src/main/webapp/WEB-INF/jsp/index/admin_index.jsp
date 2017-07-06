@@ -68,7 +68,7 @@
               <li class="layui-nav-item layui-nav-title">
                 <a>追溯管理</a>
               </li>
-              <li class="layui-nav-item first-item">
+              <%-- <li class="layui-nav-item ">
                 <a href="${path}/trace/list.do" target="main">
                   <i class="layui-icon">&#xe609;</i>
                   <cite>追溯列表</cite>
@@ -78,6 +78,30 @@
                 <a href="${path}/trace/add.do" target="main">
                   <i class="layui-icon">&#xe60a;</i>
                   <cite>新增追溯</cite>
+                </a>
+              </li> --%>
+              <%-- <li class="layui-nav-item">
+                <a href="${path}/produce/add.do" target="main">
+                  <i class="layui-icon">&#xe60a;</i>
+                  <cite>新增基地生产信息</cite>
+                </a>
+              </li> --%>
+              <li class="layui-nav-item first-item">
+                <a href="${path}/baseInfo/list.do" target="main">
+                  <i class="layui-icon">&#xe60a;</i>
+                  <cite>基地列表</cite>
+                </a>
+              </li>
+              <li class="layui-nav-item">
+                <a href="${path}/transport/transportList.do" target="main">
+                  <i class="layui-icon">&#xe60a;</i>
+                  <cite>今日追溯</cite>
+                </a>
+              </li>
+              <li class="layui-nav-item">
+                <a href="${path}/trace/list.do" target="main">
+                  <i class="layui-icon">&#xe60a;</i>
+                  <cite>追溯列表</cite>
                 </a>
               </li>
             </ul>
@@ -182,6 +206,7 @@ layui.use(['layer', 'element','jquery','tree'], function(){
   });
   //左边菜单点击
   jq('.left_menu_ul .layui-nav-item').click(function(){
+	if(jq(this).hasClass("layui-nav-title")){return;}
     jq('.left_menu_ul .layui-nav-item').removeClass('layui-this');
     jq(this).addClass('layui-this');
     var id = jq(this).find("a").attr("id");

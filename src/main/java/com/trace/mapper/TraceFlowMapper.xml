@@ -22,35 +22,55 @@
     from trace_flow
     where trace_id = #{trace_id,jdbcType=VARCHAR}
   </select>
-  <select id="selectAllTraceFlow" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectAllTraceFlow" resultMap="BaseResultMap" parameterType="com.trace.po.TraceFlow" >
     select 
     <include refid="Base_Column_List" />
-    from trace_flow
-    <!--where userid = #{userid,jdbcType=VARCHAR} -->
+    from trace_flow where 1=1
+    <if test="test_id != null and test_id != '' ">
+    	and test_id = #{test_id}
+    </if>
+    <if test="farmer_id != null and farmer_id != '' ">
+    	and farmer_id = #{farmer_id}
+    </if>
+    <if test="purchase_id != null and purchase_id != '' ">
+    	and purchase_id = #{purchase_id}
+    </if>
+    <if test="sampling_id != null and sampling_id != '' ">
+    	and sampling_id = #{sampling_id}
+    </if>
+    <if test="sale_id != null and sale_id != '' ">
+    	and sale_id = #{sale_id}
+    </if>
+    <if test="trace_status != null and trace_status != '' ">
+    	and trace_status = #{trace_status}
+    </if>
+    <if test="qrcode != null and qrcode != '' ">
+    	and qrcode = #{qrcode}
+    </if>
+    <if test="createtime != null and createtime != '' ">
+    	and createtime like '%${createtime}%'
+    </if>
+    <if test="transport_id != null and transport_id != '' ">
+    	and transport_id = #{transport_id}
+    </if>
+    
   </select>
   
   <select id="query" resultType="java.util.Map" parameterType="java.util.Map">
-  	SELECT *,
-	(SELECT farmer_name from farmer f where f.farmer_id = t.farmer_id)as farmer_name,
-	(SELECT purchase_name from purchase p where p.purchase_id = t.purchase_id)as purchase_name,
-	(SELECT test_name from test  where test.test_id = t.test_id)as test_name,
-	(SELECT test_name from test  where test.test_id = t.sampling_id)as sampling_name,
-	(SELECT transport_destination from transport  where transport.transport_id = t.transport_id)as transport_destination,
-	(SELECT transport_user from transport  where transport.transport_id = t.transport_id)as transport_user,
-	(SELECT purchase_type from purchase  where purchase.purchase_id = t.purchase_id)as purchase_type,
-	(SELECT qrcode_path from qrcode  where qrcode.qrcode_id = t.qrcode)as qrcode_path
-	 from trace_flow t
-	 where 1=1
+  	SELECT * from trace_flow tf,farmer f,purchase p,test t,transport tra,qrcode q WHERE
+	f.farmer_id = tf.farmer_id and p.purchase_id = tf.purchase_id
+	and t.test_id = tf.test_id and tra.transport_id = tf.transport_id and q.qrcode_id = tf.qrcode
+	 and tf.trace_status = '6'
 	 <if test="starttime != null and starttime !=''">
-	 	t.createtime &gt;= #{starttime}
+	 	and tf.createtime &gt;= #{starttime}
 	 </if>
 	 <if test="endtime != null and endtime !=''">
-	 	t.createtime &lt;= #{endtime}
+	 	and tf.createtime &lt;= #{endtime}
 	 </if>
 	 <if test="farmer_name != null and farmer_name !=''">
-	 	 and EXISTS (SELECT 1 from farmer f where f.farmer_name like '%${farmer_name}%' and f.farmer_id=t.farmer_id)
+	 	 and EXISTS (SELECT 1 from farmer f where f.farmer_name like '%${farmer_name}%' and f.farmer_id=tf.farmer_id)
 	 </if>
-  	 ORDER BY t.trace_status,t.createtime
+  	 ORDER BY tf.trace_status,tf.createtime desc
 	 limit ${index},8
   </select>
   <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
@@ -89,5 +109,12 @@
   	(#{trace_id},#{farmer_id},#{purchase_id},#{test_id},#{sampling_id},
   	#{transport_id},#{sale_id},#{trace_status},#{qrcode},#{createtime})
   </insert>
+  
+  <select id="selectFlowById" resultType="java.util.Map" parameterType="java.lang.String" >
+  	SELECT * from trace_flow tf,farmer f,purchase p,test t,transport tra,qrcode q WHERE
+	f.farmer_id = tf.farmer_id and p.purchase_id = tf.purchase_id
+	and t.test_id = tf.test_id and tra.transport_id = tf.transport_id and q.qrcode_id = tf.qrcode
+	and tf.trace_id = #{trace_id}  and tf.trace_status = '6'
+  </select>
   
 </mapper>

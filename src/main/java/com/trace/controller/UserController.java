@@ -83,6 +83,9 @@ public class UserController {
 			else if("3".equals(user.getUsertype())){
 				page = "index/shop_index";
 			}
+			else if("2".equals(user.getUsertype())){
+				page = "index/test_index";
+			}
 			else{
 				page = "index/trace_index";
 			}

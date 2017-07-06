@@ -10,6 +10,13 @@ public class Test {
 	private String test_type;
 	private String test_name;
 	private String test_video;
+	private String test_bh;
+	private double test_num;
+	private String test_kind;
+	private String test_grade;
+	private String test_status;
+	private String test_user;
+	
 	
 	
 	public String getTest_id() {
@@ -60,6 +67,41 @@ public class Test {
 	public void setTest_video(String test_video) {
 		this.test_video = test_video;
 	}
-	
+	public String getTest_bh() {
+		return test_bh;
+	}
+	public void setTest_bh(String test_bh) {
+		this.test_bh = test_bh;
+	}
+	public double getTest_num() {
+		return test_num;
+	}
+	public void setTest_num(double test_num) {
+		this.test_num = test_num;
+	}
+	public String getTest_kind() {
+		return test_kind;
+	}
+	public void setTest_kind(String test_kind) {
+		this.test_kind = test_kind;
+	}
+	public String getTest_grade() {
+		return test_grade;
+	}
+	public void setTest_grade(String test_grade) {
+		this.test_grade = test_grade;
+	}
+	public String getTest_status() {
+		return test_status;
+	}
+	public void setTest_status(String test_status) {
+		this.test_status = test_status;
+	}
+	public String getTest_user() {
+		return test_user;
+	}
+	public void setTest_user(String test_user) {
+		this.test_user = test_user;
+	}
 	
 }

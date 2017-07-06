@@ -10,7 +10,6 @@ package com.trace.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -21,6 +20,7 @@ import org.springframework.stereotype.Service;
 import com.trace.dao.UserDao;
 import com.trace.po.User;
 import com.trace.service.UserService;
+import com.utils.UUIDFactory;
 
 /**
  * @Description
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService{
 	public Map<String,Object> add(User user) {
 		Map<String,Object> map = new HashMap<String, Object>();
 		try {
-			user.setUserid(UUID.randomUUID().toString());
+			user.setUserid(user.getUserid()==null?UUIDFactory.getInstance().newUUID():user.getUserid());
 			user.setPassword(DigestUtils.md5Hex("000000"));
 			userDao.insert(user);
 			map.put("code", "200");
@@ -108,5 +108,10 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int updatePasswordById(User user) {
 		return userDao.updatePasswordById(user);
+	}
+
+	@Override
+	public int deleteByUsername(String username) {
+		return userDao.deleteByUsername(username);
 	}
 }

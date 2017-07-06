@@ -36,4 +36,14 @@
   	(#{transport_id},#{transport_truck},#{transport_user},#{transport_destination},#{transport_pic})
   </insert>
   
+  <select id="selectTodayTranportList" resultType="java.util.Map" parameterType="java.util.Map" >
+	SELECT *,(SELECT qrcode_path from qrcode where qrcode_id = tf.qrcode)as qrcode_path 
+	from trace_flow tf,farmer f,purchase p,test t WHERE
+	f.farmer_id = tf.farmer_id 
+	and p.purchase_id = tf.purchase_id
+	and t.test_id = tf.test_id
+	and p.purchase_time like '%${datetime}%' <!-- and tf.transport_id is null
+	and tf.qrcode is null -->
+  </select>
+  
 </mapper>

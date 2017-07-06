@@ -29,4 +29,5 @@ public interface UserService {
 	User getById(String userid);
 	Map<String,Object> deleteById(String id);
 	int updatePasswordById(User user);
+	int deleteByUsername(String username);
 }

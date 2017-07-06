@@ -21,11 +21,12 @@ import com.trace.po.TraceFlow;
  * @Created 2017 
  */
 public interface TraceFlowDao {
-	List<TraceFlow> selectAllTraceFlow();
+	List<TraceFlow> selectAllTraceFlow(TraceFlow traceFlow);
 	int insert(TraceFlow traceFlow);
 	TraceFlow selectByPrimaryKey(@Param("trace_id")String trace_id);
 	
 	List<Map<String,Object>> query(Map<String,Object> map);
+	Map<String,Object> selectFlowById(@Param("trace_id")String trace_id);
 	int count(Map<String,Object> map);
 	int update(TraceFlow traceFlow);
 }

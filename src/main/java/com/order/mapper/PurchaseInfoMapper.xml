@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.order.dao.PurchaseInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.order.po.PurchaseInfo" >
+    <id column="purchase_id" property="purchase_id" jdbcType="VARCHAR" />
+    <result column="kind" property="kind" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="DOUBLE" />
+    <result column="remain_number" property="remain_number" jdbcType="DOUBLE" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="createuser" property="createuser" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="parentid" property="parentid" jdbcType="VARCHAR" />
+    <result column="produce" property="produce" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="supply_number" property="supply_number" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    purchase_id, kind, number, remain_number, grade, createtime, createuser, status, 
+    parentid, produce,price,supply_number
+  </sql>
+  
+  <select id="select" resultType="java.util.Map" parameterType="com.order.po.PurchaseInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from purchase_info
+    where 1=1
+    <if test="createtime != null and createtime != ''">
+    	and createtime like '%${createtime}%'
+    </if>
+    <if test="createuser != null and createuser != ''">
+    	and createuser = #{createuser}
+    </if>
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+    <if test="parentid != null and parentid != ''">
+    	and parentid = #{parentid}
+    </if>
+    <if test="grade != null and grade != ''">
+    	and grade = #{grade}
+    </if>
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+  </select>
+  
+  <select id="query" resultType="java.util.Map" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from purchase_info
+    where 1=1
+    <if test="createtime != null and createtime != ''">
+    	and createtime like '%${createtime}%'
+    </if>
+    <if test="createuser != null and createuser != ''">
+    	and createuser = #{createuser}
+    </if>
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+    <if test="parentid != null and parentid != ''">
+    	and parentid = #{parentid}
+    </if>
+    <if test="grade != null and grade != ''">
+    	and grade = #{grade}
+    </if>
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+    limit ${index},8
+    order by createtime desc
+  </select>
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from purchase_info
+    where 1=1
+    <if test="createtime != null and createtime != ''">
+    	and createtime like '%${createtime}%'
+    </if>
+    <if test="createuser != null and createuser != ''">
+    	and createuser = #{createuser}
+    </if>
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+    <if test="parentid != null and parentid != ''">
+    	and parentid = #{parentid}
+    </if>
+    <if test="grade != null and grade != ''">
+    	and grade = #{grade}
+    </if>
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from purchase_info
+    where purchase_id = #{purchase_id,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from purchase_info
+    where purchase_id = #{purchase_id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.order.po.PurchaseInfo" >
+    insert into purchase_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="purchase_id != null" >
+        purchase_id,
+      </if>
+      <if test="kind != null" >
+        kind,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="remain_number != null" >
+        remain_number,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="parentid != null" >
+        parentid,
+      </if>
+      <if test="produce != null" >
+        produce,
+      </if>
+      <if test="price != null and price != 0" >
+        price,
+      </if>
+      <if test="supply_number != null and supply_number != 0" >
+        supply_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="purchase_id != null" >
+        #{purchase_id,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null" >
+        #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=DOUBLE},
+      </if>
+      <if test="remain_number != null" >
+        #{remain_number,jdbcType=DOUBLE},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="produce != null" >
+        #{produce,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null and price != 0" >
+        #{price},
+      </if>
+      <if test="supply_number != null and supply_number != 0" >
+        #{supply_number},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.order.po.PurchaseInfo" >
+    update purchase_info
+    <set >
+      <if test="kind != null" >
+        kind = #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=DOUBLE},
+      </if>
+      <if test="remain_number != null" >
+        remain_number = #{remain_number,jdbcType=DOUBLE},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        parentid = #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="produce != null" >
+        produce = #{produce,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null and price != 0" >
+        price = #{price},
+      </if>
+      <if test="supply_number != null and supply_number != 0" >
+        supply_number = #{supply_number},
+      </if>
+    </set>
+    where purchase_id = #{purchase_id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByParentid" parameterType="com.order.po.PurchaseInfo" >
+    update purchase_info
+    <set >
+      <if test="kind != null" >
+        kind = #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=DOUBLE},
+      </if>
+      <if test="remain_number != null" >
+        remain_number = #{remain_number,jdbcType=DOUBLE},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="produce != null" >
+        produce = #{produce,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null and price != 0" >
+        price = #{price},
+      </if>
+      <if test="supply_number != null and supply_number != 0" >
+        supply_number = #{supply_number},
+      </if>
+    </set>
+    where parentid = #{parentid,jdbcType=VARCHAR}
+  </update>
+</mapper>

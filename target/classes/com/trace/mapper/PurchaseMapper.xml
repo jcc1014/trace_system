@@ -3,16 +3,18 @@
 <mapper namespace="com.trace.dao.PurchaseDao" >
   <resultMap id="BaseResultMap" type="com.trace.po.Purchase" >
     <id column="purchase_id" property="purchase_id" jdbcType="VARCHAR" />
-    <result column="purchase_name" property="purchase_name" jdbcType="VARCHAR" />
+    <result column="purchase_user" property="purchase_user" jdbcType="VARCHAR" />
     <result column="purchase_time" property="purchase_time" jdbcType="VARCHAR" />
     <result column="purchase_num" property="purchase_num" jdbcType="DOUBLE" />
+    <result column="purchase_price" property="purchase_price" jdbcType="DOUBLE" />
     <result column="purchase_video" property="purchase_video" jdbcType="DOUBLE" />
-    <result column="purchase_type" property="purchase_type" jdbcType="DOUBLE" />
     <result column="purchase_parentid" property="purchase_parentid" jdbcType="DOUBLE" />
+    <result column="purchase_kind" property="purchase_kind" jdbcType="DOUBLE" />
+    <result column="purchase_grade" property="purchase_grade" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Base_Column_List" >
-    purchase_id, purchase_name, purchase_time,purchase_num,
-    purchase_video,purchase_type,purchase_parentid
+    purchase_id, purchase_user, purchase_time,purchase_num,
+    purchase_video,purchase_parentid,purchase_grade,purchase_kind,purchase_price
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -24,20 +26,118 @@
     select 
     <include refid="Base_Column_List" />
     from purchase
-    where purchase_name like '%${purchase_name,jdbcType=VARCHAR}%'
+    where purchase_user like '%${purchase_user,jdbcType=VARCHAR}%'
   </select>
-  <select id="selectAllPurchase" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from purchase
-    <!--where userid = #{userid,jdbcType=VARCHAR} -->
+  <select id="selectPurchase" resultType="java.util.Map" parameterType="com.trace.po.Purchase" >
+    select * from purchase p,farmer f,trace_flow tf where tf.purchase_id = p.purchase_id 
+    and tf.farmer_id = f.farmer_id
+    <if test="purchase_time != null and purchase_time != ''">
+    	and p.purchase_time like '%${purchase_time}%'
+    </if>
+    <if test="purchase_user != null and purchase_user != ''">
+    	and p.purchase_user = #{purchase_user}
+    </if>
+    <if test="purchase_kind != null and purchase_kind != ''">
+    	and p.purchase_kind = #{purchase_kind}
+    </if>
+    <if test="purchase_grade != null and purchase_grade != ''">
+    	and p.purchase_grade = #{purchase_grade}
+    </if>
+    <if test="purchase_parentid != null and purchase_parentid != ''">
+    	and p.purchase_parentid = #{purchase_parentid}
+    </if>
   </select>
   
+  <update id="update" parameterType="com.trace.po.Purchase">
+	UPDATE purchase
+		 <trim prefix="set" suffixOverrides=",">
+		  <if test="purchase_user !=null and purchase_user != ''">purchase_user=#{purchase_user},</if>
+		  <if test="purchase_num !=null and purchase_num !=0">purchase_num=#{purchase_num},</if>
+		  <if test="purchase_time !=null and purchase_time != ''">purchase_time=#{purchase_time},</if>
+		  <if test="purchase_price !=null and purchase_price !=0">purchase_price=#{purchase_price},</if>
+		  <if test="purchase_kind !=null and purchase_kind !=''">purchase_kind=#{purchase_kind},</if>
+		  <if test="purchase_grade !=null and purchase_grade !=''">purchase_grade=#{purchase_grade},</if>
+		  <if test="purchase_video !=null and purchase_video !=''">test_status=#{test_status},</if>
+		  <if test="purchase_parentid !=null and purchase_parentid !=''">purchase_parentid=#{purchase_parentid},</if>
+		 </trim>
+	WHERE purchase_id=#{purchase_id}
+  </update>
+  <update id="updateByPid" parameterType="com.trace.po.Purchase">
+	UPDATE purchase
+		 <trim prefix="set" suffixOverrides=",">
+		  <if test="purchase_user !=null and purchase_user != ''">purchase_user=#{purchase_user},</if>
+		  <if test="purchase_num !=null and purchase_num !=0">purchase_num=#{purchase_num},</if>
+		  <if test="purchase_time !=null and purchase_time != ''">purchase_time=#{purchase_time},</if>
+		  <if test="purchase_price !=null and purchase_price !=0">purchase_price=#{purchase_price},</if>
+		  <if test="purchase_kind !=null and purchase_kind !=''">purchase_kind=#{purchase_kind},</if>
+		  <if test="purchase_grade !=null and purchase_grade !=''">purchase_grade=#{purchase_grade},</if>
+		  <if test="purchase_video !=null and purchase_video !=''">test_status=#{test_status},</if>
+		 </trim>
+	WHERE purchase_parentid=#{purchase_parentid}
+  </update>
+  
   <insert id="insert" parameterType="com.trace.po.Purchase">
-  	insert into purchase (purchase_id, purchase_name, purchase_time,purchase_num,
-    purchase_video,purchase_type,purchase_parentid) values
-  	(#{purchase_id},#{purchase_name},#{purchase_time},#{purchase_num},
-  	#{purchase_video},#{purchase_type},#{purchase_parentid})
+  	insert into purchase 
+  	<trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="purchase_id != null and purchase_id != ''" >
+        purchase_id,
+      </if>
+      <if test="purchase_user != null and purchase_user != ''" >
+        purchase_user,
+      </if>
+      <if test="purchase_time != null and purchase_time != ''" >
+        purchase_time,
+      </if>
+      <if test="purchase_num != null and purchase_num != ''" >
+        purchase_num,
+      </if>
+      <if test="purchase_video != null and purchase_video != ''" >
+        purchase_video,
+      </if>
+      <if test="purchase_parentid != null and purchase_parentid != ''" >
+        purchase_parentid,
+      </if>
+      <if test="purchase_kind != null and purchase_kind != ''" >
+        purchase_kind,
+      </if>
+      <if test="purchase_grade != null and purchase_grade != ''" >
+        purchase_grade,
+      </if>
+      <if test="purchase_price != null and purchase_price != 0" >
+        purchase_price,
+      </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="purchase_id != null and purchase_id != ''" >
+        #{purchase_id},
+      </if>
+      <if test="purchase_user != null and purchase_user != ''" >
+        #{purchase_user},
+      </if>
+      <if test="purchase_time != null and purchase_time != ''" >
+        #{purchase_time},
+      </if>
+      <if test="purchase_num != null and purchase_num != ''" >
+        #{purchase_num},
+      </if>
+      <if test="purchase_video != null and purchase_video != ''" >
+        #{purchase_video},
+      </if>
+      <if test="purchase_parentid != null and purchase_parentid != ''" >
+       #{ purchase_parentid},
+      </if>
+      <if test="purchase_kind != null and purchase_kind != ''" >
+        #{purchase_kind},
+      </if>
+      <if test="purchase_grade != null and purchase_grade != ''" >
+        #{purchase_grade},
+      </if>
+      <if test="purchase_price != null and purchase_price != 0" >
+        #{purchase_price},
+      </if>
+      </trim>
   </insert>
+  
+  
   
 </mapper>

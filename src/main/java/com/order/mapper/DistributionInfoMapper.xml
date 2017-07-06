@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.order.dao.DistributionInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.order.po.DistributionInfo" >
+    <id column="distribution_id" property="distribution_id" jdbcType="VARCHAR" />
+    <result column="require_id" property="require_id" jdbcType="VARCHAR" />
+    <result column="require_name" property="require_name" jdbcType="VARCHAR" />
+    <result column="distribution_address" property="distribution_address" jdbcType="VARCHAR" />
+    <result column="require_num" property="require_num" jdbcType="DOUBLE" />
+    <result column="kind" property="kind" jdbcType="VARCHAR" />
+    <result column="yps" property="yps" jdbcType="DOUBLE" />
+    <result column="wps" property="wps" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    distribution_id, require_id, require_name, require_num, kind, yps, wps,distribution_address
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from distribution_info
+    where distribution_id = #{distribution_id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from distribution_info
+    where distribution_id = #{distribution_id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.order.po.DistributionInfo" >
+    insert into distribution_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="distribution_id != null" >
+        distribution_id,
+      </if>
+      <if test="require_id != null" >
+        require_id,
+      </if>
+      <if test="require_name != null" >
+        require_name,
+      </if>
+      <if test="require_num != null and require != 0" >
+        require_num,
+      </if>
+      <if test="kind != null" >
+        kind,
+      </if>
+      <if test="yps != null and yps != 0" >
+        yps,
+      </if>
+      <if test="wps != null and wps != 0" >
+        wps,
+      </if>
+      <if test="distribution_address != null and distribution_address != ''" >
+        distribution_address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="distribution_id != null" >
+        #{distribution_id,jdbcType=VARCHAR},
+      </if>
+      <if test="require_id != null" >
+        #{require_id,jdbcType=VARCHAR},
+      </if>
+      <if test="require_name != null" >
+        #{require_name,jdbcType=VARCHAR},
+      </if>
+      <if test="require_num != null and require_num != 0" >
+        #{require_num,jdbcType=DOUBLE},
+      </if>
+      <if test="kind != null" >
+        #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="yps != null and yps != 0" >
+        #{yps,jdbcType=DOUBLE},
+      </if>
+      <if test="wps != null and wps != 0" >
+        #{wps,jdbcType=DOUBLE},
+      </if>
+      <if test="distribution_address != null and distribution_address != ''" >
+        #{distribution_address},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.order.po.DistributionInfo" >
+    update distribution_info
+    <set >
+      <if test="require_id != null" >
+        require_id = #{require_id,jdbcType=VARCHAR},
+      </if>
+      <if test="require_name != null" >
+        require_name = #{require_name,jdbcType=VARCHAR},
+      </if>
+      <if test="require_num != null and require_num != 0" >
+        require_num = #{require_num,jdbcType=DOUBLE},
+      </if>
+      <if test="kind != null" >
+        kind = #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="yps != null and yps != 0" >
+        yps = #{yps,jdbcType=DOUBLE},
+      </if>
+      <if test="wps != null and wps != 0" >
+        wps = #{wps,jdbcType=DOUBLE},
+      </if>
+      <if test="distribution_address != null and distribution_address != ''" >
+        distribution_address = #{distribution_address},
+      </if>
+    </set>
+    where distribution_id = #{distribution_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

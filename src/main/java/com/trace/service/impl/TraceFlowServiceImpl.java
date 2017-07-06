@@ -50,8 +50,8 @@ public class TraceFlowServiceImpl implements TraceFlowService {
 	private QrcodeDao qrcodeDao;
 	
 	@Override
-	public List<TraceFlow> selectAllTraceFlow() {
-		return traceFlowDao.selectAllTraceFlow();
+	public List<TraceFlow> selectAllTraceFlow(TraceFlow traceFlow) {
+		return traceFlowDao.selectAllTraceFlow(traceFlow);
 	}
 
 	@Override
@@ -355,5 +355,15 @@ public class TraceFlowServiceImpl implements TraceFlowService {
 		map.put("code", "200");
 		map.put("trace_id", trace_id);
 		return JSON.toJSONString(map);
+	}
+
+	@Override
+	public int update(TraceFlow traceFlow) {
+		return traceFlowDao.update(traceFlow);
+	}
+
+	@Override
+	public Map<String, Object> selectFlowById(String trace_id) {
+		return traceFlowDao.selectFlowById(trace_id);
 	}
 }

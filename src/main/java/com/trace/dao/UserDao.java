@@ -32,4 +32,5 @@ public interface UserDao {
 	int deleteById(@Param("id") String id);
 	int modify(User user);
 	int updatePasswordById(User user);
+	int deleteByUsername(@Param("username") String username);
 }

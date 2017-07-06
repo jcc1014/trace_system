@@ -28,10 +28,12 @@ import com.trace.po.Transport;
  * @Created 2017 2017年4月10日 下午10:15:06
  */
 public interface TraceFlowService {
-	List<TraceFlow> selectAllTraceFlow();
+	List<TraceFlow> selectAllTraceFlow(TraceFlow traceFlow);
 	int add(TraceFlow traceFlow);
+	int update(TraceFlow traceFlow);
 	TraceFlow getById(String trace_id);
 	List<Map<String,Object>> query(Map<String,Object> map);
+	Map<String,Object> selectFlowById(String trace_id);
 	int count(Map<String,Object> map);
 	Model getTraceDetail(Model model,String trace_id);
 	String farmerAdd(String trace_id,String farmer_name,String farmer_phone,String farmer_hzs,String video_path);

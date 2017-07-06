@@ -1,6 +1,7 @@
 package com.trace.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -34,9 +35,14 @@ public class TransportServiceImpl implements TransportService {
 	}
 
 	@Override
-	public Transport getById(String test_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Transport getById(String transport_id) {
+		return transportDao.selectByPrimaryKey(transport_id);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectTodayTranportList(
+			Map<String, Object> map) {
+		return transportDao.selectTodayTranportList(map);
 	}
 
 }

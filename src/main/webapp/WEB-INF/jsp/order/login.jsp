@@ -14,6 +14,29 @@
     <link href="iTunesArtwork@2x.png" sizes="114x114" rel="apple-touch-icon-precomposed"> -->
 </head>
 <style type="text/css">
+body p {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -15px;
+	margin-left: -60px;
+	width: 120px;
+	height: 30x;
+}
+</style>
+<script src="${path}/js/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+window.onload = function(){
+	var ua = navigator.userAgent.toLowerCase();
+	var isWeixin = ua.indexOf('micromessenger') != -1;
+	if (!isWeixin) {
+		alert('请在微信中打开！');
+		$("body").empty().append('<p>请在微信中打开</p>');
+
+	}
+}
+</script>
+<style type="text/css">
 	.dot {
 		animation: sploosh 2.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 	}

@@ -7,13 +7,75 @@
     <result column="require_name" property="require_name" jdbcType="VARCHAR" />
     <result column="distribution_address" property="distribution_address" jdbcType="VARCHAR" />
     <result column="require_num" property="require_num" jdbcType="DOUBLE" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="sum_price" property="sum_price" jdbcType="DOUBLE" />
     <result column="kind" property="kind" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
     <result column="yps" property="yps" jdbcType="DOUBLE" />
     <result column="wps" property="wps" jdbcType="DOUBLE" />
+    <result column="base_id" property="base_id" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    distribution_id, require_id, require_name, require_num, kind, yps, wps,distribution_address
+    distribution_id, require_id, require_name, require_num, kind, yps, wps,
+    distribution_address,base_id,price,sum_price
   </sql>
+  <select id="select" resultType="java.util.Map" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from distribution_info
+    where 1=1
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+    <if test="grade != null and grade != ''">
+    	and grade = #{grade}
+    </if>
+    <if test="creattime != null and creattime != ''">
+    	and creattime like '%${creattime}%'
+    </if>
+    <if test="require_name != null and require_name != ''">
+    	and require_name like '%${require_name}%'
+    </if>
+  </select>
+  <select id="query" resultType="java.util.Map" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from distribution_info
+    where 1=1
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+    <if test="grade != null and grade != ''">
+    	and grade = #{grade}
+    </if>
+    <if test="creattime != null and creattime != ''">
+    	and creattime like '%${creattime}%'
+    </if>
+    <if test="require_name != null and require_name != ''">
+    	and require_name like '%${require_name}%'
+    </if>
+    limit ${index},8
+    order by createtime desc
+  </select>
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select 
+    count(1)as num
+    from distribution_info
+    where 1=1
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+    <if test="grade != null and grade != ''">
+    	and grade = #{grade}
+    </if>
+    <if test="creattime != null and creattime != ''">
+    	and creattime like '%${creattime}%'
+    </if>
+    <if test="require_name != null and require_name != ''">
+    	and require_name like '%${require_name}%'
+    </if>
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -51,6 +113,21 @@
       <if test="distribution_address != null and distribution_address != ''" >
         distribution_address,
       </if>
+      <if test="grade != null and grade != ''" >
+        grade,
+      </if>
+      <if test="createtime != null and createtime != ''" >
+        createtime,
+      </if>
+      <if test="base_id != null and base_id != ''" >
+        base_id,
+      </if>
+      <if test="price != null and price != 0" >
+        price,
+      </if>
+      <if test="sum_price != null and sum_price != 0" >
+        sum_price,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="distribution_id != null" >
@@ -77,6 +154,21 @@
       <if test="distribution_address != null and distribution_address != ''" >
         #{distribution_address},
       </if>
+      <if test="grade != null and grade != ''" >
+        #{grade},
+      </if>
+      <if test="createtime != null and createtime != ''" >
+        #{createtime},
+      </if>
+      <if test="base_id != null and base_id != ''" >
+        #{base_id},
+      </if>
+      <if test="price != null and price != 0" >
+        #{price},
+      </if>
+      <if test="sum_price != null and sum_price != 0" >
+        #{sum_price},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.order.po.DistributionInfo" >
@@ -102,6 +194,21 @@
       </if>
       <if test="distribution_address != null and distribution_address != ''" >
         distribution_address = #{distribution_address},
+      </if>
+      <if test="grade != null and grade != ''" >
+        grade = #{grade},
+      </if>
+      <if test="createtime != null and createtime != ''" >
+        createtime = #{createtime},
+      </if>
+      <if test="base_id != null and base_id != ''" >
+        base_id = #{base_id},
+      </if>
+      <if test="price != null and price != 0" >
+        price = #{price},
+      </if>
+      <if test="sum_price != null and sum_price != 0" >
+        sum_price = #{sum_price},
       </if>
     </set>
     where distribution_id = #{distribution_id,jdbcType=VARCHAR}

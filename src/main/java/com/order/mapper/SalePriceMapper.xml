@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.order.dao.SalePriceMapper">
+  <resultMap id="BaseResultMap" type="com.order.po.SalePrice">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="kind" jdbcType="VARCHAR" property="kind" />
+    <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="canteen_price" jdbcType="DOUBLE" property="canteen_price" />
+    <result column="market_price" jdbcType="DOUBLE" property="market_price" />
+    <result column="retail_price" jdbcType="DOUBLE" property="retail_price" />
+    <result column="other_price" jdbcType="DOUBLE" property="other_price" />
+    <result column="createtime" jdbcType="VARCHAR" property="createtime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="parentid" jdbcType="VARCHAR" property="parentid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, kind, grade, price, canteen_price, market_price, retail_price, other_price, createtime, 
+    status, parentid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sale_price
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByKindAndGrade" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sale_price
+    where kind = #{kind,jdbcType=VARCHAR}
+    and grade = #{grade,jdbcType=VARCHAR}
+    and createtime  like '%${datetime}%'
+  </select>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.order.po.SalePrice" >
+    select 
+    <include refid="Base_Column_List" />
+    from sale_price
+    where 1=1
+    <if test="kind != null and kind !=''">
+    	and kind = #{kind}
+    </if>
+    <if test="grade != null and grade !=''">
+    	and grade = #{grade}
+    </if>
+    <if test="status != null and status !=''">
+    	and status = #{status}
+    </if>
+    <if test="parentid != null and parentid !=''">
+    	and parentid = #{parentid}
+    </if>
+    <if test="createtime != null and createtime !=''">
+    	and createtime like '%${createtime}%'
+    </if>
+  </select>
+  <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from sale_price
+    where 1=1
+    <if test="kind != null and kind !=''">
+    	and kind = #{kind}
+    </if>
+    <if test="grade != null and grade !=''">
+    	and grade = #{grade}
+    </if>
+    <if test="status != null and status !=''">
+    	and status = #{status}
+    </if>
+    <if test="parentid != null and parentid !=''">
+    	and parentid = #{parentid}
+    </if>
+    <if test="createtime != null and createtime !=''">
+    	and createtime like '%${createtime}%'
+    </if>
+    limit ${index},8
+    order by createtime desc,status desc
+  </select>
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select 
+    count(1) as num
+    from sale_price
+    where 1=1
+    <if test="kind != null and kind !=''">
+    	and kind = #{kind}
+    </if>
+    <if test="grade != null and grade !=''">
+    	and grade = #{grade}
+    </if>
+    <if test="status != null and status !=''">
+    	and status = #{status}
+    </if>
+    <if test="parentid != null and parentid !=''">
+    	and parentid = #{parentid}
+    </if>
+    <if test="createtime != null and createtime !=''">
+    	and createtime like '%${createtime}%'
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sale_price
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByParentid" parameterType="java.lang.String">
+    delete from sale_price
+    where parentid = #{parentid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.order.po.SalePrice">
+    insert into sale_price
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="kind != null">
+        kind,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="canteen_price != null">
+        canteen_price,
+      </if>
+      <if test="market_price != null">
+        market_price,
+      </if>
+      <if test="retail_price != null">
+        retail_price,
+      </if>
+      <if test="other_price != null">
+        other_price,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="parentid != null">
+        parentid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null">
+        #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="canteen_price != null">
+        #{canteen_price,jdbcType=DOUBLE},
+      </if>
+      <if test="market_price != null">
+        #{market_price,jdbcType=DOUBLE},
+      </if>
+      <if test="retail_price != null">
+        #{retail_price,jdbcType=DOUBLE},
+      </if>
+      <if test="other_price != null">
+        #{other_price,jdbcType=DOUBLE},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.order.po.SalePrice">
+    update sale_price
+    <set>
+      <if test="kind != null">
+        kind = #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="canteen_price != null">
+        canteen_price = #{canteen_price,jdbcType=DOUBLE},
+      </if>
+      <if test="market_price != null">
+        market_price = #{market_price,jdbcType=DOUBLE},
+      </if>
+      <if test="retail_price != null">
+        retail_price = #{retail_price,jdbcType=DOUBLE},
+      </if>
+      <if test="other_price != null">
+        other_price = #{other_price,jdbcType=DOUBLE},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        parentid = #{parentid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByParnetid" parameterType="com.order.po.SalePrice">
+    update sale_price
+    <set>
+      <if test="kind != null">
+        kind = #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="canteen_price != null">
+        canteen_price = #{canteen_price,jdbcType=DOUBLE},
+      </if>
+      <if test="market_price != null">
+        market_price = #{market_price,jdbcType=DOUBLE},
+      </if>
+      <if test="retail_price != null">
+        retail_price = #{retail_price,jdbcType=DOUBLE},
+      </if>
+      <if test="other_price != null">
+        other_price = #{other_price,jdbcType=DOUBLE},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where parentid = #{parentid,jdbcType=VARCHAR}
+  </update>
+  
+  <insert id="insertByRequireAndPurchase" parameterType="java.util.Map">
+  	insert into sale_price (id,kind,grade,price,createtime,status)
+  	SELECT REPLACE(UUID(),'-',''),r.kind,r.grade,p.price,SYSDATE(),'0'
+	FROM (SELECT kind,grade from require_info WHERE status='1' and createtime LIKE '%${datetime}%'
+	GROUP BY kind,grade)as r LEFT JOIN
+	(SELECT  purchase_kind,purchase_grade,purchase_time,SUM(purchase_price)/count(1) as price from purchase WHERE purchase_time LIKE '%${datetime2}%'
+	GROUP BY purchase_kind,purchase_grade)as p 
+	on p.purchase_kind = r.kind and p.purchase_grade = r.grade
+  </insert>
+  
+</mapper>

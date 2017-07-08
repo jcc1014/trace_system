@@ -20,6 +20,10 @@ public class DistributionDetail {
     private String status; //状态
 
     private String signname; //签名地址
+    
+    private String trace_id;
+    
+    private String createtime;
 
     public String getId() {
         return id;
@@ -100,4 +104,20 @@ public class DistributionDetail {
     public void setSignname(String signname) {
         this.signname = signname == null ? null : signname.trim();
     }
+
+	public String getTrace_id() {
+		return trace_id;
+	}
+
+	public void setTrace_id(String trace_id) {
+		this.trace_id = trace_id;
+	}
+
+	public String getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
+	}
 }

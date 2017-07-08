@@ -62,4 +62,10 @@ public class PurchaseInfoServiceImpl implements PurchaseInfoService {
 		return purchaseInfoMapper.updateByParentid(record);
 	}
 
+
+	@Override
+	public List<Map<String, Object>> getCgAndXq(Map<String, Object> map) {
+		return purchaseInfoMapper.getCgAndXq(map);
+	}
+
 }

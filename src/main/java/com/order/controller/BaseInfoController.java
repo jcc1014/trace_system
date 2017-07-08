@@ -179,7 +179,7 @@ public class BaseInfoController {
 			page = "orderModule/purchaseManage_index";
 		}else if("6".equals(user.getUsertype())){
 			//销售主管
-			page = "orderModule/sale_index";
+			page = "orderModule/saleManage_index";
 		}else if("7".equals(user.getUsertype())){
 			//运输
 			page = "orderModule/transport_index";

@@ -22,4 +22,6 @@ public interface PurchaseInfoService {
 	int count(Map<String, Object> map);
 
 	List<Map<String, Object>> select(PurchaseInfo record);
+	
+	List<Map<String,Object>> getCgAndXq(Map<String,Object> map);
 }

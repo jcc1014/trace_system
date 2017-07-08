@@ -12,16 +12,30 @@
     <result column="distribution_qrcode" property="distribution_qrcode" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="signname" property="signname" jdbcType="VARCHAR" />
+    <result column="trace_id" property="trace_id" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, distribution_id, distribution_num, price, distribution_car, distribution_user, 
-    phone, distribution_qrcode, status, signname
+    phone, distribution_qrcode, status, signname,trace_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from distribution_detail
     where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="select" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from distribution_detail
+    where 1=1
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+    <if test="createtime != null and createtime != ''">
+    	and createtime like '%${createtime}%'
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from distribution_detail
@@ -60,6 +74,12 @@
       <if test="signname != null" >
         signname,
       </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="trace_id != null" >
+        trace_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -89,8 +109,11 @@
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="signname != null" >
-        #{signname,jdbcType=VARCHAR},
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="trace_id != null" >
+        #{trace_id,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -123,6 +146,12 @@
       </if>
       <if test="signname != null" >
         signname = #{signname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null and createtime !=''" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="trace_id != null and trace_id !=''" >
+        trace_id = #{trace_id,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

@@ -19,7 +19,7 @@ public class PurchaseInfo {
 
     private String parentid;
 
-    private String produce;
+    private String type;
     
     private double price;
     
@@ -97,12 +97,12 @@ public class PurchaseInfo {
         this.parentid = parentid == null ? null : parentid.trim();
     }
 
-    public String getProduce() {
-        return produce;
+    public String getType() {
+        return type;
     }
 
-    public void setProduce(String produce) {
-        this.produce = produce == null ? null : produce.trim();
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
     }
 
 	public double getPrice() {

@@ -14,58 +14,67 @@
     <link href="iTunesArtwork@2x.png" sizes="114x114" rel="apple-touch-icon-precomposed"> -->
 </head>
 <style type="text/css">
-	.dot {
-		animation: sploosh 2.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+body p {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -15px;
+	margin-left: -60px;
+	width: 120px;
+	height: 30x;
+}
+</style>
+<script src="${path}/js/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+window.onload = function(){
+	var ua = navigator.userAgent.toLowerCase();
+	var isWeixin = ua.indexOf('micromessenger') != -1;
+	if (!isWeixin) {
+		alert('请在微信中打开！');
+		$("body").empty().append('<p>请在微信中打开</p>');
+
 	}
-	.dot2 {
-		animation: sploosh2 2.5s cubic-bezier(0.165, 0.84, 0.44, 2);
-	}
-	.dot3 {
-		animation: sploosh3 2.5s cubic-bezier(0.165, 0.84, 0.44, 3);
-	}
-	.dot,.dot2,.dot3{
-		height:20px;
-		width: 100%;
-		font-size: 40px;
-		color: #fff;
-		text-align: center;
-		border-radius:100% 100% 0 0;
-		position: absolute;
-		z-index: 10;
-		animation-iteration-count:3;
-		-webkit-animation-iteration-count:3; /* Safari 和 Chrome */
-		background: transparent;
-	}
-	@keyframes sploosh {
-		0% {
-			box-shadow: 0 0 0 10px rgba(255, 220, 1, 0.7);
-			background: rgba(255, 220, 1, 0.7);
-		}
-		100% {
-			box-shadow: 0 0 0 20px rgba(255, 220, 1, 0);
-			background: rgba(255, 220, 1, 0);
-		}
-	}
-	@keyframes sploosh2 {
-		0% {
-			box-shadow: 0 0 0 30px rgba(255, 220, 1, 0.7);
-			background: rgba(255, 220, 1, 0.7);
-		}
-		100% {
-			box-shadow: 0 0 0 40px rgba(255, 220, 1, 0);
-			background: rgba(255, 220, 1, 0.3);
-		}
-	}
-	@keyframes sploosh3 {
-		0% {
-			box-shadow: 0 0 0 50px rgba(255, 220, 1, 0.7);
-			background: rgba(255, 220, 1, 0.7);
-		}
-		100% {
-			box-shadow: 0 0 0 60px rgba(255, 220, 1, 0);
-			background: rgba(255, 220, 1, 1);
-		}
-	}
+}
+</script>
+<style type="text/css">
+.dot {
+	animation: sploosh 2.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.dot2 {
+	animation: sploosh2 2.5s cubic-bezier(0.165, 0.84, 0.44, 2);
+}
+
+.dot3 {
+	animation: sploosh3 2.5s cubic-bezier(0.165, 0.84, 0.44, 3);
+}
+
+.dot, .dot2, .dot3 {
+	height: 20px;
+	width: 100%;
+	font-size: 40px;
+	color: #fff;
+	text-align: center;
+	border-radius: 100% 100% 0 0;
+	position: absolute;
+	z-index: 10;
+	animation-iteration-count: 3;
+	-webkit-animation-iteration-count: 3; /* Safari 和 Chrome */
+	background: transparent;
+}
+
+@keyframes sploosh { 0% {
+	box-shadow: 0 0 0 10px rgba(255, 220, 1, 0.7);
+	background: rgba(255, 220, 1, 0.7);
+}100%
+{box-shadow: 0 0 0 20px rgba(255,220,1,0);background:rgba(255,220,1,0);}}
+@keyframes sploosh2 { 0% {box-shadow: 0 0 0 30px rgba(255, 220, 1, 0.7);background: rgba(255, 220, 1, 0.7);}
+100%{box-shadow: 0 0 0 40px rgba(255,220,1,0);background: rgba(255,220,1,0.3);		}}
+@keyframes sploosh3 { 0% {
+	box-shadow: 0 0 0 50px rgba(255, 220, 1, 0.7);
+	background: rgba(255, 220, 1, 0.7);
+}
+100%{box-shadow:0 0 0 60px rgba(255,220,1,0);background: rgba(255,220,1,1);}}
 </style>
 
 <body>

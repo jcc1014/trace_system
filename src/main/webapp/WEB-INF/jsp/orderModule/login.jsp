@@ -6,22 +6,43 @@
 <head>
 <meta charset="utf-8">
 <title>后台管理系统</title>
-	<meta name="renderer" content="webkit">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black"> 
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="format-detection" content="telephone=no">
-	<link href="${path}/res/font-awesome.css" rel="stylesheet" media="screen">
-	<link href="${path}/res/font-awesome.min.css" rel="stylesheet" media="screen">
-	
-	<link href="${path}/res/iconfont.css" rel="stylesheet" media="screen">
-	
-	<link rel="stylesheet" href="${path}/layui/css/layui.css" rel="stylesheet">
-	<link rel="stylesheet" href="${path}/layui/css/global.css" rel="stylesheet">
-	<link rel="stylesheet" href="${path}/layui/css/style.css" rel="stylesheet">
-	<script src="${path}/js/jquery-2.1.1.min.js" type="text/javascript"></script>
-	<script src="${path}/js//layer/layer.js" type="text/javascript"></script>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link href="${path}/res/font-awesome.css" rel="stylesheet" media="screen">
+<link href="${path}/res/font-awesome.min.css" rel="stylesheet" media="screen">
+<link href="${path}/res/iconfont.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="${path}/layui/css/layui.css">
+<link rel="stylesheet" href="${path}/layui/css/global.css">
+<link rel="stylesheet" href="${path}/layui/css/style.css">
+<script src="${path}/js/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script src="${path}/js/layer/layer.js" type="text/javascript"></script>
+<style type="text/css">
+body h1 {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -50px;
+	margin-left: -50px;
+	width: 100px;
+	height: 100x;
+}
+</style>
+<script type="text/javascript">
+	/* $(function() {
+		var ua = navigator.userAgent.toLowerCase();
+		var isWeixin = ua.indexOf('micromessenger') != -1;
+		if (!isWeixin) {
+			alert('请在微信中打开！');
+			$("body").empty().append('<h1>请在微信中打开</h1>');
+
+		}
+	}) */
+</script>
 <style>
 .layui-form-item .layui-input-inline {margin: 0 0 10px 0px;border-radius:5px;}
 .bg{position:fixed;width:100%;}
@@ -55,7 +76,6 @@ body{background-color: #eff;}
 </div>
 
 <script>
-
 function login(){
 	var username = $("#username").val();
 	if(""==username){

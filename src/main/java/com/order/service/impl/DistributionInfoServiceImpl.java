@@ -5,8 +5,10 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.order.dao.DistributionInfoMapper;
 import com.order.po.DistributionInfo;
 import com.order.service.DistributionInfoService;
 
@@ -14,58 +16,43 @@ import com.order.service.DistributionInfoService;
 @Transactional
 public class DistributionInfoServiceImpl implements DistributionInfoService {
 
+	@Autowired
+	private DistributionInfoMapper distributionInfoMapper;
+	
 	@Override
 	public int deleteByPrimaryKey(String distribution_id) {
-		// TODO Auto-generated method stub
-		return 0;
+		return distributionInfoMapper.deleteByPrimaryKey(distribution_id);
 	}
 
-	@Override
-	public int insert(DistributionInfo record) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public int insertSelective(DistributionInfo record) {
-		// TODO Auto-generated method stub
-		return 0;
+		return distributionInfoMapper.insertSelective(record);
 	}
 
 	@Override
 	public DistributionInfo selectByPrimaryKey(String distribution_id) {
-		// TODO Auto-generated method stub
-		return null;
+		return distributionInfoMapper.selectByPrimaryKey(distribution_id);
 	}
 
 	@Override
 	public int updateByPrimaryKeySelective(DistributionInfo record) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int updateByPrimaryKey(DistributionInfo record) {
-		// TODO Auto-generated method stub
-		return 0;
+		return distributionInfoMapper.updateByPrimaryKeySelective(record);
 	}
 
 	@Override
 	public List<Map<String, Object>> query(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		return distributionInfoMapper.query(map);
 	}
 
 	@Override
 	public int count(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return 0;
+		return distributionInfoMapper.count(map);
 	}
 
 	@Override
 	public List<Map<String, Object>> select(DistributionInfo record) {
-		// TODO Auto-generated method stub
-		return null;
+		return distributionInfoMapper.select(record);
 	}
 
 }

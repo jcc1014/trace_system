@@ -16,6 +16,16 @@ public class DistributionInfo {
     private Double wps; //未配送
     
     private String distribution_address; //配送地址
+    
+    private String base_id;
+    
+    private String grade;
+    
+    private double price;
+    
+    private double sum_price;
+    
+    private String createtime;
 
     public String getDistribution_id() {
         return distribution_id;
@@ -79,5 +89,45 @@ public class DistributionInfo {
 
 	public void setDistribution_address(String distribution_address) {
 		this.distribution_address = distribution_address;
+	}
+
+	public String getBase_id() {
+		return base_id;
+	}
+
+	public void setBase_id(String base_id) {
+		this.base_id = base_id;
+	}
+
+	public String getGrade() {
+		return grade;
+	}
+
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public double getSum_price() {
+		return sum_price;
+	}
+
+	public void setSum_price(double sum_price) {
+		this.sum_price = sum_price;
+	}
+
+	public String getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
 	}
 }

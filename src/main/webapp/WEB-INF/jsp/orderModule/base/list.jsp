@@ -39,6 +39,7 @@
             <select name="type" id="type">
             	<option value=""></option>
             	<option value="1">生产基地</option>
+            	<option value="5">供应基地</option>
             	<option value="2">超市</option>
             	<option value="3">食堂</option>
             	<option value="4">孟鑫</option>
@@ -58,7 +59,7 @@
               <td align="center">代码</td>
               <td align="center">负责人</td>
               <td align="center">手机</td>
-              <!-- <td align="center">操作</td> -->
+              <td align="center">操作</td>
             </tr> 
           </thead>
           <tbody>
@@ -71,6 +72,7 @@
           				<c:if test="${item.type eq '2' }">超市</c:if>
           				<c:if test="${item.type eq '3' }">食堂</c:if>
           				<c:if test="${item.type eq '4' }">孟鑫</c:if>
+          				<c:if test="${item.type eq '5' }">供应基地</c:if>
           			</td>
           			<td align="center">${item.code}</td>
           			<td align="center">
@@ -79,20 +81,31 @@
           				</c:forEach>
           			</td>
           			<td align="center">${item.phone}</td>
-          			 <%-- <td style="text-align: center;">
-	          				 <a class="layui-btn layui-btn-small layui-btn-warm detail_btn" title="详细信息" 
-	          				href="${path}/base/watch.do?id=${item.id}">
-	          					<i class="layui-icon">&#xe63c;</i>
-	          				</a>
-			         <a class="layui-btn layui-btn-small layui-btn-danger del_btn"
-			             data-id="${item.id}" data-name="${item.name}" title="删除"><i class="layui-icon"></i></a> 
-		            </td> --%>
+          			<td style="text-align: center;">
+        				 <%-- <a class="layui-btn layui-btn-small layui-btn-warm detail_btn" title="详细信息" 
+        				href="${path}/base/watch.do?id=${item.id}">
+        					<i class="layui-icon">&#xe63c;</i>
+        				</a>
+				         <a class="layui-btn layui-btn-small layui-btn-danger del_btn"
+				             data-id="${item.id}" data-name="${item.name}" title="删除">
+				             <i class="layui-icon"></i>
+				         </a>  --%>
+				         <c:if test="${item.type eq '1' || item.type eq '5' }">
+				         	<a class="layui-btn layui-btn-small layui-btn-danger"
+				              onclick="addPurchase('${item.id}');" title="增加采购员">
+				            	增加采购员
+				            </a> 
+				         </c:if>
+				         <c:if test="${item.type ne '1' && item.type ne '5' }">
+				         	暂无 
+				         </c:if>
+		            </td>
           		</tr>
           	</c:forEach>
           </tbody>
           <thead>
             <tr>
-              <th colspan="6"><div id="page"></div></th>
+              <th colspan="7"><div id="page"></div></th>
             </tr> 
           </thead>
         </table>
@@ -151,6 +164,9 @@ layui.use(
 $("#add").click(function(){
 	window.location.href = "${path}/baseInfo/add.do";
 })
+function addPurchase(id){
+	window.location.href = "${path}/baseInfo/addPurchaser.do?baseid="+id;
+}
 </script>
 </body>
 </html>

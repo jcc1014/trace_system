@@ -34,6 +34,7 @@
 						<div class="layui-input-inline input-custom-width">
 							<select name="type" id="type">
 								<option value="1">生产基地</option>
+								<option value="5">供应基地</option>
 								<option value="2">超市</option>
 								<option value="3">食堂</option>
 								<option value="4">孟鑫</option>
@@ -135,6 +136,10 @@ layui.use(
 			 layer.msg('请选择类型',{time:1000});
 			 return;
 		}
+		var usertype = "A";
+		if(type !="1" && type !="5"){
+			usertype = "B";
+		}
 		if(name==null || name=="" || name==undefined){
 			 layer.msg('请输入名称',{time:1000});
 			 return;
@@ -167,7 +172,8 @@ layui.use(
 		jq.ajax({
 			url : '${path}/baseInfo/addSave.do',
 			type : 'post',
-			data:{'type':type,'address':address,'name':name,'code':code,'username':username,'phone':phone},
+			data:{'type':type,'address':address,'name':name,'code':code,
+				'username':username,'phone':phone,'usertype':usertype},
 			dataType : 'json',
 			success : function(rs) {
 				rs = eval("(" + rs + ")");

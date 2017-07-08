@@ -29,8 +29,17 @@
 			<h3 class="panel-title">今日采购单<!-- （距离供应单锁定还有：<span>30</span>分钟） --></h3>
 		</div>
 		<div class="panel-body">
+			<div><h4>采购单信息</h4></div>
+			<div>名称：${totalInfo.name}</div>
+			<div>时间：${totalInfo.createtime}</div>
+			<div>产地：${totalInfo.source_name}</div>
+			<div>类型：
+				<c:if test="${totalInfo.source_type eq '1'}">生产基地</c:if>
+				<c:if test="${totalInfo.source_type eq '5'}">供应基地</c:if>
+			</div>
+			<div>产地负责人：${u.username}</div>
 		</div>
-		<form action="${path}/purchaseInfo/createCgd.do" method="post" id="form">
+		<form action="" method="post" id="form">
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>

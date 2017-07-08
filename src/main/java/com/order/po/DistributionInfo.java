@@ -26,6 +26,8 @@ public class DistributionInfo {
     private double sum_price;
     
     private String createtime;
+    
+    private String signname;
 
     public String getDistribution_id() {
         return distribution_id;
@@ -130,4 +132,14 @@ public class DistributionInfo {
 	public void setCreatetime(String createtime) {
 		this.createtime = createtime;
 	}
+
+	public String getSignname() {
+		return signname;
+	}
+
+	public void setSignname(String signname) {
+		this.signname = signname;
+	}
+	
+	
 }

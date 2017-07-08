@@ -35,7 +35,7 @@
 			<h3 class="panel-title">新增采购</h3>
 		</div>
 		<div class="panel-body">
-			<form method="post" action="${path}/purchase/addPurchaseSave.do" id="form">
+			<form method="post" action="${path}/purchase/addQhPurchaseSave.do" id="form">
 				<div class="form-group">
 					<label >种类</label> 
 					<input type="text" class="form-control" name="purchase_kind" 
@@ -80,7 +80,7 @@
 					<input type="hidden" name="purchase_video" id="purchase_video" >
 				</div>
 				<button type="button" class="btn btn-primary" onclick="submit();">提交</button>
-				<button type="button" class="btn btn-default" onclick="window.location.href='${path}/purchase/purchaseList.do'">返回</button>
+				<button type="button" class="btn btn-default" onclick="window.location.href='${path}/purchase/getQhd.do'">返回</button>
 			</form>
 		</div>
 	</div>
@@ -155,12 +155,12 @@ function submit(){
 		return;
 	}
 	var purchase_price = $("#purchase_price").val();
-	if(""==purchase_price||null==purchase_price||isNaN(purchase_price)){
+	if("0.0"==purchase_price||""==purchase_price||null==purchase_price||isNaN(purchase_price)){
 		layer.msg('采购价格格式不正确！',{time:1000});
 		return;
 	}
 	var purchase_num = $("#purchase_num").val();
-	if(""==purchase_num||null==purchase_num||isNaN(purchase_num)){
+	if("0.0"==purchase_price||""==purchase_num||null==purchase_num||isNaN(purchase_num)){
 		layer.msg('采购数量格式不正确！',{time:1000});
 		return;
 	}

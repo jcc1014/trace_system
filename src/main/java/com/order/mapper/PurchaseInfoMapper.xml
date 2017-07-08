@@ -43,6 +43,9 @@
     <if test="kind != null and kind != ''">
     	and kind = #{kind}
     </if>
+    <if test="type != null and type != ''">
+    	and type = #{type}
+    </if>
   </select>
   
   <select id="query" resultType="java.util.Map" parameterType="java.util.Map" >
@@ -67,6 +70,9 @@
     </if>
     <if test="kind != null and kind != ''">
     	and kind = #{kind}
+    </if>
+    <if test="type != null and type != ''">
+    	and type = #{type}
     </if>
     limit ${index},8
     order by createtime desc
@@ -93,6 +99,9 @@
     </if>
     <if test="kind != null and kind != ''">
     	and kind = #{kind}
+    </if>
+    <if test="type != null and type != ''">
+    	and type = #{type}
     </if>
   </select>
   
@@ -263,14 +272,24 @@
   </update>
   
   <select id="getCgAndXq" resultType="java.util.Map" parameterType="java.util.Map">
-	 SELECT * from 
-	(SELECT * from purchase_info WHERE createtime =#{date1} and status ='1' and type='1')as cg  LEFT JOIN
-	(SELECT * from require_info WHERE  createtime like '%${date2}%') as xq
-	on cg.kind = xq.kind and cg.grade = xq.grade
+	 SELECT purchase_id,kind,number,remain_number,grade,createtime,createuser,status,parentid,type,price,supply_number,
+	id,kind1,num,grade1,createtime1,parentid1,status1
+ from 
+	(SELECT purchase_id,kind,number,remain_number,grade,createtime,createuser,status,parentid,type,price,supply_number
+	from purchase_info 
+	WHERE createtime like '%${date1}%' and status ='1' and type='0')as cg  LEFT JOIN
+	(SELECT id,kind as kind1,num,grade as grade1,createtime as createtime1,parentid as parentid1,status as status1
+	from require_info WHERE  createtime like '%${date2}%') as xq
+	on cg.kind = xq.kind1 and cg.grade = xq.grade1
 	UNION
-	SELECT * from 
-	(SELECT * from purchase_info WHERE createtime =#{date1} and status ='1' and type='1')as cg  RIGHT  JOIN
-	(SELECT * from require_info WHERE  createtime like '%${date2}%') as xq
-	on cg.kind = xq.kind and cg.grade = xq.grade
+	SELECT purchase_id,kind,number,remain_number,grade,createtime,createuser,status,parentid,type,price,supply_number,
+	id,kind1,num,grade1,createtime1,parentid1,status1
+ from 
+	(SELECT purchase_id,kind,number,remain_number,grade,createtime,createuser,status,parentid,type,price,supply_number
+	from purchase_info 
+	WHERE createtime like '%${date1}%' and status ='1' and type='0')as cg  RIGHT  JOIN
+	(SELECT id,kind as kind1,num,grade as grade1,createtime as createtime1,parentid as parentid1,status as status1
+	from require_info WHERE  createtime like '%${date2}%') as xq
+	on cg.kind = xq.kind1 and cg.grade = xq.grade1
   </select>
 </mapper>

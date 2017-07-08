@@ -61,15 +61,16 @@ public class TransportController {
 		transport.setTransport_id(UUIDFactory.getInstance().newUUID());
 		traceFlow.setTransport_id(transport.getTransport_id());
 		traceFlow.setTrace_status("6");
+		traceFlow.setIdentifier(DateUtils.getCurrentDate("yyyyMMddHHmmss"));
 		transportService.add(transport);
 		Qrcode qrcode = new Qrcode();
 		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
 		String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
 		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
-		//String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+		String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
 		String filename = UUIDFactory.getInstance().newUUID();
 		try {
-			QRCodeUtil.encode(traceFlow.getTrace_id(), logoPath, path, filename, true);
+			QRCodeUtil.encode(content, logoPath, path, filename, true);
 			qrcode.setQrcode_path(filename+".jpg");
 			qrcodeService.add(qrcode);
 			traceFlow.setQrcode(qrcode.getQrcode_id());

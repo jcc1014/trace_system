@@ -20,6 +20,7 @@ public class User {
 	private String password;
 	private String usertype;
 	private String phone;
+	private String baseid; //基地信息
 	
 	public String getUserid() {
 		return userid;
@@ -50,6 +51,12 @@ public class User {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public String getBaseid() {
+		return baseid;
+	}
+	public void setBaseid(String baseid) {
+		this.baseid = baseid;
 	}
 	
 }

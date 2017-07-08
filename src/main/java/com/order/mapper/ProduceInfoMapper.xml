@@ -80,8 +80,15 @@
 	left(MAX(createtime),10)as createtime,max(status) as status
 	from produce_info
 	where createtime like '%${nowDay}%' and status = #{status}
+	and parent_id = #{parentid}
 	 GROUP BY type,grade 
   </select>
+  
+  <insert id="createCgdByProduceId" parameterType="java.util.Map">
+  	insert into purchase_info (purchase_id,kind,supply_number,grade,createtime,status,parentid,type,price)
+	select replace(UUID(),'-',''),type,supply_number,grade,now(),'0',#{cg_parentid},'0',price from produce_info
+	WHERE parent_id = #{gy_parentid}
+  </insert>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

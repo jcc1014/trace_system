@@ -12,9 +12,11 @@
     <result column="trace_status" property="trace_status" jdbcType="VARCHAR" />
     <result column="qrcode" property="qrcode" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="identifier" property="identifier" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    trace_id,farmer_id, purchase_id, test_id,sampling_id,transport_id,sale_id,trace_status,qrcode,createtime
+    trace_id,farmer_id, purchase_id, test_id,sampling_id,transport_id,
+    sale_id,trace_status,qrcode,createtime,identifier
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -52,6 +54,9 @@
     </if>
     <if test="transport_id != null and transport_id != '' ">
     	and transport_id = #{transport_id}
+    </if>
+    <if test="identifier != null and identifier != '' ">
+    	and identifier = #{identifier}
     </if>
     
   </select>
@@ -99,15 +104,17 @@
 	  <if test="trace_status !=null and trace_status != ''">trace_status=#{trace_status},</if>
 	  <if test="qrcode !=null and qrcode != ''">qrcode=#{qrcode},</if>
 	  <if test="sale_id !=null and sale_id != ''">sale_id=#{sale_id},</if>
+	  <if test="identifier !=null and identifier != ''">identifier=#{identifier},</if>
 	 </trim>
 	 WHERE trace_id=#{trace_id}
 	</update>
   
   <insert id="insert" parameterType="com.trace.po.TraceFlow">
   	insert into trace_flow (trace_id,farmer_id, purchase_id, test_id,sampling_id,
-  	transport_id,sale_id,trace_status,qrcode,createtime) values
+  	transport_id,sale_id,trace_status,qrcode,createtime,identifier) values
   	(#{trace_id},#{farmer_id},#{purchase_id},#{test_id},#{sampling_id},
-  	#{transport_id},#{sale_id},#{trace_status},#{qrcode},#{createtime})
+  	#{transport_id},#{sale_id},#{trace_status},#{qrcode},#{createtime},
+  	#{identifier})
   </insert>
   
   <select id="selectFlowById" resultType="java.util.Map" parameterType="java.lang.String" >

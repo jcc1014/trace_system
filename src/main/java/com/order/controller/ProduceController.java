@@ -20,6 +20,7 @@ import com.order.po.BaseInfo;
 import com.order.po.ProduceInfo;
 import com.order.po.TotalInfo;
 import com.order.service.ProduceInfoService;
+import com.order.service.PurchaseInfoService;
 import com.order.service.TotalInfoService;
 import com.trace.po.User;
 import com.trace.service.UserService;
@@ -39,6 +40,8 @@ public class ProduceController {
 	private GoodsService goodsService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private PurchaseInfoService purchaseInfoService;
 	
 	@RequestMapping("addSave")
 	@ResponseBody
@@ -146,7 +149,11 @@ public class ProduceController {
 			totalInfo.setName(DateUtils.getCurrentDate("yyyy-MM-dd")+baseInfo.getName()+"供应单");
 			totalInfo.setSource(baseInfo.getId());
 			totalInfo.setSource_name(baseInfo.getName());
+			totalInfo.setSource_type(baseInfo.getType());
+			totalInfo.setSource_type(baseInfo.getType());
+			totalInfo.setCreateuser(user.getUserid());
 			totalInfo.setStatus("0");
+			totalInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
 			totalInfoService.insertSelective(totalInfo);
 			model.addAttribute("totalInfo", totalInfo);
 			
@@ -173,6 +180,27 @@ public class ProduceController {
 		String rs = "";
 		totalInfo.setStatus("1");
 		int r = totalInfoService.updateByPrimaryKeySelective(totalInfo);
+		if(r==1){
+			TotalInfo gyd = totalInfoService.selectByPrimaryKey(totalInfo.getId());
+			TotalInfo cgd = new TotalInfo();
+			cgd.setId(UUIDFactory.getInstance().newUUID());
+			cgd.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
+			cgd.setName(DateUtils.getCurrentDate("yyyy-MM-dd")+gyd.getSource_name()+"采购单");
+			cgd.setSource_name(gyd.getSource_name());
+			cgd.setSource(gyd.getSource());
+			cgd.setType("cgd");
+			cgd.setStatus("0");
+			cgd.setSource_type(gyd.getSource_type());
+			cgd.setCreateuser("自动生成");
+			int cgd_r = totalInfoService.insertSelective(cgd);
+			if(1==cgd_r){
+				Map<String,Object> m = new HashMap<String, Object>();
+				m.put("cg_parentid", cgd.getId());
+				m.put("gy_parentid", gyd.getId());
+				produceInfoService.createCgdByProduceId(m);
+			}
+			
+		}
 		ProduceInfo produceInfo = new ProduceInfo();
 		produceInfo.setStatus("1");
 		produceInfo.setParent_id(totalInfo.getId());
@@ -243,6 +271,18 @@ public class ProduceController {
 	public String history(HttpServletRequest request,Model model,String date,String page){
 		String p = "orderModule/produce/history";
 		User user = (User)request.getSession().getAttribute("user");
+		TotalInfo totalInfo = new TotalInfo();
+		totalInfo.setCreateuser(user.getUserid());
+		totalInfo.setStatus("1");
+		totalInfo.setType("gyd");
+		List<Map<String, Object>> totalInfoList = totalInfoService.select(totalInfo);
+		model.addAttribute("totalInfoList", totalInfoList);
+		return p;
+	}
+	@RequestMapping("historyFy")
+	public String historyFy(HttpServletRequest request,Model model,String date,String page){
+		String p = "orderModule/produce/history";
+		User user = (User)request.getSession().getAttribute("user");
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("createuser", user.getUserid());
 		map.put("type", "gyd");
@@ -279,16 +319,25 @@ public class ProduceController {
 	public String todayProduceTotal(HttpServletRequest request,Model model){
 		String page = "orderModule/produce/todayProduceTotal";
 		TotalInfo totalInfo2 = new TotalInfo();
-		totalInfo2.setType("cgd");
+		totalInfo2.setType("gyd");
+		totalInfo2.setStatus("1");
 		totalInfo2.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
 		List<Map<String, Object>> totalInfoList = totalInfoService.select(totalInfo2);
-		if(0<totalInfoList.size()){
-			return "redirect:/purchaseInfo/todayCgd.do";
-		}
-		String nowDay = DateUtils.getCurrentDate("yyyy-MM-dd");
-		String status = "1";
-		List<Map<String,Object>> list = produceInfoService.selectTodayProduceTotal(nowDay,status);
-		model.addAttribute("list", list);
+		model.addAttribute("totalInfoList", totalInfoList);
+		return page;
+	}
+	
+	@RequestMapping("todayProduceTotalDetail")
+	public String todayProduceTotalDetail(HttpServletRequest request,Model model,String id){
+		String page = "orderModule/produce/todayProduceTotalDetail";
+		TotalInfo totalInfo = totalInfoService.selectByPrimaryKey(id);
+		User u = userService.getById(totalInfo.getCreateuser());
+		ProduceInfo produceInfo = new ProduceInfo();
+		produceInfo.setParent_id(totalInfo.getId());
+		List<Map<String,Object>> list = produceInfoService.select(produceInfo);
+		model.addAttribute("produceInfos", list);
+		model.addAttribute("u", u);
+		model.addAttribute("totalInfo", totalInfo);
 		return page;
 	}
 	

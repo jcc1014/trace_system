@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>生产基地</title>
+<title>今日取样</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -26,45 +26,35 @@
 <body>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">今日需求单（请在今日20:00之前提交需求单)</h3>
+			<h3 class="panel-title">今日取样单<!-- （距离需求单锁定还有：<span>30</span>分钟） --></h3>
 		</div>
 		<div class="panel-body">
-			<div><h4>需求单信息</h4></div>
-			<div>名称：${totalInfo.name}</div>
-			<div>类型：
-				<c:if test="${sessionScope.baseInfo.type eq '2'}">超市</c:if>
-				<c:if test="${sessionScope.baseInfo.type eq '3'}">食堂</c:if>
-				<c:if test="${sessionScope.baseInfo.type eq '4'}">孟鑫</c:if>
-				<c:if test="${sessionScope.baseInfo.type eq '6'}">饭店</c:if>
-				<c:if test="${sessionScope.baseInfo.type eq '7'}">其他</c:if>
-			</div>
-			<div>时间：${totalInfo.createtime}</div>
-			<div>地址：${totalInfo.source_name}</div>
-			<div>负责人：${sessionScope.user.username}</div>
-			<div>手机：${sessionScope.baseInfo.phone}</div>
+			
 		</div>
 		<table class="table table-striped table-bordered table-condensed">
 			<thead>
 				<tr>
-					<th>种类</th><th>品级</th><th>需求量</th><th>操作</th>
+					<th>农户</th><th>种类</th><th>品级</th><th>编号</th><th>数量</th><th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:if test="${fn:length(requireList)==0 }">
-					<tr><td colspan="4">暂无数据</td></tr>
+				<c:if test="${fn:length(list)==0 }">
+					<tr><td colspan="6">暂无数据</td></tr>
 				</c:if>
-				<c:forEach var="item" items="${requireList}">
+				<c:forEach var="item" items="${list}">
 					<tr>
-						<td>${item.kind }</td>
-						<td>${item.grade }</td>
-						<td>${item.num }</td>
+						<td>${item.farmer.farmer_name }</td>
+						<td>${item.test.test_kind }</td>
+						<td>${item.test.test_grade }</td>
+						<td>${item.test.test_bh }</td>
+						<td>${item.test.test_num }</td>
 						<td>
-							<c:if test="${totalInfo.status eq '0' }">
-							<a href="javascript:;" onclick="edit('${item.id}');"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-							&nbsp;&nbsp;
-							<a href="javascript:;" onclick="del('${item.id}');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+							<c:if test="${item.test.test_status eq '0' }">
+							<%-- <a href="javascript:;" onclick="edit('${item.test.test_id}');"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							&nbsp;&nbsp; --%>
+							<a href="javascript:;" onclick="del('${item.test.test_id}');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
 							</c:if>
-							<c:if test="${totalInfo.status eq '1' }">
+							<c:if test="${item.test.test_status ne '0'}">
 								已提交
 							</c:if>
 						</td>
@@ -73,107 +63,25 @@
 			</tbody>
   		</table>
 		<div class="panel-footer" style="margin-top: 20px;">
-			<c:if test="${totalInfo.status eq '0' }">
-				<c:if test="${fn:length(requireList)>0  }">
-					<button type="button" class="btn btn-primary" id="submit" onclick="submit();">提交</button>
-				</c:if>
-				<button type="button" class="btn btn-success" id="add" onclick="add();">增加</button>
+			<c:if test="${fn:length(list)>0 && list[0].test.test_status eq '0'  }">
+				<button type="button" class="btn btn-primary" onclick="submit();">提交</button>
 			</c:if>
+			<c:if test="${fn:length(list)==0 || list[0].test.test_status eq '0'  }">
+				<button type="button" class="btn btn-success" onclick="add();">增加</button>
+			</c:if>
+			<!-- <button type="button" class="btn btn-success" onclick="add();">增加</button> -->
 			<button type="button" class="btn btn-default" onclick="window.location.href = '${path}/baseInfo/index.do';">返回</button>
 		</div>
 	</div>
-<div style="display:none;padding: 5%;" id="modal_edit">
-<form>
-  <div class="form-group">
-    <label for="modal_edit_kind">种类</label>
-    <input type="hidden" id="modal_edit_id" >
-    <input type="text" class="form-control" id="modal_edit_kind" placeholder="种类" readonly="readonly">
-  </div>
-  <div class="form-group">
-    <label for="modal_edit_grade">品级</label>
-    <input type="text" class="form-control" id="modal_edit_grade" placeholder="品级" readonly="readonly">
-  </div>
-  <div class="form-group">
-    <label for="modal_edit_num">需求量</label>
-    <input type="number" class="form-control" id="modal_edit_num" placeholder="需求量">
-  </div>
-  <div class="form-group" style="text-align: center;">
-	  <button type="button" class="btn btn-success" onclick="modal_edit_save();">修改</button>
-	  <button type="button" class="btn btn-default" onclick="close();">关闭</button>
-  </div>
-</form>
-</div>
-<div style="display:none;padding: 5%;" id="modal_add" >
-<form>
-  <div class="form-group">
-    <label for="modal_add_kind">种类</label>
-    <select class="form-control" id="modal_add_kind">
-    	<option value="">请选择</option>
-    	<c:forEach items="${goodsList}" var ="item">
-	    	<option value="${item.goods_name}">${item.goods_name}</option>
-    	</c:forEach>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="modal_add_grade">品级</label>
-    <select class="form-control" id="modal_add_grade">
-    	<option value="">请选择</option>
-    	<option value="1">1</option>
-    	<option value="2">2</option>
-    	<option value="3">3</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="modal_add_num">需求量</label>
-    <input type="number" class="form-control" id="modal_add_num" placeholder="需求量">
-  </div>
-  <div class="form-group" style="text-align: center;">
-	  <button type="button" class="btn btn-success" onclick="modal_add_save();">保存</button>
-	  <button type="button" class="btn btn-default" onclick="close();">关闭</button>
-  </div>
-</form>
-</div>
 <script type="text/javascript">
-$(function(){
-	//var time = getTime();
-	//if(""!=time&&time<"")
-})
-
-function getTime(type){
-	var time = "";
-	$.ajax({
-		url:'${path}/time/nowTime.do',
-		type:'post',
-		data:{'type':type},
-		dataType:'json',
-		success:function(rs){
-			if(null!=rs&&""!=rs){
-				rs = $.parseJSON(rs);
-				time = rs.time;
-			}
-		}
-	})
-	return time;
-}
-
 function add(){
-	$("#modal_add_type").val("");
-	$("#modal_add_grade").val("");
-	$("#modal_add_num").val("");
-	layer.open({
-		type:'1',
-		title:'新增',
-		closeBtn:1,
-		area: ['90%','70%'],
-		shadeClose: true,
-		content: $('#modal_add')
-	})
+	window.location.href = "${path}/sampling/addQhSampling.do"
 }
 
 function del(id){
 	$.ajax({
 		type:'post',
-		url:'${path}/require/delRequire.do',
+		url:'${path}/sampling/delSampling.do',
 		data:{'id':id},
 		dataType:'json',
 		success:function(rs){
@@ -192,7 +100,7 @@ function del(id){
 function submit(){
 	$.ajax({
 		type:'post',
-		url:'${path}/require/submitXqd.do',
+		url:'${path}/sampling/submitQhQyd.do',
 		data:{'id':'${totalInfo.id}'},
 		dataType:'json',
 		success:function(rs){
@@ -249,7 +157,7 @@ function modal_edit_save(){
 	}
 	$.ajax({
 		type:'post',
-		url:'${path}/require/editRequireSave.do',
+		url:'${path}/sampling/editRequireSave.do',
 		data:{'id':id,'num':num},
 		dataType:'json',
 		success:function(rs){
@@ -289,7 +197,7 @@ function modal_add_save(){
 	}
 	$.ajax({
 		type:'post',
-		url:'${path}/require/addRequireSave.do',
+		url:'${path}/sampling/addRequireSave.do',
 		data:{'parentid':'${totalInfo.id}','kind':kind,'grade':grade,'num':parseFloat(num)},
 		dataType:'json',
 		success:function(rs){

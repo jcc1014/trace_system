@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.trace.po.Test" >
     <id column="test_id" property="test_id" jdbcType="VARCHAR" />
     <result column="test_time" property="test_time" jdbcType="VARCHAR" />
+    <result column="isQh" property="isQh" jdbcType="VARCHAR" />
     <result column="test_machine" property="test_machine" jdbcType="VARCHAR" />
     <result column="test_result" property="test_result" jdbcType="VARCHAR" />
     <result column="test_influence" property="test_influence" jdbcType="VARCHAR" />
@@ -18,7 +19,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     test_name,test_id,test_time, test_machine, test_result,test_influence,test_type,test_video,
-    test_bh,test_num,test_grade,test_status,test_kind,test_user
+    test_bh,test_num,test_grade,test_status,test_kind,test_user,isQh
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -82,6 +83,9 @@
       <if test="test_user != null and test_user != ''" >
         and test_user = #{test_user}
       </if>
+      <if test="isQh != null and isQh != ''" >
+        and isQh = #{isQh}
+      </if>
   </select>
   <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map" >
     select 
@@ -122,6 +126,9 @@
       </if>
       <if test="test_user != null and test_user != ''" >
         and test_user = #{test_user}
+      </if>
+      <if test="isQh != null and isQh != ''" >
+        and isQh = #{isQh}
       </if>
       order by test_time
       limit ${index},8
@@ -166,6 +173,9 @@
       </if>
       <if test="test_user != null and test_user != ''" >
         and test_user = #{test_user}
+      </if>
+      <if test="isQh != null and isQh != ''" >
+        and isQh = #{isQh}
       </if>
   </select>
   
@@ -214,6 +224,9 @@
       <if test="test_user != null and test_user != ''" >
         test_user,
       </if>
+      <if test="isQh != null and isQh != ''" >
+        isQh,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="test_id != null and test_id != ''" >
@@ -258,6 +271,9 @@
       <if test="test_user != null and test_user != ''" >
         #{test_user},
       </if>
+      <if test="isQh != null and isQh != ''" >
+        #{isQh},
+      </if>
     </trim>
   </insert>
   
@@ -277,6 +293,7 @@
 		  <if test="test_num !=null and test_num !=0">test_num=#{test_num},</if>
 		  <if test="test_bh !=null and test_bh !=0">test_bh=#{test_bh},</if>
 		  <if test="test_user !=null and test_user !=''">test_user=#{test_user},</if>
+		  <if test="isQh !=null and isQh !=''">isQh=#{isQh},</if>
 		 </trim>
 	WHERE test_id=#{test_id}
   </update>
@@ -285,6 +302,7 @@
 	UPDATE test
 	set test_status = #{test_status}	 
 	WHERE test_name=#{test_name} and test_time like '%${test_time}%'
+	and test_status != '2'
   </update>
   
   <delete id="deleteById" parameterType="java.lang.String">

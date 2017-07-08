@@ -72,7 +72,10 @@
           			<td>${item.farmer.farmer_name}</td>
           			<td>${item.test.test_time}</td>
           			<td>${item.test.test_user}</td>
-          			<td>${item.test.test_result}</td>
+          			<td>
+          				<c:if test="${item.test.test_result eq '1'}">合格</c:if>
+          				<c:if test="${item.test.test_result eq '2'}">不合格</c:if>
+          			</td>
           			<td style="text-align: center;">
 			            <a class="layui-btn layui-btn-small layui-btn-danger del_btn"
 			               title="查看" href = "javascript:;" onclick="watch('${item.test.test_id}')">查看</a> 

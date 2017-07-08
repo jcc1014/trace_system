@@ -53,31 +53,28 @@
 				<input type="text" name="datetime" id="appDate" />
 				<button type="submit" class="btn btn-primary">搜索</button>
 			</form>
-			<div>
-				<div>名称：${totalInfo.name}</div>
-				<div>时间：${totalInfo.createtime}</div>
-			</div>
 		</div>
-		<table class="table table-striped table-bordered">
-			<thead>
-				<tr>
-					<th>种类</th><th>品级</th><th>供应量</th><th>采购量</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:if test="${fn:length(purchaseInfoList)==0 }">
-					<tr><td colspan="4">暂无数据</td></tr>
-				</c:if>
-				<c:forEach var="item" items="${purchaseInfoList}">
+		<table class="table table-striped table-bordered table-condensed">
+				<thead>
 					<tr>
-						<td>${item.kind }</td>
-						<td>${item.grade }</td>
-						<td>${item.supply_number}</td>
-						<td>${item.number }</td>
+						<th>名称</th><th>来源</th><th>操作</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-  		</table>
+				</thead>
+				<tbody id="tbody">
+					<c:if test="${fn:length(totalInfoList)==0 }">
+						<tr><td colspan="3">暂无数据</td></tr>
+					</c:if>
+					<c:forEach var="item" items="${totalInfoList}">
+						<tr>
+							<td>${item.name }</td>
+							<td>${item.source_name }</td>
+							<td>
+								<a href="javascript:;" onclick="watch('${item.id}');">查看</a>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+	  		</table>
 			<!-- <nav aria-label="Page navigation">
 			  <ul class="pagination">
 			    <li >
@@ -122,7 +119,9 @@ $(function() {
 	$("#appDate").val('').scroller('destroy').scroller($.extend(opt['date'], opt['default']));
 });   
 
-
+function watch(id){
+	window.location.href = "${path}/purchaseInfo/historyDetail.do?id="+id;
+}
 </script>
 </body>
 </html>

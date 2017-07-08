@@ -5,66 +5,61 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.order.dao.DistributionDetailMapper;
 import com.order.po.DistributionDetail;
 import com.order.service.DistributionDetailService;
 @Service
 @Transactional
 public class DistributionDetailServiceImpl implements DistributionDetailService {
 
+	@Autowired
+	private DistributionDetailMapper distributionDetailMapper;
 	@Override
 	public int deleteByPrimaryKey(String id) {
-		// TODO Auto-generated method stub
-		return 0;
+		return distributionDetailMapper.deleteByPrimaryKey(id);
 	}
 
 	@Override
 	public int insert(DistributionDetail record) {
-		// TODO Auto-generated method stub
-		return 0;
+		return distributionDetailMapper.insert(record);
 	}
 
 	@Override
 	public int insertSelective(DistributionDetail record) {
-		// TODO Auto-generated method stub
-		return 0;
+		return distributionDetailMapper.insertSelective(record);
 	}
 
 	@Override
 	public DistributionDetail selectByPrimaryKey(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return distributionDetailMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
 	public int updateByPrimaryKeySelective(DistributionDetail record) {
-		// TODO Auto-generated method stub
-		return 0;
+		return distributionDetailMapper.updateByPrimaryKeySelective(record);
 	}
 
 	@Override
 	public int updateByPrimaryKey(DistributionDetail record) {
-		// TODO Auto-generated method stub
-		return 0;
+		return distributionDetailMapper.updateByPrimaryKey(record);
 	}
 
 	@Override
 	public List<Map<String, Object>> query(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		return distributionDetailMapper.query(map);
 	}
 
 	@Override
 	public int count(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return 0;
+		return distributionDetailMapper.count(map);
 	}
 
 	@Override
 	public List<Map<String, Object>> select(DistributionDetail record) {
-		// TODO Auto-generated method stub
-		return null;
+		return distributionDetailMapper.select(record);
 	}
 
 }

@@ -66,6 +66,7 @@ public class RequireController {
 			totalInfo.setSource(baseInfo.getId());
 			totalInfo.setSource_name(baseInfo.getName());
 			totalInfo.setStatus("0");
+			totalInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
 			totalInfoService.insertSelective(totalInfo);
 			model.addAttribute("totalInfo", totalInfo);
 			

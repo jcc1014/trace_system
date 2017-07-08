@@ -36,6 +36,9 @@
     <if test="createtime != null and createtime != ''">
     	and createtime like '%${createtime}%'
     </if>
+    <if test="trace_id != null and trace_id != ''">
+    	and trace_id like #{trace_id}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from distribution_detail

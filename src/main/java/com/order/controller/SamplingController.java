@@ -49,6 +49,38 @@ public class SamplingController {
 		Test test = new Test();
 		test.setTest_time(DateUtils.getCurrentDate("yyyy-MM-dd"));
 		test.setTest_name(user==null?null:user.getUsername());
+		test.setIsQh("0");
+		List<Test> testList = testService.selectAlltest(test);
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		Map<String, Object> map = null;
+		TraceFlow traceFlow = null;
+		List<TraceFlow> traceFlowList = null;
+		if(0<testList.size()){
+			for (int i = 0; i < testList.size(); i++) {
+				map = new HashMap<String, Object>();
+				map.put("test", testList.get(i));
+				traceFlow = new TraceFlow();
+				traceFlow.setTest_id(testList.get(i).getTest_id());
+				traceFlowList = traceFlowService.selectAllTraceFlow(traceFlow);
+				map.put("trace", traceFlowList.size()>0?traceFlowList.get(0):null);
+				if(traceFlowList.size()>0){
+					map.put("farmer", farmerService.getById(traceFlowList.get(0).getFarmer_id()));
+				}
+				list.add(map);
+			}
+		}
+		model.addAttribute("testList", testList);
+		model.addAttribute("list", list);
+		return page;
+	}
+	@RequestMapping("today_Qhsampling")
+	public String today_Qhsampling(HttpServletRequest request,Model model){
+		String page = "orderModule/sampling/todayQhSampling";
+		User user = (User)request.getSession().getAttribute("user");
+		Test test = new Test();
+		test.setTest_time(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		test.setTest_name(user==null?null:user.getUsername());
+		test.setIsQh("1");
 		List<Test> testList = testService.selectAlltest(test);
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		Map<String, Object> map = null;
@@ -116,6 +148,17 @@ public class SamplingController {
 		model.addAttribute("purchaseInfoList", purchaseInfoList);
 		return page;
 	}
+	@RequestMapping("addQhSampling")
+	public String addQhSampling(HttpServletRequest request,Model model){
+		String page = "orderModule/sampling/addQhSampling";
+		PurchaseInfo purchaseInfo = new PurchaseInfo();
+		purchaseInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		purchaseInfo.setStatus("1");
+		purchaseInfo.setType("1");
+		List<Map<String,Object>> purchaseInfoList = purchaseInfoService.select(purchaseInfo);
+		model.addAttribute("purchaseInfoList", purchaseInfoList);
+		return page;
+	}
 	@RequestMapping("addSamplingSave")
 	public String addSamplingSave(HttpServletRequest request,Test test,Farmer farmer){
 		User user = (User)request.getSession().getAttribute("user");
@@ -129,6 +172,31 @@ public class SamplingController {
 		test.setTest_status("0");
 		test.setTest_name(user==null?null:user.getUsername());
 		test.setTest_type("0");
+		test.setIsQh("0");
+		TraceFlow traceFlow = new TraceFlow();
+		traceFlow.setCreatetime(DateUtils.getCurrentDate());
+		traceFlow.setTest_id(test.getTest_id());
+		traceFlow.setFarmer_id(farmer.getFarmer_id());
+		traceFlow.setTrace_id(UUIDFactory.getInstance().newUUID());
+		traceFlowService.add(traceFlow);
+		testService.add(test);
+		farmerService.add(farmer);
+		return page;
+	}
+	@RequestMapping("addQhSamplingSave")
+	public String addQhSamplingSave(HttpServletRequest request,Test test,Farmer farmer){
+		User user = (User)request.getSession().getAttribute("user");
+		String page = "redirect:today_Qhsampling.do";
+		farmer.setFarmer_id(UUIDFactory.getInstance().newUUID());
+		String test_kind = test.getTest_kind();
+		test.setTest_kind(test_kind.split(";")[0]);
+		test.setTest_grade(test_kind.split(";")[1]);
+		test.setTest_time(DateUtils.getCurrentDate());
+		test.setTest_id(UUIDFactory.getInstance().newUUID());
+		test.setTest_status("0");
+		test.setTest_name(user==null?null:user.getUsername());
+		test.setTest_type("0");
+		test.setIsQh("1");
 		TraceFlow traceFlow = new TraceFlow();
 		traceFlow.setCreatetime(DateUtils.getCurrentDate());
 		traceFlow.setTest_id(test.getTest_id());
@@ -151,6 +219,22 @@ public class SamplingController {
 	@RequestMapping("submitQyd")
 	@ResponseBody
 	public String submitQyd(HttpServletRequest request){
+		String rs = "";
+		User user = (User)request.getSession().getAttribute("user");
+		Test test = new Test();
+		if(null!=user){
+			test.setTest_time(DateUtils.getCurrentDate("yyyy-MM-dd"));
+			test.setTest_name(user.getUsername());
+			test.setTest_status("1");
+			int r = testService.updateByNameAndTime(test);
+			rs = ResultUtil.resultString(r>0?1:0);
+		}
+		return rs;
+	}
+	
+	@RequestMapping("submitQhQyd")
+	@ResponseBody
+	public String submitQhQyd(HttpServletRequest request){
 		String rs = "";
 		User user = (User)request.getSession().getAttribute("user");
 		Test test = new Test();

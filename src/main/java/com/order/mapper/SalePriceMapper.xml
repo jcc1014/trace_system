@@ -119,28 +119,28 @@
       <if test="grade != null">
         grade,
       </if>
-      <if test="price != null">
+      <if test="price != null and price != 0">
         price,
       </if>
-      <if test="canteen_price != null">
+      <if test="canteen_price != null and canteen_price != 0">
         canteen_price,
       </if>
-      <if test="market_price != null">
+      <if test="market_price != null and market_price != 0">
         market_price,
       </if>
-      <if test="retail_price != null">
+      <if test="retail_price != null and retail_price != 0">
         retail_price,
       </if>
-      <if test="other_price != null">
+      <if test="other_price != null and other_price != 0">
         other_price,
       </if>
-      <if test="createtime != null">
+      <if test="createtime != null and createtime != ''">
         createtime,
       </if>
-      <if test="status != null">
+      <if test="status != null and status != ''">
         status,
       </if>
-      <if test="parentid != null">
+      <if test="parentid != null and parentid != ''">
         parentid,
       </if>
     </trim>
@@ -154,28 +154,28 @@
       <if test="grade != null">
         #{grade,jdbcType=VARCHAR},
       </if>
-      <if test="price != null">
+      <if test="price != null and price != 0">
         #{price,jdbcType=DOUBLE},
       </if>
-      <if test="canteen_price != null">
+      <if test="canteen_price != null and and canteen_price != 0">
         #{canteen_price,jdbcType=DOUBLE},
       </if>
-      <if test="market_price != null">
+      <if test="market_price != null and market_price != 0">
         #{market_price,jdbcType=DOUBLE},
       </if>
-      <if test="retail_price != null">
+      <if test="retail_price != null and retail_price != 0">
         #{retail_price,jdbcType=DOUBLE},
       </if>
-      <if test="other_price != null">
+      <if test="other_price != null and other_price != 0">
         #{other_price,jdbcType=DOUBLE},
       </if>
-      <if test="createtime != null">
+      <if test="createtime != null and createtime != ''">
         #{createtime,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
+      <if test="status != null and status != ''">
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="parentid != null">
+      <if test="parentid != null and parentid != ''">
         #{parentid,jdbcType=VARCHAR},
       </if>
     </trim>
@@ -189,28 +189,28 @@
       <if test="grade != null">
         grade = #{grade,jdbcType=VARCHAR},
       </if>
-      <if test="price != null">
+      <if test="price != null and price != 0">
         price = #{price,jdbcType=DOUBLE},
       </if>
-      <if test="canteen_price != null">
+      <if test="canteen_price != null and canteen_price != 0">
         canteen_price = #{canteen_price,jdbcType=DOUBLE},
       </if>
-      <if test="market_price != null">
+      <if test="market_price != null and market_price != 0">
         market_price = #{market_price,jdbcType=DOUBLE},
       </if>
-      <if test="retail_price != null">
+      <if test="retail_price != null and retail_price != 0">
         retail_price = #{retail_price,jdbcType=DOUBLE},
       </if>
-      <if test="other_price != null">
+      <if test="other_price != null and other_price != 0">
         other_price = #{other_price,jdbcType=DOUBLE},
       </if>
-      <if test="createtime != null">
+      <if test="createtime != null and createtiem != ''">
         createtime = #{createtime,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
+      <if test="status != null and status !=''">
         status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="parentid != null">
+      <if test="parentid != null and parentid !=''">
         parentid = #{parentid,jdbcType=VARCHAR},
       </if>
     </set>
@@ -225,25 +225,25 @@
       <if test="grade != null">
         grade = #{grade,jdbcType=VARCHAR},
       </if>
-      <if test="price != null">
+      <if test="price != null and price != 0">
         price = #{price,jdbcType=DOUBLE},
       </if>
-      <if test="canteen_price != null">
+      <if test="canteen_price != null and canteen_price != 0">
         canteen_price = #{canteen_price,jdbcType=DOUBLE},
       </if>
-      <if test="market_price != null">
+      <if test="market_price != null and market_price != 0">
         market_price = #{market_price,jdbcType=DOUBLE},
       </if>
-      <if test="retail_price != null">
+      <if test="retail_price != null and retail_price != 0">
         retail_price = #{retail_price,jdbcType=DOUBLE},
       </if>
-      <if test="other_price != null">
+      <if test="other_price != null and other_price != 0">
         other_price = #{other_price,jdbcType=DOUBLE},
       </if>
-      <if test="createtime != null">
+      <if test="createtime != null and createtiem != ''">
         createtime = #{createtime,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
+      <if test="status != null and status !=''">
         status = #{status,jdbcType=VARCHAR},
       </if>
     </set>

@@ -11,7 +11,8 @@ public class TraceFlow {
 	private String sale_id; //销售
 	private String trace_status; //追溯状态
 	private String qrcode; //二维码
-	private String createtime; //二维码
+	private String createtime; //创建时间
+	private String identifier;//识别号
 	
 	public String getTrace_id() {
 		return trace_id;
@@ -72,6 +73,12 @@ public class TraceFlow {
 	}
 	public void setCreatetime(String createtime) {
 		this.createtime = createtime;
+	}
+	public String getIdentifier() {
+		return identifier;
+	}
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
 	}
 	
 }

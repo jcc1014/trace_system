@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>采购单</title>
+<title>历史采购单详情</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -26,80 +26,51 @@
 <body>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">今日缺货单<!-- （距离供应单锁定还有：<span>30</span>分钟） --></h3>
+			<h3 class="panel-title">今日总供应单<!-- （距离供应单锁定还有：<span>30</span>分钟） --></h3>
 		</div>
 		<div class="panel-body">
-			<c:if test="${qhd eq '0' }">
-				<button type="button" class="btn btn-success" onclick="createQhd();">生成缺货单</button>
-			</c:if>
+			<div><h4>采购单信息</h4></div>
+			<div>名称：${totalInfo.name}</div>
+			<div>时间：${totalInfo.createtime}</div>
+			<div>产地：${totalInfo.source_name}</div>
+			<div>类型：
+				<c:if test="${totalInfo.source_type eq '1'}">生产基地</c:if>
+				<c:if test="${totalInfo.source_type eq '5'}">供应基地</c:if>
+			</div>
+			<div>产地负责人：${u.username}</div>
 		</div>
-		<form action="${path}/purchaseInfo/createCgd.do" method="post" id="form">
+		<form action="" method="post" id="form">
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th>种类</th><th>品级</th><th>采购量</th><th>未采量</th><th>操作</th>
+						<th>种类</th><th>品级</th><th>采购量</th><th>详情</th>
 					</tr>
 				</thead>
 				<tbody id="tbody">
 					<c:if test="${fn:length(purchaseInfos)==0 }">
-						<tr><td colspan="5">暂无数据</td></tr>
+						<tr><td colspan="4">暂无数据</td></tr>
 					</c:if>
 					<c:forEach var="item" items="${purchaseInfos}">
 						<tr>
 							<td>${item.kind }</td>
 							<td>${item.grade }</td>
 							<td>${item.number }</td>
-							<td>${item.remain_number}</td>
 							<td>
-							<c:if test="${item.remain_number > 0 }">
-							<a href="javascript:;" onclick="purchase('${item.purchase_id}');">采购</a>
-							</c:if>
-							<c:if test="${item.remain_number == 0 }">
-								已完成
-							</c:if>
-						</td>
+							<a href="javascript:;" onclick="watch('${item.purchase_id}');"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+							</td>
 						</tr>
 					</c:forEach>
 				</tbody>
 	  		</table>
 		</form>
 		<div class="panel-footer" style="margin-top: 20px;">
-			<button type="button" class="btn btn-default" onclick="back();">返回</button>
-			<button type="button" class="btn btn-success" onclick="watch();">查看采购详单</button>
+			<button type="button" class="btn btn-default" onclick="window.history.go(-1);">返回</button>
 		</div>
 	</div>
 <script type="text/javascript">
-function watch(){
-	window.location.href = '${path}/purchase/watchPurchaseDetail.do';
+function watch(id){
+	window.location.href = "${path}/purchase/purchaseHistory.do?id="+id;
 }
-function back(){
-	window.location.href = '${path}/baseInfo/index.do';
-}
-function purchase(id){
-	window.location.href = '${path}/purchase/addQhPurchase.do?purchase_id='+id;
-}
-function createQhd(){
-	$.ajax({
-		url:'${path}/purchaseInfo/createQhd.do',
-		type:'POST',
-		dataType:'json',
-		success:function(rs){
-			if(""!=rs){
-				rs = $.parseJSON(rs);
-				if("200"==rs.code){
-					layer.msg('生成成功！',{time:1000},function(){
-						self.location.reload();
-					})
-				}else{
-					layer.msg('生成失败！',{time:1000},function(){
-						self.location.reload();
-					})
-				}
-			}
-		}
-	})
-}
-
 </script>
 </body>
 </html>

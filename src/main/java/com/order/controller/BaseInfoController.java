@@ -169,12 +169,15 @@ public class BaseInfoController {
 	}
 	@RequestMapping("index")
 	public String index(HttpServletRequest request){
-		String page = "orderModule/scjd_index"; //生产基地
+		String page = ""; //生产基地
 		User user = (User)request.getSession().getAttribute("user");
 		if("B".equals(user.getUsertype())){
 			//超市等
 			page = "orderModule/require_index";
-		}else if("5".equals(user.getUsertype())){
+		}else if("A".equals(user.getUsertype())){
+			page = "orderModule/scjd_index";
+		}
+		else if("5".equals(user.getUsertype())){
 			//采购主管
 			page = "orderModule/purchaseManage_index";
 		}else if("6".equals(user.getUsertype())){
@@ -182,14 +185,28 @@ public class BaseInfoController {
 			page = "orderModule/saleManage_index";
 		}else if("7".equals(user.getUsertype())){
 			//运输
-			page = "orderModule/transport_index";
+			//page = "orderModule/transport_index";
+			page = "404";
 		}else if("1".equals(user.getUsertype())){
 			//采购员
 			page = "orderModule/purchase_index";
 		}else if("8".equals(user.getUsertype())){
 			//取样
 			page = "orderModule/sampling_index";
+		}else if("9".equals(user.getUsertype())){
+			//配送
+			page = "orderModule/distribution_index";
+		}else{
+			page = "404";
 		}
+		return page;
+	}
+	
+	@RequestMapping("addPurchaser")
+	public String addPurchaser(HttpServletRequest request,Model model,String baseid){
+		String page = "orderModule/base/addPurchase";
+		BaseInfo baseInfo = baseInfoService.selectByPrimaryKey(baseid);
+		model.addAttribute("baseInfo", baseInfo);
 		return page;
 	}
 }

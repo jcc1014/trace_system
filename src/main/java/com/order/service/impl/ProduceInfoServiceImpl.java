@@ -68,4 +68,10 @@ public class ProduceInfoServiceImpl implements ProduceInfoService {
 		return produceInfoMapper.updateStatusByParentid(record);
 	}
 
+
+	@Override
+	public int createCgdByProduceId(Map<String, Object> map) {
+		return produceInfoMapper.createCgdByProduceId(map);
+	}
+
 }

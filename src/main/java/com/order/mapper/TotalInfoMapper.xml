@@ -27,7 +27,7 @@
     from total_info
     where 1=1
     <if test="createtime != null and createtime != ''">
-    	and createtime = #{createtime}
+    	and createtime like '%${createtime}%'
     </if>
     <if test="createuser != null and createuser != ''">
     	and createuser = #{createuser}
@@ -45,7 +45,7 @@
     from total_info
     where 1=1
     <if test="createtime != null and createtime != ''">
-    	and createtime = #{createtime}
+    	and createtime like '%${createtime}%'
     </if>
     <if test="createuser != null and createuser != ''">
     	and createuser = #{createuser}
@@ -66,7 +66,7 @@
     from total_info
     where 1=1
     <if test="createtime != null and createtime != ''">
-    	and createtime = #{createtime}
+    	and createtime like '%${createtime}%'
     </if>
     <if test="createuser != null and createuser != ''">
     	and createuser = #{createuser}

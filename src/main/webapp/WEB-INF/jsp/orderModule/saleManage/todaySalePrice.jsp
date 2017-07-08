@@ -19,9 +19,11 @@
 	<style type="text/css">
 		body{background-color: #eee;}
 		thead tr th{text-align: center;}
-		tbody tr td{text-align: center;}
+		tbody tr td{text-align: center; }
 		table {border-bottom: 1px solid #eee; }
+		input {width: 4rem;}
 	</style>
+
 </head>
 <body>
 	<div class="panel panel-default">
@@ -30,7 +32,7 @@
 		</div>
 		<div class="panel-body">
 		</div>
-		<form action="${path}/purchaseInfo/createCgd.do" method="post" id="form">
+		<form action="" method="post" id="form">
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
@@ -90,7 +92,7 @@
 							<a href="javascript:;" data-id='${item.id}' onclick="savePrice(this);">保存</a>
 							</c:if>
 							<c:if test="${item.status eq '1' }">
-								已完成
+								完成
 							</c:if>
 						</td>
 						</tr>
@@ -110,25 +112,25 @@ function savePrice(obj){
 	_this = $(obj);
 	var id = _this.data("id");
 	var canteen_price = _this.parent().parent().find(".canteen_price").val();
-	if(""==canteen_price||null==canteen_price||isNaN(canteen_price)){
+	if("0.0"==canteen_price||""==canteen_price||null==canteen_price||isNaN(canteen_price)){
 		layer.msg('食堂价格格式不正确，请检查！',{time:1000},function(){
 			return;
 		});
 	}
 	var market_price = _this.parent().parent().find(".market_price").val();
-	if(""==market_price||null==market_price||isNaN(market_price)){
+	if("0.0"==market_price||""==market_price||null==market_price||isNaN(market_price)){
 		layer.msg('超市价格格式不正确，请检查！',{time:1000},function(){
 			return;
 		});
 	}
 	var retail_price = _this.parent().parent().find(".retail_price").val();
-	if(""==retail_price||null==retail_price||isNaN(retail_price)){
+	if("0.0"==retail_price||""==retail_price||null==retail_price||isNaN(retail_price)){
 		layer.msg('零售价格格式不正确，请检查！',{time:1000},function(){
 			return;
 		});
 	}
 	var other_price = _this.parent().parent().find(".other_price").val();
-	if(""==other_price||null==other_price||isNaN(other_price)){
+	if("0.0"==other_price||""==other_price||null==other_price||isNaN(other_price)){
 		layer.msg('其他价格格式不正确，请检查！',{time:1000},function(){
 			return;
 		});
@@ -136,12 +138,12 @@ function savePrice(obj){
 	$.ajax({
 		url:'${path}/salePrice/savePrice.do',
 		type:'post',
-		data:{'id':id,'canteent_price':canteen_price,'market_price':market_price,
-			'retail_price':retail_price,'other_price':other_price},
+		data:{'id':id,'canteen_price':canteen_price,'market_price':market_price,
+			'retail_price':retail_price,'other_price':other_price,'status':'1'},
 		dataType:'json',
 		success:function(rs){
 			if(""!=rs){
-				rs = $.parseJSOn(rs);
+				rs = $.parseJSON(rs);
 				if("200"==rs.code){
 					layer.msg('保存成功！',{time:1000},function(){
 						self.location.reload();

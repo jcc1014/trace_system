@@ -16,6 +16,24 @@
 	<script src="${path}/js/jquery-2.1.1.min.js" type="text/javascript"></script>
 	<script src="${path}/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="${path}/layer/layer.js" type="text/javascript"></script>
+	<script src="${path}/mobiscroll/js/mobiscroll.core-2.5.2.js"
+		type="text/javascript"></script>
+	<script src="${path}/mobiscroll/js/mobiscroll.core-2.5.2-zh.js"
+		type="text/javascript"></script>
+	
+	<link href="${path}/mobiscroll/css/mobiscroll.core-2.5.2.css" rel="stylesheet"
+		type="text/css" />
+	<link href="${path}/mobiscroll/css/mobiscroll.animation-2.5.2.css"
+		rel="stylesheet" type="text/css" />
+	<script src="${path}/mobiscroll/js/mobiscroll.datetime-2.5.1.js"
+		type="text/javascript"></script>
+	<script src="${path}/mobiscroll/js/mobiscroll.datetime-2.5.1-zh.js"
+		type="text/javascript"></script>
+	<!-- S 可根据自己喜好引入样式风格文件 -->
+	<script src="${path}/mobiscroll/js/mobiscroll.android-ics-2.5.2.js"
+		type="text/javascript"></script>
+	<link href="${path}/mobiscroll/css/mobiscroll.android-ics-2.5.2.css"
+		rel="stylesheet" type="text/css" />
 	<style type="text/css">
 		body{background-color: #eee;}
 		thead tr th{text-align: center;}

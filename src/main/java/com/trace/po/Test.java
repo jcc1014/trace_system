@@ -16,6 +16,7 @@ public class Test {
 	private String test_grade;
 	private String test_status;
 	private String test_user;
+	private String isQh;
 	
 	
 	
@@ -102,6 +103,12 @@ public class Test {
 	}
 	public void setTest_user(String test_user) {
 		this.test_user = test_user;
+	}
+	public String getIsQh() {
+		return isQh;
+	}
+	public void setIsQh(String isQh) {
+		this.isQh = isQh;
 	}
 	
 }

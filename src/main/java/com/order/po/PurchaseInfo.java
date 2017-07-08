@@ -19,7 +19,7 @@ public class PurchaseInfo {
 
     private String parentid;
 
-    private String type;
+    private String type; //正常还是缺货
     
     private double price;
     

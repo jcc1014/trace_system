@@ -15,10 +15,11 @@
     <result column="wps" property="wps" jdbcType="DOUBLE" />
     <result column="base_id" property="base_id" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="signname" property="signname" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     distribution_id, require_id, require_name, require_num, kind, yps, wps,
-    distribution_address,base_id,price,sum_price
+    distribution_address,base_id,price,sum_price,createtime,grade,signname
   </sql>
   <select id="select" resultType="java.util.Map" parameterType="java.util.Map" >
     select 
@@ -31,8 +32,8 @@
     <if test="grade != null and grade != ''">
     	and grade = #{grade}
     </if>
-    <if test="creattime != null and creattime != ''">
-    	and creattime like '%${creattime}%'
+    <if test="createtime != null and createtime != ''">
+    	and createtime like '%${createtime}%'
     </if>
     <if test="require_name != null and require_name != ''">
     	and require_name like '%${require_name}%'
@@ -49,8 +50,8 @@
     <if test="grade != null and grade != ''">
     	and grade = #{grade}
     </if>
-    <if test="creattime != null and creattime != ''">
-    	and creattime like '%${creattime}%'
+    <if test="createtime != null and createtime != ''">
+    	and createtime like '%${createtime}%'
     </if>
     <if test="require_name != null and require_name != ''">
     	and require_name like '%${require_name}%'
@@ -69,8 +70,8 @@
     <if test="grade != null and grade != ''">
     	and grade = #{grade}
     </if>
-    <if test="creattime != null and creattime != ''">
-    	and creattime like '%${creattime}%'
+    <if test="createtime != null and createtime != ''">
+    	and createtime like '%${createtime}%'
     </if>
     <if test="require_name != null and require_name != ''">
     	and require_name like '%${require_name}%'
@@ -98,7 +99,7 @@
       <if test="require_name != null" >
         require_name,
       </if>
-      <if test="require_num != null and require != 0" >
+      <if test="require_num != null and require_num != 0" >
         require_num,
       </if>
       <if test="kind != null" >
@@ -209,6 +210,9 @@
       </if>
       <if test="sum_price != null and sum_price != 0" >
         sum_price = #{sum_price},
+      </if>
+      <if test="signname != null and signname != 0" >
+        signname = #{signname},
       </if>
     </set>
     where distribution_id = #{distribution_id,jdbcType=VARCHAR}

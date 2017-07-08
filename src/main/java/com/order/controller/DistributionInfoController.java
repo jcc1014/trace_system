@@ -1,5 +1,6 @@
 package com.order.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,17 +10,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.order.po.BaseInfo;
+import com.order.po.DistributionDetail;
 import com.order.po.DistributionInfo;
 import com.order.po.RequireInfo;
 import com.order.po.SalePrice;
+import com.order.po.TotalInfo;
 import com.order.service.BaseInfoService;
 import com.order.service.DistributionDetailService;
 import com.order.service.DistributionInfoService;
 import com.order.service.RequireInfoService;
 import com.order.service.SalePriceService;
+import com.order.service.TotalInfoService;
+import com.trace.po.Purchase;
+import com.trace.po.Qrcode;
+import com.trace.po.TraceFlow;
+import com.trace.service.PurchaseService;
+import com.trace.service.QrcodeService;
+import com.trace.service.TraceFlowService;
 import com.trace.util.DateUtils;
+import com.trace.util.QRCodeUtil;
+import com.trace.util.ResultUtil;
 import com.utils.UUIDFactory;
 
 @Controller
@@ -36,6 +50,14 @@ public class DistributionInfoController {
 	private SalePriceService salePriceService;
 	@Autowired
 	private RequireInfoService requireInfoService;
+	@Autowired
+	private TotalInfoService totalInfoService;
+	@Autowired
+	private TraceFlowService traceFlowService;
+	@Autowired
+	private PurchaseService purchaseService;
+	@Autowired
+	private QrcodeService qrcodeService;
 	
 	@RequestMapping("todayDistribution")
 	public String todayDistribution(HttpServletRequest request,Model model){
@@ -53,21 +75,23 @@ public class DistributionInfoController {
 			List<Map<String,Object>> requireList = requireInfoService.select(requireInfo);
 			Map<String,Object> map = null;
 			SalePrice salePrice = null;
+			TotalInfo totalInfo = null;
 			BaseInfo baseInfo = null;
 			double price = 0.0;
 			DistributionInfo dInfo = null;
 			if(0<requireList.size()){
 				for (int i = 0; i < requireList.size(); i++) {
 					map = requireList.get(i);
-					baseInfo = baseInfoService.selectByPrimaryKey((String)map.get("parentid"));
+					totalInfo = totalInfoService.selectByPrimaryKey((String)map.get("parentid"));
+					baseInfo = baseInfoService.selectByPrimaryKey(totalInfo.getSource());
 					salePrice = salePriceService.selectByKindAndGrade((String)map.get("kind"), 
 							(String)map.get("grade"), DateUtils.getCurrentDate("yyyy-MM-dd"));
 					if(null!=salePrice){
-						if("2".equals(baseInfo.getType())){
+						if("2".equals(totalInfo.getSource_type())){
 							price = salePrice.getMarket_price();
-						}else if("3".equals(baseInfo.getType())){
+						}else if("3".equals(totalInfo.getSource_type())){
 							price = salePrice.getCanteen_price();
-						}else if("4".equals(baseInfo.getType())){
+						}else if("4".equals(totalInfo.getSource_type())){
 							price = salePrice.getOther_price();
 						}
 						dInfo = new DistributionInfo();
@@ -94,10 +118,90 @@ public class DistributionInfoController {
 		return page;
 	}
 	
+	@RequestMapping("detail")
 	public String detail(HttpServletRequest request,Model model,String id){
 		String page = "orderModule/distribution/detail";
 		DistributionInfo distributionInfo = distributionInfoService.selectByPrimaryKey(id);
 		model.addAttribute("distribution", distributionInfo);
 		return page;
+	}
+	
+	@RequestMapping("addDetailSave")
+	public String addDetailSave(HttpServletRequest request,Model model,DistributionDetail distributionDetail){
+		String page = "redirect:todayDistribution.do";
+		DistributionInfo distributionInfo = distributionInfoService.selectByPrimaryKey(distributionDetail.getDistribution_id());
+		distributionInfo.setYps((distributionInfo.getYps()==null?0.0:distributionInfo.getYps())+distributionDetail.getDistribution_num());
+		distributionInfo.setWps(distributionInfo.getRequire_num()-(null==distributionInfo.getYps()?0.0:distributionInfo.getYps()));
+		distributionInfoService.updateByPrimaryKeySelective(distributionInfo);
+		
+		distributionDetail.setId(UUIDFactory.getInstance().newUUID());
+		distributionDetail.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
+		distributionDetail.setStatus("1");
+		Qrcode qrcode = new Qrcode();
+		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
+		String path  = request.getSession().getServletContext().getRealPath("/")+"distribution\\";
+		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
+		//String content = basePath+"/trace/trace_detail?trace_id="+trace_id;
+		String content = "http://jingcc.xin:8080/trace_system/distribution/getInfo.do?id="+distributionDetail.getId();
+		String filename = UUIDFactory.getInstance().newUUID();
+		qrcode.setQrcode_path(filename+".jpg");
+		try {
+			QRCodeUtil.encode(content, logoPath, path, filename, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		distributionDetail.setDistribution_qrcode(qrcode.getQrcode_id());
+		distributionDetailService.insertSelective(distributionDetail);
+		qrcodeService.add(qrcode);
+		return page;
+	}
+	
+	@RequestMapping("checkTrace")
+	@ResponseBody
+	public String checkTrace(HttpServletRequest request,String id)
+	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("code", "-1");
+		TraceFlow traceFlow = new TraceFlow();
+		traceFlow.setIdentifier(id);
+		List<TraceFlow> list = traceFlowService.selectAllTraceFlow(traceFlow);
+		if(1==list.size()){
+			Purchase purchase = purchaseService.getById(list.get(0).getPurchase_id());
+			map.put("purchase_kind", purchase.getPurchase_kind());
+			map.put("purchase_grade", purchase.getPurchase_grade());
+			map.put("purchase_num", purchase.getPurchase_num());
+			map.put("code", "200");
+			DistributionDetail detail = new DistributionDetail();
+			detail.setTrace_id(id);
+			List<Map<String, Object>> detailList = distributionDetailService.select(detail);
+			if (0<detailList.size()) {
+				double sum = 0.0;
+				for (int i = 0; i < detailList.size(); i++) {
+					sum += (double)detailList.get(i).get("distribution_num");
+				}
+				map.put("sum", sum);
+				request.getSession().setAttribute("remain", purchase.getPurchase_num()-sum);
+				map.put("remain", purchase.getPurchase_num()-sum);
+			}else{
+				map.put("sum", 0);
+				request.getSession().setAttribute("remain", purchase.getPurchase_num());
+				map.put("remain", purchase.getPurchase_num());
+			}
+		}
+		return JSON.toJSONString(map);
+	}
+	
+	@RequestMapping("delivery")
+	@ResponseBody
+	public String delivery(HttpServletRequest request,DistributionInfo distributionInfo){
+		int r = distributionInfoService.updateByPrimaryKeySelective(distributionInfo);
+		return ResultUtil.resultString(r);
+	}
+	
+	@RequestMapping("modifyNum")
+	@ResponseBody
+	public String modifyNum(HttpServletRequest request,DistributionDetail distributionDetail){
+		int r = distributionDetailService.updateByPrimaryKeySelective(distributionDetail);
+		return ResultUtil.resultString(r);
 	}
 }

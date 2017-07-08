@@ -22,6 +22,8 @@ public interface ProduceInfoMapper {
     
     int count(Map<String,Object> map);
     
+    int createCgdByProduceId(Map<String,Object> map);
+    
     List<Map<String,Object>> select(ProduceInfo record);
     
     List<Map<String,Object>> selectTodayProduceTotal(@Param("nowDay")String nowDay,@Param("status")String status);

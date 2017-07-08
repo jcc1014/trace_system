@@ -14,6 +14,7 @@ import com.mall.service.MemberService;
 import com.trace.dao.UserDao;
 import com.trace.po.User;
 import com.trace.util.ResultUtil;
+import com.utils.UUIDFactory;
 
 @Service
 @Transactional
@@ -58,10 +59,10 @@ public class MemberServiceImpl implements MemberService{
 	public String addMember(User user, Member member) {
 		String rs = "";
 		try {
-			user.setUserid(UUID.randomUUID().toString());
+			user.setUserid(UUIDFactory.getInstance().newUUID());
 			user.setUsername(member.getPhone());
 			user.setPassword(DigestUtils.md5Hex(user.getPassword()));
-			user.setUsertype("4"); //ÆÕÍ¨»áÔ±
+			user.setUsertype("4"); //ä¼šå‘˜
 			member.setType("4"); 
 			userMapper.insert(user);
 			member.setMember(user.getUserid());

@@ -16,6 +16,7 @@
 	<link rel="stylesheet" href="${path}/layui/css/layui.css">
 	<script src="${path}/js/jquery-2.1.1.min.js" type="text/javascript"></script>
 	<script src="${path}/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="${path}/layer/layer.js" type="text/javascript"></script>
 	<script type="text/javascript" src="${path}/layui/layui.js"></script>
 	<style type="text/css">
 
@@ -38,144 +39,129 @@
 			<form method="post" action="${path}/distribution/addDetailSave.do" id="form">
 				<div class="form-group">
 					<label >种类</label> 
-					<input type="text" class="form-control" name="purchase_kind" 
-					value="${purchaseInfo.kind }" readonly="readonly">
-					<input type="hidden" name="purchase_parentid" 
-					value="${purchaseInfo.purchase_id }">
+					<input type="hidden" name="distribution_id" value="${distribution.distribution_id }" >
+					<input type="text" class="form-control" name="kind" id="kind"
+					value="${distribution.kind }" readonly="readonly">
 				</div>
 				<div class="form-group">
 					<label >品级</label> <input
-						type="text" class="form-control" name="purchase_grade" value="${purchaseInfo.grade }" readonly="readonly">
+						type="text" class="form-control" name="grade" id="grade"
+						value="${distribution.grade }" readonly="readonly">
 				</div>
 				<div class="form-group">
-					<label >采购人</label> <input
-						type="text" class="form-control" name="purchase_user" value="${sessionScope.user.username }" readonly="readonly">
+					<label >未配送</label> <input
+						type="text" class="form-control" name="wps" id="wps"
+						value="${distribution.wps }" readonly="readonly">
 				</div>
 				<div class="form-group">
-					<label >农户</label> 
-					<select name="trace_id" id="trace_id" class="form-control" >
-							<option value="">--请选择--</option>
-						<c:forEach var="item" items="${list}">
-							<option value="${item.trace_id }">${item.farmer_name }</option>
-						</c:forEach>
-					</select>
+					<label >价格</label> 
+					<input type="text" class="form-control" id="price"
+					name="price" value="${distribution.price }" readonly="readonly">
 				</div>
 				<div class="form-group">
-					<label >采购价</label> <input
-						type="number" class="form-control" name="purchase_price" id="purchase_price">
+					<label >配送人</label> 
+					<input type="text" class="form-control" 
+					name="distribution_user" value="${sessionScope.user.username}" readonly="readonly">
 				</div>
 				<div class="form-group">
-					<label >采购数量(还有${purchaseInfo.remain_number }未采购)</label> 
-					<input type="number" class="form-control"
-					 name="purchase_num" id="purchase_num" onblur="checkNum();"
-					 placeholder="还有${purchaseInfo.remain_number }未采购">
+					<label >手机</label> 
+					<input type="text" class="form-control" 
+					name="phone" value="${sessionScope.user.phone}" readonly="readonly">
 				</div>
 				<div class="form-group">
-					<label >采购视频</label> 
-					<input type="file" name="file" id="upload" lay-type="video" class="layui-upload-file">
-					<span id="video"></span><button class="btn btn-mini btn-danger del_btn hide">删除</button>
-					<input type="hidden" id="real_path" >
-					<input type="hidden" name="purchase_video" id="purchase_video" >
+					<label >配送车辆</label> 
+					<input type="text" class="form-control" 
+					name="distribution_car" id="distribution_car">
+				</div>
+				<div class="form-group">
+					<label >蔬菜编码</label> <input
+						type="text" class="form-control" name="trace_id" id="trace_id"
+						onblur="checkTrace();">
+				</div>
+				<div class="form-group">
+					<label >配送数量</label> 
+					<input type="text" class="form-control" id="distribution_num"
+					name="distribution_num" onblur="checkNum();">
 				</div>
 				<button type="button" class="btn btn-primary" onclick="submit();">提交</button>
-				<button type="button" class="btn btn-default" onclick="window.location.href='${path}/purchase/purchaseList.do'">返回</button>
+				<button type="button" class="btn btn-default" onclick="window.location.href='${path}/distribution/todayDistribution.do'">返回</button>
 			</form>
 		</div>
 	</div>
 <script type="text/javascript">
-layui.use(
-		[ 'element', 'form', 'upload', 'layedit', 'laydate' ],function() {
-		var element = layui.element(), 
-		jq = layui.jquery;
-		layui.upload({
-            elem:'#upload',
-            title:'上传视频',
-            url : '${path}/upload/upload.do?path=testVideo',
-            before: function(){
-                index = layer.msg('视频上传中', {
-                    icon: 16
-                    ,shade: 0.01
-                });
-            },
-            success : function(rs) {
-                layer.close(index);
-                if (rs.code == "success") {
-                    layer.msg('上传成功', {
-                        icon: 1,
-                        time: 1000 //2秒关闭（默认3秒）
-                    }, function(){
-                    	$("#purchase_video").val(rs.name);
-                    	$("#real_path").val(rs.path);
-                    	$("#video").html(rs.name);
-                    	$(".del_btn").removeClass('hide');
-                    });
-                   
-                } else {
-                    layer.msg('上传失败' + rs.msg + ',请检查视频名称是否有中文或重试', {
-                        icon: 2,
-                        time: 2000 //2秒关闭（默认3秒）
-                    }, function(){});
-                }
-            }
-        });
-		
-	jq(".del_btn").on('click',function(){
-		var path = $('#real_path').val();
-		jq.ajax({
-			url:'${path}/upload/delUpload.do',
-			type:'post',
-			data:{'path':path},
-			success:function(rs){
-				if(""!=rs){
-					rs = jq.parseJSON(rs);
-					if(typeof(rs)!='object'){
-						rs = jq.parseJSON(rs);
-					}
-					if(rs.code=="200"){
-						layer.msg('删除成功！',{time:1000},function(){
-							$("#purchase_video").val("");
-							$("#real_path").val("");
-							$("#video").html('');
-							$('.del_btn').addClass('hide');
-						})
-					}
-				}
-			}
-		})
-	})
-		
-	
-})
 function submit(){
+	var distribution_car = $("#distribution_car").val();
+	if(""==distribution_car||null==distribution_car){
+		layer.msg('请填写运输车辆！',{time:1000});
+		return;
+	}
 	var trace_id = $("#trace_id").val();
 	if(""==trace_id||null==trace_id){
-		layer.msg('请选择农户！',{time:1000});
+		layer.msg('请填写蔬菜编码！',{time:1000});
 		return;
 	}
-	var purchase_price = $("#purchase_price").val();
-	if(""==purchase_price||null==purchase_price||isNaN(purchase_price)){
-		layer.msg('采购价格格式不正确！',{time:1000});
-		return;
-	}
-	var purchase_num = $("#purchase_num").val();
-	if(""==purchase_num||null==purchase_num||isNaN(purchase_num)){
-		layer.msg('采购数量格式不正确！',{time:1000});
+	var distribution_num = $("#distribution_num").val();
+	if(""==distribution_num||null==distribution_num||isNaN(distribution_num)){
+		layer.msg('配送数量格式不正确！',{time:1000});
 		return;
 	}
 	$("#form").submit();
 }
 
+function checkTrace(){
+	var trace_id = $("#trace_id").val();
+	if(""==trace_id){
+		layer.msg('编号不能为空！',{time:1000},function(){
+			$("#trace_id").focus();
+		})
+	}
+	$.ajax({
+		type:'post',
+		url:'${path}/distribution/checkTrace.do',
+		dataType:'json',
+		data:{'id':trace_id},
+		success:function(rs){
+			if(""!=rs){
+				rs = $.parseJSON(rs);
+				if("200"==rs.code){
+					if(rs.purchase_kind!=$("#kind").val()||
+							rs.purchase_grade != $("#grade").val()){
+						
+						layer.msg('所填编号的蔬菜名称和品级</br>与将要配送的蔬菜不一致',{time:2000},function(){
+							return;
+						})
+					}else{
+						layer.msg('所填编号还有'+rs.remain+'可以配送，</br>配送数量请小于或者等于这个数！',{time:2000},function(){
+							return;
+						})
+					}
+				} else {
+					layer.msg('校验编号出错，请检查编号！',{time:1000},function(){
+						$("#trace_id").val("").focus();
+					})
+				}
+			}
+		}
+	})
+}
+
 function checkNum(){
-	var purchase_num = $("#purchase_num").val();
-	if(""!=purchase_num&&!isNaN(purchase_num)){
-		if(parseFloat(purchase_num)>parseFloat('${purchaseInfo.remain_number}')){
-			layer.msg('采购数量不能多于未采购量！',{time:1000});
-			$("#purchase_num").val("").focus();
+	var trace_id = $("#trace_id").val();
+	if(""==trace_id){
+		layer.msg('请先填写蔬菜编码！',{time:1000});
+		$("#trace_id").focus()
+		return;
+	}
+	var distribution_num = $("#distribution_num").val();
+	if(""!=distribution_num&&!isNaN(distribution_num)){
+		if(parseFloat(distribution_num)>parseFloat('${sessionScope.remain}')){
+			layer.msg('配送数量不能多于可配送量！',{time:1000});
+			$("#distribution_num").val("").focus();
 			return;
 		}
 	}else{
-		layer.msg('采购数量格式不正确！',{time:1000});
-		$("#purchase_num").val("").focus();
+		layer.msg('配送数量格式不正确！',{time:1000});
+		$("#distribution_num").val("").focus();
 		return;
 	}
 }

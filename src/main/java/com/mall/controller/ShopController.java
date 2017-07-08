@@ -23,6 +23,7 @@ import com.mall.service.ShopService;
 import com.trace.po.User;
 import com.trace.service.UserService;
 import com.trace.util.ResultUtil;
+import com.utils.UUIDFactory;
 
 /**
  * @description 商店控制器类
@@ -124,7 +125,7 @@ public class ShopController {
 	public String addSave(HttpServletRequest request,HttpSession session,User user,Shop shop){
 		session = request.getSession();
 		user.setPassword(DigestUtils.md5Hex("000000"));
-		user.setUserid(UUID.randomUUID().toString());
+		user.setUserid(UUIDFactory.getInstance().newUUID());
 		user.setUsertype("3");
 		Map<String,Object> map = shopService.addSave(shop,user);
 		return JSON.toJSONString(map);

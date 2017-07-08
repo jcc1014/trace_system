@@ -54,7 +54,7 @@
 							&nbsp;&nbsp; --%>
 							<a href="javascript:;" onclick="del('${item.test.test_id}');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
 							</c:if>
-							<c:if test="${totalInfo.status eq '1' }">
+							<c:if test="${item.test.test_status ne '0'}">
 								已提交
 							</c:if>
 						</td>
@@ -66,9 +66,10 @@
 			<c:if test="${fn:length(list)>0 && list[0].test.test_status eq '0'  }">
 				<button type="button" class="btn btn-primary" onclick="submit();">提交</button>
 			</c:if>
-			<c:if test="${list[0].test.test_status eq '0'  }">
+			<c:if test="${fn:length(list)==0 || list[0].test.test_status eq '0'  }">
 				<button type="button" class="btn btn-success" onclick="add();">增加</button>
 			</c:if>
+			<!-- <button type="button" class="btn btn-success" onclick="add();">增加</button> -->
 			<button type="button" class="btn btn-default" onclick="window.location.href = '${path}/baseInfo/index.do';">返回</button>
 		</div>
 	</div>

@@ -31,6 +31,10 @@
 		<div class="panel-body">
 			<div><h4>供应单信息</h4></div>
 			<div>名称：${totalInfo.name}</div>
+			<div>类型：
+			<c:if test="${sessionScope.baseInfo.type eq '5'}">供应基地</c:if>
+			<c:if test="${sessionScope.baseInfo.type eq '1'}">生产基地</c:if>
+			</div>
 			<div>时间：${totalInfo.createtime}</div>
 			<div>产地：${totalInfo.source_name}</div>
 			<div>负责人：${sessionScope.user.username}</div>

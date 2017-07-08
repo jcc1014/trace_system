@@ -48,6 +48,7 @@
               <th>取样员</th>
               <th>检验员</th>
               <th>时间</th>
+              <th>识别码</th>
               <th>二维码</th>
               <th>操作</th>
             </tr> 
@@ -71,6 +72,7 @@
           			<td>${item.test_name}</td>
           			<td>${item.test_user}</td>
           			<td>${fn:substring(item.purchase_time,0,10)}</td>
+          			<td>${item.identifier}</td>
           			<td align="center" width="60">
           				<c:if test="${item.qrcode != null && item.qrcode ne ''}">
           				<a href="javascript:void(0);" onclick="qrcode('${item.trace_id}')">

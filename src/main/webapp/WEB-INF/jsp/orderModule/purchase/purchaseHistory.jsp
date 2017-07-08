@@ -44,7 +44,7 @@
 <body>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">历史采购单<!-- （距离供应单锁定还有：<span>30</span>分钟） -->
+			<h3 class="panel-title">历史采购单
 			</h3>
 		</div>
 		<div class="panel-body">

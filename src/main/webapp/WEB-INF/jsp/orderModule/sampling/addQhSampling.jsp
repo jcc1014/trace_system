@@ -25,7 +25,7 @@
 </head>
 <body>
 	<div id="add">
-		<form action="${path}/sampling/addSamplingSave.do" method="post" id="form">
+		<form action="${path}/sampling/addQhSamplingSave.do" method="post" id="form">
 			<div class="form-group">
 				<label for="test_kind">种类和品级</label> <select class="form-control"
 					id="test_kind" name="test_kind">
@@ -71,7 +71,7 @@
 			<div class="form-group" style="text-align: center;">
 				<button type="button" class="btn btn-success"
 					onclick="save();">保存</button>
-				<button type="button" class="btn btn-default" onclick="window.history.go(-1);">返回</button>
+				<button type="button" class="btn btn-default" onclick="back();">返回</button>
 			</div>
 		</form>
 	</div>

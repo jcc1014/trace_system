@@ -26,11 +26,11 @@
 <body>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">今日配送单<!-- （距离供应单锁定还有：<span>30</span>分钟） --></h3>
+			<h3 class="panel-title">今日配送单</h3>
 		</div>
 		<div class="panel-body">
 		</div>
-		<form action="${path}/purchaseInfo/createCgd.do" method="post" id="form">
+		<form action="" method="post" id="form">
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
@@ -58,7 +58,7 @@
 							<td>${item.sum_price }</td>
 							<td>${item.yps }</td>
 							<td>
-							<c:if test="${item.require_num > item.yps }">
+							<c:if test="${item.yps == null || item.require_num > item.yps  }">
 							<a href="javascript:;" onclick="distribution('${item.distribution_id}');">配送</a>
 							</c:if>
 							<c:if test="${item.require_num == item.yps }">
@@ -78,7 +78,7 @@
 function back(){
 	window.location.href = '${path}/baseInfo/index.do';
 }
-function savePrice(id){
+function distribution(id){
 	window.location.href = '${path}/distribution/detail.do?id='+id;
 }
 </script>

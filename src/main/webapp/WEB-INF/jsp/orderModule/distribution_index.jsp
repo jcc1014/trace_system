@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>采购</title>
+<title>配送管理</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -37,7 +37,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="${path}/baseInfo/index.do">后台管理系统</a>
+				<a class="navbar-brand" href="${path}/baseInfo/index.do">配送管理</a>
 			</div>
 		</div>
 		<div class="collapse navbar-collapse"
@@ -53,24 +53,24 @@
 		<div class="row">
 			<div class="col-md-6 col-xs-6">
 				<div class="item" style="border: 1px solid #1296db;" onclick="today();">
-					<img alt="采购单" src="${path}/images/orderModule/today.png" width="100%" height="85%;">
-					<div style="color: #009688;">采购单</div>
+					<img alt="今日配送" src="${path}/images/orderModule/today.png" width="100%" height="85%;">
+					<div style="color: #009688;">今日配送</div>
 				</div>
 			</div>
 			<div class="col-md-6 col-xs-6">
 				<div class="item" style="border: 1px solid #EE7600;" onclick="history();">
-					<img alt="采购历史" src="${path}/images/orderModule/history.png" width="100%" height="85%;">
-					<div style="color: #1296db;">采购历史</div>
+					<img alt="取样列表" src="${path}/images/orderModule/history.png" width="100%" height="85%;">
+					<div style="color: #1296db;">配送列表</div>
 				</div>
 			</div>
 		</div>
 		<div class="row">
-			<%-- <div class="col-md-6 col-xs-6">
-				<div class="item" style="border: 1px solid #515151;" onclick="gy();">
-					<img alt="供应单" src="${path}/images/orderModule/gongying.png" width="100%" height="85%;">
-					<div style="color: #EE7600;">供应单</div>
+			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #515151;" onclick="sh();">
+					<img alt="收货列表" src="${path}/images/orderModule/sh.png" width="100%" height="85%;">
+					<div style="color: #EE7600;">收货列表</div>
 				</div>
-			</div> --%>
+			</div>
 			<div class="col-md-6 col-xs-6">
 				<div class="item" style="border: 1px solid #009688;" onclick="setup();">
 					<img alt="个人设置" src="${path}/images/orderModule/setup.png" width="100%" height="85%;">
@@ -81,19 +81,22 @@
 	</div>
 <script type="text/javascript">
 function today(){
-	window.location.href = '${path}/purchase/purchaseList.do';
+	window.location.href = '${path}/distribution/todayDistribution.do';
+}
+function sh(){
+	window.location.href = '${path}/sampling/today_sh.do';
 }
 
 function history(){
-	window.location.href = '${path}/purchase/history.do'
+	window.location.href = '${path}/sampling/history.do'
 }
 
 function setup(){
 	window.location.href = '${path}/produce/setup.do'
-}
+} 
 
-function gy(){
-	window.location.href = '${path}/produce/todayProduceTotal.do';
+function jd(){
+	window.location.href = '${path}/produce/info.do';
 }
 </script>
 </body>

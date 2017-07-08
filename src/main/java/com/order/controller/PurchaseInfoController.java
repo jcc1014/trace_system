@@ -12,14 +12,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.order.po.BaseInfo;
 import com.order.po.PurchaseInfo;
 import com.order.po.RemainPurchase;
 import com.order.po.TotalInfo;
+import com.order.service.BaseInfoService;
 import com.order.service.ProduceInfoService;
 import com.order.service.PurchaseInfoService;
 import com.order.service.RemainPurchaseService;
 import com.order.service.TotalInfoService;
 import com.trace.po.User;
+import com.trace.service.UserService;
 import com.trace.util.DateUtils;
 import com.trace.util.ResultUtil;
 import com.utils.UUIDFactory;
@@ -36,6 +39,10 @@ public class PurchaseInfoController {
 	private TotalInfoService totalInfoService;
 	@Autowired
 	private RemainPurchaseService remainPurchaseService;
+	@Autowired
+	private BaseInfoService baseInfoService;
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping("createCgd")
 	public String createCgd(HttpServletRequest request,Model model,String[] number){
@@ -49,7 +56,7 @@ public class PurchaseInfoController {
 			Map<String,Object> map = null;
 			TotalInfo totalInfo = new TotalInfo();
 			totalInfo.setId(UUIDFactory.getInstance().newUUID());
-			totalInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+			totalInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
 			totalInfo.setName(DateUtils.getCurrentDate("yyyy-MM-dd")+"采购单");
 			totalInfo.setCreateuser(null==user?null:user.getUserid());
 			totalInfo.setType("cgd");
@@ -75,28 +82,43 @@ public class PurchaseInfoController {
 	}
 	
 	@RequestMapping("todayCgd")
-	public String todayCgd(HttpServletRequest request,Model model,String id){
+	public String todayCgd(HttpServletRequest request,Model model){
 		String page = "orderModule/purchase/todayPurchaseInfo";
+		TotalInfo totalInfo2 = new TotalInfo();
+		totalInfo2.setType("cgd");
+		totalInfo2.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		List<Map<String, Object>> totalInfoList = totalInfoService.select(totalInfo2);
+		model.addAttribute("totalInfoList", totalInfoList.size()>0?totalInfoList:null);
+		return page;
+	}
+	@RequestMapping("todayPurchaseInfoDetail")
+	public String todayPurchaseInfoDetail(HttpServletRequest request,Model model,String id){
+		String page = "orderModule/purchase/todayPurchaseInfoDetail";
+		TotalInfo totalInfo = totalInfoService.selectByPrimaryKey(id);
 		PurchaseInfo purchaseInfo = new PurchaseInfo();
-		TotalInfo totalInfo = null;
-		if(null==id||"".equals(id)){
-			TotalInfo totalInfo2 = new TotalInfo();
-			totalInfo2.setType("cgd");
-			totalInfo2.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
-			List<Map<String, Object>> totalInfoList = totalInfoService.select(totalInfo2);
-			if(0<totalInfoList.size()){
-				model.addAttribute("totalInfo", totalInfoList.get(0));
-			}
-			
-			purchaseInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
-		}else{
-			totalInfo = totalInfoService.selectByPrimaryKey(id);
-			model.addAttribute("totalInfo", totalInfo);
-			purchaseInfo.setParentid(id);
-			purchaseInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
-		}
-		List<Map<String, Object>> list = purchaseInfoService.select(purchaseInfo);
-		model.addAttribute("purchaseInfos", list);
+		purchaseInfo.setParentid(id);
+		List<Map<String, Object>> purchaseInfoList = purchaseInfoService.select(purchaseInfo);
+		BaseInfo baseInfo = baseInfoService.selectByPrimaryKey(totalInfo.getSource());
+		User u = userService.getById(baseInfo.getFzr());
+		model.addAttribute("u", u);
+		model.addAttribute("baseInfo", baseInfo);
+		model.addAttribute("purchaseInfos", purchaseInfoList);
+		model.addAttribute("totalInfo", totalInfo);
+		return page;
+	}
+	@RequestMapping("historyDetail")
+	public String historyDetail(HttpServletRequest request,Model model,String id){
+		String page = "orderModule/purchase/historyDetail";
+		TotalInfo totalInfo = totalInfoService.selectByPrimaryKey(id);
+		PurchaseInfo purchaseInfo = new PurchaseInfo();
+		purchaseInfo.setParentid(id);
+		List<Map<String, Object>> purchaseInfoList = purchaseInfoService.select(purchaseInfo);
+		BaseInfo baseInfo = baseInfoService.selectByPrimaryKey(totalInfo.getSource());
+		User u = userService.getById(baseInfo.getFzr());
+		model.addAttribute("u", u);
+		model.addAttribute("baseInfo", baseInfo);
+		model.addAttribute("purchaseInfos", purchaseInfoList);
+		model.addAttribute("totalInfo", totalInfo);
 		return page;
 	}
 	
@@ -109,6 +131,7 @@ public class PurchaseInfoController {
 		PurchaseInfo purchaseInfo = new PurchaseInfo();
 		purchaseInfo.setPurchase_id(id);
 		purchaseInfo.setNumber(Double.parseDouble(number));
+		purchaseInfo.setRemain_number(Double.parseDouble(number));
 		int r = purchaseInfoService.updateByPrimaryKeySelective(purchaseInfo);
 		String rs = ResultUtil.resultString(r);
 		return rs;
@@ -135,18 +158,12 @@ public class PurchaseInfoController {
 		if(null==datetime||""==datetime){
 			datetime = DateUtils.getNDayBeforeCurrentDate(1, "yyyy-MM-dd");
 		}
-		TotalInfo totalInfo = new TotalInfo();
-		totalInfo.setStatus("1");
-		totalInfo.setCreatetime(datetime);
-		List<Map<String,Object>> totalList = totalInfoService.select(totalInfo);
-		if(0<totalList.size()){
-			PurchaseInfo purchaseInfo = new PurchaseInfo();
-			purchaseInfo.setStatus("1");
-			purchaseInfo.setParentid((String)totalList.get(0).get("id"));
-			List<Map<String, Object>> purchaseInfoList = purchaseInfoService.select(purchaseInfo);
-			model.addAttribute("totalInfo", totalList.get(0));
-			model.addAttribute("purchaseInfoList", purchaseInfoList);
-		}
+		TotalInfo totalInfo2 = new TotalInfo();
+		totalInfo2.setType("cgd");
+		totalInfo2.setStatus("1");
+		totalInfo2.setCreatetime(datetime);
+		List<Map<String, Object>> totalInfoList = totalInfoService.select(totalInfo2);
+		model.addAttribute("totalInfoList", totalInfoList);
 		return page;
 	}
 	
@@ -193,11 +210,12 @@ public class PurchaseInfoController {
 					purchaseInfo.setParentid(qhd.getId());
 					purchaseInfo.setRemain_number((double)rmap.get("num"));
 					purchaseInfo.setStatus("1");
+					purchaseInfo.setType("1");
 					purchaseInfoService.insertSelective(purchaseInfo);
 					qhd_f = true;
 				}
 				if(null!=rmap.get("purchase_id")&&!"".equals(rmap.get("purchase_id"))
-						&&(null==rmap.get("id")||"".equals(rmap.get("id")))){
+						&&(null!=rmap.get("id")&&!"".equals(rmap.get("id")))){
 					//有货
 					//比较数量
 					if((double)rmap.get("num")>(double)rmap.get("number")){
@@ -212,6 +230,7 @@ public class PurchaseInfoController {
 						purchaseInfo.setParentid(qhd.getId());
 						purchaseInfo.setRemain_number((double)rmap.get("num")-(double)rmap.get("number"));
 						purchaseInfo.setStatus("1");
+						purchaseInfo.setType("1");
 						purchaseInfoService.insertSelective(purchaseInfo);
 						qhd_f = true;
 						

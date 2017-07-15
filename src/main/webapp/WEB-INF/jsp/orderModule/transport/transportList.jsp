@@ -56,7 +56,7 @@
           <tbody>
           	<c:if test="${fn:length(list)==0 }">
           		<tr>
-          			<td colspan="10">暂无检验数据</td>
+          			<td colspan="12">暂无数据</td>
           		</tr>
           	</c:if>
           	<c:forEach var="item" items="${list}" varStatus="index">

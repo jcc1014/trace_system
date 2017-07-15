@@ -19,4 +19,6 @@ public interface DistributionInfoMapper {
     int count(Map<String,Object> map);
     
     List<Map<String,Object>> select(DistributionInfo record);
+    
+    List<Map<String,Object>> getDeliverData(Map<String,Object> map);
 }

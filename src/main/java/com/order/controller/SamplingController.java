@@ -146,6 +146,7 @@ public class SamplingController {
 		purchaseInfo.setStatus("1");
 		List<Map<String,Object>> purchaseInfoList = purchaseInfoService.select(purchaseInfo);
 		model.addAttribute("purchaseInfoList", purchaseInfoList);
+		model.addAttribute("test_bh", "qy"+DateUtils.getCurrentDate("yyMMddHHmmss"));
 		return page;
 	}
 	@RequestMapping("addQhSampling")
@@ -370,4 +371,5 @@ public class SamplingController {
 		rs = ResultUtil.resultString(r);
 		return rs;
 	}
+	
 }

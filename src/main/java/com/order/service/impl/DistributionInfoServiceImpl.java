@@ -55,4 +55,10 @@ public class DistributionInfoServiceImpl implements DistributionInfoService {
 		return distributionInfoMapper.select(record);
 	}
 
+
+	@Override
+	public List<Map<String, Object>> getDeliverData(Map<String, Object> map) {
+		return distributionInfoMapper.getDeliverData(map);
+	}
+
 }

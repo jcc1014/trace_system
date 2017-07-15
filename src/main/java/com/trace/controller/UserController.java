@@ -151,6 +151,99 @@ public class UserController {
 		model.addAttribute("userList", userList);
 		return p;
 	}
+	@RequestMapping("user/member_list.do")
+	public String member_list(HttpServletRequest request,HttpSession session,String username,String usertype,String page,Model model){
+		String p = "user/member_list";
+		if(null!=username&&!"".equals(username)){
+			try {
+				username = new String(username.getBytes("ISO8859-1"),"UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		Map<String,Object> map = new HashMap<String, Object>();
+		if("".equals(page)||null==page){
+			page = "1";
+		}
+		map.put("username", username);
+		map.put("usertype", "4");
+		int num = userService.count(map);
+		if(num%8==0){
+			num = num/8;
+		}else{
+			num = num/8+1;
+		}
+		model.addAttribute("num", num);
+		model.addAttribute("curr", page);
+		model.addAttribute("username", username);
+		model.addAttribute("usertype", usertype);
+		map.put("index", (Integer.parseInt(page)-1)*8);
+		List<User> userList = userService.select(map);
+		model.addAttribute("userList", userList);
+		return p;
+	}
+	@RequestMapping("user/jd_user_list.do")
+	public String jd_user_list(HttpServletRequest request,HttpSession session,String username,String usertype,String page,Model model){
+		String p = "user/jd_user_list";
+		if(null!=username&&!"".equals(username)){
+			try {
+				username = new String(username.getBytes("ISO8859-1"),"UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		Map<String,Object> map = new HashMap<String, Object>();
+		if("".equals(page)||null==page){
+			page = "1";
+		}
+		map.put("username", username);
+		map.put("usertype", "A");
+		int num = userService.count(map);
+		if(num%8==0){
+			num = num/8;
+		}else{
+			num = num/8+1;
+		}
+		model.addAttribute("num", num);
+		model.addAttribute("curr", page);
+		model.addAttribute("username", username);
+		model.addAttribute("usertype", usertype);
+		map.put("index", (Integer.parseInt(page)-1)*8);
+		List<User> userList = userService.select(map);
+		model.addAttribute("userList", userList);
+		return p;
+	}
+	@RequestMapping("user/require_user_list.do")
+	public String require_user_list(HttpServletRequest request,HttpSession session,String username,String usertype,String page,Model model){
+		String p = "user/require_user_list";
+		if(null!=username&&!"".equals(username)){
+			try {
+				username = new String(username.getBytes("ISO8859-1"),"UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		Map<String,Object> map = new HashMap<String, Object>();
+		if("".equals(page)||null==page){
+			page = "1";
+		}
+		map.put("username", username);
+		map.put("usertype", "B");
+		int num = userService.count(map);
+		if(num%8==0){
+			num = num/8;
+		}else{
+			num = num/8+1;
+		}
+		model.addAttribute("num", num);
+		model.addAttribute("curr", page);
+		model.addAttribute("username", username);
+		model.addAttribute("usertype", usertype);
+		map.put("index", (Integer.parseInt(page)-1)*8);
+		List<User> userList = userService.select(map);
+		model.addAttribute("userList", userList);
+		return p;
+	}
 	
 	
 }

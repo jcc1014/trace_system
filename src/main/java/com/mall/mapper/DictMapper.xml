@@ -172,7 +172,7 @@
     <if test="parentid != null">
     	and parentid = #{parentid}
     </if>
-    order by dict_type,dict_index
+    order by dict_index
   </select>
   
   <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">

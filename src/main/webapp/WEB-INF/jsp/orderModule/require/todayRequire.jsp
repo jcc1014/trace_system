@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>生产基地</title>
+<title>需求</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -129,7 +129,7 @@
   </div>
   <div class="form-group" style="text-align: center;">
 	  <button type="button" class="btn btn-success" onclick="modal_add_save();">保存</button>
-	  <button type="button" class="btn btn-default" onclick="close();">关闭</button>
+	  <button type="button" class="btn btn-default" onclick="back();">返回</button>
   </div>
 </form>
 </div>
@@ -312,6 +312,9 @@ function modal_add_save(){
 
 function close(){
 	layer.closeAll();
+}
+function back(){
+	window.location.href = '${path}/baseInfo/index.do'
 }
 </script>
 </body>

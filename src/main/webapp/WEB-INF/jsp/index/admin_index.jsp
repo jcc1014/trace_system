@@ -93,6 +93,18 @@
                 </a>
               </li>
               <li class="layui-nav-item">
+                <a href="${path}/user/jd_user_list.do" target="main">
+                  <i class="layui-icon">&#xe60a;</i>
+                  <cite>基地管理员</cite>
+                </a>
+              </li>
+              <li class="layui-nav-item">
+                <a href="${path}/user/require_user_list.do" target="main">
+                  <i class="layui-icon">&#xe60a;</i>
+                  <cite>需求管理员</cite>
+                </a>
+              </li>
+              <li class="layui-nav-item">
                 <a href="${path}/transport/transportList.do" target="main">
                   <i class="layui-icon">&#xe60a;</i>
                   <cite>今日追溯</cite>
@@ -122,32 +134,38 @@
               </li>
               <li class="layui-nav-item first-item">
                 <a href="${path}/goods/list.do" target="main">
-                  <i class="layui-icon">&#xe613;</i>
+                  <i class="layui-icon">&#xe60a;</i>
                   <cite>商品列表</cite>
                 </a>
               </li>
               <li class="layui-nav-item">
                 <a href="${path}/order/list.do" target="main">
-                  <i class="layui-icon">&#xe613;</i>
+                  <i class="layui-icon">&#xe60a;</i>
                   <cite>订单列表</cite>
                 </a>
               </li>
               <li class="layui-nav-item ">
                 <a href="${path}/shop/listshop.do" target="main">
-                  <i class="layui-icon">&#xe613;</i>
+                  <i class="layui-icon">&#xe60a;</i>
                   <cite>商店列表</cite>
                 </a>
               </li>
               <li class="layui-nav-item ">
                 <a href="${path}/dict/listParent.do" target="main">
-                  <i class="layui-icon">&#xe613;</i>
+                  <i class="layui-icon">&#xe60a;</i>
                   <cite>种类列表</cite>
                 </a>
               </li>
               <li class="layui-nav-item ">
                 <a href="${path}/banner/list.do" target="main">
-                  <i class="layui-icon">&#xe613;</i>
+                  <i class="layui-icon">&#xe60a;</i>
                   <cite>首页轮播图</cite>
+                </a>
+              </li>
+              <li class="layui-nav-item ">
+                <a href="${path}/user/member_list.do" target="main">
+                  <i class="layui-icon">&#xe60a;</i>
+                  <cite>商城会员</cite>
                 </a>
               </li>
             </ul>

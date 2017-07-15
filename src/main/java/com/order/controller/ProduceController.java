@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.mall.po.Dict;
 import com.mall.po.Goods;
+import com.mall.service.DictService;
 import com.mall.service.GoodsService;
 import com.order.po.BaseInfo;
 import com.order.po.ProduceInfo;
@@ -42,6 +44,8 @@ public class ProduceController {
 	private UserService userService;
 	@Autowired
 	private PurchaseInfoService purchaseInfoService;
+	@Autowired
+	private DictService dictService;
 	
 	@RequestMapping("addSave")
 	@ResponseBody
@@ -80,7 +84,9 @@ public class ProduceController {
 		model.addAttribute("goodsList", goodsList);
 		List<Map<String,Object>> producelist = produceInfoService.select(produceInfo);
 		request.getSession().setAttribute("produce_parent_id", produceInfo.getParent_id());
+		List<Dict> dictList = dictService.selectByParentId("grade");
 		model.addAttribute("producelist", producelist);
+		model.addAttribute("dictList", dictList);
 		model.addAttribute("nowDate", DateUtils.getCurrentDate("yyyy-MM-dd"));
  		return page;
 	}
@@ -160,6 +166,8 @@ public class ProduceController {
 		}
 		Goods goods = new Goods();
 		List<Goods> goodsList = goodsService.select(goods);
+		List<Dict> dictList = dictService.selectByParentId("grade");
+		model.addAttribute("dictList", dictList);
 		model.addAttribute("goodsList", goodsList);
 		model.addAttribute("user", user);
 		return page;

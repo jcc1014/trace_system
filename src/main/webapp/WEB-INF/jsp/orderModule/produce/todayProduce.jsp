@@ -99,7 +99,7 @@
   </div>
   <div class="form-group" style="text-align: center;">
 	  <button type="button" class="btn btn-success" onclick="modal_edit_save();">修改</button>
-	  <button type="button" class="btn btn-default" onclick="close();">关闭</button>
+	  <button type="button" class="btn btn-default" onclick="closeModal();">关闭</button>
   </div>
 </form>
 </div>
@@ -121,11 +121,14 @@
     	<option value="1">1</option>
     	<option value="2">2</option>
     	<option value="3">3</option>
+    	<c:forEach var="item" items="${dictList}">
+	    	<option value="${item.dict_name }">${item.dict_name }</option>
+    	</c:forEach>
     </select>
   </div>
   <div class="form-group">
     <label for="modal_type">供应量</label>
-    <input type="number" class="form-control" id="modal_add_supply_number" placeholder="供应量">
+    <input type="number" class="form-control" id="modal_add_supply_number" placeholder="供应量（斤或包）">
   </div>
   <div class="form-group">
     <label for="modal_type">价格</label>
@@ -133,7 +136,7 @@
   </div>
   <div class="form-group" style="text-align: center;">
 	  <button type="button" class="btn btn-success" onclick="modal_add_save();">保存</button>
-	  <button type="button" class="btn btn-default" onclick="close();">关闭</button>
+	  <button type="button" class="btn btn-default" onclick="closeModal();">关闭</button>
   </div>
 </form>
 </div>
@@ -312,7 +315,7 @@ function modal_add_save(){
 	})
 }
 
-function close(){
+function closeModal(){
 	layer.closeAll();
 }
 </script>

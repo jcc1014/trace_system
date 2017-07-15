@@ -191,6 +191,26 @@ public class DistributionInfoController {
 		return JSON.toJSONString(map);
 	}
 	
+	@RequestMapping("today_sh")
+	public String today_sh(HttpServletRequest request,Model model){
+		String page = "orderModule/distribution/today_sh";
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("datetime", DateUtils.getCurrentDate());
+		List<Map<String,Object>> list = distributionInfoService.getDeliverData(map);
+		model.addAttribute("list", list);
+		return page;
+	}
+	@RequestMapping("today_shDetail")
+	public String today_shDetail(HttpServletRequest request,Model model,String name,String time){
+		String page = "orderModule/distribution/today_shDetail";
+		DistributionInfo distributionInfo = new DistributionInfo();
+		distributionInfo.setRequire_name(name);
+		distributionInfo.setCreatetime(time);
+		List<Map<String, Object>> list = distributionInfoService.select(distributionInfo);
+		model.addAttribute("list", list);
+		return page;
+	}
+	
 	@RequestMapping("delivery")
 	@ResponseBody
 	public String delivery(HttpServletRequest request,DistributionInfo distributionInfo){

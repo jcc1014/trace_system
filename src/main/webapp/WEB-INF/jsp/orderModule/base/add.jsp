@@ -37,7 +37,8 @@
 								<option value="5">供应基地</option>
 								<option value="2">超市</option>
 								<option value="3">食堂</option>
-								<option value="4">孟鑫</option>
+								<option value="4">济南合作单位</option>
+								<option value="6">饭店</option>
 							</select>
 						</div>
 					</div>
@@ -79,6 +80,25 @@
 							<input type="text" id="address" name="address"
 								 autocomplete="off" placeholder="请输入地址"
 								class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+                        <label class="layui-form-label">上传视频</label>
+                        <div class="layui-input-inline" style="width:113px;">
+						    <input type="file" name="file" id="upload" lay-type="video" class="layui-upload-file">
+                        </div>
+					</div>
+					<div class="layui-form-item" id="pic_display">
+						<label class="layui-form-label">已传视频</label>
+						<div id="videoDiv" class="layui-input-block">
+							<input type="hidden" id="video" name="video" value="">
+							<input type="hidden" id="real_path" name="real_path" value="">
+							<span id="videoSpan"></span>
+							 <a style="margin-left: 10px"
+								class="layui-btn layui-btn-small layui-btn-danger del_btn hide"
+								 title="删除"> <i class="layui-icon"></i>
+							</a>
+							<div style="min-height: 10px"></div>
 						</div>
 					</div>
 					<!-- <div class="layui-form-item">
@@ -124,6 +144,63 @@ layui.use(
 		layedit = layui.layedit, 
 		laydate = layui.laydate, 
 		jq = layui.jquery;
+		
+		layui.upload({
+            elem:'#upload',
+            title:'上传视频',
+            url : '${path}/upload/upload.do?path=baseVideo',
+            before: function(){
+                index = layer.msg('视频上传中', {
+                    icon: 16
+                    ,shade: 0.01
+                });
+            },
+            success : function(rs) {
+                layer.close(index);
+                if (rs.code == "success") {
+                    layer.msg('上传成功', {
+                        icon: 1,
+                        time: 2000 //2秒关闭（默认3秒）
+                    }, function(){
+                    	$("#video").val(rs.name);
+                    	$("#real_path").val(rs.path);
+                    	$("#videoSpan").html(rs.name);
+                    	$(".del_btn").removeClass('hide');
+                    });
+                   
+                } else {
+                    layer.msg('上传失败' + rs.msg + ',请检查视频名称是否有中文或重试', {
+                        icon: 2,
+                        time: 2000 //2秒关闭（默认3秒）
+                    }, function(){});
+                }
+            }
+        });
+		
+	jq(".del_btn").on('click',function(){
+		var path = $('#real_path').val();
+		jq.ajax({
+			url:'${path}/upload/delUpload.do',
+			type:'post',
+			data:{'path':path},
+			success:function(rs){
+				if(""!=rs){
+					rs = jq.parseJSON(rs);
+					if(typeof(rs)!='object'){
+						rs = jq.parseJSON(rs);
+					}
+					if(rs.code=="200"){
+						layer.msg('删除成功！',{time:1000},function(){
+							$("#video").val("");
+							$("#real_path").val("");
+							$("#videoSpan").html('');
+							$('.del_btn').addClass('hide');
+						})
+					}
+				}
+			}
+		})
+	})
 		
 	jq("#save_btn").on('click',function(){
 		var type = jq("#type").val();

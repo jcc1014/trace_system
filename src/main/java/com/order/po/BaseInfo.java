@@ -16,6 +16,8 @@ public class BaseInfo {
     private String phone;
 
     private String type;
+    
+    private String video;
 
     public String getId() {
         return id;
@@ -80,4 +82,14 @@ public class BaseInfo {
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
     }
+
+	public String getVideo() {
+		return video;
+	}
+
+	public void setVideo(String video) {
+		this.video = video;
+	}
+    
+    
 }

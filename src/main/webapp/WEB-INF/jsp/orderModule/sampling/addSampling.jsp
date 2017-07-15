@@ -58,7 +58,7 @@
 			</div>
 			<div class="form-group">
 				<label for="test_bh">取样编号</label> <input type="text"
-					class="form-control" id="test_bh" name="test_bh" placeholder="取样编号">
+					class="form-control" id="test_bh" name="test_bh" value="${test_bh}" readonly="readonly">
 			</div>
 			<div class="form-group">
 				<label for="test_num">取样数量</label> <input type="text"

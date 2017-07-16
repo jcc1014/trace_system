@@ -43,17 +43,18 @@
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th>种类</th><th>品级</th><th>供应量</th><th>采购量</th><th>操作</th>
+						<th>种类</th><th>品级</th><th>供应价</th><th>供应量</th><th>采购量</th><th>操作</th>
 					</tr>
 				</thead>
 				<tbody id="tbody">
 					<c:if test="${fn:length(purchaseInfos)==0 }">
-						<tr><td colspan="5">暂无数据</td></tr>
+						<tr><td colspan="6">暂无数据</td></tr>
 					</c:if>
 					<c:forEach var="item" items="${purchaseInfos}">
 						<tr>
 							<td>${item.kind }</td>
 							<td>${item.grade }</td>
+							<td>${item.price }</td>
 							<td>${item.supply_number}</td>
 							<td>${item.number }</td>
 							<td>
@@ -84,7 +85,7 @@
     <input type="number" class="form-control" id="modal_number" placeholder="数量">
   </div>
   <div class="form-group" style="text-align: center;">
-	  <button type="button" class="btn btn-success" onclick="modal_edit_save();">修改</button>
+	  <button type="button" class="btn btn-success" onclick="modal_edit_save();">保存</button>
 	  <button type="button" class="btn btn-default" onclick="layer.closeAll();">关闭</button>
   </div>
 </form>
@@ -138,12 +139,12 @@ function modal_edit_save(){
 			if(""!=rs){
 				rs = $.parseJSON(rs);
 				if("200"==rs.code){
-					layer.msg('修改成功！',{time:1000},function(){
+					layer.msg('保存成功！',{time:1000},function(){
 						self.location.reload();
 					});
 				}
 			}else{
-				layer.msg('修改失败！',{time:1000});
+				layer.msg('保存失败！',{time:1000});
 			}
 		}
 	})

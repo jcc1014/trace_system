@@ -18,7 +18,7 @@ public class BaseInfo {
     private String type;
     
     private String video;
-
+    
     public String getId() {
         return id;
     }

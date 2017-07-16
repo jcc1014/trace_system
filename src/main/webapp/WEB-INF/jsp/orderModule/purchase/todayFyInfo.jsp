@@ -40,7 +40,7 @@
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th>种类</th><th>品级</th><th>采购量</th>
+						<th>种类</th><th>品级</th><th>富余量</th>
 					</tr>
 				</thead>
 				<tbody id="tbody">
@@ -51,7 +51,7 @@
 						<tr>
 							<td>${item.kind }</td>
 							<td>${item.grade }</td>
-							<td>${item.number }</td>
+							<td>${item.num }</td>
 						</tr>
 					</c:forEach>
 				</tbody>

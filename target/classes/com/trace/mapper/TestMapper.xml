@@ -15,11 +15,12 @@
     <result column="test_grade" property="test_grade" jdbcType="VARCHAR" />
     <result column="test_status" property="test_status" jdbcType="VARCHAR" />
     <result column="test_user" property="test_user" jdbcType="VARCHAR" />
+    <result column="sampling_video" property="sampling_video" jdbcType="VARCHAR" />
     <result column="test_num" property="test_num" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Base_Column_List" >
     test_name,test_id,test_time, test_machine, test_result,test_influence,test_type,test_video,
-    test_bh,test_num,test_grade,test_status,test_kind,test_user,isQh
+    test_bh,test_num,test_grade,test_status,test_kind,test_user,isQh,sampling_video
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -227,6 +228,9 @@
       <if test="isQh != null and isQh != ''" >
         isQh,
       </if>
+      <if test="sampling_video != null and sampling_video != ''" >
+        sampling_video,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="test_id != null and test_id != ''" >
@@ -274,6 +278,9 @@
       <if test="isQh != null and isQh != ''" >
         #{isQh},
       </if>
+      <if test="sampling_video != null and sampling_video != ''" >
+        #{sampling_video},
+      </if>
     </trim>
   </insert>
   
@@ -294,6 +301,7 @@
 		  <if test="test_bh !=null and test_bh !=0">test_bh=#{test_bh},</if>
 		  <if test="test_user !=null and test_user !=''">test_user=#{test_user},</if>
 		  <if test="isQh !=null and isQh !=''">isQh=#{isQh},</if>
+		  <if test="sampling_video !=null and sampling_video !=''">sampling_video=#{sampling_video},</if>
 		 </trim>
 	WHERE test_id=#{test_id}
   </update>

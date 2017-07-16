@@ -89,7 +89,7 @@
               <li class="layui-nav-item first-item">
                 <a href="${path}/baseInfo/list.do" target="main">
                   <i class="layui-icon">&#xe60a;</i>
-                  <cite>基地列表</cite>
+                  <cite>基地/需求单位</cite>
                 </a>
               </li>
               <li class="layui-nav-item">

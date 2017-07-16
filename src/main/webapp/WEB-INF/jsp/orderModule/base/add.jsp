@@ -148,7 +148,7 @@ layui.use(
 		layui.upload({
             elem:'#upload',
             title:'上传视频',
-            url : '${path}/upload/upload.do?path=baseVideo',
+            url : '${path}/upload/upload.do?path=video',
             before: function(){
                 index = layer.msg('视频上传中', {
                     icon: 16

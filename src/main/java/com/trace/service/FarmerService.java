@@ -22,4 +22,5 @@ public interface FarmerService {
 	List<Farmer> selectByName(String farmer_name);
 	int add(Farmer farmer);
 	Farmer getById(String farmer_id);
+	Farmer getByPhone(String phone);
 }

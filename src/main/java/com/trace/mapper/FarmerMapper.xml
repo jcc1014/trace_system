@@ -7,9 +7,10 @@
     <result column="farmer_phone" property="farmer_phone" jdbcType="VARCHAR" />
     <result column="video_id" property="video_id" jdbcType="VARCHAR" />
     <result column="farmer_hzs" property="farmer_hzs" jdbcType="VARCHAR" />
+    <result column="baseid" property="baseid" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    farmer_id, farmer_name, farmer_phone,video_id,farmer_hzs
+    farmer_id, farmer_name, farmer_phone,video_id,farmer_hzs,baseid
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -31,8 +32,15 @@
   </select>
   
   <insert id="insert" parameterType="com.trace.po.Farmer">
-  	insert into farmer (farmer_id, farmer_name, farmer_phone,video_id,farmer_hzs) values
-  	(#{farmer_id},#{farmer_name},#{farmer_phone},#{video_id},#{farmer_hzs})
+  	insert into farmer (farmer_id, farmer_name, farmer_phone,video_id,farmer_hzs,baseid) values
+  	(#{farmer_id},#{farmer_name},#{farmer_phone},#{video_id},#{farmer_hzs},#{baseid})
   </insert>
+  
+  <select id="getByPhone" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from farmer
+    where farmer_phone = #{phone,jdbcType=VARCHAR}
+  </select>
   
 </mapper>

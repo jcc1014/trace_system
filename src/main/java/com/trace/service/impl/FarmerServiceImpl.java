@@ -38,4 +38,9 @@ public class FarmerServiceImpl implements FarmerService {
 		return farmerDao.selectByPrimaryKey(farmer_id);
 	}
 
+	@Override
+	public Farmer getByPhone(String phone) {
+		return farmerDao.getByPhone(phone);
+	}
+
 }

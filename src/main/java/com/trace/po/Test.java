@@ -17,6 +17,7 @@ public class Test {
 	private String test_status;
 	private String test_user;
 	private String isQh;
+	private String sampling_video;
 	
 	
 	
@@ -109,6 +110,12 @@ public class Test {
 	}
 	public void setIsQh(String isQh) {
 		this.isQh = isQh;
+	}
+	public String getSampling_video() {
+		return sampling_video;
+	}
+	public void setSampling_video(String sampling_video) {
+		this.sampling_video = sampling_video;
 	}
 	
 }

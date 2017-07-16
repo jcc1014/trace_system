@@ -52,7 +52,7 @@
 						type="text" class="form-control" name="purchase_user" value="${sessionScope.user.username }" readonly="readonly">
 				</div>
 				<div class="form-group">
-					<label >农户</label> 
+					<label >市场/基地</label> 
 					<select name="trace_id" id="trace_id" class="form-control" >
 							<option value="">--请选择--</option>
 						<c:forEach var="item" items="${list}">
@@ -60,7 +60,7 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="display: none;">
 					<label >采购价</label> <input
 						type="number" class="form-control"
 						value="${purchaseInfo.price }"
@@ -72,7 +72,7 @@
 					 name="purchase_num" id="purchase_num" onblur="checkNum();"
 					 placeholder="还有${purchaseInfo.remain_number }未采购">
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="display: none;">
 					<label >采购视频</label> 
 					<input type="file" name="file" id="upload" lay-type="video" class="layui-upload-file">
 					<span id="video"></span><button class="btn btn-mini btn-danger del_btn hide">删除</button>
@@ -80,7 +80,7 @@
 					<input type="hidden" name="purchase_video" id="purchase_video" >
 				</div>
 				<button type="button" class="btn btn-primary" onclick="submit();">提交</button>
-				<button type="button" class="btn btn-default" onclick="window.location.href='${path}/purchase/getQhd.do'">返回</button>
+				<button type="button" class="btn btn-default" onclick="window.location.href='${path}/purchaseInfo/getQhd.do'">返回</button>
 			</form>
 		</div>
 	</div>

@@ -72,17 +72,17 @@
 				</div>
 			</div>
 			<div class="col-md-6 col-xs-6">
-				<div class="item" style="border: 1px solid #009688;" onclick="setup();">
-					<img alt="个人设置" src="${path}/images/orderModule/setup.png" width="100%" height="85%;">
-					<div style="color: #515151;">个人设置</div>
+				<div class="item" style="border: 1px solid #515151;" onclick="sh();">
+					<img alt="收货列表" src="${path}/images/orderModule/sh.png" width="100%" height="85%;">
+					<div style="color: #EE7600;">收货列表</div>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-xs-6">
-				<div class="item" style="border: 1px solid #515151;" onclick="sh();">
-					<img alt="收货列表" src="${path}/images/orderModule/sh.png" width="100%" height="85%;">
-					<div style="color: #EE7600;">收货列表</div>
+				<div class="item" style="border: 1px solid #009688;" onclick="setup();">
+					<img alt="个人设置" src="${path}/images/orderModule/setup.png" width="100%" height="85%;">
+					<div style="color: #515151;">个人设置</div>
 				</div>
 			</div>
 		</div>
@@ -104,7 +104,7 @@ function jd(){
 	window.location.href = '${path}/require/info.do';
 }
 function sh(){
-	window.location.href = '${path}/sampling/today_sh.do';
+	window.location.href = '${path}/distribution/today_sh.do';
 }
 </script>
 </body>

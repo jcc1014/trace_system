@@ -121,6 +121,9 @@
     	<option value="1">1</option>
     	<option value="2">2</option>
     	<option value="3">3</option>
+    	<c:forEach var="item" items="${dictList }">
+    	<option value="${item.dict_name}">${item.dict_name}</option>
+    	</c:forEach>
     </select>
   </div>
   <div class="form-group">
@@ -129,7 +132,7 @@
   </div>
   <div class="form-group" style="text-align: center;">
 	  <button type="button" class="btn btn-success" onclick="modal_add_save();">保存</button>
-	  <button type="button" class="btn btn-default" onclick="back();">返回</button>
+	  <button type="button" class="btn btn-default" onclick="closeModal();">关闭</button>
   </div>
 </form>
 </div>
@@ -310,7 +313,7 @@ function modal_add_save(){
 	})
 }
 
-function close(){
+function closeModal(){
 	layer.closeAll();
 }
 function back(){

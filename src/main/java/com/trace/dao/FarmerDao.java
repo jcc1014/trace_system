@@ -24,4 +24,5 @@ public interface FarmerDao {
 	List<Farmer> selectByName(@Param("farmer_name")String farmer_name);
 	int insert(Farmer farmer);
 	Farmer selectByPrimaryKey(@Param("farmer_id")String farmer_id);
+	Farmer getByPhone(@Param("phone")String phone);
 }

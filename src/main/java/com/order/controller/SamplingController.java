@@ -13,8 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.mall.service.GoodsService;
+import com.order.po.BaseInfo;
 import com.order.po.PurchaseInfo;
+import com.order.service.BaseInfoService;
 import com.order.service.PurchaseInfoService;
 import com.trace.po.Farmer;
 import com.trace.po.Test;
@@ -41,6 +44,8 @@ public class SamplingController {
 	private GoodsService goodsService;
 	@Autowired
 	private PurchaseInfoService purchaseInfoService;
+	@Autowired
+	private BaseInfoService baseInfoService;
 	
 	@RequestMapping("today_sampling")
 	public String today_sampling(HttpServletRequest request,Model model){
@@ -147,6 +152,15 @@ public class SamplingController {
 		List<Map<String,Object>> purchaseInfoList = purchaseInfoService.select(purchaseInfo);
 		model.addAttribute("purchaseInfoList", purchaseInfoList);
 		model.addAttribute("test_bh", "qy"+DateUtils.getCurrentDate("yyMMddHHmmss"));
+		Map<String, Object> baseMap = new HashMap<String, Object>();
+		baseMap.put("type", "1");
+		List<BaseInfo> scjdList = baseInfoService.select(baseMap);
+		baseMap.put("type", "5");
+		List<BaseInfo> gyjdList = baseInfoService.select(baseMap);
+		List<BaseInfo> baseList = new ArrayList<BaseInfo>();
+		baseList.addAll(scjdList);
+		baseList.addAll(gyjdList);
+		model.addAttribute("baseList", baseList);
 		return page;
 	}
 	@RequestMapping("addQhSampling")
@@ -164,7 +178,13 @@ public class SamplingController {
 	public String addSamplingSave(HttpServletRequest request,Test test,Farmer farmer){
 		User user = (User)request.getSession().getAttribute("user");
 		String page = "redirect:today_sampling.do";
-		farmer.setFarmer_id(UUIDFactory.getInstance().newUUID());
+		Farmer f = farmerService.getByPhone(farmer.getFarmer_phone());
+		if(null==f){
+			farmer.setFarmer_id(UUIDFactory.getInstance().newUUID());
+			farmerService.add(farmer);
+		}else{
+			farmer = f;
+		}
 		String test_kind = test.getTest_kind();
 		test.setTest_kind(test_kind.split(";")[0]);
 		test.setTest_grade(test_kind.split(";")[1]);
@@ -181,7 +201,6 @@ public class SamplingController {
 		traceFlow.setTrace_id(UUIDFactory.getInstance().newUUID());
 		traceFlowService.add(traceFlow);
 		testService.add(test);
-		farmerService.add(farmer);
 		return page;
 	}
 	@RequestMapping("addQhSamplingSave")
@@ -369,6 +388,23 @@ public class SamplingController {
 		}
 		int r = testService.update(test);
 		rs = ResultUtil.resultString(r);
+		return rs;
+	}
+	@RequestMapping("checkPhone")
+	@ResponseBody
+	public String checkPhone(HttpServletRequest request,String phone){
+		String rs = "";
+		Map<String, Object> map = new HashMap<String, Object>();
+		Farmer farmer = farmerService.getByPhone(phone);
+		if(null!=farmer){
+			map.put("code", "200");
+			map.put("farmer_name", farmer.getFarmer_name());
+			map.put("farmer_hzs", farmer.getFarmer_hzs());
+			map.put("baseid", farmer.getBaseid());
+		}else{
+			map.put("code", "-1");
+		}
+		rs = JSON.toJSONString(map);
 		return rs;
 	}
 	

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.mall.po.Dict;
 import com.mall.po.Goods;
+import com.mall.service.DictService;
 import com.mall.service.GoodsService;
 import com.order.po.BaseInfo;
 import com.order.po.RequireInfo;
@@ -41,6 +43,8 @@ public class RequireController {
 	private UserService userService;
 	@Autowired
 	private RequireInfoService requireInfoService;
+	@Autowired
+	private DictService dictService;
 	
 	@RequestMapping("today_require")
 	public String today(HttpServletRequest request,Model model){
@@ -73,7 +77,9 @@ public class RequireController {
 		}
 		Goods goods = new Goods();
 		List<Goods> goodsList = goodsService.select(goods);
+		List<Dict> dictList = dictService.selectByParentId("grade");
 		model.addAttribute("goodsList", goodsList);
+		model.addAttribute("dictList", dictList);
 		model.addAttribute("user", user);
 		return page;
 	}

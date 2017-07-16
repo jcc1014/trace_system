@@ -188,7 +188,7 @@ public class PurchaseInfoController {
 		boolean qhd_f = false;
 		TotalInfo fyd = new TotalInfo();
 		fyd.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
-		fyd.setType("gyd");
+		fyd.setType("fyd");
 		fyd.setId(UUIDFactory.getInstance().newUUID());
 		fyd.setCreateuser(user==null?null:user.getUserid());
 		fyd.setName(DateUtils.getCurrentDate("yyyy-MM-dd")+"富余单");

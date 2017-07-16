@@ -77,6 +77,7 @@
 					<label >蔬菜编码</label> <input
 						type="text" class="form-control" name="trace_id" id="trace_id"
 						onblur="checkTrace();">
+					<span id="trace_num"></span>
 				</div>
 				<div class="form-group">
 					<label >配送数量</label> 
@@ -132,6 +133,7 @@ function checkTrace(){
 						})
 					}else{
 						layer.msg('所填编号还有'+rs.remain+'可以配送，</br>配送数量请小于或者等于这个数！',{time:2000},function(){
+							$("#trace_num").html('所填编号还有'+rs.remain+'可以配送，</br>配送数量请小于或者等于这个数！');
 							return;
 						})
 					}

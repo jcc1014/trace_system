@@ -7,6 +7,7 @@ public class Farmer {
 	private String farmer_phone; //手机
 	private String farmer_hzs;
 	private String video_id; //视频id
+	private String baseid;
 	
 	
 	public String getFarmer_id() {
@@ -39,7 +40,12 @@ public class Farmer {
 	public void setFarmer_hzs(String farmer_hzs) {
 		this.farmer_hzs = farmer_hzs;
 	}
-	
+	public String getBaseid() {
+		return baseid;
+	}
+	public void setBaseid(String baseid) {
+		this.baseid = baseid;
+	}
 	
 	
 }

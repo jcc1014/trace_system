@@ -45,16 +45,16 @@
 				</select>
 			</div> --%>
 			<div class="form-group">
-				<label for="farmer_name">农户</label> <input type="text"
-					class="form-control" id="farmer_name" name="farmer_name" placeholder="农户">
+				<label for="farmer_name">供应商</label> <input type="text"
+					class="form-control" id="farmer_name" name="farmer_name" placeholder="供应商">
 			</div>
 			<div class="form-group">
 				<label for="farmer_phone">手机</label> <input type="text"
 					class="form-control" id="farmer_phone" name="farmer_phone" placeholder="手机">
 			</div>
 			<div class="form-group">
-				<label for="farmer_hzs">合作社</label> <input type="text"
-					class="form-control" id="farmer_hzs" name="farmer_hzs" placeholder="合作社">
+				<label for="farmer_hzs">市场</label> <input type="text"
+					class="form-control" id="farmer_hzs" name="farmer_hzs" placeholder="市场">
 			</div>
 			<div class="form-group">
 				<label for="test_bh">取样编号</label> <input type="text"

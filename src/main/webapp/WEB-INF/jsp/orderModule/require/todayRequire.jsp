@@ -76,7 +76,7 @@
 		<div class="panel-footer" style="margin-top: 20px;">
 			<c:if test="${totalInfo.status eq '0' }">
 				<c:if test="${fn:length(requireList)>0  }">
-					<button type="button" class="btn btn-primary hide" id="submit" onclick="submit();">提交</button>
+					<button type="button" class="btn btn-primary" id="submit" onclick="submit();">提交</button>
 				</c:if>
 				<button type="button" class="btn btn-success" id="add" onclick="add();">增加</button>
 			</c:if>
@@ -148,27 +148,7 @@
 </form>
 </div>
 <script type="text/javascript">
-$(function(){
-	//var time = getTime();
-	//if(""!=time&&time<"")
-})
 
-function getTime(type){
-	var time = "";
-	$.ajax({
-		url:'${path}/time/nowTime.do',
-		type:'post',
-		data:{'type':type},
-		dataType:'json',
-		success:function(rs){
-			if(null!=rs&&""!=rs){
-				rs = $.parseJSON(rs);
-				time = rs.time;
-			}
-		}
-	})
-	return time;
-}
 
 function add(){
 	$("#modal_add_type").val("");

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>生产基地</title>
+<title>生产/供应基地</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -59,12 +59,12 @@
 						<td>${item.supply_number }</td>
 						<td>${item.price }</td>
 						<td>
-							<c:if test="${totalInfo.status eq '0' }">
+							<c:if test="${item.status eq '0' }">
 							<a href="javascript:;" onclick="edit('${item.produce_id}');"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
 							&nbsp;&nbsp;
 							<a href="javascript:;" onclick="del('${item.produce_id}');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
 							</c:if>
-							<c:if test="${totalInfo.status eq '1' }">
+							<c:if test="${item.status eq '1' }">
 								已提交
 							</c:if>
 						</td>
@@ -74,9 +74,9 @@
   		</table>
 		<div class="panel-footer" style="margin-top: 20px;">
 			<c:if test="${totalInfo.status eq '0' }">
-				<button type="button" id="submit" class="btn btn-primary hide" onclick="submit();">提交</button>
-				<button type="button" class="btn btn-success" onclick="add();">增加</button>
 			</c:if>
+			<button type="button" id="submit" class="btn btn-primary" onclick="submit();">提交</button>
+			<button type="button" class="btn btn-success" onclick="add();">增加</button>
 			<button type="button" class="btn btn-default" onclick="window.location.href = '${path}/baseInfo/index.do';">返回</button>
 		</div>
 	</div>
@@ -179,7 +179,7 @@ function time(){
     	self.location.reload();
     }
     if(time>"17:00:00"){
-    	$("#submit").removeClass("hide");
+    	//$("#submit").removeClass("hide");
     	$("#title").html("明日供应单（今日供应单可在历史纪录查看）")
     }
 }

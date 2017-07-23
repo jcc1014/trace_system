@@ -73,7 +73,7 @@
 		</form>
 		<div class="panel-footer" style="margin-top: 20px;">
 			<c:if test="${fn:length(purchaseInfos)>0 && totalInfo.status eq '0' }">
-				<button type="button" id="submit" class="btn btn-primary hide" onclick="submit();">提交</button>
+				<button type="button" id="submit" class="btn btn-primary" onclick="submit();">提交</button>
 			</c:if>
 			<button type="button" class="btn btn-default" onclick="window.history.go(-1);">返回</button>
 		</div>
@@ -98,7 +98,7 @@
 <script type="text/javascript">
 $(function(){
 	//设置一个定时器，五点之后开启
-	setInterval("time();",1000);
+	//setInterval("time();",1000);
 })
 function time(){
 	var date = new Date();
@@ -172,7 +172,7 @@ function modal_edit_save(){
 	var supply_number = $("#modal_supply_number").val();
 	if(supply_number<number){
 		layer.alert('供应量应该大于采购量，请返回修改',{title:'提示'},function(index){
-			
+			layer.close(index);
 		})
 	}else{
 		$.ajax({

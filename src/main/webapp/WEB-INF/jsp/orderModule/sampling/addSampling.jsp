@@ -97,6 +97,7 @@
 			layui.upload({
 	            elem:'#upload',
 	            title:'上传视频',
+	            ext:'MP4|mp4|avi|mov',
 	            url : '${path}/upload/upload.do?path=testVideo',
 	            before: function(){
 	                index = layer.msg('视频上传中', {

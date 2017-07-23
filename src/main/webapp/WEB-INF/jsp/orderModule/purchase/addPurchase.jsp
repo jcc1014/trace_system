@@ -52,7 +52,7 @@
 						type="text" class="form-control" name="purchase_user" value="${sessionScope.user.username }" readonly="readonly">
 				</div>
 				<div class="form-group">
-					<label >市场</label> 
+					<label >市场/基地</label> 
 					<select name="trace_id" id="trace_id" class="form-control" >
 							<option value="">--请选择--</option>
 						<c:forEach var="item" items="${list}">

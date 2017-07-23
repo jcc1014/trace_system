@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>采购单</title>
+<title>采购主管</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -54,7 +54,7 @@
 			<div class="col-md-6 col-xs-6">
 				<div class="item" style="border: 1px solid #1296db;" onclick="today();">
 					<img alt="采购单" src="${path}/images/orderModule/today.png" width="100%" height="85%;">
-					<div style="color: #009688;">采购单</div>
+					<div style="color: #009688;">采购</div>
 				</div>
 			</div>
 			<div class="col-md-6 col-xs-6">

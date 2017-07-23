@@ -20,6 +20,7 @@ import com.mall.service.DictService;
 import com.mall.service.GoodsService;
 import com.order.po.BaseInfo;
 import com.order.po.ProduceInfo;
+import com.order.po.PurchaseInfo;
 import com.order.po.TotalInfo;
 import com.order.service.ProduceInfoService;
 import com.order.service.PurchaseInfoService;
@@ -202,21 +203,62 @@ public class ProduceController {
 		if(r==1){
 			TotalInfo gyd = totalInfoService.selectByPrimaryKey(totalInfo.getId());
 			TotalInfo cgd = new TotalInfo();
-			cgd.setId(UUIDFactory.getInstance().newUUID());
-			cgd.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
-			cgd.setName(DateUtils.getCurrentDate("yyyy-MM-dd")+gyd.getSource_name()+"采购单");
-			cgd.setSource_name(gyd.getSource_name());
-			cgd.setSource(gyd.getSource());
-			cgd.setType("cgd");
-			cgd.setStatus("0");
-			cgd.setSource_type(gyd.getSource_type());
-			cgd.setCreateuser("自动生成");
-			int cgd_r = totalInfoService.insertSelective(cgd);
-			if(1==cgd_r){
-				Map<String,Object> m = new HashMap<String, Object>();
-				m.put("cg_parentid", cgd.getId());
-				m.put("gy_parentid", gyd.getId());
-				produceInfoService.createCgdByProduceId(m);
+			TotalInfo cgd2 = new TotalInfo();
+			cgd2.setCreatetime(gyd.getCreatetime());
+			cgd2.setType("cgd");
+			cgd2.setSource(gyd.getSource());
+			List<Map<String,Object>> list = totalInfoService.select(cgd2);
+			if(1==list.size()){
+				TotalInfo realCgd = totalInfoService.selectByPrimaryKey((String)list.get(0).get("id"));
+				ProduceInfo p = new ProduceInfo();
+				p.setParent_id(gyd.getId());
+				List<Map<String, Object>> l = produceInfoService.select(p);
+				PurchaseInfo purchase = new PurchaseInfo();
+				purchase.setParentid(realCgd.getId());
+				List<Map<String, Object>> l2 = purchaseInfoService.select(purchase);
+				for (int i = 0; i < l.size(); i++) {
+					boolean f = true;
+					for (int j = 0; j < l2.size(); j++) {
+						if (l2.get(j).get("kind").equals(l.get(i).get("type"))&&
+								l2.get(j).get("grade").equals(l.get(i).get("grade"))&&
+								l2.get(j).get("spyb").equals(l.get(i).get("spyb"))) {
+							f =  false;
+							break;
+						}
+					}
+					if(true==f){
+						PurchaseInfo p2 = new PurchaseInfo();
+						p2.setPurchase_id(UUIDFactory.getInstance().newUUID());
+						p2.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+						p2.setGrade((String)l.get(i).get("grade"));
+						p2.setKind((String)l.get(i).get("type"));
+						p2.setSpyb((String)l.get(i).get("spyb"));
+						p2.setType("0");
+						p2.setParentid(realCgd.getId());
+						p2.setPrice((double)l.get(i).get("price"));
+						p2.setSupply_number((double)l.get(i).get("supply_number"));
+						p2.setStatus("0");
+						purchaseInfoService.insertSelective(p2);
+					}
+				}
+			}else if(0==list.size()){
+				
+				cgd.setId(UUIDFactory.getInstance().newUUID());
+				cgd.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
+				cgd.setName(DateUtils.getCurrentDate("yyyy-MM-dd")+gyd.getSource_name()+"采购单");
+				cgd.setSource_name(gyd.getSource_name());
+				cgd.setSource(gyd.getSource());
+				cgd.setType("cgd");
+				cgd.setStatus("0");
+				cgd.setSource_type(gyd.getSource_type());
+				cgd.setCreateuser("自动生成");
+				int cgd_r = totalInfoService.insertSelective(cgd);
+				if(1==cgd_r){
+					Map<String,Object> m = new HashMap<String, Object>();
+					m.put("cg_parentid", cgd.getId());
+					m.put("gy_parentid", gyd.getId());
+					produceInfoService.createCgdByProduceId(m);
+				}
 			}
 			
 		}

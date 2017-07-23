@@ -33,7 +33,7 @@
 			<div class="form-group">
 			    <label for="kind">种类</label>
 			    <select class="form-control" id="kind" name="kind">
-			    	<option value=""></option>
+			    	<option value="">请选择</option>
 					<c:forEach var="item" items="${goodsList}">
 						<option value="${item.goods_name }"
 							<c:if test="${item.goods_name eq sczl.kind }">selected="selected"</c:if>>${item.goods_name }</option>
@@ -58,7 +58,7 @@
 			<div class="form-group">
 			    <label for="grade">三品一标</label>
 			    <select class="form-control" id="spyb" name="spyb">
-			    	<option value=""></option>
+			    	<option value="">请选择</option>
 					<c:forEach var="item" items="${dictList}">
 						<option value="${item.dict_name }"
 							<c:if test="${item.dict_name eq sczl.spyb }">selected="selected"</c:if>>${item.dict_name }</option>

@@ -72,6 +72,7 @@
                         <value>/personalInfo.do</value>
                         <value>/about.do</value>
                         <value>/getMapShop.do</value>
+                        <value>/getInfo.do</value>
                     </list>
                 </property>
             </bean>

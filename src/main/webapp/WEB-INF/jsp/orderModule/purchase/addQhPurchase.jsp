@@ -79,6 +79,21 @@
 					<input type="hidden" id="real_path" >
 					<input type="hidden" name="purchase_video" id="purchase_video" >
 				</div>
+				<div class="form-group">
+					<label >运输员</label> <input
+						type="text" class="form-control" 
+						id="transport_user" name="transport_user">
+				</div>
+				<div class="form-group">
+					<label >运输车辆</label> <input
+						type="text" class="form-control" 
+						id="transport_truck" name="transport_truck" >
+				</div>
+				<div class="form-group">
+					<label >目的地</label> <input
+						type="text" class="form-control" 
+						id="transport_destination" name="transport_destination">
+				</div>
 				<button type="button" class="btn btn-primary" onclick="submit();">提交</button>
 				<button type="button" class="btn btn-default" onclick="window.location.href='${path}/purchaseInfo/getQhd.do'">返回</button>
 			</form>
@@ -162,6 +177,21 @@ function submit(){
 	var purchase_num = $("#purchase_num").val();
 	if("0.0"==purchase_price||""==purchase_num||null==purchase_num||isNaN(purchase_num)){
 		layer.msg('采购数量格式不正确！',{time:1000});
+		return;
+	}
+	var transport_user = $("#transport_user").val();
+	if(""==transport_user||null==transport_user){
+		layer.msg('请填写运输人！',{time:1000});
+		return;
+	}
+	var transport_truck = $("#transport_truck").val();
+	if(""==transport_truck||null==transport_truck){
+		layer.msg('请填写运输车辆！',{time:1000});
+		return;
+	}
+	var transport_destination = $("#transport_destination").val();
+	if(""==transport_destination||null==transport_destination){
+		layer.msg('请填写运输目的地！',{time:1000});
 		return;
 	}
 	$("#form").submit();

@@ -60,12 +60,12 @@
 						<td>${item.spyb }</td>
 						<td>${item.num }</td>
 						<td>
-							<c:if test="${totalInfo.status eq '0' }">
+							<c:if test="${item.status eq '0' }">
 							<a href="javascript:;" onclick="edit('${item.id}');"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
 							&nbsp;&nbsp;
 							<a href="javascript:;" onclick="del('${item.id}');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
 							</c:if>
-							<c:if test="${totalInfo.status eq '1' }">
+							<c:if test="${item.status eq '1' }">
 								完成
 							</c:if>
 						</td>
@@ -76,10 +76,10 @@
 		<div class="panel-footer" style="margin-top: 20px;">
 			<c:if test="${totalInfo.status eq '0' }">
 				<c:if test="${fn:length(requireList)>0  }">
-					<button type="button" class="btn btn-primary" id="submit" onclick="submit();">提交</button>
 				</c:if>
-				<button type="button" class="btn btn-success" id="add" onclick="add();">增加</button>
 			</c:if>
+			<button type="button" class="btn btn-primary" id="submit" onclick="submit();">提交</button>
+			<button type="button" class="btn btn-success" id="add" onclick="add();">增加</button>
 			<button type="button" class="btn btn-default" onclick="window.location.href = '${path}/baseInfo/index.do';">返回</button>
 		</div>
 	</div>

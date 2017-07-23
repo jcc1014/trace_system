@@ -78,7 +78,7 @@
           			<td align="center">${item.kind}</td>
           			<td align="center">${item.grade}</td>
           			<td align="center">${item.spyb}</td>
-          			<td align="left">${item.content}</td>
+          			<td align="left" style="word-wrap: break-word;white-space:normal;">${item.content}</td>
           			<td style="text-align: center;">
 				         <a class="layui-btn layui-btn-small layui-btn-danger "
 							onclick="modify('${item.id}');" title="修改"> 修改

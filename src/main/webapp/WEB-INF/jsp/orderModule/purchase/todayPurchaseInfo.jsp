@@ -45,14 +45,14 @@
 					<c:forEach var="item" items="${totalInfoList}">
 						<tr>
 							<td>${item.name }</td>
-							<td>${item.source_name }</td>
+							<td>${item.source_name}</td>
 							<td>
-							<c:if test="${item.status eq '0' }">
 							<a href="javascript:;" onclick="watch('${item.id}');">采购</a>
+							<%-- <c:if test="${item.status eq '0' }">
 							</c:if>
 							<c:if test="${item.status eq '1' }">
 								已提交
-							</c:if>
+							</c:if> --%>
 						</td>
 						</tr>
 					</c:forEach>

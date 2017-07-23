@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>个人信息</title>
+<title>追溯信息</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -38,23 +38,23 @@ body {
 			<form>
 				<div class="form-group">
 					<label >需求单位</label> <input
-						type="text" class="form-control" value="${distribution.require_name }" readonly="readonly">
+						type="text" class="form-control" value="${distributionInfo.require_name }" readonly="readonly">
 				</div>
 				<div class="form-group">
 					<label >需求数量</label> <input
-						type="text" class="form-control" value="${distribution.require_num }" readonly="readonly">
+						type="text" class="form-control" value="${distributionInfo.require_num }" readonly="readonly">
 				</div>
 				<div class="form-group">
 					<label >种类</label> <input
-						type="text" class="form-control" value="${distribution.kind }" readonly="readonly">
+						type="text" class="form-control" value="${distributionInfo.kind }" readonly="readonly">
 				</div>
 				<div class="form-group">
 					<label >品级</label> <input
-						type="text" class="form-control" value="${distribution.grade }" readonly="readonly">
+						type="text" class="form-control" value="${distributionInfo.grade }" readonly="readonly">
 				</div>
 				<div class="form-group">
 					<label >配送数量</label> <input
-						type="text" class="form-control" value="${detail.num }" readonly="readonly">
+						type="text" class="form-control" value="${detail.distribution_num }" readonly="readonly">
 				</div>
 				<div class="form-group">
 					<label >单价</label> <input
@@ -82,9 +82,7 @@ body {
 				</div>
 				<div class="form-group">
 					<label >检验结果</label> 
-					<c:if test="${trace.test_result eq '1' }">
 					<input type="text" class="form-control" value="合格" readonly="readonly">
-					</c:if>
 				</div>
 				<div class="form-group">
 					<label >供应商</label> 

@@ -27,6 +27,7 @@ public interface TraceFlowDao {
 	
 	List<Map<String,Object>> query(Map<String,Object> map);
 	Map<String,Object> selectFlowById(@Param("trace_id")String trace_id);
+	Map<String,Object> selectFlowByCode(@Param("code")String code);
 	int count(Map<String,Object> map);
 	int update(TraceFlow traceFlow);
 }

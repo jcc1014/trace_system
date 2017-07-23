@@ -59,10 +59,10 @@
 							<td>${item.supply_number}</td>
 							<td>${item.number }</td>
 							<td>
-							<c:if test="${totalInfo.status eq '0' }">
+							<c:if test="${item.status eq '0' }">
 							<a href="javascript:;" onclick="edit('${item.purchase_id}','${item.supply_number}');"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
 							</c:if>
-							<c:if test="${totalInfo.status eq '1' }">
+							<c:if test="${item.status eq '1' }">
 								已提交
 							</c:if>
 						</td>
@@ -72,9 +72,9 @@
 	  		</table>
 		</form>
 		<div class="panel-footer" style="margin-top: 20px;">
-			<c:if test="${fn:length(purchaseInfos)>0 && totalInfo.status eq '0' }">
-				<button type="button" id="submit" class="btn btn-primary" onclick="submit();">提交</button>
-			</c:if>
+			<%-- <c:if test="${fn:length(purchaseInfos)>0 && totalInfo.status eq '0' }">
+			</c:if> --%>
+			<button type="button" id="submit" class="btn btn-primary" onclick="submit();">提交</button>
 			<button type="button" class="btn btn-default" onclick="window.history.go(-1);">返回</button>
 		</div>
 	</div>

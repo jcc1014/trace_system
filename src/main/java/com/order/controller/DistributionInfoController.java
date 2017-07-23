@@ -262,4 +262,18 @@ public class DistributionInfoController {
 		int r = distributionDetailService.updateByPrimaryKeySelective(distributionDetail);
 		return ResultUtil.resultString(r);
 	}
+	
+	@RequestMapping("getInfo")
+	public String getInfo(HttpServletRequest request,Model model,String id){
+		String page = "orderModule/distribution/info";
+		DistributionDetail detail = distributionDetailService.selectByPrimaryKey(id);
+		model.addAttribute("detail", detail);
+		String code = detail.getTrace_id();
+		Map<String, Object> traceFlow = traceFlowService.selectFlowByCode(code);
+		model.addAttribute("trace", traceFlow);
+		String distribution_id = detail.getDistribution_id();
+		DistributionInfo distributionInfo = distributionInfoService.selectByPrimaryKey(distribution_id);
+		model.addAttribute("distributionInfo", distributionInfo);
+		return page;
+	}
 }

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>采购单</title>
+<title>采购主管</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -51,9 +51,9 @@
 							<td>${item.number }</td>
 							<td>${item.remain_number}</td>
 							<td>
-							<c:if test="${item.remain_number > 0 }">
+							<c:if test="${sessionScope.user.usertype eq '1' }">
 							<a href="javascript:;" onclick="purchase('${item.purchase_id}');">采购</a>
-							</c:if>
+							</c:if> 
 							<c:if test="${item.remain_number == 0 }">
 								已完成
 							</c:if>

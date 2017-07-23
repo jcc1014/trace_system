@@ -366,4 +366,9 @@ public class TraceFlowServiceImpl implements TraceFlowService {
 	public Map<String, Object> selectFlowById(String trace_id) {
 		return traceFlowDao.selectFlowById(trace_id);
 	}
+
+	@Override
+	public Map<String, Object> selectFlowByCode(String code) {
+		return traceFlowDao.selectFlowByCode(code);
+	}
 }

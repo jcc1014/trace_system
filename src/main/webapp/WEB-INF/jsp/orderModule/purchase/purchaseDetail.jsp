@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>采购历史</title>
+<title>采购员</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -52,12 +52,12 @@
 		<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
-					<th>农户</th><th>种类</th><th>品级</th><th>采购量</th><th>价格</th>
+					<th>农户</th><th>种类</th><th>品级</th><th>采购量</th><th>价格</th><th>编号</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:if test="${fn:length(list)==0 }">
-					<tr><td colspan="5">暂无数据</td></tr>
+					<tr><td colspan="6">暂无数据</td></tr>
 				</c:if>
 				<c:forEach var="item" items="${list}">
 					<tr>
@@ -66,6 +66,7 @@
 						<td>${item.purchase_grade }</td>
 						<td>${item.purchase_num}</td>
 						<td>${item.purchase_price }</td>
+						<td>${item.identifier }</td>
 					</tr>
 				</c:forEach>
 			</tbody>

@@ -18,14 +18,19 @@ import com.order.service.BaseInfoService;
 import com.order.service.PurchaseInfoService;
 import com.order.service.TotalInfoService;
 import com.trace.po.Purchase;
+import com.trace.po.Qrcode;
 import com.trace.po.TraceFlow;
+import com.trace.po.Transport;
 import com.trace.po.User;
 import com.trace.service.FarmerService;
 import com.trace.service.PurchaseService;
+import com.trace.service.QrcodeService;
 import com.trace.service.TestService;
 import com.trace.service.TraceFlowService;
+import com.trace.service.TransportService;
 import com.trace.service.UserService;
 import com.trace.util.DateUtils;
+import com.trace.util.QRCodeUtil;
 import com.utils.UUIDFactory;
 
 @Controller
@@ -48,6 +53,10 @@ public class PurchaseController {
 	private BaseInfoService baseInfoService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private TransportService transportService;
+	@Autowired
+	private QrcodeService qrcodeService;
 	
 	@RequestMapping("purchaseList")
 	public String purchaseList(HttpServletRequest request,Model model,PurchaseInfo purchaseInfo){
@@ -106,7 +115,7 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("addPurchaseSave")
-	public String addPurchaseSave(HttpServletRequest request,String trace_id,Purchase purchase){
+	public String addPurchaseSave(HttpServletRequest request,String trace_id,Purchase purchase,Transport transport){
 		String page = "redirect:purchaseList.do";
 		purchase.setPurchase_id(UUIDFactory.getInstance().newUUID());
 		purchase.setPurchase_time(DateUtils.getCurrentDate());
@@ -120,10 +129,32 @@ public class PurchaseController {
 		purchaseInfo.setPurchase_id(purchase.getPurchase_parentid());
 		purchaseInfo.setRemain_number(purchaseInfo2.getRemain_number()-purchase.getPurchase_num());
 		purchaseInfoService.updateByPrimaryKeySelective(purchaseInfo);
+		//增加运输信息
+		transport.setTransport_id(UUIDFactory.getInstance().newUUID());
+		traceFlow.setTransport_id(transport.getTransport_id());
+		traceFlow.setTrace_status("6");
+		traceFlow.setIdentifier(DateUtils.getCurrentDate("yyyyMMddHHmmss"));
+		transportService.add(transport);
+		Qrcode qrcode = new Qrcode();
+		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
+		String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
+		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
+		String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+		String filename = UUIDFactory.getInstance().newUUID();
+		try {
+			QRCodeUtil.encode(content, logoPath, path, filename, true);
+			qrcode.setQrcode_path(filename+".jpg");
+			qrcodeService.add(qrcode);
+			traceFlow.setQrcode(qrcode.getQrcode_id());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		traceFlowService.update(traceFlow);
+		
 		return page;
 	}
 	@RequestMapping("addQhPurchaseSave")
-	public String addQhPurchaseSave(HttpServletRequest request,String trace_id,Purchase purchase){
+	public String addQhPurchaseSave(HttpServletRequest request,String trace_id,Purchase purchase,Transport transport){
 		String page = "redirect:/purchaseInfo/getQhd.do";
 		purchase.setPurchase_id(UUIDFactory.getInstance().newUUID());
 		purchase.setPurchase_time(DateUtils.getCurrentDate());
@@ -137,6 +168,27 @@ public class PurchaseController {
 		purchaseInfo.setPurchase_id(purchase.getPurchase_parentid());
 		purchaseInfo.setRemain_number(purchaseInfo2.getRemain_number()-purchase.getPurchase_num());
 		purchaseInfoService.updateByPrimaryKeySelective(purchaseInfo);
+		//增加运输信息
+		transport.setTransport_id(UUIDFactory.getInstance().newUUID());
+		traceFlow.setTransport_id(transport.getTransport_id());
+		traceFlow.setTrace_status("6");
+		traceFlow.setIdentifier(DateUtils.getCurrentDate("yyyyMMddHHmmss"));
+		transportService.add(transport);
+		Qrcode qrcode = new Qrcode();
+		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
+		String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
+		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
+		String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+		String filename = UUIDFactory.getInstance().newUUID();
+		try {
+			QRCodeUtil.encode(content, logoPath, path, filename, true);
+			qrcode.setQrcode_path(filename+".jpg");
+			qrcodeService.add(qrcode);
+			traceFlow.setQrcode(qrcode.getQrcode_id());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		traceFlowService.update(traceFlow);
 		return page;
 	}
 	

@@ -34,6 +34,7 @@ public interface TraceFlowService {
 	TraceFlow getById(String trace_id);
 	List<Map<String,Object>> query(Map<String,Object> map);
 	Map<String,Object> selectFlowById(String trace_id);
+	Map<String,Object> selectFlowByCode(String code);
 	int count(Map<String,Object> map);
 	Model getTraceDetail(Model model,String trace_id);
 	String farmerAdd(String trace_id,String farmer_name,String farmer_phone,String farmer_hzs,String video_path);

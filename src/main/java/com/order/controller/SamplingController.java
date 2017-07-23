@@ -309,6 +309,64 @@ public class SamplingController {
 		model.addAttribute("list", list);
 		return p;
 	}
+	@RequestMapping("todayTest")
+	public String todayTest(HttpServletRequest request,Model model){
+		String p = "orderModule/sampling/todayTest";
+		Test test = new Test();
+		test.setTest_time(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		test.setTest_status("1");
+		List<Test> testList = testService.selectAlltest(test);
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		Map<String, Object> map = null;
+		TraceFlow traceFlow = null;
+		List<TraceFlow> traceFlowList = null;
+		if(0<testList.size()){
+			for (int i = 0; i < testList.size(); i++) {
+				map = new HashMap<String, Object>();
+				map.put("test", testList.get(i));
+				traceFlow = new TraceFlow();
+				traceFlow.setTest_id(testList.get(i).getTest_id());
+				traceFlowList = traceFlowService.selectAllTraceFlow(traceFlow);
+				map.put("trace", traceFlowList.size()>0?traceFlowList.get(0):null);
+				if(traceFlowList.size()>0){
+					map.put("farmer", farmerService.getById(traceFlowList.get(0).getFarmer_id()));
+				}
+				list.add(map);
+			}
+		}
+		model.addAttribute("testList", testList);
+		model.addAttribute("list", list);
+		return p;
+	}
+	@RequestMapping("todayhadTest")
+	public String todayhadTest(HttpServletRequest request,Model model){
+		String p = "orderModule/sampling/todayhadTest";
+		Test test = new Test();
+		test.setTest_time(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		test.setTest_status("2");
+		List<Test> testList = testService.selectAlltest(test);
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		Map<String, Object> map = null;
+		TraceFlow traceFlow = null;
+		List<TraceFlow> traceFlowList = null;
+		if(0<testList.size()){
+			for (int i = 0; i < testList.size(); i++) {
+				map = new HashMap<String, Object>();
+				map.put("test", testList.get(i));
+				traceFlow = new TraceFlow();
+				traceFlow.setTest_id(testList.get(i).getTest_id());
+				traceFlowList = traceFlowService.selectAllTraceFlow(traceFlow);
+				map.put("trace", traceFlowList.size()>0?traceFlowList.get(0):null);
+				if(traceFlowList.size()>0){
+					map.put("farmer", farmerService.getById(traceFlowList.get(0).getFarmer_id()));
+				}
+				list.add(map);
+			}
+		}
+		model.addAttribute("testList", testList);
+		model.addAttribute("list", list);
+		return p;
+	}
 	@RequestMapping("hadTestList")
 	public String hadTestList(HttpServletRequest request,Model model,String page,String datetime,String result){
 		String p = "orderModule/sampling/hadTestList";
@@ -366,6 +424,13 @@ public class SamplingController {
 	public String testSamplings(HttpServletRequest request,Model model,String test_id){
 		String page = "orderModule/sampling/addTest";
 		Test test = testService.getById(test_id);
+		model.addAttribute("test", test);
+		return page;
+	}
+	@RequestMapping("addTest")
+	public String addTest(HttpServletRequest request,Model model,String id){
+		String page = "orderModule/sampling/addTest2";
+		Test test = testService.getById(id);
 		model.addAttribute("test", test);
 		return page;
 	}

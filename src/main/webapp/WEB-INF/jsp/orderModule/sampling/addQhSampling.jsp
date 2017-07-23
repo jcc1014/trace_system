@@ -64,10 +64,13 @@
 				<label for="test_num">取样数量</label> <input type="text"
 					class="form-control" id="test_num" name="test_num" placeholder="取样数量">
 			</div>
-			<!-- <div class="form-group">
+			<div class="form-group">
 				<label for="test_num">取样视频</label> 
-				
-			</div> -->
+				<input type="file" name="file" id="upload" lay-type="video" accept="video/*"  class="layui-upload-file" >
+					<span id="video"></span><button type="button" class="btn btn-mini btn-danger del_btn hide">删除</button>
+					<input type="hidden" id="real_path" >
+					<input type="hidden" name="purchase_video" id="purchase_video" >
+			</div>
 			<div class="form-group" style="text-align: center;">
 				<button type="button" class="btn btn-success"
 					onclick="save();">保存</button>
@@ -76,7 +79,70 @@
 		</form>
 	</div>
 	<script type="text/javascript">
-
+	layui.use(
+			[ 'element', 'form', 'upload', 'layedit', 'laydate' ],function() {
+			var element = layui.element(), 
+			jq = layui.jquery;
+			layui.upload({
+	            elem:'#upload',
+	            title:'上传视频',
+	            ext:'MP4|mp4|avi|mov',
+	            url : '${path}/upload/upload.do?path=testVideo',
+	            before: function(){
+	                index = layer.msg('视频上传中', {
+	                    icon: 16
+	                    ,shade: 0.01
+	                });
+	            },
+	            success : function(rs) {
+	                layer.close(index);
+	                if (rs.code == "success") {
+	                    layer.msg('上传成功', {
+	                        icon: 1,
+	                        time: 1000 //2秒关闭（默认3秒）
+	                    }, function(){
+	                    	$("#sampling_video").val(rs.name);
+	                    	$("#real_path").val(rs.path);
+	                    	$("#video").html(rs.name);
+	                    	$(".del_btn").removeClass('hide');
+	                    });
+	                   
+	                } else {
+	                    layer.msg('上传失败' + rs.msg + ',请检查视频名称是否有中文或重试', {
+	                        icon: 2,
+	                        time: 2000 //2秒关闭（默认3秒）
+	                    }, function(){});
+	                }
+	            }
+	        });
+			
+		jq(".del_btn").on('click',function(){
+			var path = $('#real_path').val();
+			jq.ajax({
+				url:'${path}/upload/delUpload.do',
+				type:'post',
+				data:{'path':path},
+				success:function(rs){
+					if(""!=rs){
+						rs = jq.parseJSON(rs);
+						if(typeof(rs)!='object'){
+							rs = jq.parseJSON(rs);
+						}
+						if(rs.code=="200"){
+							layer.msg('删除成功！',{time:1000},function(){
+								$("#sampling_video").val("");
+								$("#real_path").val("");
+								$("#video").html('');
+								$('.del_btn').addClass('hide');
+							})
+						}
+					}
+				}
+			})
+		})
+			
+		
+	})
 function submit(){
 	$.ajax({
 		type:'post',

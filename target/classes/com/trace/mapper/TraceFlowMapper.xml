@@ -123,5 +123,11 @@
 	and t.test_id = tf.test_id and tra.transport_id = tf.transport_id and q.qrcode_id = tf.qrcode
 	and tf.trace_id = #{trace_id}  and tf.trace_status = '6'
   </select>
+  <select id="selectFlowByCode" resultType="java.util.Map" parameterType="java.lang.String" >
+  	SELECT * from trace_flow tf,farmer f,purchase p,test t,transport tra,qrcode q WHERE
+	f.farmer_id = tf.farmer_id and p.purchase_id = tf.purchase_id
+	and t.test_id = tf.test_id and tra.transport_id = tf.transport_id and q.qrcode_id = tf.qrcode
+	and tf.identifier = #{code}  and tf.trace_status = '6'
+  </select>
   
 </mapper>

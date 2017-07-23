@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>今日取样</title>
+<title>检验员</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -26,7 +26,7 @@
 <body>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">今日取样单<!-- （距离需求单锁定还有：<span>30</span>分钟） --></h3>
+			<h3 class="panel-title">今日已检验<!-- （距离需求单锁定还有：<span>30</span>分钟） --></h3>
 		</div>
 		<div class="panel-body">
 			
@@ -34,48 +34,50 @@
 		<table class="table table-striped table-bordered table-condensed">
 			<thead>
 				<tr>
-					<th>农户</th><th>种类</th><th>品级</th><th>编号</th><th>数量</th><th>操作</th>
+					<th>编号</th><th>农户</th><th>种类</th><th>品级</th><th>取样员</th><th>时间</th><th>合格</th><!-- <th>操作</th> -->
 				</tr>
 			</thead>
 			<tbody>
 				<c:if test="${fn:length(list)==0 }">
-					<tr><td colspan="6">暂无数据</td></tr>
+					<tr><td colspan="7">暂无数据</td></tr>
 				</c:if>
 				<c:forEach var="item" items="${list}">
 					<tr>
+						<td>${item.test.test_bh}</td>
 						<td>${item.farmer.farmer_name }</td>
 						<td>${item.test.test_kind }</td>
 						<td>${item.test.test_grade }</td>
-						<td>${item.test.test_bh }</td>
-						<td>${item.test.test_num }</td>
+						<td>${item.test.test_name }</td>
+						<td>${item.test.test_time }</td>
 						<td>
-							<c:if test="${item.test.test_status eq '0' }">
-							<%-- <a href="javascript:;" onclick="edit('${item.test.test_id}');"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-							&nbsp;&nbsp; --%>
-							<a href="javascript:;" onclick="del('${item.test.test_id}');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+							<c:if test="${item.test.test_result eq '1' }">合格</c:if>
+							<c:if test="${item.test.test_result ne '1' }">不合格</c:if>
+						</td>
+						<%-- <td>
+							<c:if test="${item.test.test_status eq '1' }">
+							<a href="javascript:;" onclick="edit('${item.test.test_id}');"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							&nbsp;&nbsp;
+							<a href="javascript:;" onclick="test('${item.test.test_id}');"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
 							</c:if>
-							<c:if test="${item.test.test_status ne '0'}">
+							<c:if test="${item.test.test_status eq '2'}">
 								已提交
 							</c:if>
-						</td>
+						</td> --%>
 					</tr>
 				</c:forEach>
 			</tbody>
   		</table>
 		<div class="panel-footer" style="margin-top: 20px;">
-			<c:if test="${fn:length(list)>0 && list[0].test.test_status eq '0'  }">
-			</c:if>
-			<c:if test="${fn:length(list)==0 || list[0].test.test_status eq '0'  }">
-			</c:if>
-				<button type="button" class="btn btn-primary" onclick="submit();">提交</button>
-				<button type="button" class="btn btn-success" onclick="add();">增加</button>
-			<!-- <button type="button" class="btn btn-success" onclick="add();">增加</button> -->
 			<button type="button" class="btn btn-default" onclick="window.location.href = '${path}/baseInfo/index.do';">返回</button>
 		</div>
 	</div>
 <script type="text/javascript">
 function add(){
 	window.location.href = "${path}/sampling/addSampling.do"
+}
+
+function test(id){
+	window.location.href = "${path}/sampling/addTest.do?id="+id;
 }
 
 function del(id){

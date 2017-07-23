@@ -196,6 +196,9 @@ public class BaseInfoController {
 		}else if("9".equals(user.getUsertype())){
 			//配送
 			page = "orderModule/distribution_index";
+		}else if("2".equals(user.getUsertype())){
+			//检验
+			page = "orderModule/test_index";
 		}else{
 			page = "404";
 		}

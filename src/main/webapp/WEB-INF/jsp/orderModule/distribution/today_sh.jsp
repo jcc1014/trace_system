@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>配送管理</title>
+<title>收货</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -63,6 +63,7 @@
 			<c:if test="${fn:length(list)>0 && sign eq '1'}">
 			<button type="button" class="btn btn-primary" onclick="confirm();">签名</button>
 			</c:if>
+			<button type="button" class="btn btn-primary" onclick="confirm();">签名</button>
 			<button type="button" class="btn btn-default" onclick="back();">返回</button>
 		</div>
 	</div>

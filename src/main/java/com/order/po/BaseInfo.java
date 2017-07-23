@@ -19,6 +19,8 @@ public class BaseInfo {
     
     private String video;
     
+    private String createtime;
+    
     public String getId() {
         return id;
     }
@@ -89,6 +91,14 @@ public class BaseInfo {
 
 	public void setVideo(String video) {
 		this.video = video;
+	}
+
+	public String getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
 	}
     
     

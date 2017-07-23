@@ -61,4 +61,10 @@ public class DistributionInfoServiceImpl implements DistributionInfoService {
 		return distributionInfoMapper.getDeliverData(map);
 	}
 
+
+	@Override
+	public int updateSignName(DistributionInfo record) {
+		return distributionInfoMapper.updateSignName(record);
+	}
+
 }

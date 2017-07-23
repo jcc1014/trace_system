@@ -80,6 +80,12 @@
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #EE7600;" onclick="fl();">
+					<img alt="蔬菜分类" src="${path}/images/orderModule/type.png" width="100%" height="85%;">
+					<div style="color: #8968CD;">蔬菜分类查询</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-xs-6">
 				<div class="item" style="border: 1px solid #009688;" onclick="setup();">
 					<img alt="个人设置" src="${path}/images/orderModule/setup.png" width="100%" height="85%;">
 					<div style="color: #515151;">个人设置</div>
@@ -105,6 +111,9 @@ function jd(){
 }
 function sh(){
 	window.location.href = '${path}/distribution/today_sh.do';
+}
+function fl(){
+	window.location.href = "${path}/sczl/query.do";
 }
 </script>
 </body>

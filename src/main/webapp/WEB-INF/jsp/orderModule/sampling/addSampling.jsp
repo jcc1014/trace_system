@@ -77,7 +77,7 @@
 			</div>
 			<div class="form-group"	>
 					<label >取样视频</label> 
-					<input type="file" name="file" id="upload" lay-type="video" class="layui-upload-file">
+					<input type="file" name="file" id="upload" lay-type="video" accept="video/*"  class="layui-upload-file" >
 					<span id="video"></span><button type="button" class="btn btn-mini btn-danger del_btn hide">删除</button>
 					<input type="hidden" id="real_path" >
 					<input type="hidden" name="purchase_video" id="purchase_video" >

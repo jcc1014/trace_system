@@ -217,11 +217,53 @@
     </set>
     where distribution_id = #{distribution_id,jdbcType=VARCHAR}
   </update>
+  <update id="updateSignName" parameterType="com.order.po.DistributionInfo" >
+    update distribution_info
+    <set >
+      <if test="require_id != null" >
+        require_id = #{require_id,jdbcType=VARCHAR},
+      </if>
+      <if test="require_name != null" >
+        require_name = #{require_name,jdbcType=VARCHAR},
+      </if>
+      <if test="require_num != null and require_num != 0" >
+        require_num = #{require_num,jdbcType=DOUBLE},
+      </if>
+      <if test="kind != null" >
+        kind = #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="yps != null and yps != 0" >
+        yps = #{yps,jdbcType=DOUBLE},
+      </if>
+      <if test="wps != null and wps != 0" >
+        wps = #{wps,jdbcType=DOUBLE},
+      </if>
+      <if test="distribution_address != null and distribution_address != ''" >
+        distribution_address = #{distribution_address},
+      </if>
+      <if test="grade != null and grade != ''" >
+        grade = #{grade},
+      </if>
+      <if test="price != null and price != 0" >
+        price = #{price},
+      </if>
+      <if test="sum_price != null and sum_price != 0" >
+        sum_price = #{sum_price},
+      </if>
+      <if test="signname != null and signname != 0" >
+        signname = #{signname},
+      </if>
+    </set>
+    where createtime like '${createtime,jdbcType=VARCHAR}%' and base_id = #{base_id}
+  </update>
   
   <select id="getDeliverData" parameterType="java.util.Map" resultType="java.util.Map">
-  	SELECT createtime,require_name from distribution_info 
+  	SELECT distribution_id,createtime,require_name,signname from distribution_info 
   	WHERE createtime LIKE '%${datetime}%'
-  	and require_num = yps and (signname is null or signname = '')
+  	<if test="baseid != null and baseid != ''">
+  		and baseid = #{baseid}
+  	</if>
+  	and require_num = yps
   	 GROUP BY require_name
   </select>
 </mapper>

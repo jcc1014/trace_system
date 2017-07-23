@@ -11,9 +11,10 @@
     <result column="source" property="source" jdbcType="VARCHAR" />
     <result column="source_name" property="source_name" jdbcType="VARCHAR" />
     <result column="source_type" property="source_type" jdbcType="VARCHAR" />
+    <result column="nowtime" property="nowtime" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, createtime, createuser, status, name, type, source, source_name, source_type
+    id, createtime, createuser, status, name, type, source, source_name, source_type,nowtime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -112,6 +113,9 @@
       <if test="source_type != null" >
         source_type,
       </if>
+      <if test="nowtime != null" >
+        nowtime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -141,6 +145,9 @@
       <if test="source_type != null" >
         #{source_type,jdbcType=VARCHAR},
       </if>
+      <if test="nowtime != null" >
+        #{nowtime,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.order.po.TotalInfo" >
@@ -169,6 +176,9 @@
       </if>
       <if test="source_type != null" >
         source_type = #{source_type,jdbcType=VARCHAR},
+      </if>
+      <if test="nowtime != null" >
+        nowtime = #{nowtime,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

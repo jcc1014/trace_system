@@ -17,7 +17,7 @@
 	<script src="${path}/js/bootstrap.min.js" type="text/javascript"></script>
 	<style type="text/css">
 		body{background-color: #eee;}
-		.main{margin-top: 10rem !important;}
+		.main{margin-top: 5rem !important;}
 		.row{height:20rem;}
 		.item{border: 1px solid #eee;background-color: #E0EEEE;height: 18rem;padding: 1rem;border-radius:15px}
 		.item div{text-align: center;font-size: 2rem;line-height: 2rem;
@@ -78,6 +78,14 @@
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #EE7600;" onclick="fl();">
+					<img alt="蔬菜分类" src="${path}/images/orderModule/type.png" width="100%" height="85%;">
+					<div style="color: #8968CD;">蔬菜分类查询</div>
+				</div>
+			</div>
+		</div>
 	</div>
 <script type="text/javascript">
 function today(){
@@ -94,6 +102,10 @@ function setup(){
 
 function jd(){
 	window.location.href = '${path}/produce/info.do';
+}
+
+function fl(){
+	window.location.href = "${path}/sczl/query.do";
 }
 </script>
 </body>

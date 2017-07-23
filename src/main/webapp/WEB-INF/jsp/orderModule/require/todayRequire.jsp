@@ -46,17 +46,18 @@
 		<table class="table table-striped table-bordered table-condensed">
 			<thead>
 				<tr>
-					<th>种类</th><th>品级</th><th>需求量</th><th>操作</th>
+					<th>种类</th><th>品级</th><th>三品一标</th><th>需求量</th><th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:if test="${fn:length(requireList)==0 }">
-					<tr><td colspan="4">暂无数据</td></tr>
+					<tr><td colspan="5">暂无数据</td></tr>
 				</c:if>
 				<c:forEach var="item" items="${requireList}">
 					<tr>
 						<td>${item.kind }</td>
 						<td>${item.grade }</td>
+						<td>${item.spyb }</td>
 						<td>${item.num }</td>
 						<td>
 							<c:if test="${totalInfo.status eq '0' }">
@@ -65,7 +66,7 @@
 							<a href="javascript:;" onclick="del('${item.id}');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
 							</c:if>
 							<c:if test="${totalInfo.status eq '1' }">
-								已提交
+								完成
 							</c:if>
 						</td>
 					</tr>
@@ -75,7 +76,7 @@
 		<div class="panel-footer" style="margin-top: 20px;">
 			<c:if test="${totalInfo.status eq '0' }">
 				<c:if test="${fn:length(requireList)>0  }">
-					<button type="button" class="btn btn-primary" id="submit" onclick="submit();">提交</button>
+					<button type="button" class="btn btn-primary hide" id="submit" onclick="submit();">提交</button>
 				</c:if>
 				<button type="button" class="btn btn-success" id="add" onclick="add();">增加</button>
 			</c:if>
@@ -94,12 +95,16 @@
     <input type="text" class="form-control" id="modal_edit_grade" placeholder="品级" readonly="readonly">
   </div>
   <div class="form-group">
+    <label for="modal_edit_spyb">三品一标</label>
+    <input type="text" class="form-control" id="modal_edit_spyb" placeholder="三品一标" readonly="readonly">
+  </div>
+  <div class="form-group">
     <label for="modal_edit_num">需求量</label>
     <input type="number" class="form-control" id="modal_edit_num" placeholder="需求量">
   </div>
   <div class="form-group" style="text-align: center;">
 	  <button type="button" class="btn btn-success" onclick="modal_edit_save();">修改</button>
-	  <button type="button" class="btn btn-default" onclick="close();">关闭</button>
+	  <button type="button" class="btn btn-default" onclick="closeModal();">关闭</button>
   </div>
 </form>
 </div>
@@ -121,6 +126,12 @@
     	<option value="1">1</option>
     	<option value="2">2</option>
     	<option value="3">3</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="modal_add_spyb">三品一标</label>
+    <select class="form-control" id="modal_add_spyb">
+    	<option value="">请选择</option>
     	<c:forEach var="item" items="${dictList }">
     	<option value="${item.dict_name}">${item.dict_name}</option>
     	</c:forEach>
@@ -163,6 +174,7 @@ function add(){
 	$("#modal_add_type").val("");
 	$("#modal_add_grade").val("");
 	$("#modal_add_num").val("");
+	$("#modal_add_spyb").val("");
 	layer.open({
 		type:'1',
 		title:'新增',
@@ -225,6 +237,7 @@ function edit(id){
 				$("#modal_edit_kind").val(rs.kind);
 				$("#modal_edit_grade").val(rs.grade);
 				$("#modal_edit_num").val(rs.num);
+				$("#modal_edit_spyb").val(rs.spyb);
 				layer.open({
 					type:'1',
 					title:'编辑',
@@ -281,6 +294,11 @@ function modal_add_save(){
 		layer.msg('请填写品级！',{time:1000});
 		return;
 	}
+	var spyb = $("#modal_add_spyb").val();
+	if(""==spyb){
+		layer.msg('请选择三品一标！',{time:1000});
+		return;
+	}
 	var num = $("#modal_add_num").val();
 	if(""==num||0==num){
 		layer.msg('请填写需求量！',{time:1000});
@@ -293,7 +311,7 @@ function modal_add_save(){
 	$.ajax({
 		type:'post',
 		url:'${path}/require/addRequireSave.do',
-		data:{'parentid':'${totalInfo.id}','kind':kind,'grade':grade,'num':parseFloat(num)},
+		data:{'parentid':'${totalInfo.id}','kind':kind,'grade':grade,'num':parseFloat(num),'spyb':spyb},
 		dataType:'json',
 		success:function(rs){
 			if(null!=rs&&""!=rs){

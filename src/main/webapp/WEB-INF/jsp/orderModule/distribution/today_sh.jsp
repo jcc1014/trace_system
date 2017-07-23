@@ -13,7 +13,10 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="format-detection" content="telephone=no">
 	<link href="${path}/css/bootstrap.css" rel="stylesheet" media="screen">
-	<script src="${path}/js/jquery-2.1.1.min.js" type="text/javascript"></script>
+	<link href="${path}/css/mui.min.css" rel="stylesheet" media="screen">
+	<script src="${path}/js/mui.min.js" type="text/javascript"></script>
+	<script src="${path}/js/jquery.js" type="text/javascript"></script>
+	<script src="${path}/js/jq-signature.js" type="text/javascript"></script>
 	<script src="${path}/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="${path}/layer/layer.js" type="text/javascript"></script>
 	<style type="text/css">
@@ -48,8 +51,8 @@
 							<td>${item.createtime }</td>
 							<td>${item.require_name }</td>
 							<td>
-							<a href="javascript:;" onclick="watch('${item.require_name}','${item.createtime }');">查看</a>
-							<a href="javascript:;" onclick="confirm('${item.require_name}','${item.createtime }');">确认</a>
+							<a href="javascript:;" onclick="watch('${item.distribution_id}');">查看</a>
+							<%-- <a href="javascript:;" onclick="confirm('${item.distribution_id}');">确认</a> --%>
 							</td>
 						</tr>
 					</c:forEach>
@@ -57,26 +60,41 @@
 	  		</table>
 		</form>
 		<div class="panel-footer" style="margin-top: 20px;">
+			<c:if test="${fn:length(list)>0 && sign eq '1'}">
+			<button type="button" class="btn btn-primary" onclick="confirm();">签名</button>
+			</c:if>
 			<button type="button" class="btn btn-default" onclick="back();">返回</button>
 		</div>
 	</div>
 <script type="text/javascript">
-function back(){
-	window.location.href = '${path}/baseInfo/index.do';
-}
-function watch(name,time){
-	window.location.href = '${path}/distribution/today_shDetail.do?name='+name+'&time='+time;
-}
+	function back(){
+		window.location.href = '${path}/baseInfo/index.do';
+	}
+	function watch(id){
+		window.location.href = '${path}/distribution/today_shDetail.do?id='+id;
+	}
 
-function confirm(name,time){
-	//弹出签名页面
-	//上传名称和时间
-}
+	function confirm(name,time){
+		//弹出签名页面
+		//上传名称和时间
+		layer.open({
+			type:2,
+			title:'确认',
+			closeBtn:1,
+			area: ['90%','70%'],
+			shadeClose: true,
+			content: '${path}/distribution/sign.do'
+		})
+	}
 
-function save(){
-	//保存签名
+	function save(){
+		//保存签名
+		
+	}
 	
-}
+	function closeModal(){
+		layer.closeAll();
+	}
 </script>
 </body>
 </html>

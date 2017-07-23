@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.order.dao.SczlMapper" >
+  <resultMap id="BaseResultMap" type="com.order.po.Sczl" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="kind" property="kind" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="spyb" property="spyb" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, kind,grade,spyb,content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sczl
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="select" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from sczl
+    where  1=1
+    <if test="grade != null and grade != ''">
+    	and grade = #{grade}
+    </if>
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+    <if test="spyb != null and spyb != ''">
+    	and spyb = #{spyb}
+    </if>
+    order by kind,grade,spyb
+  </select>
+  <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from sczl
+    where  1=1
+    <if test="grade != null and grade != ''">
+    	and grade = #{grade}
+    </if>
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+    <if test="spyb != null and spyb != ''">
+    	and spyb = #{spyb}
+    </if>
+    order by kind,grade,spyb
+    limit ${index},8
+  </select>
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select 
+    count(1) as num
+    from sczl
+    where  1=1
+    <if test="grade != null and grade != ''">
+    	and grade = #{grade}
+    </if>
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+    <if test="spyb != null and spyb != ''">
+    	and spyb = #{spyb}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sczl
+    where id = #{id}
+  </delete>
+  <insert id="insertSelective" parameterType="com.order.po.BaseInfo" >
+    insert into sczl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="kind != null" >
+        kind,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="spyb != null" >
+        spyb,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null" >
+        #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="spyb != null" >
+        #{spyb,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.order.po.BaseInfo" >
+    update sczl
+    <set >
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null" >
+        kind = #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="spyb != null" >
+        spyb = #{spyb,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

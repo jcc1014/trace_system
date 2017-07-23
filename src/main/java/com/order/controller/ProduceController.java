@@ -137,7 +137,12 @@ public class ProduceController {
 		String page = "orderModule/produce/todayProduce";
 		User user = (User)request.getSession().getAttribute("user");
 		TotalInfo totalInfo = new TotalInfo();
-		totalInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		if(Integer.parseInt(DateUtils.getCurrentDate("HHmmss"))<170000){
+			totalInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		}else{
+			totalInfo.setCreatetime(DateUtils.getNDayAfterCurrentDate(1, "yyyy-MM-dd"));
+		}
+		//totalInfo.setNowtime(DateUtils.getCurrentDate());
 		totalInfo.setCreateuser(user.getUserid());
 		totalInfo.setType("gyd");
 		List<Map<String, Object>> list = totalInfoService.select(totalInfo);
@@ -152,21 +157,27 @@ public class ProduceController {
 			//未建立今日供应单
 			totalInfo.setId(UUIDFactory.getInstance().newUUID());
 			BaseInfo baseInfo = (BaseInfo)request.getSession().getAttribute("baseInfo");
-			totalInfo.setName(DateUtils.getCurrentDate("yyyy-MM-dd")+baseInfo.getName()+"供应单");
+			if(Integer.parseInt(DateUtils.getCurrentDate("HHmmss"))<170000){
+				totalInfo.setName(DateUtils.getCurrentDate("yyyy-MM-dd")+baseInfo.getName()+"供应单");
+				totalInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+			}else{
+				totalInfo.setName(DateUtils.getNDayAfterCurrentDate(1, "yyyy-MM-dd")+baseInfo.getName()+"供应单");
+				totalInfo.setCreatetime(DateUtils.getNDayAfterCurrentDate(1, "yyyy-MM-dd"));
+			}
+			totalInfo.setNowtime(DateUtils.getCurrentDate());
 			totalInfo.setSource(baseInfo.getId());
 			totalInfo.setSource_name(baseInfo.getName());
 			totalInfo.setSource_type(baseInfo.getType());
 			totalInfo.setSource_type(baseInfo.getType());
 			totalInfo.setCreateuser(user.getUserid());
 			totalInfo.setStatus("0");
-			totalInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
 			totalInfoService.insertSelective(totalInfo);
 			model.addAttribute("totalInfo", totalInfo);
 			
 		}
 		Goods goods = new Goods();
 		List<Goods> goodsList = goodsService.select(goods);
-		List<Dict> dictList = dictService.selectByParentId("grade");
+		List<Dict> dictList = dictService.selectByParentId("spyb");
 		model.addAttribute("dictList", dictList);
 		model.addAttribute("goodsList", goodsList);
 		model.addAttribute("user", user);
@@ -239,6 +250,7 @@ public class ProduceController {
 			map.put("produce_id", produceInfo.getProduce_id());
 			map.put("type", produceInfo.getType());
 			map.put("grade", produceInfo.getGrade());
+			map.put("spyb", produceInfo.getSpyb());
 			map.put("supply_number", produceInfo.getSupply_number());
 			map.put("price", produceInfo.getPrice());
 			
@@ -258,6 +270,7 @@ public class ProduceController {
 		p.setParent_id(produceInfo.getParent_id());
 		p.setType(produceInfo.getType());
 		p.setGrade(produceInfo.getGrade());
+		p.setSpyb(produceInfo.getSpyb());
 		List<Map<String, Object>> pList = produceInfoService.select(p);
 		if(null!=pList&&0<pList.size()){
 			Map<String,Object> map = new HashMap<String, Object>();
@@ -267,8 +280,14 @@ public class ProduceController {
 			return rs;
 		}
 		produceInfo.setProduce_id(UUIDFactory.getInstance().newUUID());
-		produceInfo.setCreatetime(DateUtils.getCurrentDate());
+		if(Integer.parseInt(DateUtils.getCurrentDate("HHmmss"))<170000){
+			
+			produceInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		}else{
+			produceInfo.setCreatetime(DateUtils.getNDayAfterCurrentDate(1, "yyyy-MM-dd"));
+		}
 		produceInfo.setStatus("0");
+		produceInfo.setNowtime(DateUtils.getCurrentDate());
 		int r = produceInfoService.insertSelective(produceInfo);
 		rs = ResultUtil.resultString(r);
 		return rs;

@@ -23,6 +23,8 @@ public class RequireInfo {
     
     private String grade;
 
+    private String spyb;
+
     public String getId() {
         return id;
     }
@@ -109,6 +111,14 @@ public class RequireInfo {
 
 	public void setGrade(String grade) {
 		this.grade = grade;
+	}
+
+	public String getSpyb() {
+		return spyb;
+	}
+
+	public void setSpyb(String spyb) {
+		this.spyb = spyb;
 	}
     
 }

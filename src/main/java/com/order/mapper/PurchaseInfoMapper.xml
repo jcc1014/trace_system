@@ -12,12 +12,13 @@
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="parentid" property="parentid" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="spyb" property="spyb" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="supply_number" property="supply_number" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Base_Column_List" >
     purchase_id, kind, number, remain_number, grade, createtime, createuser, status, 
-    parentid, type,price,supply_number
+    parentid, type,price,supply_number,spyb
   </sql>
   
   <select id="select" resultType="java.util.Map" parameterType="com.order.po.PurchaseInfo" >
@@ -45,6 +46,9 @@
     </if>
     <if test="type != null and type != ''">
     	and type = #{type}
+    </if>
+    <if test="spyb != null and spyb != ''">
+    	and spyb = #{spyb}
     </if>
   </select>
   
@@ -74,6 +78,9 @@
     <if test="type != null and type != ''">
     	and type = #{type}
     </if>
+    <if test="spyb != null and spyb != ''">
+    	and spyb = #{type}
+    </if>
     limit ${index},8
     order by createtime desc
   </select>
@@ -102,6 +109,9 @@
     </if>
     <if test="type != null and type != ''">
     	and type = #{type}
+    </if>
+    <if test="spyb != null and spyb != ''">
+    	and spyb = #{spyb}
     </if>
   </select>
   
@@ -155,6 +165,9 @@
       <if test="supply_number != null and supply_number != 0" >
         supply_number,
       </if>
+      <if test="spyb != null and spyb != ''" >
+        spyb,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="purchase_id != null" >
@@ -192,6 +205,9 @@
       </if>
       <if test="supply_number != null and supply_number != 0" >
         #{supply_number},
+      </if>
+      <if test="spyb != null and spyb != ''" >
+        #{spyb},
       </if>
     </trim>
   </insert>
@@ -231,6 +247,9 @@
       <if test="supply_number != null and supply_number != 0" >
         supply_number = #{supply_number},
       </if>
+      <if test="spyb != null and spyb != ''" >
+        spyb = #{spyb},
+      </if>
     </set>
     where purchase_id = #{purchase_id,jdbcType=VARCHAR}
   </update>
@@ -266,6 +285,9 @@
       </if>
       <if test="supply_number != null and supply_number != 0" >
         supply_number = #{supply_number},
+      </if>
+      <if test="spyb != null and spyb != ''" >
+        spyb = #{spyb},
       </if>
     </set>
     where parentid = #{parentid,jdbcType=VARCHAR}

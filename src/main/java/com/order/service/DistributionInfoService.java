@@ -14,6 +14,8 @@ public interface DistributionInfoService {
     DistributionInfo selectByPrimaryKey(String distribution_id);
 
     int updateByPrimaryKeySelective(DistributionInfo record);
+    
+    int updateSignName(DistributionInfo record);
 
     List<Map<String,Object>> query(Map<String,Object> map);
     

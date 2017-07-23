@@ -28,6 +28,7 @@ import com.order.service.TotalInfoService;
 import com.trace.po.Purchase;
 import com.trace.po.Qrcode;
 import com.trace.po.TraceFlow;
+import com.trace.po.User;
 import com.trace.service.PurchaseService;
 import com.trace.service.QrcodeService;
 import com.trace.service.TraceFlowService;
@@ -196,17 +197,54 @@ public class DistributionInfoController {
 		String page = "orderModule/distribution/today_sh";
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("datetime", DateUtils.getCurrentDate());
+		User user = (User)request.getSession().getAttribute("user");
+		if(null!=user&&"B".equals(user.getUsertype())){
+			BaseInfo baseInfo = (BaseInfo)request.getSession().getAttribute("baseInfo");
+			if(null!=baseInfo){
+				map.put("base_id", baseInfo.getId());
+			}
+		}
 		List<Map<String,Object>> list = distributionInfoService.getDeliverData(map);
+		if(0<list.size()&&!"".equals(list.get(0).get("signname"))&&null!=list.get(0).get("signname")){
+			model.addAttribute("sign", "1");
+		}
 		model.addAttribute("list", list);
 		return page;
 	}
-	@RequestMapping("today_shDetail")
-	public String today_shDetail(HttpServletRequest request,Model model,String name,String time){
-		String page = "orderModule/distribution/today_shDetail";
+	@RequestMapping("sign")
+	public String sign(HttpServletRequest request,Model model){
+		String page = "orderModule/distribution/sign";
+		return page;
+	}
+	@RequestMapping("signSave")
+	@ResponseBody
+	public String signSave(HttpServletRequest request){
+		String rs = "";
 		DistributionInfo distributionInfo = new DistributionInfo();
-		distributionInfo.setRequire_name(name);
-		distributionInfo.setCreatetime(time);
-		List<Map<String, Object>> list = distributionInfoService.select(distributionInfo);
+		distributionInfo.setCreatetime(DateUtils.getCurrentDate());
+		User user = (User)request.getSession().getAttribute("user");
+		if(null!=user&&"B".equals(user.getUsertype())){
+			BaseInfo baseInfo = (BaseInfo)request.getSession().getAttribute("baseInfo");
+			if(null!=baseInfo){
+				distributionInfo.setBase_id(baseInfo.getId());
+			}
+		}
+		int r = distributionInfoService.updateSignName(distributionInfo);
+		if(0<r){
+			rs = ResultUtil.resultString(1);
+		}else{
+			rs = ResultUtil.resultString(0);
+		}
+		return rs;
+	}
+	@RequestMapping("today_shDetail")
+	public String today_shDetail(HttpServletRequest request,Model model,String id){
+		String page = "orderModule/distribution/today_shDetail";
+		DistributionInfo distributionInfo = distributionInfoService.selectByPrimaryKey(id);
+		model.addAttribute("distributionInfo", distributionInfo);
+		DistributionDetail distributionDetail = new DistributionDetail();
+		distributionDetail.setDistribution_id(id);
+		List<Map<String,Object>> list = distributionDetailService.select(distributionDetail);
 		model.addAttribute("list", list);
 		return page;
 	}

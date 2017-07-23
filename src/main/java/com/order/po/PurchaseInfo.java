@@ -24,6 +24,8 @@ public class PurchaseInfo {
     private double price;
     
     private double supply_number;
+    
+    private String spyb;
 
     public String getPurchase_id() {
         return purchase_id;
@@ -120,4 +122,13 @@ public class PurchaseInfo {
 	public void setSupply_number(double supply_number) {
 		this.supply_number = supply_number;
 	}
+
+	public String getSpyb() {
+		return spyb;
+	}
+
+	public void setSpyb(String spyb) {
+		this.spyb = spyb;
+	}
+	
 }

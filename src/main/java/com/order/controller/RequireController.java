@@ -77,7 +77,7 @@ public class RequireController {
 		}
 		Goods goods = new Goods();
 		List<Goods> goodsList = goodsService.select(goods);
-		List<Dict> dictList = dictService.selectByParentId("grade");
+		List<Dict> dictList = dictService.selectByParentId("spyb");
 		model.addAttribute("goodsList", goodsList);
 		model.addAttribute("dictList", dictList);
 		model.addAttribute("user", user);
@@ -130,6 +130,7 @@ public class RequireController {
 			map.put("kind", requireInfo.getKind());
 			map.put("grade", requireInfo.getGrade());
 			map.put("num", requireInfo.getNum());
+			map.put("spyb", requireInfo.getSpyb());
 			
 		}else{
 			map.put("code", "-1");
@@ -147,6 +148,7 @@ public class RequireController {
 		p.setParentid(requireInfo.getParentid());
 		p.setKind(requireInfo.getKind());
 		p.setGrade(requireInfo.getGrade());
+		p.setSpyb(requireInfo.getSpyb());
 		List<Map<String, Object>> pList = requireInfoService.select(p);
 		if(null!=pList&&0<pList.size()){
 			Map<String,Object> map = new HashMap<String, Object>();

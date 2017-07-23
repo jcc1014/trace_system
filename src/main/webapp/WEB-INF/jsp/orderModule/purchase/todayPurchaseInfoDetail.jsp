@@ -43,23 +43,24 @@
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th>种类</th><th>品级</th><th>供应价</th><th>供应量</th><th>采购量</th><th>操作</th>
+						<th>种类</th><th>品级</th><th>三品一标</th><th>供应价</th><th>供应量</th><th>采购量</th><th>操作</th>
 					</tr>
 				</thead>
 				<tbody id="tbody">
 					<c:if test="${fn:length(purchaseInfos)==0 }">
-						<tr><td colspan="6">暂无数据</td></tr>
+						<tr><td colspan="7">暂无数据</td></tr>
 					</c:if>
 					<c:forEach var="item" items="${purchaseInfos}">
 						<tr>
 							<td>${item.kind }</td>
 							<td>${item.grade }</td>
+							<td>${item.spyb }</td>
 							<td>${item.price }</td>
 							<td>${item.supply_number}</td>
 							<td>${item.number }</td>
 							<td>
 							<c:if test="${totalInfo.status eq '0' }">
-							<a href="javascript:;" onclick="edit('${item.purchase_id}');"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="javascript:;" onclick="edit('${item.purchase_id}','${item.supply_number}');"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
 							</c:if>
 							<c:if test="${totalInfo.status eq '1' }">
 								已提交
@@ -72,7 +73,7 @@
 		</form>
 		<div class="panel-footer" style="margin-top: 20px;">
 			<c:if test="${fn:length(purchaseInfos)>0 && totalInfo.status eq '0' }">
-				<button type="button" class="btn btn-primary" onclick="submit();">提交</button>
+				<button type="button" id="submit" class="btn btn-primary hide" onclick="submit();">提交</button>
 			</c:if>
 			<button type="button" class="btn btn-default" onclick="window.history.go(-1);">返回</button>
 		</div>
@@ -80,9 +81,13 @@
 <div style="display:none;padding: 5%;" id="modal_edit">
 <form>
   <div class="form-group">
-    <label for="modal_number">数量</label>
+    <label for="modal_number">供应量</label>
     <input type="hidden" id="modal_id" >
-    <input type="number" class="form-control" id="modal_number" placeholder="数量">
+    <input type="number" class="form-control" id="modal_supply_number" readonly="readonly">
+  </div>
+  <div class="form-group">
+    <label for="modal_number">采购量</label>
+    <input type="number" class="form-control" id="modal_number" placeholder="采购量">
   </div>
   <div class="form-group" style="text-align: center;">
 	  <button type="button" class="btn btn-success" onclick="modal_edit_save();">保存</button>
@@ -91,6 +96,39 @@
 </form>
 </div>
 <script type="text/javascript">
+$(function(){
+	//设置一个定时器，五点之后开启
+	setInterval("time();",1000);
+})
+function time(){
+	var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + date.getHours() + seperator2 + date.getMinutes()
+            + seperator2 + date.getSeconds();
+    var time = date.getHours() + seperator2 + date.getMinutes()
+    + seperator2 + date.getSeconds();
+    if(time=="17:00:00"||time>"17:00:00"){
+    	$("#submit").show();
+    }
+}
+//格式化时间
+function formatTime(time){
+	//小于10的数以ss格式显示
+	if(10>parseInt(time)){
+		time = "0"+time;
+	}
+	return time;
+}
 function submit(){
 	$.ajax({
 		url:'${path}/purchaseInfo/submit.do',
@@ -110,13 +148,14 @@ function submit(){
 	})
 }
 
-function edit(id){
+function edit(id,supply_number){
 	$("#modal_id").val(id);
+	$("#modal_supply_number").val(supply_number);
 	layer.open({
 		type:'1',
 		title:'修改采购量',
 		closeBtn:1,
-		area: ['90%','30%'],
+		area: ['90%','45%'],
 		shadeClose: true,
 		content: $('#modal_edit')
 	})
@@ -130,24 +169,32 @@ function modal_edit_save(){
 			return;
 		})
 	}
-	$.ajax({
-		url:'${path}/purchaseInfo/editSave.do',
-		type:'post',
-		data:{'id':id,'number':number},
-		dataType:'JSON',
-		success:function(rs){
-			if(""!=rs){
-				rs = $.parseJSON(rs);
-				if("200"==rs.code){
-					layer.msg('保存成功！',{time:1000},function(){
-						self.location.reload();
-					});
+	var supply_number = $("#modal_supply_number").val();
+	if(supply_number<number){
+		layer.alert('供应量应该大于采购量，请返回修改',{title:'提示'},function(index){
+			
+		})
+	}else{
+		$.ajax({
+			url:'${path}/purchaseInfo/editSave.do',
+			type:'post',
+			data:{'id':id,'number':number},
+			dataType:'JSON',
+			success:function(rs){
+				if(""!=rs){
+					rs = $.parseJSON(rs);
+					if("200"==rs.code){
+						layer.msg('保存成功！',{time:1000},function(){
+							self.location.reload();
+						});
+					}
+				}else{
+					layer.msg('保存失败！',{time:1000});
 				}
-			}else{
-				layer.msg('保存失败！',{time:1000});
 			}
-		}
-	})
+		})
+	}
+	
 }
 </script>
 </body>

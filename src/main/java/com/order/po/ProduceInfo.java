@@ -24,6 +24,10 @@ public class ProduceInfo {
     private String phone; //手机号
     
     private String parent_id; //上级id(total里面的id)
+    
+    private String spyb;
+    
+    private String nowtime;
 
     public String getProduce_id() {
         return produce_id;
@@ -120,4 +124,21 @@ public class ProduceInfo {
 	public void setParent_id(String parent_id) {
 		this.parent_id = parent_id;
 	}
+
+	public String getSpyb() {
+		return spyb;
+	}
+
+	public void setSpyb(String spyb) {
+		this.spyb = spyb;
+	}
+
+	public String getNowtime() {
+		return nowtime;
+	}
+
+	public void setNowtime(String nowtime) {
+		this.nowtime = nowtime;
+	}
+	
 }

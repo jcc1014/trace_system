@@ -26,10 +26,11 @@
 <body>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">今日供应单<!-- （距离供应单锁定还有：<span>30</span>分钟） --></h3>
+			<h3 class="panel-title"><span id="title">今日供应单（17点自动提交当日供应单）</span></h3>
 		</div>
 		<div class="panel-body">
 			<div><h4>供应单信息</h4></div>
+			<div>时间：<span id="time" style="color:red;"></span></div>
 			<div>名称：${totalInfo.name}</div>
 			<div>类型：
 			<c:if test="${sessionScope.baseInfo.type eq '5'}">供应基地</c:if>
@@ -43,17 +44,18 @@
 		<table class="table table-striped table-bordered table-condensed">
 			<thead>
 				<tr>
-					<th>种类</th><th>品级</th><th>供应量</th><th>价格</th><th>操作</th>
+					<th>种类</th><th>品级</th><th>三品一标</th><th>供应量</th><th>价格</th><th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:if test="${fn:length(produceInfos)==0 }">
-					<tr><td colspan="5">暂无数据</td></tr>
+					<tr><td colspan="6">暂无数据</td></tr>
 				</c:if>
 				<c:forEach var="item" items="${produceInfos}">
 					<tr>
 						<td>${item.type }</td>
 						<td>${item.grade }</td>
+						<td>${item.spyb }</td>
 						<td>${item.supply_number }</td>
 						<td>${item.price }</td>
 						<td>
@@ -72,7 +74,7 @@
   		</table>
 		<div class="panel-footer" style="margin-top: 20px;">
 			<c:if test="${totalInfo.status eq '0' }">
-				<button type="button" class="btn btn-primary" onclick="submit();">提交</button>
+				<button type="button" id="submit" class="btn btn-primary hide" onclick="submit();">提交</button>
 				<button type="button" class="btn btn-success" onclick="add();">增加</button>
 			</c:if>
 			<button type="button" class="btn btn-default" onclick="window.location.href = '${path}/baseInfo/index.do';">返回</button>
@@ -81,20 +83,24 @@
 <div style="display:none;padding: 5%;" id="modal_edit">
 <form>
   <div class="form-group">
-    <label for="modal_type">种类</label>
+    <label for="modal_edit_type">种类</label>
     <input type="hidden" id="modal_edit_produce_id" >
     <input type="text" class="form-control" id="modal_edit_type" placeholder="种类" readonly="readonly">
   </div>
   <div class="form-group">
-    <label for="modal_type">品级</label>
+    <label for="modal_edit_grade">品级</label>
     <input type="text" class="form-control" id="modal_edit_grade" placeholder="品级" readonly="readonly">
   </div>
   <div class="form-group">
-    <label for="modal_type">供应量</label>
+    <label for="modal_edit_spyb">三品一标</label>
+    <input type="text" class="form-control" id="modal_edit_spyb"  readonly="readonly">
+  </div>
+  <div class="form-group">
+    <label for="modal_edit_supply_number">供应量</label>
     <input type="number" class="form-control" id="modal_edit_supply_number" placeholder="供应量">
   </div>
   <div class="form-group">
-    <label for="modal_type">价格</label>
+    <label for="modal_edit_price">价格</label>
     <input type="number" class="form-control" id="modal_edit_price" placeholder="价格">
   </div>
   <div class="form-group" style="text-align: center;">
@@ -115,23 +121,29 @@
     </select>
   </div>
   <div class="form-group">
-    <label for="modal_type">品级</label>
+    <label for="modal_add_grade">品级</label>
     <select class="form-control" id="modal_add_grade">
     	<option value="">请选择</option>
     	<option value="1">1</option>
     	<option value="2">2</option>
     	<option value="3">3</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="modal_add_spyb">三品一标</label>
+    <select class="form-control" id="modal_add_spyb">
+    	<option value="">请选择</option>
     	<c:forEach var="item" items="${dictList}">
 	    	<option value="${item.dict_name }">${item.dict_name }</option>
     	</c:forEach>
     </select>
   </div>
   <div class="form-group">
-    <label for="modal_type">供应量</label>
+    <label for="modal_add_supply_number">供应量</label>
     <input type="number" class="form-control" id="modal_add_supply_number" placeholder="供应量（斤或包）">
   </div>
   <div class="form-group">
-    <label for="modal_type">价格</label>
+    <label for="modal_add_price">价格</label>
     <input type="number" class="form-control" id="modal_add_price" placeholder="价格">
   </div>
   <div class="form-group" style="text-align: center;">
@@ -141,16 +153,55 @@
 </form>
 </div>
 <script type="text/javascript">
+$(function(){
+	//设置一个定时器，五点之后开启
+	setInterval("time();",1000);
+})
+function time(){
+	var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + formatTime(date.getHours()) + seperator2 + formatTime(date.getMinutes())
+            + seperator2 + formatTime(date.getSeconds());
+    var time = formatTime(date.getHours()) + seperator2 + formatTime(date.getMinutes())
+    + seperator2 + formatTime(date.getSeconds());
+    $("#time").html(time);
+    if(time=="17:00:00"){
+    	self.location.reload();
+    }
+    if(time>"17:00:00"){
+    	$("#submit").removeClass("hide");
+    	$("#title").html("明日供应单（今日供应单可在历史纪录查看）")
+    }
+}
+//格式化时间
+function formatTime(time){
+	//小于10的数以ss格式显示
+	if(10>parseInt(time)){
+		time = "0"+time;
+	}
+	return time;
+}
 function add(){
 	$("#modal_add_type").val("");
 	$("#modal_add_grade").val("");
+	$("#modal_add_spyb").val("");
 	$("#modal_add_supply_number").val("");
 	$("#modal_add_price").val("");
 	layer.open({
 		type:'1',
 		title:'新增',
 		closeBtn:1,
-		area: ['90%','70%'],
+		area: ['90%','75%'],
 		shadeClose: true,
 		content: $('#modal_add')
 	})
@@ -207,6 +258,7 @@ function edit(id){
 				$("#modal_edit_produce_id").val(rs.produce_id);
 				$("#modal_edit_type").val(rs.type);
 				$("#modal_edit_grade").val(rs.grade);
+				$("#modal_edit_spyb").val(rs.spyb);
 				$("#modal_edit_supply_number").val(rs.supply_number);
 				$("#modal_edit_price").val(rs.price);
 				layer.open({
@@ -274,6 +326,11 @@ function modal_add_save(){
 		layer.msg('请填写品级！',{time:1000});
 		return;
 	}
+	var spyb = $("#modal_add_spyb").val();
+	if(""==spyb){
+		layer.msg('请选择三品一标！',{time:1000});
+		return;
+	}
 	var supply_number = $("#modal_add_supply_number").val();
 	if(""==supply_number||0==supply_number){
 		layer.msg('请填写供应量！',{time:1000});
@@ -295,7 +352,7 @@ function modal_add_save(){
 	$.ajax({
 		type:'post',
 		url:'${path}/produce/addProduceSave.do',
-		data:{'parent_id':'${totalInfo.id}','type':type,'grade':grade,'supply_number':parseFloat(supply_number),'price':parseFloat(price)},
+		data:{'parent_id':'${totalInfo.id}','type':type,'grade':grade,'spyb':spyb,'supply_number':parseFloat(supply_number),'price':parseFloat(price)},
 		dataType:'json',
 		success:function(rs){
 			if(null!=rs&&""!=rs){

@@ -14,6 +14,8 @@ public interface DistributionInfoMapper {
 
     int updateByPrimaryKeySelective(DistributionInfo record);
 
+    int updateSignName(DistributionInfo record);
+
     List<Map<String,Object>> query(Map<String,Object> map);
     
     int count(Map<String,Object> map);

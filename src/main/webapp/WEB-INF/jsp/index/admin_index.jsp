@@ -116,6 +116,12 @@
                   <cite>追溯列表</cite>
                 </a>
               </li>
+              <li class="layui-nav-item">
+                <a href="${path}/sczl/list.do" target="main">
+                  <i class="layui-icon">&#xe60a;</i>
+                  <cite>蔬菜分类查询</cite>
+                </a>
+              </li>
             </ul>
             <ul class="layui-nav layui-nav-tree left_menu_ul hide">
               <li class="layui-nav-item layui-nav-title">

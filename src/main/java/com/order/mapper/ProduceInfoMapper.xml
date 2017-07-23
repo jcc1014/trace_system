@@ -7,6 +7,7 @@
     <result column="produce_place" property="produce_place" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="spyb" property="spyb" jdbcType="VARCHAR" />
     <result column="supply_number" property="supply_number" jdbcType="DOUBLE" />
     <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="produce_infoer" property="produce_infoer" jdbcType="VARCHAR" />
@@ -14,10 +15,11 @@
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="parent_id" property="parent_id" jdbcType="VARCHAR" />
+    <result column="nowtime" property="nowtime" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     produce_id, produce_name, produce_place, type, grade, supply_number, price, produce_infoer, 
-    status, createtime, phone,parent_id
+    status, createtime, phone,parent_id,spyb,nowtime
   </sql>
   <select id="select" resultType="java.util.Map" parameterType="com.order.po.ProduceInfo" >
     select 
@@ -29,11 +31,17 @@
     <if test="grade != null and grade != ''">
     	and grade = #{grade} 
     </if>
+    <if test="spyb != null and spyb != ''">
+    	and spyb = #{spyb} 
+    </if>
     <if test="parent_id != null and parent_id != ''">
     	and parent_id = #{parent_id} 
     </if>
     <if test="status != null and status != ''">
     	and status = #{status} 
+    </if>
+    <if test="nowtime != null and nowtime != ''">
+    	and nowtime = #{nowtime} 
     </if>
     
   </select>
@@ -47,11 +55,17 @@
     <if test="grade != null and grade != ''">
     	and grade = #{grade} 
     </if>
+    <if test="spyb != null and spyb != ''">
+    	and spyb = #{spyb} 
+    </if>
     <if test="parent_id != null and parent_id != ''">
     	and parent_id = #{parent_id} 
     </if>
     <if test="status != null and status != ''">
     	and status = #{status} 
+    </if>
+    <if test="nowtime != null and nowtime != ''">
+    	and nowtime = #{nowtime} 
     </if>
     order by parentid, createtime desc
     limit ${index},8
@@ -67,26 +81,32 @@
     <if test="grade != null and grade != ''">
     	and grade = #{grade} 
     </if>
+    <if test="spyb != null and spyb != ''">
+    	and spyb = #{spyb} 
+    </if>
     <if test="parent_id != null and parent_id != ''">
     	and parent_id = #{parent_id} 
     </if>
     <if test="status != null and status != ''">
     	and status = #{status} 
     </if>
+    <if test="nowtime != null and nowtime != ''">
+    	and nowtime = #{nowtime} 
+    </if>
   </select>
   
   <select id="selectTodayProduceTotal" resultType="java.util.Map" parameterType="java.lang.String" >
-    SELECT max(type)as type,max(grade) as grade,sum(supply_number)as supply_number,AVG(price) as price,
+    SELECT max(type)as type,max(grade) as grade,max(spyb)as spyb,sum(supply_number)as supply_number,AVG(price) as price,
 	left(MAX(createtime),10)as createtime,max(status) as status
 	from produce_info
 	where createtime like '%${nowDay}%' and status = #{status}
 	and parent_id = #{parentid}
-	 GROUP BY type,grade 
+	 GROUP BY type,grade,spyb 
   </select>
   
   <insert id="createCgdByProduceId" parameterType="java.util.Map">
-  	insert into purchase_info (purchase_id,kind,supply_number,grade,createtime,status,parentid,type,price)
-	select replace(UUID(),'-',''),type,supply_number,grade,now(),'0',#{cg_parentid},'0',price from produce_info
+  	insert into purchase_info (purchase_id,kind,supply_number,grade,spyb,createtime,status,parentid,type,price)
+	select replace(UUID(),'-',''),type,supply_number,grade,spyb,now(),'0',#{cg_parentid},'0',price from produce_info
 	WHERE parent_id = #{gy_parentid}
   </insert>
   
@@ -139,6 +159,12 @@
       <if test="parent_id != null and parent_id !=''" >
         parent_id,
       </if>
+      <if test="spyb != null and spyb !=''" >
+        spyb,
+      </if>
+      <if test="nowtime != null and nowtime !=''" >
+        nowtime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="produce_id != null" >
@@ -176,6 +202,12 @@
       </if>
       <if test="parent_id != null and parent_id != ''" >
         #{parent_id,jdbcType=VARCHAR},
+      </if>
+      <if test="spyb != null and spyb != ''" >
+        #{spyb,jdbcType=VARCHAR},
+      </if>
+      <if test="nowtime != null and nowtime != ''" >
+        #{nowtime,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -215,6 +247,12 @@
       <if test="parent_id != null and parent_id != ''" >
         parent_id = #{parent_id,jdbcType=VARCHAR},
       </if>
+      <if test="spyb != null and spyb != ''" >
+        spyb = #{spyb,jdbcType=VARCHAR},
+      </if>
+      <if test="nowtime != null and nowtime != ''" >
+        nowtime = #{nowtime,jdbcType=VARCHAR},
+      </if>
     </set>
     where produce_id = #{produce_id,jdbcType=VARCHAR}
   </update>
@@ -253,6 +291,12 @@
       </if>
       <if test="parent_id != null and parent_id != ''" >
         parent_id = #{parent_id,jdbcType=VARCHAR},
+      </if>
+      <if test="spyb != null and spyb != ''" >
+        spyb = #{spyb,jdbcType=VARCHAR},
+      </if>
+      <if test="nowtime != null and nowtime != ''" >
+        nowtime = #{nowtime,jdbcType=VARCHAR},
       </if>
     </set>
     where parent_id = #{parent_id,jdbcType=VARCHAR}

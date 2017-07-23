@@ -65,9 +65,14 @@ public class PurchaseController {
 			model.addAttribute("purchaseInfos", purchaseInfoList);
 			model.addAttribute("totalInfo", totalInfos.get(0));
 			BaseInfo baseInfo = baseInfoService.selectByPrimaryKey(user.getBaseid());
-			User u = userService.getById(baseInfo.getFzr());
-			model.addAttribute("baseInfo", baseInfo);
-			model.addAttribute("u", u);
+			if(null!=baseInfo){
+				User u = userService.getById(baseInfo.getFzr());
+				model.addAttribute("u", u);
+				model.addAttribute("baseInfo", baseInfo);
+			}else{
+				model.addAttribute("u", null);
+				model.addAttribute("baseInfo", null);
+			}
 			
 		}
 		return page;

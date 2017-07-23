@@ -18,6 +18,8 @@ public class TotalInfo {
     private String source_name;
 
     private String source_type;
+    
+    private String nowtime;
 
     public String getId() {
         return id;
@@ -90,4 +92,13 @@ public class TotalInfo {
     public void setSource_type(String source_type) {
         this.source_type = source_type == null ? null : source_type.trim();
     }
+
+	public String getNowtime() {
+		return nowtime;
+	}
+
+	public void setNowtime(String nowtime) {
+		this.nowtime = nowtime;
+	}
+    
 }

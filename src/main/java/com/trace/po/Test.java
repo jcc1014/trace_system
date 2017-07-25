@@ -18,6 +18,7 @@ public class Test {
 	private String test_user;
 	private String isQh;
 	private String sampling_video;
+	private String ycdzm;
 	
 	
 	
@@ -116,6 +117,12 @@ public class Test {
 	}
 	public void setSampling_video(String sampling_video) {
 		this.sampling_video = sampling_video;
+	}
+	public String getYcdzm() {
+		return ycdzm;
+	}
+	public void setYcdzm(String ycdzm) {
+		this.ycdzm = ycdzm;
 	}
 	
 }

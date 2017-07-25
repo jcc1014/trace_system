@@ -69,7 +69,7 @@ public class PurchaseController {
 		totalInfo.setStatus("1");
 		List<Map<String, Object>>  totalInfos = totalInfoService.select(totalInfo);
 		if(1==totalInfos.size()){
-			purchaseInfo.setParentid(totalInfo.getId());
+			purchaseInfo.setParentid((String)totalInfos.get(0).get("id"));
 			List<Map<String, Object>> purchaseInfoList = purchaseInfoService.select(purchaseInfo);
 			model.addAttribute("purchaseInfos", purchaseInfoList);
 			model.addAttribute("totalInfo", totalInfos.get(0));
@@ -95,6 +95,7 @@ public class PurchaseController {
 		test.put("test_time",DateUtils.getCurrentDate("yyyy-MM-dd"));
 		test.put("kind", purchaseInfo.getKind());
 		test.put("grade", purchaseInfo.getGrade());
+		test.put("qh", "0");
 		List<Map<String, Object>> list = testService.getTestInfo(test);
 		model.addAttribute("list", list);
 		model.addAttribute("purchaseInfo", purchaseInfo);
@@ -108,6 +109,7 @@ public class PurchaseController {
 		test.put("test_time",DateUtils.getCurrentDate("yyyy-MM-dd"));
 		test.put("kind", purchaseInfo.getKind());
 		test.put("grade", purchaseInfo.getGrade());
+		test.put("qh", "1");
 		List<Map<String, Object>> list = testService.getTestInfo(test);
 		model.addAttribute("list", list);
 		model.addAttribute("purchaseInfo", purchaseInfo);

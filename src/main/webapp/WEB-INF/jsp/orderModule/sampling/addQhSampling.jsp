@@ -13,9 +13,11 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="format-detection" content="telephone=no">
 	<link href="${path}/css/bootstrap.css" rel="stylesheet" media="screen">
+	<link rel="stylesheet" href="${path}/layui/css/layui.css">
 	<script src="${path}/js/jquery-2.1.1.min.js" type="text/javascript"></script>
 	<script src="${path}/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="${path}/layer/layer.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${path}/layui/layui.js"></script>
 	<style type="text/css">
 		body{background-color: #eee;}
 		thead tr th{text-align: center;}
@@ -53,16 +55,23 @@
 					class="form-control" id="farmer_phone" name="farmer_phone" placeholder="手机">
 			</div>
 			<div class="form-group">
-				<label for="farmer_hzs">市场</label> <input type="text"
-					class="form-control" id="farmer_hzs" name="farmer_hzs" placeholder="市场">
+				<label for="farmer_hzs">市场</label> 
+				<!-- <input type="text"
+					class="form-control" id="farmer_hzs" name="farmer_hzs" placeholder="市场"> -->
+				<select id="baseid" name="farmer_hzs" id="farmer_hzs" class="form-control">
+					<option value="" >请选择</option>
+					<c:forEach var="item" items="${baseList }">
+						<option id="${item.id }" value="${item.name }">${item.name }</option>
+					</c:forEach>
+				</select>
 			</div>
 			<div class="form-group">
 				<label for="test_bh">取样编号</label> <input type="text"
-					class="form-control" id="test_bh" name="test_bh" placeholder="取样编号">
+					class="form-control" id="test_bh" name="test_bh" value="${test_bh}" readonly="readonly" placeholder="取样编号">
 			</div>
 			<div class="form-group">
 				<label for="test_num">取样数量</label> <input type="text"
-					class="form-control" id="test_num" name="test_num" placeholder="取样数量">
+					class="form-control" id="test_num" name="test_num"  placeholder="取样数量">
 			</div>
 			<div class="form-group">
 				<label for="test_num">取样视频</label> 
@@ -74,7 +83,7 @@
 			<div class="form-group" style="text-align: center;">
 				<button type="button" class="btn btn-success"
 					onclick="save();">保存</button>
-				<button type="button" class="btn btn-default" onclick="window.history.go(-1);"">返回</button>
+				<button type="button" class="btn btn-default" onclick="window.history.go(-1);">返回</button>
 			</div>
 		</form>
 	</div>

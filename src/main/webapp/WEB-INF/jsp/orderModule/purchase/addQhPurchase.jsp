@@ -60,10 +60,10 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div class="form-group" style="display: none;">
-					<label >采购价</label> <input
-						type="number" class="form-control"
-						value="${purchaseInfo.price }"
+				<div class="form-group">
+					<label >采购价</label> 
+					<input type="number" class="form-control"
+						value=""
 						 name="purchase_price" id="purchase_price">
 				</div>
 				<div class="form-group">
@@ -78,6 +78,13 @@
 					<span id="video"></span><button class="btn btn-mini btn-danger del_btn hide">删除</button>
 					<input type="hidden" id="real_path" >
 					<input type="hidden" name="purchase_video" id="purchase_video" >
+				</div>
+				<div class="form-group" style="display: none;">
+					<label >原产地证明</label> 
+					<input type="file" name="file2" id="uploadYcdzm" lay-type="images" class="layui-upload-file">
+					<span id="img"></span><button class="btn btn-mini btn-danger del_btn2 hide">删除</button>
+					<input type="hidden" id="real_path2" >
+					<input type="hidden" name="ycdzm" id="ycdzm" >
 				</div>
 				<div class="form-group">
 					<label >运输员</label> <input
@@ -154,6 +161,62 @@ layui.use(
 							$("#real_path").val("");
 							$("#video").html('');
 							$('.del_btn').addClass('hide');
+						})
+					}
+				}
+			}
+		})
+	})
+		layui.upload({
+            elem:'#uploadYcdzm',
+            title:'上传视频',
+            url : '${path}/upload/upload.do?path=ycdzm',
+            before: function(){
+                index = layer.msg('上传中', {
+                    icon: 16
+                    ,shade: 0.01
+                });
+            },
+            success : function(rs) {
+                layer.close(index);
+                if (rs.code == "success") {
+                    layer.msg('上传成功', {
+                        icon: 1,
+                        time: 1000 //2秒关闭（默认3秒）
+                    }, function(){
+                    	$("#ycdzm").val(rs.name);
+                    	$("#real_path2").val(rs.path);
+                    	$("#img").html(rs.name);
+                    	$(".del_btn2").removeClass('hide');
+                    });
+                   
+                } else {
+                    layer.msg('上传失败' + rs.msg + ',请检查视频名称是否有中文或重试', {
+                        icon: 2,
+                        time: 2000 //2秒关闭（默认3秒）
+                    }, function(){});
+                }
+            }
+        });
+		
+	jq(".del_btn2").on('click',function(){
+		var path = $('#real_path2').val();
+		jq.ajax({
+			url:'${path}/upload/delUpload.do',
+			type:'post',
+			data:{'path':path},
+			success:function(rs){
+				if(""!=rs){
+					rs = jq.parseJSON(rs);
+					if(typeof(rs)!='object'){
+						rs = jq.parseJSON(rs);
+					}
+					if(rs.code=="200"){
+						layer.msg('删除成功！',{time:1000},function(){
+							$("#ycdzm").val("");
+							$("#real_path2").val("");
+							$("#img").html('');
+							$('.del_btn2').addClass('hide');
 						})
 					}
 				}

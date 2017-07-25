@@ -172,6 +172,16 @@ public class SamplingController {
 		purchaseInfo.setType("1");
 		List<Map<String,Object>> purchaseInfoList = purchaseInfoService.select(purchaseInfo);
 		model.addAttribute("purchaseInfoList", purchaseInfoList);
+		model.addAttribute("test_bh", "qhqy"+DateUtils.getCurrentDate("yyMMddHHmmss"));
+		Map<String, Object> baseMap = new HashMap<String, Object>();
+		baseMap.put("type", "A");
+		List<BaseInfo> scjdList = baseInfoService.select(baseMap);
+		/*baseMap.put("type", "5");
+		List<BaseInfo> gyjdList = baseInfoService.select(baseMap);*/
+		List<BaseInfo> baseList = new ArrayList<BaseInfo>();
+		baseList.addAll(scjdList);
+		//baseList.addAll(gyjdList);
+		model.addAttribute("baseList", baseList);
 		return page;
 	}
 	@RequestMapping("addSamplingSave")

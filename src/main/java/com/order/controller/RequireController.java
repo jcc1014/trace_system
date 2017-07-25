@@ -97,6 +97,7 @@ public class RequireController {
 	@ResponseBody
 	public String submitXqd(HttpServletRequest request,TotalInfo totalInfo){
 		String rs = "";
+		//if(DateUtils.getCurrentDate("HHmmss").compareTo("2000000"))
 		totalInfo.setStatus("1");
 		RequireInfo requireInfo = new RequireInfo();
 		requireInfo.setStatus("1");

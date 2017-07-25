@@ -29,7 +29,7 @@
 			<h3 class="panel-title">今日缺货单<!-- （距离供应单锁定还有：<span>30</span>分钟） --></h3>
 		</div>
 		<div class="panel-body">
-			<c:if test="${qhd eq '0' }">
+			<c:if test="${qhd eq '0' && sessionScope.user.usertype ne '1' }">
 				<button type="button" class="btn btn-success" onclick="createQhd();">生成缺货单</button>
 			</c:if>
 		</div>
@@ -51,7 +51,7 @@
 							<td>${item.number }</td>
 							<td>${item.remain_number}</td>
 							<td>
-							<c:if test="${sessionScope.user.usertype eq '1' }">
+							<c:if test="${sessionScope.user.usertype eq '1' && item.remain_number != 0 }">
 							<a href="javascript:;" onclick="purchase('${item.purchase_id}');">采购</a>
 							</c:if> 
 							<c:if test="${item.remain_number == 0 }">

@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="${path}/layui/css/global.css">
 <link rel="stylesheet" href="${path}/layui/css/style.css">
 <script src="${path}/js/jquery-2.1.1.min.js" type="text/javascript"></script>
-<script src="${path}/js/layer/layer.js" type="text/javascript"></script>
+<script src="${path}/layer/layer.js" type="text/javascript"></script>
 <style type="text/css">
 body h1 {
 	position: absolute;

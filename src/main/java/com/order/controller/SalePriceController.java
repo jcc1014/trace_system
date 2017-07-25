@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.order.po.PurchaseInfo;
 import com.order.po.SalePrice;
 import com.order.service.ProduceInfoService;
 import com.order.service.PurchaseInfoService;
@@ -45,13 +46,21 @@ public class SalePriceController {
 		SalePrice salePrice = new SalePrice();
 		salePrice.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
 		List<SalePrice> salePriceList = salePriceService.select(salePrice);
-		if(0==salePriceList.size()){
+		PurchaseInfo purchaseInfo = new PurchaseInfo();
+		purchaseInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		purchaseInfo.setType("1");
+		purchaseInfo.setStatus("1");
+		List<Map<String, Object>> purchaseList = purchaseInfoService.select(purchaseInfo);
+		if(0==salePriceList.size() && 0<purchaseList.size()){
 			//生成价格表
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("datetime", DateUtils.getCurrentDate("yyyy-MM-dd"));
 			map.put("datetime2", DateUtils.getCurrentDate("yyyy-MM-dd"));
 			salePriceService.insertByRequireAndPurchase(map);
 			salePriceList = salePriceService.select(salePrice);
+			model.addAttribute("msg", "");
+		}else if(0==purchaseList.size()){
+			model.addAttribute("msg", "缺货单还没生成，暂时不能报价！");
 		}
 		model.addAttribute("salePriceList", salePriceList);
 		return page;

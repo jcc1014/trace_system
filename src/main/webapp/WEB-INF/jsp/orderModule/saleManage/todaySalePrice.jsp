@@ -105,6 +105,11 @@
 		</div>
 	</div>
 <script type="text/javascript">
+$(function(){
+	if(''!='${msg}'){
+		layer.msg('${msg}',{time:1000});
+	}
+})
 function back(){
 	window.location.href = '${path}/baseInfo/index.do';
 }

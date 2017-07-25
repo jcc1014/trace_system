@@ -66,7 +66,7 @@
 							<a href="javascript:;" onclick="del('${item.id}');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
 							</c:if>
 							<c:if test="${item.status eq '1' }">
-								完成
+								已提交
 							</c:if>
 						</td>
 					</tr>
@@ -148,7 +148,40 @@
 </form>
 </div>
 <script type="text/javascript">
-
+$(function(){
+	//设置一个定时器，五点之后开启
+	setInterval("time();",1000);
+})
+function time(){
+	var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + formatTime(date.getHours()) + seperator2 + formatTime(date.getMinutes())
+            + seperator2 + formatTime(date.getSeconds());
+    var time = formatTime(date.getHours()) + seperator2 + formatTime(date.getMinutes())
+    + seperator2 + formatTime(date.getSeconds());
+    if(time=="21:00:00"||time>"21:00:00"){
+    	$("#submit").attr("disabled",true).addClass("hide");
+    	$("#add").attr("disabled",true).addClass("hide");
+    }
+}
+//格式化时间
+function formatTime(time){
+	//小于10的数以ss格式显示
+	if(10>parseInt(time)){
+		time = "0"+time;
+	}
+	return time;
+}
 
 function add(){
 	$("#modal_add_type").val("");

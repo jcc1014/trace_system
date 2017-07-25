@@ -159,6 +159,7 @@ public class ProduceController {
 			totalInfo.setId(UUIDFactory.getInstance().newUUID());
 			BaseInfo baseInfo = (BaseInfo)request.getSession().getAttribute("baseInfo");
 			if(Integer.parseInt(DateUtils.getCurrentDate("HHmmss"))<170000){
+			//if(Integer.parseInt(DateUtils.getCurrentDate("HHmmss"))<220000){
 				totalInfo.setName(DateUtils.getCurrentDate("yyyy-MM-dd")+baseInfo.getName()+"供应单");
 				totalInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
 			}else{

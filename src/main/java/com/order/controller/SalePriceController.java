@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.order.po.PurchaseInfo;
+import com.order.po.RequireInfo;
 import com.order.po.SalePrice;
 import com.order.service.ProduceInfoService;
 import com.order.service.PurchaseInfoService;
@@ -51,6 +52,10 @@ public class SalePriceController {
 		purchaseInfo.setType("1");
 		purchaseInfo.setStatus("1");
 		List<Map<String, Object>> purchaseList = purchaseInfoService.select(purchaseInfo);
+		RequireInfo require = new RequireInfo();
+		require.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		require.setStatus("1");
+		List<Map<String, Object>> requireList = requireInfoService.select(require);
 		if(0==salePriceList.size() && 0<purchaseList.size()){
 			//生成价格表
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -59,6 +64,8 @@ public class SalePriceController {
 			salePriceService.insertByRequireAndPurchase(map);
 			salePriceList = salePriceService.select(salePrice);
 			model.addAttribute("msg", "");
+		}else if(0==requireList.size()){
+			model.addAttribute("msg", "需求单还没提交，暂时不能报价！");
 		}else if(0==purchaseList.size()){
 			model.addAttribute("msg", "缺货单还没生成，暂时不能报价！");
 		}

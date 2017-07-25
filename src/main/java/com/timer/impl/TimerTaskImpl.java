@@ -41,7 +41,7 @@ public class TimerTaskImpl implements TimerTask {
 	@Autowired
 	private ProduceInfoService produceInfoService;
 	
-	@Scheduled(cron="0 0 20 * * ?" ) 
+	@Scheduled(cron="0 0 21 * * ?" ) 
 	@Override
 	public void submitTodayRequire() {
 		//每天20：00 提交需求单
@@ -49,7 +49,7 @@ public class TimerTaskImpl implements TimerTask {
 		TotalInfo totalInfo = new TotalInfo();
 		totalInfo.setCreatetime(dateTime);
 		totalInfo.setType("xqd");
-		totalInfo.setStatus("0");
+		//totalInfo.setStatus("0");
 		List<Map<String, Object>>  totalInfoList =  totalInfoService.select(totalInfo);
 		if(0<totalInfoList.size()){
 			Map<String, Object> map = null;

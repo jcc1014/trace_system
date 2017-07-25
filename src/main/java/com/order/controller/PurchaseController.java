@@ -19,6 +19,7 @@ import com.order.service.PurchaseInfoService;
 import com.order.service.TotalInfoService;
 import com.trace.po.Purchase;
 import com.trace.po.Qrcode;
+import com.trace.po.Test;
 import com.trace.po.TraceFlow;
 import com.trace.po.Transport;
 import com.trace.po.User;
@@ -71,6 +72,22 @@ public class PurchaseController {
 		if(1==totalInfos.size()){
 			purchaseInfo.setParentid((String)totalInfos.get(0).get("id"));
 			List<Map<String, Object>> purchaseInfoList = purchaseInfoService.select(purchaseInfo);
+			Test test = null;
+			List<Test> testList = null;
+			for (int i = 0; i < purchaseInfoList.size(); i++) {
+				test = new Test();
+				test.setTest_time(DateUtils.getCurrentDate("yyyy-MM-dd"));
+				test.setTest_grade((String)purchaseInfoList.get(i).get("grade"));
+				test.setTest_kind((String)purchaseInfoList.get(i).get("kind"));
+				test.setTest_result("1");
+				testList = testService.selectAlltest(test);
+				if(0<testList.size()){
+					purchaseInfoList.get(i).put("test", "1");
+				}
+				else{
+					purchaseInfoList.get(i).put("test", "0");
+				}
+			}
 			model.addAttribute("purchaseInfos", purchaseInfoList);
 			model.addAttribute("totalInfo", totalInfos.get(0));
 			BaseInfo baseInfo = baseInfoService.selectByPrimaryKey(user.getBaseid());
@@ -95,6 +112,7 @@ public class PurchaseController {
 		test.put("test_time",DateUtils.getCurrentDate("yyyy-MM-dd"));
 		test.put("kind", purchaseInfo.getKind());
 		test.put("grade", purchaseInfo.getGrade());
+		test.put("result","1");
 		test.put("qh", "0");
 		List<Map<String, Object>> list = testService.getTestInfo(test);
 		model.addAttribute("list", list);
@@ -109,6 +127,7 @@ public class PurchaseController {
 		test.put("test_time",DateUtils.getCurrentDate("yyyy-MM-dd"));
 		test.put("kind", purchaseInfo.getKind());
 		test.put("grade", purchaseInfo.getGrade());
+		test.put("result", "1");
 		test.put("qh", "1");
 		List<Map<String, Object>> list = testService.getTestInfo(test);
 		model.addAttribute("list", list);

@@ -51,7 +51,7 @@
 							<td>${item.createtime }</td>
 							<td>${item.require_name }</td>
 							<td>
-							<a href="javascript:;" onclick="watch('${item.distribution_id}');">查看</a>
+							<a href="javascript:;" onclick="watch('${item.base_id}','${item.createtime}');">查看</a>
 							<%-- <a href="javascript:;" onclick="confirm('${item.distribution_id}');">确认</a> --%>
 							</td>
 						</tr>
@@ -60,10 +60,9 @@
 	  		</table>
 		</form>
 		<div class="panel-footer" style="margin-top: 20px;">
-			<c:if test="${fn:length(list)>0 && sign eq '1'}">
+			<%-- <c:if test="${fn:length(list)>0 && sign eq '1'}">
 			<button type="button" class="btn btn-primary" onclick="confirm();">签名</button>
-			</c:if>
-			<button type="button" class="btn btn-primary" onclick="confirm();">签名</button>
+			</c:if> --%>
 			<button type="button" class="btn btn-default" onclick="back();">返回</button>
 		</div>
 	</div>
@@ -71,27 +70,10 @@
 	function back(){
 		window.location.href = '${path}/baseInfo/index.do';
 	}
-	function watch(id){
-		window.location.href = '${path}/distribution/today_shDetail.do?id='+id;
+	function watch(baseid,time){
+		window.location.href = '${path}/distribution/today_shDetail.do?baseid='+baseid+"&time="+time;
 	}
 
-	function confirm(name,time){
-		//弹出签名页面
-		//上传名称和时间
-		layer.open({
-			type:2,
-			title:'确认',
-			closeBtn:1,
-			area: ['90%','70%'],
-			shadeClose: true,
-			content: '${path}/distribution/sign.do'
-		})
-	}
-
-	function save(){
-		//保存签名
-		
-	}
 	
 	function closeModal(){
 		layer.closeAll();

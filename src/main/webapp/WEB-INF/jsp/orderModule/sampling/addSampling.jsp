@@ -154,26 +154,6 @@
 			
 		
 	})
-function submit(){
-	$.ajax({
-		type:'post',
-		url:'${path}/require/submitXqd.do',
-		data:{'id':'${totalInfo.id}'},
-		dataType:'json',
-		success:function(rs){
-			if(null!=rs&&""!=rs){
-				rs = $.parseJSON(rs);
-				if(rs.code=="200"){
-					layer.msg('提交成功！',{time:1000},function(){
-						self.location.reload();
-					})
-				}
-				
-			}
-		}
-	})
-}
-
 function checkPhone(){
 	var farmer_phone = $("#farmer_phone").val();
 	if(""!=farmer_phone){
@@ -230,6 +210,11 @@ function save(){
 	var test_num = $("#test_num").val();
 	if(""==test_num||isNaN(test_num)){
 		layer.msg('取样数量格式不正确！',{time:1000});
+		return;
+	}
+	var purchase_video = $("#purchase_video").val();
+	if(""==test_num){
+		layer.msg('请上传取样视频！！',{time:1000});
 		return;
 	}
 	$("#form").submit();

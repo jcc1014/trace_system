@@ -44,6 +44,35 @@ body {
 					<label >需求数量</label> <input
 						type="text" class="form-control" value="${distributionInfo.require_num }" readonly="readonly">
 				</div>
+				<c:if test="${null != baseInfo }">
+				<div class="form-group">
+					<label >产地</label> <input
+						type="text" class="form-control" value="${baseInfo.name }" readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label >地址</label> <input
+						type="text" class="form-control" value="${baseInfo.address }" readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label >手机</label> <input
+						type="text" class="form-control" value="${baseInfo.phone }" readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label >类型</label> <input
+						type="text" class="form-control" 
+						<c:if test="${baseInfo.type eq 'A' }">value="市场"</c:if>
+						<c:if test="${baseInfo.type eq '1' }">value="生产基地"</c:if>
+						<c:if test="${baseInfo.type eq '5' }">value="供应基地"</c:if>
+						 readonly="readonly">
+				</div>
+				<c:if test="${baseInfo.video ne '' && baseInfo.video != null }">
+				<div class="form-group">
+					<label >基地视频</label> 
+					<video src="${path }/video/${baseInfo.video}" controls="controls" height="300" width="100%">
+					</video>
+				</div>
+				</c:if>
+				</c:if>
 				<div class="form-group">
 					<label >种类</label> <input
 						type="text" class="form-control" value="${distributionInfo.kind }" readonly="readonly">
@@ -76,6 +105,13 @@ body {
 					<label >取样员</label> <input
 						type="text" class="form-control" value="${trace.test_name }" readonly="readonly">
 				</div>
+				<c:if test="${trace.sampling_video ne '' && trace_sampling_video != null }">
+				<div class="form-group">
+					<label >取样视频</label> 
+					<video src="${path }/testVideo/${trace_sampling_video}" controls="controls" height="300" width="100%">
+					</video>
+				</div>
+				</c:if>
 				<div class="form-group">
 					<label >检验员</label> <input
 						type="text" class="form-control" value="${trace.test_user }" readonly="readonly">

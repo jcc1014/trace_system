@@ -250,15 +250,15 @@
       <if test="sum_price != null and sum_price != 0" >
         sum_price = #{sum_price},
       </if>
-      <if test="signname != null and signname != 0" >
+      <if test="signname != null and signname != ''" >
         signname = #{signname},
       </if>
     </set>
-    where createtime like '${createtime,jdbcType=VARCHAR}%' and base_id = #{base_id}
+    where createtime like '${createtime}%' and base_id = #{base_id}
   </update>
   
   <select id="getDeliverData" parameterType="java.util.Map" resultType="java.util.Map">
-  	SELECT distribution_id,createtime,require_name,signname from distribution_info 
+  	SELECT distribution_id,createtime,require_name,signname,base_id from distribution_info 
   	WHERE createtime LIKE '%${datetime}%'
   	<if test="baseid != null and baseid != ''">
   		and baseid = #{baseid}

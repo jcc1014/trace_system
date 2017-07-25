@@ -43,6 +43,7 @@
 	and t.test_time like '%${test_time}%'
 	and t.test_grade = #{grade} 
 	and t.test_kind=#{kind}
+	and t.test_result=#{result}
 	and t.isQh =#{qh}
   </select>
   

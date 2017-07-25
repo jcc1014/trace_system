@@ -81,7 +81,7 @@
 				</div>
 				<div class="form-group">
 					<label >配送数量</label> 
-					<input type="text" class="form-control" id="distribution_num"
+					<input type="number" class="form-control" id="distribution_num"
 					name="distribution_num" onblur="checkNum();">
 				</div>
 				<button type="button" class="btn btn-primary" onclick="submit();">提交</button>
@@ -104,6 +104,11 @@ function submit(){
 	var distribution_num = $("#distribution_num").val();
 	if(""==distribution_num||null==distribution_num||isNaN(distribution_num)){
 		layer.msg('配送数量格式不正确！',{time:1000});
+		return;
+	}
+	if(parseFloat(distribution_num)>parseFloat('${sessionScope.remain}')){
+		layer.msg('配送数量不能多于可配送量！',{time:1000});
+		$("#distribution_num").val("").focus();
 		return;
 	}
 	$("#form").submit();
@@ -132,7 +137,7 @@ function checkTrace(){
 							return;
 						})
 					}else{
-						layer.msg('所填编号还有'+rs.remain+'可以配送，</br>配送数量请小于或者等于这个数！',{time:2000},function(){
+						layer.msg('所填编号还有'+rs.remain+'可以配送，</br>配送数量请小于或者等于这个数！',{time:1000},function(){
 							$("#trace_num").html('所填编号还有'+rs.remain+'可以配送，</br>配送数量请小于或者等于这个数！');
 							return;
 						})

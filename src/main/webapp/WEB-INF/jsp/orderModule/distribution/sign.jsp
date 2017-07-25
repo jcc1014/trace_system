@@ -58,11 +58,35 @@ $(document).on('ready', function() {
 	}
 	 
 	function saveSignature() {
-	  $('#signature').empty();
 	  var dataUrl = $('.js-signature').jqSignature('getDataURL');
-	  var img = $('<img>').attr('src', dataUrl);
+	  //$('#signature').empty();
+	  //var img = $('<img>').attr('src', dataUrl);
 	  //$('#signature').append($('<p>').text("Here's your signature:"));
-	  $('#signature').append(img);
+	  //$('#signature').append(img);
+	  if(""!=dataUrl){
+		  $.ajax({
+			  type:'post',
+			  url:'${path}/distribution/signSave.do',
+			  data:{'time':'${time}','baseid':'${baseid}','signname':dataUrl},
+			  dataType:'json',
+			  success:function(rs){
+				  if(""!=rs){
+					  rs = $.parseJSON(rs);
+					  if("200"==rs.code){
+						  layer.msg('签名成功！',{time:1000},function(){
+							  window.parent.closeModal();
+						  })
+					  }else{
+						  layer.msg('签名失败，请联系管理员！',{time:1000})
+					  }
+					  
+				  }
+			  }
+			  
+		  })
+	  }else{
+		  layer.msg('请进行签名确认！',{time:1000});
+	  } 
 	}
 	 
 	$('.js-signature').on('jq.signature.changed', function() {
@@ -72,10 +96,6 @@ $(document).on('ready', function() {
 		window.parent.closeModal();
 	}
 
-	function save(){
-		//保存签名
-		
-	}
 </script>
 </body>
 </html>

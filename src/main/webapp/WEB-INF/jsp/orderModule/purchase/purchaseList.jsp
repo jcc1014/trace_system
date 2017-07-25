@@ -57,8 +57,8 @@
 							<td>${item.number }</td>
 							<td>${item.remain_number}</td>
 							<td>
-							<c:if test="${item.remain_number > 0 }">
-							<a href="javascript:;" onclick="purchase('${item.purchase_id}');">采购</a>
+							<c:if test="${item.remain_number > 0}">
+							<a href="javascript:;" onclick="purchase('${item.purchase_id}','${item.test }');">采购</a>
 							</c:if>
 							<c:if test="${item.remain_number == 0 }">
 								已完成
@@ -81,8 +81,12 @@ function watch(){
 function back(){
 	window.location.href = '${path}/baseInfo/index.do';
 }
-function purchase(id){
-	window.location.href = '${path}/purchase/addPurchase.do?purchase_id='+id;
+function purchase(id,test){
+	if('1'==test){
+		window.location.href = '${path}/purchase/addPurchase.do?purchase_id='+id;
+	}else{
+		layer.msg('请先进行取样检验才可采购！',{time:1000});
+	}
 }
 </script>
 </body>

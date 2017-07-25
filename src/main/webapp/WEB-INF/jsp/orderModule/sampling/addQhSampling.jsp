@@ -56,9 +56,8 @@
 			</div>
 			<div class="form-group">
 				<label for="farmer_hzs">市场</label> 
-				<!-- <input type="text"
-					class="form-control" id="farmer_hzs" name="farmer_hzs" placeholder="市场"> -->
-				<select id="baseid" name="farmer_hzs" id="farmer_hzs" class="form-control">
+				<input type="hidden" id="base_id" name="base_id">
+				<select name="farmer_hzs" id="farmer_hzs" class="form-control">
 					<option value="" >请选择</option>
 					<c:forEach var="item" items="${baseList }">
 						<option id="${item.id }" value="${item.name }">${item.name }</option>
@@ -152,25 +151,6 @@
 			
 		
 	})
-function submit(){
-	$.ajax({
-		type:'post',
-		url:'${path}/require/submitXqd.do',
-		data:{'id':'${totalInfo.id}'},
-		dataType:'json',
-		success:function(rs){
-			if(null!=rs&&""!=rs){
-				rs = $.parseJSON(rs);
-				if(rs.code=="200"){
-					layer.msg('提交成功！',{time:1000},function(){
-						self.location.reload();
-					})
-				}
-				
-			}
-		}
-	})
-}
 
 
 function save(){
@@ -191,9 +171,11 @@ function save(){
 	}
 	var farmer_hzs = $("#farmer_hzs").val();
 	if(""==farmer_hzs){
-		layer.msg('请填写合作社！',{time:1000});
+		layer.msg('请选择市场！',{time:1000});
 		return;
 	}
+	var base_id = $("#farmer_hzs").find("option:selected").attr("id");
+	$("#base_id").val(base_id);
 	var test_bh = $("#test_bh").val();
 	if(""==test_bh){
 		layer.msg('请填写取样编号！',{time:1000});
@@ -204,10 +186,15 @@ function save(){
 		layer.msg('取样数量格式不正确！',{time:1000});
 		return;
 	}
+	var purchase_video = $("#purchase_video").val();
+	if(""==test_num){
+		layer.msg('请上传取样视频！！',{time:1000});
+		return;
+	}
 	$("#form").submit();
 }
 
-function close(){
+function closeModal(){
 	layer.closeAll();
 }
 </script>

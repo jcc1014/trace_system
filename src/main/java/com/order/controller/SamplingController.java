@@ -86,7 +86,7 @@ public class SamplingController {
 		test.setTest_time(DateUtils.getCurrentDate("yyyy-MM-dd"));
 		test.setTest_name(user==null?null:user.getUsername());
 		test.setIsQh("1");
-		List<Test> testList = testService.selectAlltest(test);
+		List<Test> testList = testService.selectQhTest(test);
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		Map<String, Object> map = null;
 		TraceFlow traceFlow = null;
@@ -149,13 +149,14 @@ public class SamplingController {
 		PurchaseInfo purchaseInfo = new PurchaseInfo();
 		purchaseInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
 		purchaseInfo.setStatus("1");
+		purchaseInfo.setType("0");
 		List<Map<String,Object>> purchaseInfoList = purchaseInfoService.select(purchaseInfo);
 		model.addAttribute("purchaseInfoList", purchaseInfoList);
 		model.addAttribute("test_bh", "qy"+DateUtils.getCurrentDate("yyMMddHHmmss"));
 		Map<String, Object> baseMap = new HashMap<String, Object>();
-		baseMap.put("type", "1");
+		baseMap.put("type", "1"); //生产基地
 		List<BaseInfo> scjdList = baseInfoService.select(baseMap);
-		baseMap.put("type", "5");
+		baseMap.put("type", "5"); //供应基地
 		List<BaseInfo> gyjdList = baseInfoService.select(baseMap);
 		List<BaseInfo> baseList = new ArrayList<BaseInfo>();
 		baseList.addAll(scjdList);
@@ -170,17 +171,14 @@ public class SamplingController {
 		purchaseInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
 		purchaseInfo.setStatus("1");
 		purchaseInfo.setType("1");
-		List<Map<String,Object>> purchaseInfoList = purchaseInfoService.select(purchaseInfo);
+		List<Map<String,Object>> purchaseInfoList = purchaseInfoService.selectQh(purchaseInfo);
 		model.addAttribute("purchaseInfoList", purchaseInfoList);
 		model.addAttribute("test_bh", "qhqy"+DateUtils.getCurrentDate("yyMMddHHmmss"));
 		Map<String, Object> baseMap = new HashMap<String, Object>();
-		baseMap.put("type", "A");
+		baseMap.put("type", "A"); //补货市场
 		List<BaseInfo> scjdList = baseInfoService.select(baseMap);
-		/*baseMap.put("type", "5");
-		List<BaseInfo> gyjdList = baseInfoService.select(baseMap);*/
 		List<BaseInfo> baseList = new ArrayList<BaseInfo>();
 		baseList.addAll(scjdList);
-		//baseList.addAll(gyjdList);
 		model.addAttribute("baseList", baseList);
 		return page;
 	}

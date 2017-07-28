@@ -14,11 +14,15 @@
     <script type="text/javascript" src="${path}/js/commonUtil.js"></script>
     <script type="text/javascript" src="${path}/js/jquery.min.js"></script>
     <style type="text/css">
-    	html{height: 100%;}
-    	body{height: 100%;}
-    	.layui-tab{height: 100%};
-    	.layui-tab-content{height: 475px;}
-    </style>
+	html {height: 100%;}
+	body {height: 100%;}
+	.layui-tab {height: 100%};
+	.layui-tab-content {height: 475px;}
+	.word_break {
+		word-break: break-all; /*支持IE，chrome，FF不支持*/
+		word-wrap: break-word; /*支持IE，chrome，FF*/
+	}
+</style>
   </head>
  <body>
 <div class="layui-tab layui-tab-brief main-tab-container" style="margin-top: 20px;">
@@ -78,7 +82,7 @@
           			<td align="center">${item.kind}</td>
           			<td align="center">${item.grade}</td>
           			<td align="center">${item.spyb}</td>
-          			<td align="left" style="word-wrap: break-word;white-space:normal;">${item.content}</td>
+          			<td align="left" class="word_break">${item.content}</td>
           			<td style="text-align: center;">
 				         <a class="layui-btn layui-btn-small layui-btn-danger "
 							onclick="modify('${item.id}');" title="修改"> 修改

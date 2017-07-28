@@ -15,10 +15,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.trace.util.Log4JUtils;
 import com.wechat.entity.NewsMsgEntity;
 import com.wechat.entity.TextMessageEntity;
 
@@ -30,7 +30,7 @@ import com.wechat.entity.TextMessageEntity;
  * @date 
  */
 public class SendMessage {
-	private static Logger log = Logger.getLogger(SendMessage.class);  
+	//private static Logger log = Logger.getLogger(SendMessage.class);  
 	/**
 	 * 
 	 * <p>MethodName: gettoken </p>
@@ -49,7 +49,7 @@ public class SendMessage {
 		String url = WeChatUrl.getTokenUrl(id, secrect);
 		HttpPost httpPost = new HttpPost(url);
 		JSONObject jsonParam = new JSONObject();  
-        StringEntity entity = new StringEntity(jsonParam.toString(),"utf-8");//���������������    
+        StringEntity entity = new StringEntity(jsonParam.toString(),"utf-8");
         entity.setContentEncoding("UTF-8");    
         entity.setContentType("application/json");
 		httpPost.setEntity(entity);
@@ -57,17 +57,17 @@ public class SendMessage {
 		String resData = EntityUtils.toString(result.getEntity());  
         JSONObject resJson = JSON.parseObject(resData);  
         String code = resJson.get("access_token").toString(); 
-        log.info("access_token:"+code);
+        Log4JUtils.getLogger().info("access_token:"+code);
 		return code;
 	}
 	
 	/**
 	 * 
 	 * <p>MethodName: resultOfSyncRequest</p>
-	 * <p>Description: �첽������</p>
+	 * <p>Description:</p>
 	 * @version V1.0
-	 * @author ������
-	 * @date 2016��5��15�� ����5:50:06
+	 * @author 
+	 * @date 
 	 * @param jsonObject
 	 * @param url
 	 * @return
@@ -77,7 +77,7 @@ public class SendMessage {
 	{
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpPost httpPost = new HttpPost(url);
-		StringEntity entity = new StringEntity(jsonObject.toString(),"utf-8");//���������������    
+		StringEntity entity = new StringEntity(jsonObject.toString(),"utf-8");
 		entity.setContentEncoding("UTF-8");    
 		entity.setContentType("application/json");
 		httpPost.setEntity(entity);
@@ -90,10 +90,10 @@ public class SendMessage {
 	/**
 	 * 
 	 * <p>MethodName: sendTextMessage</p>
-	 * <p>Description: �����ı���Ϣ</p>
+	 * <p>Description: </p>
 	 * @version V1.0
-	 * @author ������
-	 * @date 2016��5��15�� ����5:51:02
+	 * @author 
+	 * @date
 	 * @param textMessageEntity
 	 * @return JSONObject
 	 * @throws IOException
@@ -125,10 +125,10 @@ public class SendMessage {
 	/**
 	 * 
 	 * <p>MethodName: sendNewsMessage</p>
-	 * <p>Description: ����ͼ����Ϣ</p>
+	 * <p>Description: </p>
 	 * @version V1.0
-	 * @author ������
-	 * @date 2016��5��15�� ����5:51:25
+	 * @author 
+	 * @date 
 	 * @param newsMsgEntity
 	 * @return
 	 * @throws IOException
@@ -160,10 +160,10 @@ public class SendMessage {
 	/**
 	 * 
 	 * <p>MethodName:getOauthCode </p>
-	 * <p>Description:��ȡOauthCode </p>
+	 * <p>Description </p>
 	 * @version V1.0
-	 * @author ������
-	 * @date 2016��5��15�� ����7:03:10
+	 * @author 
+	 * @date 
 	 * @param redirectURL
 	 * @param state
 	 * @return rs
@@ -177,6 +177,26 @@ public class SendMessage {
 	}
 	
 	public static void main(String[] args) {
+		demoText();
+	}
+	
+	public static void demoText(){
+		List<String> userList = new ArrayList<String>();
+		userList.add("erp-0000");
+		TextMessageEntity textMessageEntity = new TextMessageEntity();
+		textMessageEntity.setTouser(userList);
+		Map<String, String> text = new HashMap<String, String>();
+		text.put("content", "hello");
+		textMessageEntity.setText(text);
+		try {
+			JSONObject jsonObject = SendMessage.sendTextMessage(textMessageEntity);
+			Log4JUtils.getLogger().error(jsonObject.get("errcode"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void demoNews(){
 		List<String> userList = new ArrayList<String>();
 		userList.add("erp-0000");
 		NewsMsgEntity newsMsgEntity = new NewsMsgEntity();
@@ -184,8 +204,8 @@ public class SendMessage {
 		Map<String,String> map = new HashMap<String, String>();
 		map.put("title", "");
 		map.put("description", "");
-		map.put("url", GetProperties.getParam("domain")+"/work/workReport.do");
-		map.put("picurl", GetProperties.getParam("domain")+"/img/wechat/bgsh.jpg");
+		map.put("url", GetProperties.getParam("domain")+"/baseInfo/login.do");
+		map.put("picurl", GetProperties.getParam("domain")+"/images/s_sq_01.png");
 		List<Map<String, String>> list = new ArrayList<Map<String,String>>();
 		list.add(map);
 		Map<String, List<Map<String, String>>> news = new HashMap<String, List<Map<String,String>>>() ;
@@ -193,9 +213,8 @@ public class SendMessage {
 		newsMsgEntity.setNews(news);
 		try {
 			JSONObject jsonObject = SendMessage.sendNewsMessage(newsMsgEntity);
-			log.info(jsonObject.get("errcode"));
+			 Log4JUtils.getLogger().info(jsonObject.get("errcode"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

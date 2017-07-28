@@ -11,13 +11,13 @@
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="distribution_qrcode" property="distribution_qrcode" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="signname" property="signname" jdbcType="VARCHAR" />
+    <result column="psbh" property="psbh" jdbcType="VARCHAR" />
     <result column="trace_id" property="trace_id" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, distribution_id, distribution_num, price, distribution_car, distribution_user, 
-    phone, distribution_qrcode, status, signname,trace_id
+    phone, distribution_qrcode, status, psbh,trace_id,createtime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -25,7 +25,7 @@
     from distribution_detail
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <select id="select" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  <select id="select" resultType="java.util.Map" parameterType="java.util.Map" >
     select 
     <include refid="Base_Column_List" />
     from distribution_detail
@@ -38,6 +38,50 @@
     </if>
     <if test="trace_id != null and trace_id != ''">
     	and trace_id = #{trace_id}
+    </if>
+    <if test="distribution_id != null and distribution_id != ''">
+    	and distribution_id = #{distribution_id}
+    </if>
+  </select>
+  <select id="query" resultType="java.util.Map" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from distribution_detail
+    where 1=1
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+    <if test="createtime != null and createtime != ''">
+    	and createtime like '%${createtime}%'
+    </if>
+    <if test="trace_id != null and trace_id != ''">
+    	and trace_id = #{trace_id}
+    </if>
+    <if test="distribution_id != null and distribution_id != ''">
+    	and distribution_id = #{distribution_id}
+    </if>
+    <if test="psbh != null and psbh != ''">
+    	and psbh = #{psbh}
+    </if>
+    order by createtime desc
+    limit ${index},8
+  </select>
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select 
+    count(1) as num
+    from distribution_detail
+    where 1=1
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+    <if test="createtime != null and createtime != ''">
+    	and createtime like '%${createtime}%'
+    </if>
+    <if test="trace_id != null and trace_id != ''">
+    	and trace_id = #{trace_id}
+    </if>
+    <if test="psbh != null and psbh != ''">
+    	and psbh = #{psbh}
     </if>
     <if test="distribution_id != null and distribution_id != ''">
     	and distribution_id = #{distribution_id}
@@ -77,8 +121,8 @@
       <if test="status != null" >
         status,
       </if>
-      <if test="signname != null" >
-        signname,
+      <if test="psbh != null" >
+        psbh,
       </if>
       <if test="createtime != null" >
         createtime,
@@ -115,6 +159,9 @@
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
+      <if test="psbh != null" >
+        #{psbh,jdbcType=VARCHAR},
+      </if>
       <if test="createtime != null" >
         #{createtime,jdbcType=VARCHAR},
       </if>
@@ -150,8 +197,8 @@
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="signname != null" >
-        signname = #{signname,jdbcType=VARCHAR},
+      <if test="psbh != null" >
+        psbh = #{psbh,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null and createtime !=''" >
         createtime = #{createtime,jdbcType=VARCHAR},

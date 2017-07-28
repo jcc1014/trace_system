@@ -235,4 +235,14 @@ public class PurchaseController {
 		model.addAttribute("list", list);
 		return page;
 	}
+	
+	@RequestMapping("watchPurchaseDetailById")
+	public String watchPurchaseDetailById(HttpServletRequest request,Model model,String id){
+		String page = "orderModule/purchase/purchaseDetail";
+		Purchase purchase = new Purchase();
+		purchase.setPurchase_parentid(id);
+		List<Map<String,Object>> list = purchaseService.selectPurchase(purchase);
+		model.addAttribute("list", list);
+		return page;
+	}
 }

@@ -19,7 +19,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     distribution_id, require_id, require_name, require_num, kind, yps, wps,
-    distribution_address,base_id,price,sum_price,createtime,grade,signname
+    distribution_address,base_id,price,round(sum_price,2)as sum_price,createtime,grade,signname
   </sql>
   <select id="select" resultType="java.util.Map" parameterType="java.util.Map" >
     select 
@@ -38,6 +38,9 @@
     <if test="require_name != null and require_name != ''">
     	and require_name like '%${require_name}%'
     </if>
+    <if test="base_id != null and base_id != ''">
+    	and base_id = #{base_id}
+    </if>
   </select>
   <select id="query" resultType="java.util.Map" parameterType="java.util.Map" >
     select 
@@ -55,6 +58,9 @@
     </if>
     <if test="require_name != null and require_name != ''">
     	and require_name like '%${require_name}%'
+    </if>
+    <if test="base_id != null and base_id != ''">
+    	and base_id = #{base_id}
     </if>
     limit ${index},8
     order by createtime desc
@@ -75,6 +81,9 @@
     </if>
     <if test="require_name != null and require_name != ''">
     	and require_name like '%${require_name}%'
+    </if>
+    <if test="base_id != null and base_id != ''">
+    	and base_id = #{base_id}
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -258,10 +267,10 @@
   </update>
   
   <select id="getDeliverData" parameterType="java.util.Map" resultType="java.util.Map">
-  	SELECT distribution_id,createtime,require_name,signname,base_id from distribution_info 
+  	SELECT createtime,require_name,signname,base_id from distribution_info 
   	WHERE createtime LIKE '%${datetime}%'
   	<if test="baseid != null and baseid != ''">
-  		and baseid = #{baseid}
+  		and base_id = #{baseid}
   	</if>
   	and require_num = yps
   	 GROUP BY require_name

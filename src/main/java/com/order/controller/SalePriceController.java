@@ -48,19 +48,22 @@ public class SalePriceController {
 		salePrice.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
 		List<SalePrice> salePriceList = salePriceService.select(salePrice);
 		PurchaseInfo purchaseInfo = new PurchaseInfo();
-		purchaseInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		purchaseInfo.setCreatetime(DateUtils.getNDayBeforeCurrentDate(1, "yyyy-MM-dd"));
 		purchaseInfo.setType("1");
 		purchaseInfo.setStatus("1");
-		List<Map<String, Object>> purchaseList = purchaseInfoService.select(purchaseInfo);
+		List<Map<String, Object>> purchaseList = purchaseInfoService.selectQh(purchaseInfo);
 		RequireInfo require = new RequireInfo();
-		require.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		require.setCreatetime(DateUtils.getNDayBeforeCurrentDate(1, "yyyy-MM-dd"));
 		require.setStatus("1");
 		List<Map<String, Object>> requireList = requireInfoService.select(require);
-		if(0==salePriceList.size() && 0<purchaseList.size()){
+		if(0==salePriceList.size() && 0<purchaseList.size() && 0<requireList.size()){
 			//生成价格表
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("datetime", DateUtils.getCurrentDate("yyyy-MM-dd"));
-			map.put("datetime2", DateUtils.getCurrentDate("yyyy-MM-dd"));
+//			map.put("datetime", DateUtils.getCurrentDate("yyyy-MM-dd"));
+//			map.put("datetime2", DateUtils.getCurrentDate("yyyy-MM-dd"));
+			map.put("datetime", DateUtils.getNDayBeforeCurrentDate(1, "yyyy-MM-dd"));
+			map.put("datetime2", DateUtils.getCurrentDate());
+			map.put("nowtime", DateUtils.getCurrentDate("yyyy-MM-dd"));
 			salePriceService.insertByRequireAndPurchase(map);
 			salePriceList = salePriceService.select(salePrice);
 			model.addAttribute("msg", "");

@@ -22,6 +22,7 @@ import com.trace.po.Test;
  */
 public interface TestDao {
 	List<Test> selectAllTest(Test test);
+	List<Test> selectQhTest(Test test);
 	List<Test> query(Map<String,Object> map);
 	int count(Map<String,Object> map);
 	List<Test> selectByName(@Param("test_name")String test_name);

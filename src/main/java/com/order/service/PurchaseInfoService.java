@@ -8,6 +8,8 @@ import com.order.po.PurchaseInfo;
 public interface PurchaseInfoService {
 
 	int deleteByPrimaryKey(String purchase_id);
+	
+	int deleteByParentId(String parentid);
 
 	int insertSelective(PurchaseInfo record);
 
@@ -22,6 +24,8 @@ public interface PurchaseInfoService {
 	int count(Map<String, Object> map);
 
 	List<Map<String, Object>> select(PurchaseInfo record);
+	
+	List<Map<String, Object>> selectQh(PurchaseInfo record);
 	
 	List<Map<String,Object>> getCgAndXq(Map<String,Object> map);
 }

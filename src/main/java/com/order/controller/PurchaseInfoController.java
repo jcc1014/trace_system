@@ -171,6 +171,15 @@ public class PurchaseInfoController {
 	@ResponseBody
 	public String getCgAndXq(HttpServletRequest request,Model model){
 		String rs = "";
+		TotalInfo t = new TotalInfo();
+		t.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		t.setType("qhd");
+		List<Map<String, Object>> tList = totalInfoService.select(t);
+		if(1==tList.size()){
+			String tid = (String)tList.get(0).get("id");
+			purchaseInfoService.deleteByParentId(tid);
+			totalInfoService.deleteByPrimaryKey(tid);
+		}
 		User user = (User)request.getSession().getAttribute("user");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("date1", DateUtils.getCurrentDate("yyyy-MM-dd"));
@@ -198,7 +207,7 @@ public class PurchaseInfoController {
 		if(0<list.size()){
 			for (int i = 0; i < list.size(); i++) {
 				rmap = list.get(i);
-				if(null==rmap.get("purchase_id")||"".equals(rmap.get("purchase_id"))){
+				if(null==rmap.get("createtime")||"".equals(rmap.get("createtime"))){
 					//缺货
 					purchaseInfo = new PurchaseInfo();
 					purchaseInfo.setPurchase_id(UUIDFactory.getInstance().newUUID());
@@ -214,8 +223,8 @@ public class PurchaseInfoController {
 					purchaseInfoService.insertSelective(purchaseInfo);
 					qhd_f = true;
 				}
-				if(null!=rmap.get("purchase_id")&&!"".equals(rmap.get("purchase_id"))
-						&&(null!=rmap.get("id")&&!"".equals(rmap.get("id")))){
+				else if(null!=rmap.get("createtime")&&!"".equals(rmap.get("createtime"))
+						&&(null!=rmap.get("createtime1")&&!"".equals(rmap.get("createtime1")))){
 					//有货
 					//比较数量
 					if((double)rmap.get("num")>(double)rmap.get("number")){
@@ -249,7 +258,7 @@ public class PurchaseInfoController {
 						
 						
 					}
-				}else if(null==rmap.get("id")||"".equals(rmap.get("id"))){
+				}else if(null==rmap.get("createtime1")||"".equals(rmap.get("createtime1"))){
 					//多余
 					remainPurchase = new RemainPurchase();
 					remainPurchase.setCreatetime(DateUtils.getCurrentDate());
@@ -276,13 +285,52 @@ public class PurchaseInfoController {
 		return rs;
 	}
 	
+	@RequestMapping("allQhd")
+	public String allQhd(HttpServletRequest request,Model model,String size){
+		String page = "orderModule/purchase/allQhd";
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("type", "qhd");
+		map.put("index", 0);
+		if(null!=size&&!"".equals(size)){
+			map.put("size", Double.parseDouble(size));
+		}else{
+			map.put("size", 10);
+		}
+		List<Map<String, Object>> totalInfoList = totalInfoService.query(map);
+		if(0<totalInfoList.size()
+				&&totalInfoList.get(0).get("createtime").equals(DateUtils.getCurrentDate("yyyy-MM-dd"))){
+			model.addAttribute("today", "1");
+		}else{
+			model.addAttribute("today", "0");
+		}
+		model.addAttribute("list", totalInfoList);
+		return page;
+	}
+	
+	@RequestMapping("getQhInfo")
+	public String getQhInfo(HttpServletRequest request,Model model,String id){
+		String page = "orderModule/purchase/todayQhInfo";
+		PurchaseInfo purchaseInfo = new PurchaseInfo();
+		TotalInfo totalInfo = totalInfoService.selectByPrimaryKey(id);
+		if(null!=totalInfo){
+			model.addAttribute("totalInfo", totalInfo);
+			purchaseInfo.setParentid((String)totalInfo.getId());
+			List<Map<String, Object>> list = purchaseInfoService.select(purchaseInfo);
+			model.addAttribute("purchaseInfos", list);
+			model.addAttribute("qhd", "1");
+		}else{
+			model.addAttribute("qhd", "0");
+		}
+		return page;
+	}
+	
 	@RequestMapping("getQhd")
 	public String getQhd(HttpServletRequest request,Model model){
-		String page = "orderModule/purchase/todayQhInfo";
+		String page = "orderModule/purchase/cgy_todayQhInfo";
 		PurchaseInfo purchaseInfo = new PurchaseInfo();
 		TotalInfo totalInfo2 = new TotalInfo();
 		totalInfo2.setType("qhd");
-		totalInfo2.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		totalInfo2.setCreatetime(DateUtils.getNDayBeforeCurrentDate(1, "yyyy-MM-dd"));
 		List<Map<String, Object>> totalInfoList = totalInfoService.select(totalInfo2);
 		if(0<totalInfoList.size()){
 			model.addAttribute("totalInfo", totalInfoList.get(0));

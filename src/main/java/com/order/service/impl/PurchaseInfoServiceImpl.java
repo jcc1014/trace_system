@@ -56,6 +56,10 @@ public class PurchaseInfoServiceImpl implements PurchaseInfoService {
 		return purchaseInfoMapper.select(record);
 	}
 
+	@Override
+	public List<Map<String, Object>> selectQh(PurchaseInfo record) {
+		return purchaseInfoMapper.selectQh(record);
+	}
 
 	@Override
 	public int updateByParnetid(PurchaseInfo record) {
@@ -66,6 +70,12 @@ public class PurchaseInfoServiceImpl implements PurchaseInfoService {
 	@Override
 	public List<Map<String, Object>> getCgAndXq(Map<String, Object> map) {
 		return purchaseInfoMapper.getCgAndXq(map);
+	}
+
+
+	@Override
+	public int deleteByParentId(String parentid) {
+		return purchaseInfoMapper.deleteByParentId(parentid);
 	}
 
 }

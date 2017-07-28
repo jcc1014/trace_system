@@ -252,10 +252,10 @@
   
   <insert id="insertByRequireAndPurchase" parameterType="java.util.Map">
   	insert into sale_price (id,kind,grade,price,createtime,status)
-  	SELECT REPLACE(UUID(),'-',''),r.kind,r.grade,p.price,SYSDATE(),'0'
+  	SELECT REPLACE(UUID(),'-',''),r.kind,r.grade,p.price,#{nowtime},'0'
 	FROM (SELECT kind,grade from require_info WHERE status='1' and createtime LIKE '%${datetime}%'
 	GROUP BY kind,grade)as r LEFT JOIN
-	(SELECT  purchase_kind,purchase_grade,purchase_time,SUM(purchase_price)/count(1) as price from purchase WHERE purchase_time LIKE '%${datetime2}%'
+	(SELECT  purchase_kind,purchase_grade,purchase_time,SUM(purchase_price)/count(1) as price from purchase WHERE purchase_time &gt; date_sub(#{datetime2}, interval 24 hour)
 	GROUP BY purchase_kind,purchase_grade)as p 
 	on p.purchase_kind = r.kind and p.purchase_grade = r.grade
   </insert>

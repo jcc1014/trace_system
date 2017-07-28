@@ -23,6 +23,11 @@ public class TestServiceImpl implements TestService {
 	public List<Test> selectAlltest(Test test) {
 		return testDao.selectAllTest(test);
 	}
+	
+	@Override
+	public List<Test> selectQhTest(Test test) {
+		return testDao.selectAllTest(test);
+	}
 
 	@Override
 	public List<Test> selectByName(String test_name) {

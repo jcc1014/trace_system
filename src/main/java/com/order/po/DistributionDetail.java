@@ -19,7 +19,7 @@ public class DistributionDetail {
 
     private String status; //状态
 
-    private String signname; //签名地址
+    private String psbh; //配送号
     
     private String trace_id;
     
@@ -97,12 +97,12 @@ public class DistributionDetail {
         this.status = status == null ? null : status.trim();
     }
 
-    public String getSignname() {
-        return signname;
+    public String getPsbh() {
+        return psbh;
     }
 
-    public void setSignname(String signname) {
-        this.signname = signname == null ? null : signname.trim();
+    public void setPsbh(String psbh) {
+        this.psbh = psbh == null ? null : psbh.trim();
     }
 
 	public String getTrace_id() {

@@ -5,7 +5,6 @@ package com.wechat.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,17 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSONObject;
-import com.mall.po.Role;
 import com.wechat.util.SendMessage;
 import com.wechat.util.WeChatUrl;
 
-/**
- * <p>Title: </p>
- * <p>Description: </p>
- * @version V1.0
- * @author ������
- * @date 2016��5��15�� ����10:22:41
- */
 @Controller
 @RequestMapping("wechat")
 public class WeChatController {
@@ -41,7 +32,6 @@ public class WeChatController {
 		try {
 			redirectUrl = java.net.URLEncoder.encode(redirectUrl,"GBK");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxeaaae42c6ba76150"

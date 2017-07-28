@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>采购主管</title>
+<title>采购员</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -56,7 +56,7 @@
 						<c:if test="${sessionScope.user.usertype ne '1' && item.remain_number != 0 }">
 							暂无
 						</c:if> 
-						<c:if test="${sessionScope.user.usertype ne '1' && item.remain_number == 0 }">
+						<c:if test="${item.remain_number == 0 }">
 							<a href="javascript:;" onclick="detail('${item.purchase_id}');">查看</a>
 						</c:if> 
 					</td>
@@ -77,7 +77,7 @@ function detail(id){
 	window.location.href = '${path}/purchase/watchPurchaseDetailById.do?id='+id;
 }
 function back(){
-	window.location.href = '${path}/purchaseInfo/allQhd.do';
+	window.location.href = '${path}/baseInfo/index.do';
 }
 function purchase(id){
 	window.location.href = '${path}/purchase/addQhPurchase.do?purchase_id='+id;

@@ -39,6 +39,7 @@
     <if test="type != null and type != ''">
     	and type = #{type}
     </if>
+    order by status desc,createtime desc
   </select>
   <select id="query" resultType="java.util.Map" parameterType="java.util.Map" >
     select 

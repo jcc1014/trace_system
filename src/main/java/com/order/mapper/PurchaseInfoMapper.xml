@@ -51,6 +51,36 @@
     	and spyb = #{spyb}
     </if>
   </select>
+  <select id="selectQh" resultType="java.util.Map" parameterType="com.order.po.PurchaseInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from purchase_info
+    where 1=1
+    <if test="createtime != null and createtime != ''">
+    	and createtime &gt; date_sub(now(), interval 15 hour)
+    </if>
+    <if test="createuser != null and createuser != ''">
+    	and createuser = #{createuser}
+    </if>
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+    <if test="parentid != null and parentid != ''">
+    	and parentid = #{parentid}
+    </if>
+    <if test="grade != null and grade != ''">
+    	and grade = #{grade}
+    </if>
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+    <if test="type != null and type != ''">
+    	and type = #{type}
+    </if>
+    <if test="spyb != null and spyb != ''">
+    	and spyb = #{spyb}
+    </if>
+  </select>
   
   <select id="query" resultType="java.util.Map" parameterType="java.util.Map" >
     select 
@@ -81,7 +111,7 @@
     <if test="spyb != null and spyb != ''">
     	and spyb = #{type}
     </if>
-    limit ${index},8
+    limit ${index},${size}
     order by createtime desc
   </select>
   <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map" >
@@ -125,6 +155,10 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from purchase_info
     where purchase_id = #{purchase_id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByParentId" parameterType="java.lang.String" >
+    delete from purchase_info
+    where parentid = #{parentid,jdbcType=VARCHAR}
   </delete>
   <insert id="insertSelective" parameterType="com.order.po.PurchaseInfo" >
     insert into purchase_info
@@ -294,24 +328,24 @@
   </update>
   
   <select id="getCgAndXq" resultType="java.util.Map" parameterType="java.util.Map">
-	 SELECT purchase_id,kind,number,remain_number,grade,createtime,createuser,status,parentid,type,price,supply_number,
-	id,kind1,num,grade1,createtime1,parentid1,status1
- from 
-	(SELECT purchase_id,kind,number,remain_number,grade,createtime,createuser,status,parentid,type,price,supply_number
-	from purchase_info 
-	WHERE createtime like '%${date1}%' and status ='1' and type='0')as cg  LEFT JOIN
-	(SELECT id,kind as kind1,num,grade as grade1,createtime as createtime1,parentid as parentid1,status as status1
-	from require_info WHERE  createtime like '%${date2}%') as xq
-	on cg.kind = xq.kind1 and cg.grade = xq.grade1
-	UNION
-	SELECT purchase_id,kind,number,remain_number,grade,createtime,createuser,status,parentid,type,price,supply_number,
-	id,kind1,num,grade1,createtime1,parentid1,status1
- from 
-	(SELECT purchase_id,kind,number,remain_number,grade,createtime,createuser,status,parentid,type,price,supply_number
-	from purchase_info 
-	WHERE createtime like '%${date1}%' and status ='1' and type='0')as cg  RIGHT  JOIN
-	(SELECT id,kind as kind1,num,grade as grade1,createtime as createtime1,parentid as parentid1,status as status1
-	from require_info WHERE  createtime like '%${date2}%') as xq
-	on cg.kind = xq.kind1 and cg.grade = xq.grade1
+		SELECT kind,number,grade,createtime,
+	kind1,num,grade1,createtime1
+	 from 
+		(SELECT kind,sum(number) as number,grade,createtime
+		from purchase_info 
+		WHERE createtime like '%${date1}%' and status ='1' and type='0' GROUP BY kind,grade)as cg  LEFT JOIN
+		(SELECT kind as kind1,sum(num)as num,grade as grade1,createtime as createtime1
+		from require_info WHERE  createtime like '%${date2}%' GROUP BY kind,grade) as xq
+		on cg.kind = xq.kind1 and cg.grade = xq.grade1
+		UNION
+		SELECT kind,number,grade,createtime,
+	kind1,num,grade1,createtime1
+	 from 
+		(SELECT kind,sum(number) as number,grade,createtime
+		from purchase_info 
+		WHERE createtime like '%${date1}%' and status ='1' and type='0' GROUP BY kind,grade)as cg  RIGHT JOIN
+		(SELECT kind as kind1,sum(num)as num,grade as grade1,createtime as createtime1
+		from require_info WHERE  createtime like '%${date2}%' GROUP BY kind,grade) as xq
+		on cg.kind = xq.kind1 and cg.grade = xq.grade1
   </select>
 </mapper>

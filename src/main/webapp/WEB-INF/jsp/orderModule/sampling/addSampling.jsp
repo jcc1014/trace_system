@@ -30,12 +30,16 @@
 		<form action="${path}/sampling/addSamplingSave.do" method="post" id="form">
 			<div class="form-group">
 				<label for="test_kind">种类和品级</label> <select class="form-control"
-					id="test_kind" name="test_kind">
+					id="test_kind" name="test_kind" onchange="getNum();">
 					<option value="">请选择</option>
 					<c:forEach items="${purchaseInfoList}" var="item">
-						<option value="${item.kind};${item.grade}">${item.kind}${item.grade}级</option>
+						<option data-num="${item.number }" value="${item.kind};${item.grade}">${item.kind}${item.grade}级</option>
 					</c:forEach>
 				</select>
+			</div>
+			<div class="form-group">
+				<label>购买量</label> <input type="text"
+					class="form-control" id="num" readonly="readonly">
 			</div>
 			<%-- <div class="form-group">
 				<label for="test_kind">基地类型</label> <select class="form-control"
@@ -218,6 +222,13 @@ function save(){
 		return;
 	}
 	$("#form").submit();
+}
+
+function getNum(){
+	var opt = $("#test_kind>option:selected");
+	if(""!=opt.val()){
+		$("#num").val(opt.data("num"));
+	}
 }
 
 function close(){

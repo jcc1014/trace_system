@@ -33,7 +33,7 @@
     	and creater = #{creater}
     </if>
     <if test="createtime != null and createtime != ''">
-    	and createtime like '%${creater}%'
+    	and createtime like '%${createtime}%'
     </if>
     <if test="parentid != null and parentid != ''">
     	and parentid = #{parentid}

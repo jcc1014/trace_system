@@ -20,6 +20,7 @@ import com.trace.po.Test;
  */
 public interface TestService {
 	List<Test> selectAlltest(Test test);
+	List<Test> selectQhTest(Test test);
 	List<Test> selectByName(String test_name);
 	int add(Test test);
 	int update(Test test);

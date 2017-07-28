@@ -43,7 +43,7 @@
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th>编码</th>
+						<th>编号</th>
 						<th>数量</th>
 						<th>配送人</th>
 						<th>车辆</th>
@@ -57,7 +57,7 @@
 					</c:if>
 					<c:forEach var="item" items="${list}" varStatus="index">
 						<tr>
-							<td><%-- ${item.id } --%>${index.index+1 }</td>
+							<td>${item.psbh }</td>
 							<td>${item.distribution_num }</td>
 							<td>${item.distribution_user }</td>
 							<td>${item.distribution_car }</td>
@@ -81,7 +81,8 @@
 	</div>
 <script type="text/javascript">
 function back(){
-	window.location.href = '${path}/distribution/today_shDetail.do';
+	//window.location.href = '${path}/distribution/today_shDetail.do';
+	window.history.go(-1);
 }
 
 function closeModal(){

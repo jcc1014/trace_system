@@ -94,6 +94,53 @@
         and ycdzm = #{ycdzm}
       </if>
   </select>
+  <select id="selectQhTest" resultMap="BaseResultMap" parameterType="com.trace.po.Test" >
+    select 
+    <include refid="Base_Column_List" />
+    from test where 1=1
+    <if test="test_name != null and test_name != ''" >
+        and test_name = #{test_name}
+      </if>
+      <if test="test_time != null and test_time != ''" >
+        and test_time &gt; date_sub(now(), interval 15 hour)
+      </if>
+      <if test="test_bh != null and test_bh != ''" >
+        and  test_bh = #{test_bh}
+      </if>
+      <if test="test_kind != null and test_kind != ''" >
+        and test_kind = #{test_kind}
+      </if>
+      <if test="test_grade != null and test_grade != ''" >
+        and test_grade = #{test_grade}
+      </if>
+      <if test="test_status != null and test_status != ''" >
+        and test_status = #{test_status}
+      </if>
+      <if test="test_num != null and test_num != 0" >
+        and test_num = #{test_num}
+      </if>
+      <if test="test_machine != null and test_machine != ''" >
+        and test_machine = #{test_machine}
+      </if>
+      <if test="test_result != null and test_result != ''" >
+        and test_result = #{test_result}
+      </if>
+      <if test="test_type != null and test_type != ''" >
+        and test_type = #{test_type}
+      </if>
+      <if test="test_video != null and test_video != ''" >
+        and test_video = #{test_video}
+      </if>
+      <if test="test_user != null and test_user != ''" >
+        and test_user = #{test_user}
+      </if>
+      <if test="isQh != null and isQh != ''" >
+        and isQh = #{isQh}
+      </if>
+      <if test="ycdzm != null and ycdzm != ''" >
+        and ycdzm = #{ycdzm}
+      </if>
+  </select>
   <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map" >
     select 
     <include refid="Base_Column_List" />

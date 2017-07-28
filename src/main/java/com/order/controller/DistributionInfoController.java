@@ -71,7 +71,8 @@ public class DistributionInfoController {
 		}else{
 			//生成配送单
 			RequireInfo requireInfo = new RequireInfo();
-			requireInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+			//requireInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+			requireInfo.setCreatetime(DateUtils.getNDayBeforeCurrentDate(1, "yyyy-MM-dd"));
 			requireInfo.setStatus("1");
 			List<Map<String,Object>> requireList = requireInfoService.select(requireInfo);
 			Map<String,Object> map = null;
@@ -138,6 +139,7 @@ public class DistributionInfoController {
 		distributionDetail.setId(UUIDFactory.getInstance().newUUID());
 		distributionDetail.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
 		distributionDetail.setStatus("1");
+		distributionDetail.setPsbh("ps"+DateUtils.getCurrentDate("yyMMddHHmmss"));
 		Qrcode qrcode = new Qrcode();
 		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
 		String path  = request.getSession().getServletContext().getRealPath("/")+"distribution\\";
@@ -178,7 +180,7 @@ public class DistributionInfoController {
 			if (0<detailList.size()) {
 				double sum = 0.0;
 				for (int i = 0; i < detailList.size(); i++) {
-					sum += (double)detailList.get(i).get("distribution_num");
+					sum += (double)(detailList.get(i).get("distribution_num"));
 				}
 				map.put("sum", sum);
 				request.getSession().setAttribute("remain", purchase.getPurchase_num()-sum);
@@ -201,7 +203,7 @@ public class DistributionInfoController {
 		if(null!=user&&"B".equals(user.getUsertype())){
 			BaseInfo baseInfo = (BaseInfo)request.getSession().getAttribute("baseInfo");
 			if(null!=baseInfo){
-				map.put("base_id", baseInfo.getId());
+				map.put("baseid", baseInfo.getId());
 			}
 		}
 		List<Map<String,Object>> list = distributionInfoService.getDeliverData(map);
@@ -268,6 +270,33 @@ public class DistributionInfoController {
 		model.addAttribute("list", list);
 		return page;
 	}
+ 	
+ 	@RequestMapping("psList")
+ 	public String psList(HttpServletRequest request,Model model,
+ 			DistributionDetail distributionDetail,String page){
+ 		String p = "orderModule/distribution/list";
+ 		if("".equals(page)||null==page){
+			page = "1";
+		}
+ 		Map<String, Object> map = new HashMap<String, Object>();
+ 		map.put("createtime", distributionDetail.getCreatetime());
+ 		map.put("psbh", distributionDetail.getPsbh());
+ 		map.put("trace_id", distributionDetail.getTrace_id());
+		int num = distributionDetailService.count(map);
+		if(num%8==0){
+			num = num/8;
+		}else{
+			num = num/8+1;
+		}
+		model.addAttribute("num", num);
+		model.addAttribute("curr", page);
+		map.put("index", (Integer.parseInt(page)-1)*8);
+ 		List<Map<String,Object>> list = distributionDetailService.query(map);
+ 		model.addAttribute("list", list);
+ 		return p;
+ 	}
+ 	
+ 	
 	@RequestMapping("delivery")
 	@ResponseBody
 	public String delivery(HttpServletRequest request,DistributionInfo distributionInfo){
@@ -283,6 +312,12 @@ public class DistributionInfoController {
 		}else{
 			return "";
 		}
+	}
+	@RequestMapping("print")
+	public String print(HttpServletRequest request,Model model,String id){
+		Qrcode qrcode = qrcodeService.getById(id);
+		model.addAttribute("qrcode", qrcode);
+		return "orderModule/distribution/print";
 	}
 	
 	@RequestMapping("modifyNum")

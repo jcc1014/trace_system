@@ -48,6 +48,12 @@ public class ProduceController {
 	@Autowired
 	private DictService dictService;
 	
+	/**
+	 * 新增保存
+	 * @param request
+	 * @param produceInfo
+	 * @return
+	 */
 	@RequestMapping("addSave")
 	@ResponseBody
 	public String addSave(HttpServletRequest request,ProduceInfo produceInfo){
@@ -68,6 +74,12 @@ public class ProduceController {
 		return rs;
 	}
 	
+	/**
+	 * 删除信息
+	 * @param request
+	 * @param produce_id
+	 * @return
+	 */
 	@RequestMapping("delete")
 	@ResponseBody
 	public String delete(HttpServletRequest request,String produce_id){
@@ -76,6 +88,14 @@ public class ProduceController {
 		rs = ResultUtil.resultString(r);
 		return rs;
 	}
+	
+	/**
+	 * 新增页面
+	 * @param request
+	 * @param model
+	 * @param produceInfo
+	 * @return
+	 */
 	@RequestMapping("add")
 	public String add(HttpServletRequest request,Model model,ProduceInfo produceInfo){
 		String page = "orderModule/produce/addProduceInfo";
@@ -92,6 +112,12 @@ public class ProduceController {
  		return page;
 	}
 	
+	/**
+	 * 基础信息页面
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("info")
 	public String info(HttpServletRequest request,Model model){
 		String page = "orderModule/produce/info";
@@ -99,6 +125,13 @@ public class ProduceController {
 		model.addAttribute("baseInfo", baseInfo);
 		return page;
 	}
+	
+	/**
+	 * 设置页面
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("setup")
 	public String setup(HttpServletRequest request,Model model){
 		String page = "orderModule/produce/setup";
@@ -107,6 +140,12 @@ public class ProduceController {
 		return page;
 	}
 	
+	/**
+	 * 校验密码
+	 * @param request
+	 * @param password
+	 * @return
+	 */
 	@RequestMapping("checkPassword")
 	@ResponseBody
 	public String checkPassword(HttpServletRequest request,String password){
@@ -120,6 +159,12 @@ public class ProduceController {
 		return rs;
 	}
 	
+	/**
+	 * 修改密码
+	 * @param request
+	 * @param new_password
+	 * @return
+	 */
 	@RequestMapping("modifyPassword")
 	@ResponseBody
 	public String modifyPassword(HttpServletRequest request,String new_password){
@@ -133,6 +178,12 @@ public class ProduceController {
 		return rs;
 	}
 	
+	/**
+	 * 今日供应单
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("today_produce")
 	public String today(HttpServletRequest request,Model model){
 		String page = "orderModule/produce/todayProduce";
@@ -186,6 +237,12 @@ public class ProduceController {
 		return page;
 	}
 	
+	/**
+	 * 删除供应单
+	 * @param request
+	 * @param produce_id
+	 * @return
+	 */
 	@RequestMapping("delProduce")
 	@ResponseBody
 	public String delProduce(HttpServletRequest request,String produce_id){
@@ -195,6 +252,13 @@ public class ProduceController {
 		return rs;
 		
 	}
+	
+	/**
+	 * 提交供应单
+	 * @param request
+	 * @param totalInfo
+	 * @return
+	 */
 	@RequestMapping("submitGyd")
 	@ResponseBody
 	public String submitGyd(HttpServletRequest request,TotalInfo totalInfo){
@@ -272,6 +336,12 @@ public class ProduceController {
 		
 	}
 	
+	/**
+	 * 编辑保存
+	 * @param request
+	 * @param produceInfo
+	 * @return
+	 */
 	@RequestMapping("editProduceSave")
 	@ResponseBody
 	public String editProduceSave(HttpServletRequest request,ProduceInfo produceInfo){
@@ -282,6 +352,12 @@ public class ProduceController {
 		
 	}
 	
+	/**
+	 * 编辑页面
+	 * @param request
+	 * @param produceInfo
+	 * @return
+	 */
 	@RequestMapping("editProduce")
 	@ResponseBody
 	public String editProduce(HttpServletRequest request,ProduceInfo produceInfo){
@@ -305,6 +381,12 @@ public class ProduceController {
 		
 	}
 	
+	/**
+	 * 添加保存
+	 * @param request
+	 * @param produceInfo
+	 * @return
+	 */
 	@RequestMapping("addProduceSave")
 	@ResponseBody
 	public String addProduceSave(HttpServletRequest request,ProduceInfo produceInfo){
@@ -337,6 +419,14 @@ public class ProduceController {
 		
 	}
 	
+	/**
+	 * 历史页面
+	 * @param request
+	 * @param model
+	 * @param date
+	 * @param page
+	 * @return
+	 */
 	@RequestMapping("history")
 	public String history(HttpServletRequest request,Model model,String date,String page){
 		String p = "orderModule/produce/history";
@@ -349,6 +439,15 @@ public class ProduceController {
 		model.addAttribute("totalInfoList", totalInfoList);
 		return p;
 	}
+	
+	/**
+	 * 历史富余单
+	 * @param request
+	 * @param model
+	 * @param date
+	 * @param page
+	 * @return
+	 */
 	@RequestMapping("historyFy")
 	public String historyFy(HttpServletRequest request,Model model,String date,String page){
 		String p = "orderModule/produce/history";
@@ -373,6 +472,14 @@ public class ProduceController {
 		model.addAttribute("totalInfoList", totalInfoList);
 		return p;
 	}
+	
+	/**
+	 * 历史详情
+	 * @param request
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("history_detail")
 	public String history_detail(HttpServletRequest request,Model model,String id){
 		String p = "orderModule/produce/history_detail";
@@ -385,6 +492,12 @@ public class ProduceController {
 		return p;
 	}
 	
+	/**
+	 * 今日总供应
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("todayProduceTotal")
 	public String todayProduceTotal(HttpServletRequest request,Model model){
 		String page = "orderModule/produce/todayProduceTotal";
@@ -397,6 +510,13 @@ public class ProduceController {
 		return page;
 	}
 	
+	/**
+	 * 今日总供应细节
+	 * @param request
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("todayProduceTotalDetail")
 	public String todayProduceTotalDetail(HttpServletRequest request,Model model,String id){
 		String page = "orderModule/produce/todayProduceTotalDetail";

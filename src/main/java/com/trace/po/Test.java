@@ -14,6 +14,7 @@ public class Test {
 	private double test_num;
 	private String test_kind;
 	private String test_grade;
+	private String test_spyb;
 	private String test_status;
 	private String test_user;
 	private String isQh;
@@ -124,5 +125,10 @@ public class Test {
 	public void setYcdzm(String ycdzm) {
 		this.ycdzm = ycdzm;
 	}
-	
+	public String getTest_spyb() {
+		return test_spyb;
+	}
+	public void setTest_spyb(String test_spyb) {
+		this.test_spyb = test_spyb;
+	}
 }

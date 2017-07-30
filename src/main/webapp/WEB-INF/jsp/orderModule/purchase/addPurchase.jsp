@@ -48,6 +48,10 @@
 						type="text" class="form-control" name="purchase_grade" value="${purchaseInfo.grade }" readonly="readonly">
 				</div>
 				<div class="form-group">
+					<label >三品一标</label> <input
+						type="text" class="form-control" name="purchase_spyb" value="${purchaseInfo.spyb }" readonly="readonly">
+				</div>
+				<div class="form-group">
 					<label >采购人</label> <input
 						type="text" class="form-control" name="purchase_user" value="${sessionScope.user.username }" readonly="readonly">
 				</div>

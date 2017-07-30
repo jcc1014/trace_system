@@ -196,6 +196,7 @@ public class SamplingController {
 		String test_kind = test.getTest_kind();
 		test.setTest_kind(test_kind.split(";")[0]);
 		test.setTest_grade(test_kind.split(";")[1]);
+		test.setTest_spyb(test_kind.split(";")[2]);
 		test.setTest_time(DateUtils.getCurrentDate());
 		test.setTest_id(UUIDFactory.getInstance().newUUID());
 		test.setTest_status("0");
@@ -226,6 +227,7 @@ public class SamplingController {
 		String test_kind = test.getTest_kind();
 		test.setTest_kind(test_kind.split(";")[0]);
 		test.setTest_grade(test_kind.split(";")[1]);
+		test.setTest_spyb(test_kind.split(";")[2]);
 		test.setTest_time(DateUtils.getCurrentDate());
 		test.setTest_id(UUIDFactory.getInstance().newUUID());
 		test.setTest_status("0");

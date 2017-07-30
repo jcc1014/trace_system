@@ -24,7 +24,7 @@ public interface SalePriceService {
     
     int updateByParentid(SalePrice salePrice);
     
-    SalePrice selectByKindAndGrade(String kind,String grade,String datetime);
+    SalePrice selectByKindAndGrade(String kind,String grade,String spyb,String datetime);
 
     
     int insertByRequireAndPurchase(Map<String,Object> map);

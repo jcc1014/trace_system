@@ -60,6 +60,12 @@ public class DistributionInfoController {
 	@Autowired
 	private QrcodeService qrcodeService;
 	
+	/**
+	 * 今日配送
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("todayDistribution")
 	public String todayDistribution(HttpServletRequest request,Model model){
 		String page = "orderModule/distribution/todayDistribution";
@@ -87,7 +93,7 @@ public class DistributionInfoController {
 					totalInfo = totalInfoService.selectByPrimaryKey((String)map.get("parentid"));
 					baseInfo = baseInfoService.selectByPrimaryKey(totalInfo.getSource());
 					salePrice = salePriceService.selectByKindAndGrade((String)map.get("kind"), 
-							(String)map.get("grade"), DateUtils.getCurrentDate("yyyy-MM-dd"));
+							(String)map.get("grade"),(String)map.get("spyb"), DateUtils.getCurrentDate("yyyy-MM-dd"));
 					if(null!=salePrice){
 						if("2".equals(totalInfo.getSource_type())){
 							price = salePrice.getMarket_price();
@@ -103,6 +109,7 @@ public class DistributionInfoController {
 						dInfo.setDistribution_id(UUIDFactory.getInstance().newUUID());
 						dInfo.setGrade((String)map.get("grade"));
 						dInfo.setKind((String)map.get("kind"));
+						dInfo.setSpyb((String)map.get("spyb"));
 						dInfo.setPrice(price);
 						dInfo.setRequire_id((String)map.get("id"));
 						dInfo.setRequire_num((double)map.get("num"));

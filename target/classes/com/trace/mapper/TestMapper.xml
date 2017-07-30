@@ -13,6 +13,7 @@
     <result column="test_bh" property="test_bh" jdbcType="VARCHAR" />
     <result column="test_kind" property="test_kind" jdbcType="VARCHAR" />
     <result column="test_grade" property="test_grade" jdbcType="VARCHAR" />
+    <result column="test_spyb" property="test_spyb" jdbcType="VARCHAR" />
     <result column="test_status" property="test_status" jdbcType="VARCHAR" />
     <result column="test_user" property="test_user" jdbcType="VARCHAR" />
     <result column="ycdzm" property="ycdzm" jdbcType="VARCHAR" />
@@ -21,7 +22,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     test_name,test_id,test_time, test_machine, test_result,test_influence,test_type,test_video,
-    test_bh,test_num,test_grade,test_status,test_kind,test_user,isQh,sampling_video,ycdzm
+    test_bh,test_num,test_grade,test_status,test_kind,test_user,isQh,sampling_video,ycdzm,test_spyb
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -43,6 +44,7 @@
 	and t.test_time like '%${test_time}%'
 	and t.test_grade = #{grade} 
 	and t.test_kind=#{kind}
+	and t.test_spyb=#{spyb}
 	and t.test_result=#{result}
 	and t.isQh =#{qh}
   </select>
@@ -65,6 +67,9 @@
       </if>
       <if test="test_grade != null and test_grade != ''" >
         and test_grade = #{test_grade}
+      </if>
+      <if test="test_spyb != null and test_spyb != ''" >
+        and test_spyb = #{test_spyb}
       </if>
       <if test="test_status != null and test_status != ''" >
         and test_status = #{test_status}
@@ -113,6 +118,9 @@
       <if test="test_grade != null and test_grade != ''" >
         and test_grade = #{test_grade}
       </if>
+      <if test="test_spyb != null and test_spyb != ''" >
+        and test_spyb = #{test_spyb}
+      </if>
       <if test="test_status != null and test_status != ''" >
         and test_status = #{test_status}
       </if>
@@ -160,6 +168,9 @@
       <if test="test_grade != null and test_grade != ''" >
         and test_grade = #{test_grade}
       </if>
+      <if test="test_spyb != null and test_spyb != ''" >
+        and test_spyb = #{test_spyb}
+      </if>
       <if test="test_status != null and test_status != ''" >
         and test_status = #{test_status}
       </if>
@@ -206,6 +217,9 @@
       </if>
       <if test="test_grade != null and test_grade != ''" >
         and test_grade = #{test_grade}
+      </if>
+      <if test="test_spyb != null and test_spyb != ''" >
+        and test_spyb = #{test_spyb}
       </if>
       <if test="test_status != null and test_status != ''" >
         and test_status = #{test_status}
@@ -287,6 +301,9 @@
       <if test="ycdzm != null and ycdzm != ''" >
         ycdzm,
       </if>
+      <if test="test_spyb != null and test_spyb != ''" >
+        test_spyb,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="test_id != null and test_id != ''" >
@@ -340,6 +357,9 @@
       <if test="ycdzm != null and ycdzm != ''" >
         #{ycdzm},
       </if>
+      <if test="test_spyb != null and test_spyb != ''" >
+        #{test_spyb},
+      </if>
     </trim>
   </insert>
   
@@ -362,6 +382,7 @@
 		  <if test="isQh !=null and isQh !=''">isQh=#{isQh},</if>
 		  <if test="sampling_video !=null and sampling_video !=''">sampling_video=#{sampling_video},</if>
 		  <if test="ycdzm !=null and ycdzm !=''">ycdzm=#{ycdzm},</if>
+		  <if test="test_spyb !=null and test_spyb !=''">test_spyb=#{test_spyb},</if>
 		 </trim>
 	WHERE test_id=#{test_id}
   </update>

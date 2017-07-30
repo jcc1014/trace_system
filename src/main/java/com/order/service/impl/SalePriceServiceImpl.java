@@ -70,9 +70,9 @@ public class SalePriceServiceImpl implements SalePriceService {
 	}
 
 	@Override
-	public SalePrice selectByKindAndGrade(String kind, String grade,
+	public SalePrice selectByKindAndGrade(String kind, String grade,String spyb,
 			String datetime) {
-		return salePriceMapper.selectByKindAndGrade(kind, grade, datetime);
+		return salePriceMapper.selectByKindAndGrade(kind, grade,spyb,datetime);
 	}
 
 }

@@ -37,11 +37,11 @@ body {
 		<div class="panel-body">
 			<form>
 				<div class="form-group">
-					<label >需求单位</label> <input
+					<label >销售单位</label> <input
 						type="text" class="form-control" value="${distributionInfo.require_name }" readonly="readonly">
 				</div>
 				<div class="form-group">
-					<label >需求数量</label> <input
+					<label >采购数量</label> <input
 						type="text" class="form-control" value="${distributionInfo.require_num }" readonly="readonly">
 				</div>
 				<c:if test="${null != baseInfo }">

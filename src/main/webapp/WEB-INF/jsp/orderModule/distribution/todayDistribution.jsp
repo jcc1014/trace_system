@@ -37,6 +37,7 @@
 						<th>名称</th>
 						<th>种类</th>
 						<th>品级</th>
+						<th>三品一标</th>
 						<th>价格</th>
 						<th>数量</th>
 						<th>总价</th>
@@ -46,13 +47,14 @@
 				</thead>
 				<tbody id="tbody">
 					<c:if test="${fn:length(list)==0 }">
-						<tr><td colspan="8">暂无数据</td></tr>
+						<tr><td colspan="9">暂无数据</td></tr>
 					</c:if>
 					<c:forEach var="item" items="${list}">
 						<tr>
 							<td>${item.require_name }</td>
 							<td>${item.kind }</td>
 							<td>${item.grade }</td>
+							<td>${item.spyb }</td>
 							<td>${item.price }</td>
 							<td>${item.require_num }</td>
 							<td>${item.sum_price }</td>

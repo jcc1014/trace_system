@@ -5,6 +5,7 @@
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="kind" jdbcType="VARCHAR" property="kind" />
     <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="spyb" jdbcType="VARCHAR" property="spyb" />
     <result column="price" jdbcType="DOUBLE" property="price" />
     <result column="canteen_price" jdbcType="DOUBLE" property="canteen_price" />
     <result column="market_price" jdbcType="DOUBLE" property="market_price" />
@@ -16,7 +17,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, kind, grade, price, canteen_price, market_price, retail_price, other_price, createtime, 
-    status, parentid
+    status, parentid,spyb
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -31,6 +32,7 @@
     from sale_price
     where kind = #{kind,jdbcType=VARCHAR}
     and grade = #{grade,jdbcType=VARCHAR}
+    and spyb = #{spyb,jdbcType=VARCHAR}
     and createtime  like '%${datetime}%'
   </select>
   
@@ -44,6 +46,9 @@
     </if>
     <if test="grade != null and grade !=''">
     	and grade = #{grade}
+    </if>
+    <if test="spyb != null and spyb !=''">
+    	and spyb = #{spyb}
     </if>
     <if test="status != null and status !=''">
     	and status = #{status}
@@ -65,6 +70,9 @@
     </if>
     <if test="grade != null and grade !=''">
     	and grade = #{grade}
+    </if>
+    <if test="spyb != null and spyb !=''">
+    	and spyb = #{spyb}
     </if>
     <if test="status != null and status !=''">
     	and status = #{status}
@@ -88,6 +96,9 @@
     </if>
     <if test="grade != null and grade !=''">
     	and grade = #{grade}
+    </if>
+    <if test="spyb != null and spyb !=''">
+    	and spyb = #{spyb}
     </if>
     <if test="status != null and status !=''">
     	and status = #{status}
@@ -118,6 +129,9 @@
       </if>
       <if test="grade != null">
         grade,
+      </if>
+      <if test="spyb != null">
+        spyb,
       </if>
       <if test="price != null and price != 0">
         price,
@@ -154,6 +168,9 @@
       <if test="grade != null">
         #{grade,jdbcType=VARCHAR},
       </if>
+      <if test="spyb != null">
+        #{spyb,jdbcType=VARCHAR},
+      </if>
       <if test="price != null and price != 0">
         #{price,jdbcType=DOUBLE},
       </if>
@@ -188,6 +205,9 @@
       </if>
       <if test="grade != null">
         grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="spyb != null">
+        spyb = #{spyb,jdbcType=VARCHAR},
       </if>
       <if test="price != null and price != 0">
         price = #{price,jdbcType=DOUBLE},
@@ -225,6 +245,9 @@
       <if test="grade != null">
         grade = #{grade,jdbcType=VARCHAR},
       </if>
+      <if test="spyb != null">
+        spyb = #{spyb,jdbcType=VARCHAR},
+      </if>
       <if test="price != null and price != 0">
         price = #{price,jdbcType=DOUBLE},
       </if>
@@ -251,12 +274,12 @@
   </update>
   
   <insert id="insertByRequireAndPurchase" parameterType="java.util.Map">
-  	insert into sale_price (id,kind,grade,price,createtime,status)
-  	SELECT REPLACE(UUID(),'-',''),r.kind,r.grade,p.price,#{nowtime},'0'
-	FROM (SELECT kind,grade from require_info WHERE status='1' and createtime LIKE '%${datetime}%'
-	GROUP BY kind,grade)as r LEFT JOIN
-	(SELECT  purchase_kind,purchase_grade,purchase_time,SUM(purchase_price)/count(1) as price from purchase WHERE purchase_time &gt; date_sub(#{datetime2}, interval 24 hour)
-	GROUP BY purchase_kind,purchase_grade)as p 
+  	insert into sale_price (id,kind,grade,spyb,price,createtime,status)
+  	SELECT REPLACE(UUID(),'-',''),r.kind,r.grade,r.spyb,p.price,#{nowtime},'0'
+	FROM (SELECT kind,grade,spyb from require_info WHERE status='1' and createtime LIKE '%${datetime}%'
+	GROUP BY kind,grade,spyb)as r LEFT JOIN
+	(SELECT  purchase_kind,purchase_grade,purchase_spyb,purchase_time,SUM(purchase_price)/count(1) as price from purchase WHERE purchase_time &gt; date_sub(#{datetime2}, interval 24 hour)
+	GROUP BY purchase_kind,purchase_grade,purchase_spyb)as p 
 	on p.purchase_kind = r.kind and p.purchase_grade = r.grade
   </insert>
   

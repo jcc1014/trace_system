@@ -33,7 +33,7 @@
 					id="test_kind" name="test_kind" onchange="getNum();">
 					<option value="">请选择</option>
 					<c:forEach items="${purchaseInfoList}" var="item">
-						<option data-num="${item.number }" value="${item.kind};${item.grade}">${item.kind}${item.grade}级</option>
+						<option data-num="${item.number }" value="${item.kind};${item.grade};${item.spyb}">${item.kind}${item.grade}级${item.spyb}</option>
 					</c:forEach>
 				</select>
 			</div>

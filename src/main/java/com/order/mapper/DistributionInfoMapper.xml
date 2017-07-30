@@ -18,7 +18,7 @@
     <result column="signname" property="signname" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    distribution_id, require_id, require_name, require_num, kind, yps, wps,
+    distribution_id, require_id, require_name, require_num, kind, yps, wps,spyb,
     distribution_address,base_id,price,round(sum_price,2)as sum_price,createtime,grade,signname
   </sql>
   <select id="select" resultType="java.util.Map" parameterType="java.util.Map" >
@@ -31,6 +31,9 @@
     </if>
     <if test="grade != null and grade != ''">
     	and grade = #{grade}
+    </if>
+    <if test="spyb != null and spyb != ''">
+    	and spyb = #{spyb}
     </if>
     <if test="createtime != null and createtime != ''">
     	and createtime like '%${createtime}%'
@@ -52,6 +55,9 @@
     </if>
     <if test="grade != null and grade != ''">
     	and grade = #{grade}
+    </if>
+    <if test="spyb != null and spyb != ''">
+    	and spyb = #{spyb}
     </if>
     <if test="createtime != null and createtime != ''">
     	and createtime like '%${createtime}%'
@@ -75,6 +81,9 @@
     </if>
     <if test="grade != null and grade != ''">
     	and grade = #{grade}
+    </if>
+    <if test="spyb != null and spyb != ''">
+    	and spyb = #{spyb}
     </if>
     <if test="createtime != null and createtime != ''">
     	and createtime like '%${createtime}%'
@@ -126,6 +135,9 @@
       <if test="grade != null and grade != ''" >
         grade,
       </if>
+      <if test="spyb != null and spyb != ''" >
+        spyb,
+      </if>
       <if test="createtime != null and createtime != ''" >
         createtime,
       </if>
@@ -167,6 +179,9 @@
       <if test="grade != null and grade != ''" >
         #{grade},
       </if>
+      <if test="spyb != null and spyb != ''" >
+        #{spyb},
+      </if>
       <if test="createtime != null and createtime != ''" >
         #{createtime},
       </if>
@@ -207,6 +222,9 @@
       </if>
       <if test="grade != null and grade != ''" >
         grade = #{grade},
+      </if>
+      <if test="spyb != null and spyb != ''" >
+        spyb = #{spyb},
       </if>
       <if test="createtime != null and createtime != ''" >
         createtime = #{createtime},
@@ -252,6 +270,9 @@
       </if>
       <if test="grade != null and grade != ''" >
         grade = #{grade},
+      </if>
+      <if test="spyb != null and spyb != ''" >
+        spyb = #{spyb},
       </if>
       <if test="price != null and price != 0" >
         price = #{price},

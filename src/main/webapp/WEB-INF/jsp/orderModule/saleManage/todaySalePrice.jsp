@@ -38,6 +38,7 @@
 					<tr>
 						<th>种类</th>
 						<th>品级</th>
+						<th>三品一标</th>
 						<th>价格</th>
 						<th>食堂</th>
 						<th>超市</th>
@@ -48,12 +49,13 @@
 				</thead>
 				<tbody id="tbody">
 					<c:if test="${fn:length(salePriceList)==0 }">
-						<tr><td colspan="8">暂无数据</td></tr>
+						<tr><td colspan="9">暂无数据</td></tr>
 					</c:if>
 					<c:forEach var="item" items="${salePriceList}">
 						<tr>
 							<td>${item.kind }</td>
 							<td>${item.grade }</td>
+							<td>${item.spyb }</td>
 							<td>${item.price }</td>
 							<td>
 								<c:if test="${item.status eq '0' }">

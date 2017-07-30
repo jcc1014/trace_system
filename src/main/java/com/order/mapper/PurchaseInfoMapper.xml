@@ -328,24 +328,25 @@
   </update>
   
   <select id="getCgAndXq" resultType="java.util.Map" parameterType="java.util.Map">
-		SELECT kind,number,grade,createtime,
-	kind1,num,grade1,createtime1
+		SELECT kind,number,grade,spyb,createtime,
+	kind1,num,grade1,createtime1,spyb1
 	 from 
-		(SELECT kind,sum(number) as number,grade,createtime
+		(SELECT kind,sum(number) as number,grade,createtime,spyb
 		from purchase_info 
-		WHERE createtime like '%${date1}%' and status ='1' and type='0' GROUP BY kind,grade)as cg  LEFT JOIN
-		(SELECT kind as kind1,sum(num)as num,grade as grade1,createtime as createtime1
-		from require_info WHERE  createtime like '%${date2}%' GROUP BY kind,grade) as xq
-		on cg.kind = xq.kind1 and cg.grade = xq.grade1
+		WHERE createtime like '%${date1}%' and status ='1' and type='0' GROUP BY kind,grade,spyb)as cg  LEFT JOIN
+		(SELECT kind as kind1,sum(num)as num,grade as grade1,createtime as createtime1,spyb as spyb1
+		from require_info WHERE  createtime like '%${date2}%' GROUP BY kind,grade,spyb) as xq
+		on cg.kind = xq.kind1 and cg.grade = xq.grade1 and cg.spyb = xq.spyb1
 		UNION
-		SELECT kind,number,grade,createtime,
-	kind1,num,grade1,createtime1
+		SELECT kind,number,grade,spyb,createtime,
+	kind1,num,grade1,createtime1,spyb1
 	 from 
-		(SELECT kind,sum(number) as number,grade,createtime
+		(SELECT kind,sum(number) as number,grade,createtime,spyb
 		from purchase_info 
-		WHERE createtime like '%${date1}%' and status ='1' and type='0' GROUP BY kind,grade)as cg  RIGHT JOIN
-		(SELECT kind as kind1,sum(num)as num,grade as grade1,createtime as createtime1
-		from require_info WHERE  createtime like '%${date2}%' GROUP BY kind,grade) as xq
-		on cg.kind = xq.kind1 and cg.grade = xq.grade1
+		WHERE createtime like '%${date1}%' and status ='1' and type='0' GROUP BY kind,grade,spyb)as cg  RIGHT JOIN
+		(SELECT kind as kind1,sum(num)as num,grade as grade1,createtime as createtime1,spyb as spyb1
+		from require_info WHERE  createtime like '%${date2}%' GROUP BY kind,grade,spyb) as xq
+		on cg.kind = xq.kind1 and cg.grade = xq.grade1 and cg.spyb = xq.spyb1
+		
   </select>
 </mapper>

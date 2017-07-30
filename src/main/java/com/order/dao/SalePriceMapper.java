@@ -14,7 +14,8 @@ public interface SalePriceMapper {
 
     SalePrice selectByPrimaryKey(String id);
     
-    SalePrice selectByKindAndGrade(@Param("kind")String kind,@Param("grade")String grade,@Param("datetime")String datetime);
+    SalePrice selectByKindAndGrade(@Param("kind")String kind,@Param("grade")String grade,
+    		@Param("spyb")String spyb,@Param("datetime")String datetime);
 
     int updateByPrimaryKeySelective(SalePrice record);
     

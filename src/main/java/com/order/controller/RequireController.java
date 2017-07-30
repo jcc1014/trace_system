@@ -46,6 +46,12 @@ public class RequireController {
 	@Autowired
 	private DictService dictService;
 	
+	/**
+	 * 今日需求单
+	 * @param request
+	 * @param model
+	 * @return todayRequire（页面）
+	 */
 	@RequestMapping("today_require")
 	public String today(HttpServletRequest request,Model model){
 		String page = "orderModule/require/todayRequire";
@@ -77,7 +83,7 @@ public class RequireController {
 			
 		}
 		Goods goods = new Goods();
-		List<Goods> goodsList = goodsService.select(goods);
+		List<Goods> goodsList = goodsService.select(goods); //所有的菜
 		List<Dict> dictList = dictService.selectByParentId("spyb");
 		model.addAttribute("goodsList", goodsList);
 		model.addAttribute("dictList", dictList);
@@ -85,6 +91,12 @@ public class RequireController {
 		return page;
 	}
 	
+	/**
+	 * 删除需求单
+	 * @param request
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("delRequire")
 	@ResponseBody
 	public String delRequire(HttpServletRequest request,String id){
@@ -94,6 +106,13 @@ public class RequireController {
 		return rs;
 		
 	}
+	
+	/**
+	 * 提交需求单
+	 * @param request
+	 * @param totalInfo 总体信息
+	 * @return
+	 */
 	@RequestMapping("submitXqd")
 	@ResponseBody
 	public String submitXqd(HttpServletRequest request,TotalInfo totalInfo){
@@ -110,6 +129,12 @@ public class RequireController {
 		
 	}
 	
+	/**
+	 * 编辑需求单保存
+	 * @param request
+	 * @param requireInfo
+	 * @return
+	 */
 	@RequestMapping("editRequireSave")
 	@ResponseBody
 	public String editRequireSave(HttpServletRequest request,RequireInfo requireInfo){
@@ -120,6 +145,12 @@ public class RequireController {
 		
 	}
 	
+	/**
+	 * 编辑需求单
+	 * @param request
+	 * @param requireInfo
+	 * @return
+	 */
 	@RequestMapping("editRequire")
 	@ResponseBody
 	public String editRequire(HttpServletRequest request,RequireInfo requireInfo){
@@ -142,6 +173,12 @@ public class RequireController {
 		
 	}
 	
+	/**
+	 * 新增需求单保存
+	 * @param request
+	 * @param requireInfo
+	 * @return
+	 */
 	@RequestMapping("addRequireSave")
 	@ResponseBody
 	public String addRequireSave(HttpServletRequest request,RequireInfo requireInfo){
@@ -168,6 +205,14 @@ public class RequireController {
 		
 	}
 	
+	/**
+	 * 需求历史
+	 * @param request
+	 * @param model
+	 * @param date
+	 * @param page
+	 * @return
+	 */
 	@RequestMapping("history")
 	public String history(HttpServletRequest request,Model model,String date,String page){
 		String p = "orderModule/require/history";
@@ -192,6 +237,14 @@ public class RequireController {
 		model.addAttribute("totalInfoList", totalInfoList);
 		return p;
 	}
+	
+	/**
+	 * 需求历史详细
+	 * @param request
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("history_detail")
 	public String history_detail(HttpServletRequest request,Model model,String id){
 		String p = "orderModule/require/history_detail";
@@ -204,6 +257,12 @@ public class RequireController {
 		return p;
 	}
 	
+	/**
+	 * 基础信息
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("info")
 	public String info(HttpServletRequest request,Model model){
 		String page = "orderModule/require/info";

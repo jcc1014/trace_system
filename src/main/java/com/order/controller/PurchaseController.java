@@ -112,6 +112,7 @@ public class PurchaseController {
 		test.put("test_time",DateUtils.getCurrentDate("yyyy-MM-dd"));
 		test.put("kind", purchaseInfo.getKind());
 		test.put("grade", purchaseInfo.getGrade());
+		test.put("spyb", purchaseInfo.getSpyb());
 		test.put("result","1");
 		test.put("qh", "0");
 		List<Map<String, Object>> list = testService.getTestInfo(test);
@@ -127,6 +128,7 @@ public class PurchaseController {
 		test.put("test_time",DateUtils.getCurrentDate("yyyy-MM-dd"));
 		test.put("kind", purchaseInfo.getKind());
 		test.put("grade", purchaseInfo.getGrade());
+		test.put("spyb", purchaseInfo.getSpyb());
 		test.put("result", "1");
 		test.put("qh", "1");
 		List<Map<String, Object>> list = testService.getTestInfo(test);

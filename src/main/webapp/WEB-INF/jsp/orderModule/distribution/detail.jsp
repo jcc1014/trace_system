@@ -49,6 +49,11 @@
 						value="${distribution.grade }" readonly="readonly">
 				</div>
 				<div class="form-group">
+					<label >三品一标</label> <input
+						type="text" class="form-control" name="spyb" id="spyb"
+						value="${distribution.spyb }" readonly="readonly">
+				</div>
+				<div class="form-group">
 					<label >未配送</label> <input
 						type="text" class="form-control" name="wps" id="wps"
 						value="${distribution.wps }" readonly="readonly">
@@ -69,11 +74,6 @@
 					name="phone" value="${sessionScope.user.phone}" readonly="readonly">
 				</div>
 				<div class="form-group">
-					<label >配送车辆</label> 
-					<input type="text" class="form-control" 
-					name="distribution_car" id="distribution_car">
-				</div>
-				<div class="form-group">
 					<label >蔬菜编码</label> <input
 						type="text" class="form-control" name="trace_id" id="trace_id"
 						onblur="checkTrace();">
@@ -83,6 +83,11 @@
 					<label >配送数量</label> 
 					<input type="number" class="form-control" id="distribution_num"
 					name="distribution_num" onblur="checkNum();">
+				</div>
+				<div class="form-group">
+					<label >配送车辆</label> 
+					<input type="text" class="form-control" 
+					name="distribution_car" id="distribution_car">
 				</div>
 				<button type="button" class="btn btn-primary" onclick="submit();">提交</button>
 				<button type="button" class="btn btn-default" onclick="window.location.href='${path}/distribution/todayDistribution.do'">返回</button>

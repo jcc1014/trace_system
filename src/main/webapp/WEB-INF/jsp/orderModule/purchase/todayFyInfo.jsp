@@ -26,7 +26,7 @@
 <body>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">今日富余单<!-- （距离供应单锁定还有：<span>30</span>分钟） --></h3>
+			<h3 class="panel-title">今日富余单</h3>
 		</div>
 		<div class="panel-body">
 			<%-- <div><h4>供应单信息</h4></div>
@@ -40,17 +40,18 @@
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th>种类</th><th>品级</th><th>富余量</th>
+						<th>种类</th><th>品级</th><th>三品一标</th><th>富余量</th>
 					</tr>
 				</thead>
 				<tbody id="tbody">
 					<c:if test="${fn:length(purchaseInfos)==0 }">
-						<tr><td colspan="3">暂无数据</td></tr>
+						<tr><td colspan="4">暂无数据</td></tr>
 					</c:if>
 					<c:forEach var="item" items="${purchaseInfos}">
 						<tr>
 							<td>${item.kind }</td>
 							<td>${item.grade }</td>
+							<td>${item.spyb }</td>
 							<td>${item.num }</td>
 						</tr>
 					</c:forEach>

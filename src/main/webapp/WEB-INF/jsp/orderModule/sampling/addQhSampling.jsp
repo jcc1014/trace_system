@@ -33,7 +33,8 @@
 					id="test_kind" name="test_kind" onchange="getNum();">
 					<option value="">请选择</option>
 					<c:forEach items="${purchaseInfoList}" var="item">
-						<option data-num="${item.number }" value="${item.kind};${item.grade}">${item.kind}${item.grade}级</option>
+						<option data-num="${item.number }" value="${item.kind};${item.grade};${item.spyb}">
+						${item.kind}${item.grade}级${item.spyb}</option>
 					</c:forEach>
 				</select>
 			</div>
@@ -79,7 +80,7 @@
 			<div class="form-group">
 					<label >原产地证明</label> 
 					<input type="file" name="file2" id="uploadYcdzm" lay-type="images" class="layui-upload-file">
-					<span id="img"></span><button class="btn btn-mini btn-danger del_btn2 hide">删除</button>
+					<span id="img"></span><button type="button"  class="btn btn-mini btn-danger del_btn2 hide">删除</button>
 					<input type="hidden" id="real_path2" >
 					<input type="hidden" name="ycdzm" id="ycdzm" >
 				</div>

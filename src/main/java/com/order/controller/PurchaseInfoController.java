@@ -44,6 +44,13 @@ public class PurchaseInfoController {
 	@Autowired
 	private UserService userService;
 	
+	/**
+	 * 创建采购单
+	 * @param request
+	 * @param model
+	 * @param number
+	 * @return
+	 */
 	@RequestMapping("createCgd")
 	public String createCgd(HttpServletRequest request,Model model,String[] number){
 		String rs = "redirect:todayCgd.do";
@@ -81,6 +88,12 @@ public class PurchaseInfoController {
 		return rs;
 	}
 	
+	/**
+	 * 今日采购单
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("todayCgd")
 	public String todayCgd(HttpServletRequest request,Model model){
 		String page = "orderModule/purchase/todayPurchaseInfo";
@@ -106,6 +119,14 @@ public class PurchaseInfoController {
 		model.addAttribute("totalInfo", totalInfo);
 		return page;
 	}
+	
+	/**
+	 * 历史详细
+	 * @param request
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("historyDetail")
 	public String historyDetail(HttpServletRequest request,Model model,String id){
 		String page = "orderModule/purchase/historyDetail";
@@ -122,6 +143,13 @@ public class PurchaseInfoController {
 		return page;
 	}
 	
+	/**
+	 * 编辑保存
+	 * @param request
+	 * @param id
+	 * @param number
+	 * @return
+	 */
 	@RequestMapping("editSave")
 	@ResponseBody
 	public String editSave(HttpServletRequest request,String id,String number){
@@ -137,6 +165,12 @@ public class PurchaseInfoController {
 		return rs;
 	}
 	
+	/**
+	 * 提交
+	 * @param request
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("submit")
 	@ResponseBody
 	public String submit(HttpServletRequest request,String id){
@@ -152,6 +186,13 @@ public class PurchaseInfoController {
 		return rs;
 	}
 	
+	/**
+	 * 历史列表
+	 * @param request
+	 * @param model
+	 * @param datetime
+	 * @return
+	 */
 	@RequestMapping("history")
 	public String history(HttpServletRequest request,Model model,String datetime){
 		String page = "orderModule/purchase/history";
@@ -167,6 +208,12 @@ public class PurchaseInfoController {
 		return page;
 	}
 	
+	/**
+	 * 创建缺货单
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("createQhd")
 	@ResponseBody
 	public String getCgAndXq(HttpServletRequest request,Model model){
@@ -184,7 +231,7 @@ public class PurchaseInfoController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("date1", DateUtils.getCurrentDate("yyyy-MM-dd"));
 		map.put("date2", DateUtils.getCurrentDate("yyyy-MM-dd"));
-		List<Map<String, Object>> list = purchaseInfoService.getCgAndXq(map);
+		List<Map<String, Object>> list = purchaseInfoService.getCgAndXq(map); //获取采购和需求
 		Map<String,Object> rmap = null;
 		PurchaseInfo purchaseInfo = null;
 		TotalInfo qhd = new TotalInfo();
@@ -215,6 +262,7 @@ public class PurchaseInfoController {
 					purchaseInfo.setCreateuser(null==user?null:user.getUsername());
 					purchaseInfo.setGrade((String) rmap.get("grade1"));
 					purchaseInfo.setKind((String) rmap.get("kind1"));
+					purchaseInfo.setSpyb((String) rmap.get("spyb1"));
 					purchaseInfo.setNumber((double)rmap.get("num"));
 					purchaseInfo.setParentid(qhd.getId());
 					purchaseInfo.setRemain_number((double)rmap.get("num"));
@@ -235,6 +283,7 @@ public class PurchaseInfoController {
 						purchaseInfo.setCreateuser(null==user?null:user.getUsername());
 						purchaseInfo.setGrade((String) rmap.get("grade1"));
 						purchaseInfo.setKind((String) rmap.get("kind1"));
+						purchaseInfo.setSpyb((String) rmap.get("spyb1"));
 						purchaseInfo.setNumber((double)rmap.get("num")-(double)rmap.get("number"));
 						purchaseInfo.setParentid(qhd.getId());
 						purchaseInfo.setRemain_number((double)rmap.get("num")-(double)rmap.get("number"));
@@ -250,6 +299,7 @@ public class PurchaseInfoController {
 						remainPurchase.setId(UUIDFactory.getInstance().newUUID());
 						remainPurchase.setGrade((String) rmap.get("grade"));
 						remainPurchase.setKind((String) rmap.get("kind"));
+						remainPurchase.setSpyb((String) rmap.get("spyb"));
 						remainPurchase.setNum((double)rmap.get("number")-(double)rmap.get("num"));
 						remainPurchase.setParentid(fyd.getId());
 						remainPurchase.setStatus("1");
@@ -265,6 +315,7 @@ public class PurchaseInfoController {
 					remainPurchase.setId(UUIDFactory.getInstance().newUUID());
 					remainPurchase.setGrade((String) rmap.get("grade"));
 					remainPurchase.setKind((String) rmap.get("kind"));
+					remainPurchase.setSpyb((String) rmap.get("spyb"));
 					remainPurchase.setNum((double)rmap.get("number"));
 					remainPurchase.setParentid(fyd.getId());
 					remainPurchase.setStatus("1");

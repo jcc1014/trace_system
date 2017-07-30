@@ -43,17 +43,18 @@
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th>种类</th><th>品级</th><th>采购量</th><th>详情</th>
+						<th>种类</th><th>品级</th><th>三品一标</th><th>采购量</th><th>详情</th>
 					</tr>
 				</thead>
 				<tbody id="tbody">
 					<c:if test="${fn:length(purchaseInfos)==0 }">
-						<tr><td colspan="4">暂无数据</td></tr>
+						<tr><td colspan="5">暂无数据</td></tr>
 					</c:if>
 					<c:forEach var="item" items="${purchaseInfos}">
 						<tr>
 							<td>${item.kind }</td>
 							<td>${item.grade }</td>
+							<td>${item.spyb }</td>
 							<td>${item.number }</td>
 							<td>
 							<a href="javascript:;" onclick="watch('${item.purchase_id}');"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>

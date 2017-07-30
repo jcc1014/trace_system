@@ -132,7 +132,7 @@ public class DistributionInfoController {
 	public String addDetailSave(HttpServletRequest request,Model model,DistributionDetail distributionDetail){
 		String page = "redirect:todayDistribution.do";
 		DistributionInfo distributionInfo = distributionInfoService.selectByPrimaryKey(distributionDetail.getDistribution_id());
-		distributionInfo.setYps((distributionInfo.getYps()==null?0.0:distributionInfo.getYps())+distributionDetail.getDistribution_num());
+		distributionInfo.setYps((null==distributionInfo.getYps()?0.0:distributionInfo.getYps())+distributionDetail.getDistribution_num());
 		distributionInfo.setWps(distributionInfo.getRequire_num()-(null==distributionInfo.getYps()?0.0:distributionInfo.getYps()));
 		distributionInfoService.updateByPrimaryKeySelective(distributionInfo);
 		

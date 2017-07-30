@@ -8,6 +8,8 @@ public class RemainPurchase {
     private Double num;
 
     private String grade;
+    
+    private String spyb;
 
     private String createtime;
 
@@ -73,4 +75,11 @@ public class RemainPurchase {
         this.parentid = parentid == null ? null : parentid.trim();
     }
 
+	public String getSpyb() {
+		return spyb;
+	}
+
+	public void setSpyb(String spyb) {
+		this.spyb = spyb;
+	}
 }

@@ -266,7 +266,7 @@ function edit(id){
 }
 
 function modal_edit_save(){
-	var produce_id = $("#modal_edit_produce_id").val();
+	var id = $("#modal_edit_id").val();
 	var num = $("#modal_edit_num").val();
 	if(""==num||0==num){
 		layer.msg('请填写需求量！',{time:1000});

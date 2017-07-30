@@ -51,16 +51,16 @@
 					class="form-control" id="num" readonly="readonly">
 			</div>
 			<div class="form-group">
+				<label for="farmer_phone">手机</label> <input type="text" onblur="checkPhone();"
+					class="form-control" id="farmer_phone" name="farmer_phone" placeholder="手机">
+			</div>
+			<div class="form-group">
 				<label for="farmer_name">供应商</label> <input type="text"
 					class="form-control" id="farmer_name" name="farmer_name" placeholder="供应商">
 			</div>
 			<div class="form-group">
-				<label for="farmer_phone">手机</label> <input type="text"
-					class="form-control" id="farmer_phone" name="farmer_phone" placeholder="手机">
-			</div>
-			<div class="form-group">
 				<label for="farmer_hzs">市场</label> 
-				<input type="hidden" id="base_id" name="base_id">
+				<input type="hidden" id="base_id" name="baseid">
 				<select name="farmer_hzs" id="farmer_hzs" class="form-control">
 					<option value="" >请选择</option>
 					<c:forEach var="item" items="${baseList }">
@@ -76,6 +76,13 @@
 				<label for="test_num">取样数量</label> <input type="text"
 					class="form-control" id="test_num" name="test_num"  placeholder="取样数量">
 			</div>
+			<div class="form-group">
+					<label >原产地证明</label> 
+					<input type="file" name="file2" id="uploadYcdzm" lay-type="images" class="layui-upload-file">
+					<span id="img"></span><button class="btn btn-mini btn-danger del_btn2 hide">删除</button>
+					<input type="hidden" id="real_path2" >
+					<input type="hidden" name="ycdzm" id="ycdzm" >
+				</div>
 			<div class="form-group">
 				<label for="test_num">取样视频</label> 
 				<input type="file" name="file" id="upload" lay-type="video" accept="video/*"  class="layui-upload-file" >
@@ -152,10 +159,87 @@
 				}
 			})
 		})
-			
+		layui.upload({
+            elem:'#uploadYcdzm',
+            title:'原产地证明',
+            url : '${path}/upload/upload.do?path=ycdzm',
+            before: function(){
+                index = layer.msg('上传中', {
+                    icon: 16
+                    ,shade: 0.01
+                });
+            },
+            success : function(rs) {
+                layer.close(index);
+                if (rs.code == "success") {
+                    layer.msg('上传成功', {
+                        icon: 1,
+                        time: 1000 //2秒关闭（默认3秒）
+                    }, function(){
+                    	$("#ycdzm").val(rs.name);
+                    	$("#real_path2").val(rs.path);
+                    	$("#img").html(rs.name);
+                    	$(".del_btn2").removeClass('hide');
+                    });
+                   
+                } else {
+                    layer.msg('上传失败' + rs.msg + ',请检查视频名称是否有中文或重试', {
+                        icon: 2,
+                        time: 2000 //2秒关闭（默认3秒）
+                    }, function(){});
+                }
+            }
+        });
+		
+	jq(".del_btn2").on('click',function(){
+		var path = $('#real_path2').val();
+		jq.ajax({
+			url:'${path}/upload/delUpload.do',
+			type:'post',
+			data:{'path':path},
+			success:function(rs){
+				if(""!=rs){
+					rs = jq.parseJSON(rs);
+					if(typeof(rs)!='object'){
+						rs = jq.parseJSON(rs);
+					}
+					if(rs.code=="200"){
+						layer.msg('删除成功！',{time:1000},function(){
+							$("#ycdzm").val("");
+							$("#real_path2").val("");
+							$("#img").html('');
+							$('.del_btn2').addClass('hide');
+						})
+					}
+				}
+			}
+		})
+	})	
 		
 	})
 
+function checkPhone(){
+	var farmer_phone = $("#farmer_phone").val();
+	if(""!=farmer_phone){
+		$.ajax({
+			url:'${path}/sampling/checkPhone.do',
+			type:'post',
+			dataType:'json',
+			data:{'phone':farmer_phone},
+			success:function(rs){
+				if(""!=rs){
+					rs = $.parseJSON(rs);
+					if("200"==rs.code){
+						$("#farmer_name").val(rs.farmer_name);
+						//$("#farmer_hzs").val(rs.farmer_hzs);
+						$("#base_id").val(rs.baseid);
+						$("#"+rs.baseid).attr("selected",true);
+					}
+				}
+			}
+		})
+	}
+}	
 
 function save(){
 	var test_kind = $("#test_kind").val();

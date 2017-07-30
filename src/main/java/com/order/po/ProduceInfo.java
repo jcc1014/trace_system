@@ -25,9 +25,9 @@ public class ProduceInfo {
     
     private String parent_id; //上级id(total里面的id)
     
-    private String spyb;
+    private String spyb; //三品一标
     
-    private String nowtime;
+    private String nowtime; //当前时间
 
     public String getProduce_id() {
         return produce_id;

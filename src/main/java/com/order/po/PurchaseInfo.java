@@ -3,14 +3,14 @@ package com.order.po;
 public class PurchaseInfo {
     private String purchase_id;
 
-    private String kind;
+    private String kind; //种类
 
-    private Double number;
+    private Double number; //数量
 
-    private Double remain_number;
+    private Double remain_number; //剩余量
 
     private String grade;
-
+    
     private String createtime;
 
     private String createuser;

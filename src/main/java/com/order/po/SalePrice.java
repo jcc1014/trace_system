@@ -6,6 +6,8 @@ public class SalePrice {
     private String kind;
 
     private String grade;
+    
+    private String spyb;
 
     private double price;
 
@@ -110,4 +112,13 @@ public class SalePrice {
     public void setParentid(String parentid) {
         this.parentid = parentid == null ? null : parentid.trim();
     }
+
+	public String getSpyb() {
+		return spyb;
+	}
+
+	public void setSpyb(String spyb) {
+		this.spyb = spyb;
+	}
+    
 }

@@ -167,65 +167,15 @@ layui.use(
 			}
 		})
 	})
-		layui.upload({
-            elem:'#uploadYcdzm',
-            title:'上传视频',
-            url : '${path}/upload/upload.do?path=ycdzm',
-            before: function(){
-                index = layer.msg('上传中', {
-                    icon: 16
-                    ,shade: 0.01
-                });
-            },
-            success : function(rs) {
-                layer.close(index);
-                if (rs.code == "success") {
-                    layer.msg('上传成功', {
-                        icon: 1,
-                        time: 1000 //2秒关闭（默认3秒）
-                    }, function(){
-                    	$("#ycdzm").val(rs.name);
-                    	$("#real_path2").val(rs.path);
-                    	$("#img").html(rs.name);
-                    	$(".del_btn2").removeClass('hide');
-                    });
-                   
-                } else {
-                    layer.msg('上传失败' + rs.msg + ',请检查视频名称是否有中文或重试', {
-                        icon: 2,
-                        time: 2000 //2秒关闭（默认3秒）
-                    }, function(){});
-                }
-            }
-        });
-		
-	jq(".del_btn2").on('click',function(){
-		var path = $('#real_path2').val();
-		jq.ajax({
-			url:'${path}/upload/delUpload.do',
-			type:'post',
-			data:{'path':path},
-			success:function(rs){
-				if(""!=rs){
-					rs = jq.parseJSON(rs);
-					if(typeof(rs)!='object'){
-						rs = jq.parseJSON(rs);
-					}
-					if(rs.code=="200"){
-						layer.msg('删除成功！',{time:1000},function(){
-							$("#ycdzm").val("");
-							$("#real_path2").val("");
-							$("#img").html('');
-							$('.del_btn2').addClass('hide');
-						})
-					}
-				}
-			}
-		})
-	})
-		
 	
 })
+
+$(function(){
+	if('0'=='${fn:length(list)}'){
+		layer.msg('该类别尚未取样检验，无法完成采购！',{time:2000});
+	}
+})
+
 function submit(){
 	var trace_id = $("#trace_id").val();
 	if(""==trace_id||null==trace_id){

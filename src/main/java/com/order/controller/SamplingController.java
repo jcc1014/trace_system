@@ -215,7 +215,14 @@ public class SamplingController {
 	public String addQhSamplingSave(HttpServletRequest request,Test test,Farmer farmer){
 		User user = (User)request.getSession().getAttribute("user");
 		String page = "redirect:today_Qhsampling.do";
-		farmer.setFarmer_id(UUIDFactory.getInstance().newUUID());
+		//farmer.setFarmer_id(UUIDFactory.getInstance().newUUID());
+		Farmer f = farmerService.getByPhone(farmer.getFarmer_phone());
+		if(null==f){
+			farmer.setFarmer_id(UUIDFactory.getInstance().newUUID());
+			farmerService.add(farmer);
+		}else{
+			farmer = f;
+		}
 		String test_kind = test.getTest_kind();
 		test.setTest_kind(test_kind.split(";")[0]);
 		test.setTest_grade(test_kind.split(";")[1]);
@@ -232,7 +239,7 @@ public class SamplingController {
 		traceFlow.setTrace_id(UUIDFactory.getInstance().newUUID());
 		traceFlowService.add(traceFlow);
 		testService.add(test);
-		farmerService.add(farmer);
+		//farmerService.add(farmer);
 		return page;
 	}
 	

@@ -10,8 +10,8 @@ public class Sczl {
 	private String id;
 	private String kind; //种类
 	private String grade; //等级
-	private String spyb; //
-	private String content;
+	private String spyb; //三品一标
+	private String content; //内容
 	
 	public String getId() {
 		return id;

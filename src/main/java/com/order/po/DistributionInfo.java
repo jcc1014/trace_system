@@ -21,6 +21,8 @@ public class DistributionInfo {
     
     private String grade;
     
+    private String spyb;
+    
     private double price;
     
     private double sum_price;
@@ -140,6 +142,13 @@ public class DistributionInfo {
 	public void setSignname(String signname) {
 		this.signname = signname;
 	}
-	
+
+	public String getSpyb() {
+		return spyb;
+	}
+
+	public void setSpyb(String spyb) {
+		this.spyb = spyb;
+	}
 	
 }

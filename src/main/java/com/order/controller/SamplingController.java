@@ -53,7 +53,7 @@ public class SamplingController {
 		User user = (User)request.getSession().getAttribute("user");
 		Test test = new Test();
 		test.setTest_time(DateUtils.getCurrentDate("yyyy-MM-dd"));
-		test.setTest_name(user==null?null:user.getUsername());
+		test.setTest_name(user==null?null:user.getRealname());
 		test.setIsQh("0");
 		List<Test> testList = testService.selectAlltest(test);
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
@@ -84,7 +84,7 @@ public class SamplingController {
 		User user = (User)request.getSession().getAttribute("user");
 		Test test = new Test();
 		test.setTest_time(DateUtils.getCurrentDate("yyyy-MM-dd"));
-		test.setTest_name(user==null?null:user.getUsername());
+		test.setTest_name(user==null?null:user.getRealname());
 		test.setIsQh("1");
 		List<Test> testList = testService.selectQhTest(test);
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
@@ -117,7 +117,7 @@ public class SamplingController {
 		if(null==datetime||"".equals(datetime)){
 			test.setTest_time(DateUtils.getNDayBeforeCurrentDate(1, "yyyy-MM-dd"));
 		}
-		test.setTest_name(user==null?null:user.getUsername());
+		test.setTest_name(user==null?null:user.getRealname());
 		test.setTest_status("1");
 		List<Test> testList = testService.selectAlltest(test);
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
@@ -200,7 +200,7 @@ public class SamplingController {
 		test.setTest_time(DateUtils.getCurrentDate());
 		test.setTest_id(UUIDFactory.getInstance().newUUID());
 		test.setTest_status("0");
-		test.setTest_name(user==null?null:user.getUsername());
+		test.setTest_name(user==null?null:user.getRealname());
 		test.setTest_type("0");
 		test.setIsQh("0");
 		TraceFlow traceFlow = new TraceFlow();
@@ -231,7 +231,7 @@ public class SamplingController {
 		test.setTest_time(DateUtils.getCurrentDate());
 		test.setTest_id(UUIDFactory.getInstance().newUUID());
 		test.setTest_status("0");
-		test.setTest_name(user==null?null:user.getUsername());
+		test.setTest_name(user==null?null:user.getRealname());
 		test.setTest_type("0");
 		test.setIsQh("1");
 		TraceFlow traceFlow = new TraceFlow();
@@ -261,7 +261,7 @@ public class SamplingController {
 		Test test = new Test();
 		if(null!=user){
 			test.setTest_time(DateUtils.getCurrentDate("yyyy-MM-dd"));
-			test.setTest_name(user.getUsername());
+			test.setTest_name(user.getRealname());
 			test.setTest_status("1");
 			int r = testService.updateByNameAndTime(test);
 			rs = ResultUtil.resultString(r>0?1:0);
@@ -277,7 +277,7 @@ public class SamplingController {
 		Test test = new Test();
 		if(null!=user){
 			test.setTest_time(DateUtils.getCurrentDate("yyyy-MM-dd"));
-			test.setTest_name(user.getUsername());
+			test.setTest_name(user.getRealname());
 			test.setTest_status("1");
 			int r = testService.updateByNameAndTime(test);
 			rs = ResultUtil.resultString(r>0?1:0);
@@ -391,7 +391,7 @@ public class SamplingController {
 		test.put("test_status", "2");
 		User user = (User)request.getSession().getAttribute("user");
 		if(null!=user){
-			test.put("test_user", user.getUsername());
+			test.put("test_user", user.getRealname());
 		}
 		if(null!=datetime&&"".equals(datetime)){
 			test.put("test_time", datetime);
@@ -466,7 +466,7 @@ public class SamplingController {
 		test.setTest_status("2");
 		User user = (User)request.getSession().getAttribute("user");
 		if(null!=user){
-			test.setTest_user(user.getUsername());
+			test.setTest_user(user.getRealname());
 		}
 		int r = testService.update(test);
 		rs = ResultUtil.resultString(r);

@@ -22,18 +22,6 @@ body p {
 	height: 30x;
 }
 </style>
-<script src="${path}/js/jquery-2.1.1.min.js" type="text/javascript"></script>
-<script type="text/javascript">
-window.onload = function(){
-	var ua = navigator.userAgent.toLowerCase();
-	var isWeixin = ua.indexOf('micromessenger') != -1;
-	if (!isWeixin) {
-		alert('请在微信中打开！');
-		$("body").empty().append('<p>请在微信中打开</p>');
-
-	}
-}
-</script>
 <style type="text/css">
 .commodity li {
     display: inline-block;
@@ -48,7 +36,7 @@ window.onload = function(){
     height: 80px;
 }
 .commodity-box {
-    padding-left: .9rem;
+    padding-left: 0.9rem;
     margin-bottom: 3rem;
 }
 </style>
@@ -60,6 +48,15 @@ window.onload = function(){
 	<script type="text/javascript" src="${path}/js/zepto.kslider.js"></script>
 	<script type="text/javascript">
 	  $(function(){
+		  /* window.onload = function(){
+			var ua = navigator.userAgent.toLowerCase();
+			var isWeixin = ua.indexOf('micromessenger') != -1;
+			if (!isWeixin) {
+				alert('请在微信中打开！');
+				$("body").empty().append('<p>请在微信中打开</p>');
+
+			}
+		} */
 	     //slider
 	      $('#slider').slider({
 	        className: 'slider_box',
@@ -232,7 +229,7 @@ window.onload = function(){
 				  type: 1,
 				  title: '加入购物车',
 				  closeBtn: 1,
-				  area: ['300px','300px'],
+				  area: ['80%','50%'],
 				  content: $('#cartPage') 
 			  }) 
 		  }

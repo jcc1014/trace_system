@@ -66,7 +66,7 @@
 				<div class="form-group">
 					<label >配送人</label> 
 					<input type="text" class="form-control" 
-					name="distribution_user" value="${sessionScope.user.username}" readonly="readonly">
+					name="distribution_user" value="${sessionScope.user.realname}" readonly="readonly">
 				</div>
 				<div class="form-group">
 					<label >手机</label> 

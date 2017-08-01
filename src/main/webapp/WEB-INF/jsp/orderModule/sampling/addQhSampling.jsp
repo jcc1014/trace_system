@@ -93,7 +93,7 @@
 			</div>
 			<div class="form-group" style="text-align: center;">
 				<button type="button" class="btn btn-success"
-					onclick="save();">保存</button>
+					onclick="save();" id="submit_btn">保存</button>
 				<button type="button" class="btn btn-default" onclick="window.history.go(-1);">返回</button>
 			</div>
 		</form>
@@ -248,6 +248,10 @@ function save(){
 		layer.msg('请选择种类！',{time:1000});
 		return;
 	}
+	if(test_kind.indexOf(";")<0){
+		layer.msg('请选择种类！',{time:1000});
+		return;
+	}
 	var farmer_name = $("#farmer_name").val();
 	if(""==farmer_name){
 		layer.msg('请填写农户！',{time:1000});
@@ -280,6 +284,7 @@ function save(){
 		layer.msg('请上传取样视频！！',{time:1000});
 		return;
 	}
+	$("#submit_btn").hide();
 	$("#form").submit();
 }
 

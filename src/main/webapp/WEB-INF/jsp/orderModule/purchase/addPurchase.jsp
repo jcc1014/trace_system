@@ -99,7 +99,7 @@
 						id="transport_destination" name="transport_destination">
 				</div>
 				
-				<button type="button" class="btn btn-primary" onclick="submit();">提交</button>
+				<button type="button" class="btn btn-primary" id="submit_btn" onclick="submit();">提交</button>
 				<button type="button" class="btn btn-default" onclick="window.location.href='${path}/purchase/purchaseList.do'">返回</button>
 			</form>
 		</div>
@@ -199,6 +199,7 @@ function submit(){
 		layer.msg('请填写运输目的地！',{time:1000});
 		return;
 	}
+	$("#submit_btn").hide();
 	$("#form").submit();
 }
 

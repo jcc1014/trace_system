@@ -346,12 +346,14 @@ public class DistributionInfoController {
 			String base_id = null==traceFlow.get("baseid")?null:(String)traceFlow.get("baseid");
 			if(null!=base_id){
 				BaseInfo baseInfo = baseInfoService.selectByPrimaryKey(base_id);
-				model.addAttribute("baseInfo", baseInfo);
+				model.addAttribute("ycd", baseInfo);
 			}
 		}
 		String distribution_id = detail.getDistribution_id();
 		DistributionInfo distributionInfo = distributionInfoService.selectByPrimaryKey(distribution_id);
 		model.addAttribute("distributionInfo", distributionInfo);
+		BaseInfo xsdw = baseInfoService.selectByPrimaryKey(distributionInfo.getBase_id());
+		model.addAttribute("xsdw", xsdw);
 		return page;
 	}
 }

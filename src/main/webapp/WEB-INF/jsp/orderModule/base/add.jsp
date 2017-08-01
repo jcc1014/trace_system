@@ -34,11 +34,12 @@
 						<div class="layui-input-inline input-custom-width">
 							<select name="type" id="type">
 								<option value="1">生产基地</option>
-								<option value="5">供应基地</option>
 								<option value="2">超市</option>
 								<option value="3">食堂</option>
 								<option value="4">济南合作单位</option>
+								<option value="5">供应基地</option>
 								<option value="6">饭店</option>
+								<option value="A">市场</option>
 							</select>
 						</div>
 					</div>

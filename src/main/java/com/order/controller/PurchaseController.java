@@ -222,7 +222,7 @@ public class PurchaseController {
 		if(null==purchase.getPurchase_time()||"".equals(purchase.getPurchase_time())){
 			purchase.setPurchase_time(DateUtils.getNDayBeforeCurrentDate(1, "yyyy-MM-dd"));
 		}
-		purchase.setPurchase_user(user==null?null:user.getUsername());
+		purchase.setPurchase_user(user==null?null:user.getRealname());
 		List<Map<String,Object>> list = purchaseService.selectPurchase(purchase);
 		model.addAttribute("list", list);
 		return page;
@@ -232,7 +232,7 @@ public class PurchaseController {
 		String page = "orderModule/purchase/purchaseDetail";
 		User user = (User)request.getSession().getAttribute("user");
 		purchase.setPurchase_time(DateUtils.getCurrentDate("yyyy-MM-dd"));
-		purchase.setPurchase_user(user==null?null:user.getUsername());
+		purchase.setPurchase_user(user==null?null:user.getRealname());
 		List<Map<String,Object>> list = purchaseService.selectPurchase(purchase);
 		model.addAttribute("list", list);
 		return page;

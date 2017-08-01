@@ -176,6 +176,7 @@ layui.use(
 		
 	
 	jq("#test_save").on('click',function(){
+		jq("#test_save").hide();
 		var test_result = jq("#test_result").val();
 		var test_machine = jq("#test_machine").val();
 		var test_influence = jq("#test_influence").val();

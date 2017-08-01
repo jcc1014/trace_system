@@ -181,38 +181,40 @@ public class BaseInfoController {
 	}
 	@RequestMapping("index")
 	public String index(HttpServletRequest request){
-		String page = ""; //生产基地
+		String page = "redirect:login.do"; //生产基地
 		User user = (User)request.getSession().getAttribute("user");
-		if("B".equals(user.getUsertype())){
-			//超市等
-			page = "orderModule/require_index";
-		}else if("A".equals(user.getUsertype())){
-			page = "orderModule/scjd_index";
-		}
-		else if("5".equals(user.getUsertype())){
-			//采购主管
-			page = "orderModule/purchaseManage_index";
-		}else if("6".equals(user.getUsertype())){
-			//销售主管
-			page = "orderModule/saleManage_index";
-		}else if("7".equals(user.getUsertype())){
-			//运输
-			//page = "orderModule/transport_index";
-			page = "404";
-		}else if("1".equals(user.getUsertype())){
-			//采购员
-			page = "orderModule/purchase_index";
-		}else if("8".equals(user.getUsertype())){
-			//取样
-			page = "orderModule/sampling_index";
-		}else if("9".equals(user.getUsertype())){
-			//配送
-			page = "orderModule/distribution_index";
-		}else if("2".equals(user.getUsertype())){
-			//检验
-			page = "orderModule/test_index";
-		}else{
-			page = "404";
+		if(null!=user){
+			if("B".equals(user.getUsertype())){
+				//超市等
+				page = "orderModule/require_index";
+			}else if("A".equals(user.getUsertype())){
+				page = "orderModule/scjd_index";
+			}
+			else if("5".equals(user.getUsertype())){
+				//采购主管
+				page = "orderModule/purchaseManage_index";
+			}else if("6".equals(user.getUsertype())){
+				//销售主管
+				page = "orderModule/saleManage_index";
+			}else if("7".equals(user.getUsertype())){
+				//运输
+				//page = "orderModule/transport_index";
+				page = "404";
+			}else if("1".equals(user.getUsertype())){
+				//采购员
+				page = "orderModule/purchase_index";
+			}else if("8".equals(user.getUsertype())){
+				//取样
+				page = "orderModule/sampling_index";
+			}else if("9".equals(user.getUsertype())){
+				//配送
+				page = "orderModule/distribution_index";
+			}else if("2".equals(user.getUsertype())){
+				//检验
+				page = "orderModule/test_index";
+			}else{
+				page = "404";
+			}
 		}
 		return page;
 	}

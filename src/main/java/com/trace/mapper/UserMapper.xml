@@ -8,9 +8,11 @@
     <result column="usertype" property="usertype" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="baseid" property="baseid" jdbcType="VARCHAR" />
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
+    <result column="sfzh" property="sfzh" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    userid, username, password,usertype,phone,baseid
+    userid, username, password,usertype,phone,baseid,realname,sfzh
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -47,6 +49,12 @@
     <if test="baseid != null and baseid != ''">
      and baseid = #{baseid}
     </if>
+    <if test="sfzh != null and sfzh != ''">
+     and sfzh = #{sfzh}
+    </if>
+    <if test="realname != null and realname != ''">
+     and realname like '%${realname}%'
+    </if>
     order by usertype,username
     limit ${index},8
   </select>
@@ -67,6 +75,12 @@
     <if test="baseid != null and baseid != ''">
       and baseid = #{baseid}
     </if>
+    <if test="sfzh != null and sfzh != ''">
+     and sfzh = #{sfzh}
+    </if>
+    <if test="realname != null and realname != ''">
+     and realname like '%${realname}%'
+    </if>
   </select>
   
   <select id="query" resultMap="BaseResultMap" parameterType="com.trace.po.User" >
@@ -84,6 +98,12 @@
     </if>
     <if test="baseid != null and baseid != ''">
      and baseid = #{baseid}
+    </if>
+    <if test="sfzh != null and sfzh != ''">
+     and sfzh = #{sfzh}
+    </if>
+    <if test="realname != null and realname != ''">
+     and realname like '%${realname}%'
     </if>
     order by usertype,username
   </select>
@@ -103,11 +123,17 @@
     <if test="baseid != null and baseid != ''">
      and baseid = #{baseid}
     </if>
+    <if test="sfzh != null and sfzh != ''">
+     and sfzh = #{sfzh}
+    </if>
+    <if test="realname != null and realname != ''">
+     and realname like '%${realname}%'
+    </if>
   </select>
   
   <insert id="insert" parameterType="com.trace.po.User">
-  	insert into user (userid, username, password,usertype,phone,baseid) values
-  	(#{userid},#{username},#{password},#{usertype},#{phone},#{baseid})
+  	insert into user (userid, username, password,usertype,phone,baseid,realname,sfzh) values
+  	(#{userid},#{username},#{password},#{usertype},#{phone},#{baseid},#{realname},#{sfzh})
   </insert>
   
   <delete id="deleteById" parameterType="java.lang.String">
@@ -135,6 +161,12 @@
       <if test="baseid != null and baseid != ''" >
         baseid = #{baseid,jdbcType=VARCHAR},
       </if>
+      <if test="sfzh != null and sfzh != ''">
+        sfzh = #{sfzh}
+	  </if>
+	  <if test="realname != null and realname != ''">
+	    realname = #{realname}
+	  </if>
     </set>
     where userid = #{userid,jdbcType=VARCHAR}
   </update>

@@ -26,7 +26,7 @@ body p {
 </style>
 <script src="${path}/js/jquery-2.1.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-window.onload = function(){
+/* window.onload = function(){
 	var ua = navigator.userAgent.toLowerCase();
 	var isWeixin = ua.indexOf('micromessenger') != -1;
 	if (!isWeixin) {
@@ -34,7 +34,7 @@ window.onload = function(){
 		$("body").empty().append('<p>请在微信中打开</p>');
 
 	}
-}
+} */
 </script>
 <style type="text/css">
 .dot {

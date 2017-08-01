@@ -21,6 +21,8 @@ public class User {
 	private String usertype;
 	private String phone;
 	private String baseid; //基地信息
+	private String realname; //真实姓名
+	private String sfzh;
 	
 	public String getUserid() {
 		return userid;
@@ -57,6 +59,18 @@ public class User {
 	}
 	public void setBaseid(String baseid) {
 		this.baseid = baseid;
+	}
+	public String getRealname() {
+		return realname;
+	}
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
+	public String getSfzh() {
+		return sfzh;
+	}
+	public void setSfzh(String sfzh) {
+		this.sfzh = sfzh;
 	}
 	
 }

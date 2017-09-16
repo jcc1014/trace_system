@@ -119,5 +119,10 @@ public class ShopServiceImpl implements ShopService{
 		}
 		return rs;
 	}
+
+	@Override
+	public List<Shop> selectByCarry(Shop shop) {
+		return shopmapper.selectByCarry(shop);
+	}
 	
 }

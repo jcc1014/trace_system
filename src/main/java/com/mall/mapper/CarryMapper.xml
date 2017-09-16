@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mall.dao.CarryMapper" >
+  <resultMap id="BaseResultMap" type="com.mall.po.Carry" >
+    <id column="carry_id" property="carry_id" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shop_id" jdbcType="VARCHAR" />
+    <result column="carry_user" property="carry_user" jdbcType="VARCHAR" />
+    <result column="datetime" property="datetime" jdbcType="VARCHAR" />
+    <result column="mall_order_id" property="mall_order_id" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="finishtime" property="finishtime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    carry_id, shop_id, carry_user, datetime, mall_order_id, status, finishtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from carry
+    where carry_id = #{carry_id,jdbcType=VARCHAR}
+  </select>
+  <select id="select" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from carry
+    where  1=1
+    <if test="carry_user != null and carry_user != ''">
+    	and carry_user = #{carry_user}
+    </if>
+    <if test="shop_id != null and shop_id != ''">
+    	and shop_id = #{shop_id}
+    </if>
+    <if test="datetime != null and datetime != ''">
+    	and datetime = #{datetime}
+    </if>
+    <if test="mall_order_id != null and mall_order_id != ''">
+    	and mall_order_id = #{mall_order_id}
+    </if>
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+    <if test="finishtime != null and finishtime != ''">
+    	and finishtime = #{finishtime}
+    </if>
+    order by shop_id,carry_user,mall_order_id,status
+  </select>
+  <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from carry
+    where  1=1
+    <if test="carry_user != null and carry_user != ''">
+    	and carry_user = #{carry_user}
+    </if>
+    <if test="shop_id != null and shop_id != ''">
+    	and shop_id = #{shop_id}
+    </if>
+    <if test="datetime != null and datetime != ''">
+    	and datetime = #{datetime}
+    </if>
+    <if test="mall_order_id != null and mall_order_id != ''">
+    	and mall_order_id = #{mall_order_id}
+    </if>
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+    <if test="finishtime != null and finishtime != ''">
+    	and finishtime = #{finishtime}
+    </if>
+    order by shop_id,carry_user,mall_order_id,status
+    limit ${index},8
+  </select>
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select 
+    count(1) as num
+    from carry
+    where  1=1
+    <if test="carry_user != null and carry_user != ''">
+    	and carry_user = #{carry_user}
+    </if>
+    <if test="shop_id != null and shop_id != ''">
+    	and shop_id = #{shop_id}
+    </if>
+    <if test="datetime != null and datetime != ''">
+    	and datetime = #{datetime}
+    </if>
+    <if test="mall_order_id != null and mall_order_id != ''">
+    	and mall_order_id = #{mall_order_id}
+    </if>
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+    <if test="finishtime != null and finishtime != ''">
+    	and finishtime = #{finishtime}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from carry
+    where carry_id = #{carry_id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.order.po.BaseInfo" >
+    insert into carry
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="carry_id != null and carry_id != ''">
+    	 carry_id 
+    </if>
+      <if test="carry_user != null and carry_user != ''">
+    	 carry_user 
+    </if>
+    <if test="shop_id != null and shop_id != ''">
+    	 shop_id 
+    </if>
+    <if test="datetime != null and datetime != ''">
+    	 datetime 
+    </if>
+    <if test="mall_order_id != null and mall_order_id != ''">
+    	 mall_order_id 
+    </if>
+    <if test="status != null and status != ''">
+    	 status 
+    </if>
+    <if test="finishtime != null and finishtime != ''">
+    	 finishtime
+    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      	<if test="carry_id != null and carry_id != ''">
+    		#{carry_id},
+	    </if>
+      	<if test="carry_user != null and carry_user != ''">
+    		#{carry_user},
+	    </if>
+	    <if test="shop_id != null and shop_id != ''">
+	    	#{shop_id},
+	    </if>
+	    <if test="datetime != null and datetime != ''">
+	    	#{datetime},
+	    </if>
+	    <if test="mall_order_id != null and mall_order_id != ''">
+	    	#{mall_order_id},
+	    </if>
+	    <if test="status != null and status != ''">
+	    	#{status},
+	    </if>
+	    <if test="finishtime != null and finishtime != ''">
+	    	#{finishtime},
+	    </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.order.po.BaseInfo" >
+    update carry
+    <set >
+      	<if test="carry_user != null and carry_user != ''">
+			carry_user = #{name,jdbcType=VARCHAR},
+		</if>
+		<if test="shop_id != null and shop_id != ''">
+			 shop_id = #{shop_id}
+		</if>
+		<if test="datetime != null and datetime != ''">
+			 datetime = #{datetime}
+		</if>
+		<if test="mall_order_id != null and mall_order_id != ''">
+			 mall_order_id = #{mall_order_id}
+		</if>
+		<if test="status != null and status != ''">
+			 status = #{status}
+		</if>
+		<if test="finishtime != null and finishtime != ''">
+			 finishtime = #{finishtime}
+		</if>
+    </set>
+    where carry_id = #{carry_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

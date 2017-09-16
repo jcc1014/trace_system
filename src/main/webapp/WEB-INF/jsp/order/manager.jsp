@@ -65,9 +65,15 @@
             </div>
             <div class="b-line aui-add-title">派送地址：${item.address.sheng} ${item.address.shi} ${item.address.qu} ${item.address.address_detail}</div>
 			<div class="aui-add-cell">
-				<c:if test="${item.order.current_status eq '2'}">
-					<div class="aui-add-fix default" data-id="${item.address_id}" style="color:#ff5200" onclick="realAmount()">结算</div>
+					<div class="aui-add-fix default watch" data-id="${item.order.id}" style="color:#ff5200">查看</div>
+				<c:if test="${item.order.current_status eq '2'&& date eq 'today'}">
+					<div class="aui-add-fix default" data-id="${item.address_id}" style="color:#ff5200" onclick="jiesuan(this)">结算</div>
+	            </c:if>
+				<c:if test="${item.order.current_status eq '3'&& date eq 'today'}">
 					<div class="aui-add-fix default" data-id="${item.address_id}" style="color:#ff5200" onclick="send()">派送</div>
+	            </c:if>
+				<c:if test="${item.order.current_status eq '5' || date eq 'history'}">
+					<div class="aui-add-fix default" data-id="${item.address_id}" style="color:#ff5200" onclick="watch()">查看</div>
 	            </c:if>
 				<%-- <c:if test="${item.order..currentStatus eq '3'}">
 					<div class="aui-add-fix" data-id="${item.address_id}" style="color: #9e9e9e" onclick="">已派送</div>
@@ -100,7 +106,7 @@
         } else {
             $("footer").find("a").eq(1).addClass("pick");
         }
-		$(".order").click(function(){
+		$(".watch").click(function(){
 		   var id = $(this).data("id") || $(this).attr("data-id");
 		   window.location.href = "${path}/order/order_detail.do?id=" + id;
 		});
@@ -111,6 +117,11 @@
     	},function(){
     		layer.closeAll();
     	})
+    }
+    function jiesuan(obj){
+    	var _this = $(obj);
+    	var id = _this.data("id");
+    	window.location.href = "${path}/order/account.do";
     }
 </script>
 </body>

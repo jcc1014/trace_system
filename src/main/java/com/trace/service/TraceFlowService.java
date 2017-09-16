@@ -33,6 +33,7 @@ public interface TraceFlowService {
 	int update(TraceFlow traceFlow);
 	TraceFlow getById(String trace_id);
 	List<Map<String,Object>> query(Map<String,Object> map);
+	List<Map<String,Object>> selectIdentifier(Map<String,Object> map);
 	Map<String,Object> selectFlowById(String trace_id);
 	Map<String,Object> selectFlowByCode(String code);
 	int count(Map<String,Object> map);

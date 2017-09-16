@@ -21,9 +21,17 @@
 				<div class="layui-tab-item layui-show">
 					<input type="hidden" name="id" value="">
 					<div class="layui-form-item">
-						<label class="layui-form-label">姓名</label>
+						<label class="layui-form-label">用户名</label>
 						<div class="layui-input-inline input-custom-width">
 							<input type="text" id="username" name="username"
+								 autocomplete="off" placeholder="请输入用户名"
+								class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">姓名</label>
+						<div class="layui-input-inline input-custom-width">
+							<input type="text" id="realname" name="realname"
 								 autocomplete="off" placeholder="请输入姓名"
 								class="layui-input">
 						</div>
@@ -35,6 +43,8 @@
 								<option value="">请选择</option>
 								<option value="1">采购员</option>
 								<option value="2">检验员</option>
+								<option value="8">取样员</option>
+								<option value="9">配送员</option>
 							</select>
 						</div>
 					</div>
@@ -68,7 +78,12 @@
 	jq("#save").on('click', function() {
 		var username = jq("#username").val();
 		if ("" == username) {
-			layer.msg("请填写姓名！");
+			layer.msg("请填写用户名！");
+			return;
+		}
+		var realname = jq("#realname").val();
+		if ("" == realname) {
+			layer.msg("请填写真实姓名！");
 			return;
 		}
 		var usertype = jq("#usertype").val();
@@ -86,7 +101,7 @@
 		jq.ajax({
 			url : '${path}/user/addSave.do',
 			type : 'post',
-			data:{'username':username,'usertype':usertype,'phone':phone},
+			data:{'username':username,'usertype':usertype,'phone':phone,'realname':realname},
 			dataType : 'json',
 			success : function(rs) {
 				rs = eval("(" + rs + ")");
@@ -102,7 +117,48 @@
 		window.location.href = url;
 	})
 
-})							
+})			
+
+$("#username").blur(function(){
+	var username = $("#username").val();
+	$.ajax({
+		url : '${path}/shop/checkUser.do',
+		type : 'post',
+		data:{'username':username},
+		dataType : 'json',
+		success : function(rs) {
+			rs = eval("(" + rs + ")");
+			if("200"==rs.code){
+				layer.msg("用户名可用！",{time:1000});
+			}
+			else{
+				layer.msg("用户名已被占用，请更换！",{time:1000},function(){
+					$("#username").val("").focus();
+				});
+			}
+		}
+	})
+})
+$("#realname").blur(function(){
+	var realname = $("#realname").val();
+	$.ajax({
+		url : '${path}/user/checkName.do',
+		type : 'post',
+		data:{'realname':realname},
+		dataType : 'json',
+		success : function(rs) {
+			rs = eval("(" + rs + ")");
+			if("200"==rs.code){
+				//layer.msg("用户名可用！",{time:1000});
+			}
+			else{
+				layer.msg("姓名已被占用，请更换！",{time:1000},function(){
+					$("#realname").val("").focus();
+				});
+			}
+		}
+	})
+})
 </script>
 </body>
 </html>

@@ -30,4 +30,6 @@ public interface SalePriceMapper {
     int updateByParentid(SalePrice salePrice);
     
     int insertByRequireAndPurchase(Map<String,Object> map);
+    
+    List<SalePrice> selectMeatPrice(Map<String,Object> map);
 }

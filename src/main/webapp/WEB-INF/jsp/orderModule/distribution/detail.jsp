@@ -74,15 +74,25 @@
 					name="phone" value="${sessionScope.user.phone}" readonly="readonly">
 				</div>
 				<div class="form-group">
-					<label >蔬菜编码</label> <input
+					<label >蔬菜编码</label> 
+					<!-- <input
 						type="text" class="form-control" name="trace_id" id="trace_id"
+						onblur="checkTrace();"> -->
+					<select  class="form-control" name="trace_id" id="trace_id"
 						onblur="checkTrace();">
+						<option value="">请选择</option>
+						<c:if test="${null != identifierList }">
+							<c:forEach var="item" items="${identifierList}">
+								<option value="${item.identifier}">${item.identifier }</option>
+							</c:forEach>
+						</c:if>
+					</select>
 					<span id="trace_num"></span>
 				</div>
 				<div class="form-group">
 					<label >配送数量</label> 
 					<input type="number" class="form-control" id="distribution_num"
-					name="distribution_num" onblur="checkNum();">
+					name="distribution_num" onblur="checkNum();"> 
 				</div>
 				<div class="form-group">
 					<label >配送车辆</label> 

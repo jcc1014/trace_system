@@ -125,46 +125,6 @@ public class OrderController {
 	 */
 	@RequestMapping("orderManageList")
 	public String orderManage(HttpServletRequest request,Model model,String type,String date){
-		/*String page = "order/manager";
-		User user = (User)request.getSession().getAttribute("user");
-		if(null==date||"".equals(date)){
-			date = DateUtils.getCurrentDate("yyyy-MM-dd");
-		}
-		if(null==user){
-			return "redirect:/order/login.do";
-		}
-		Shop shop = new Shop();
-		Order order = new Order();
-		shop.setMember_id(user.getUserid());
-		List<Shop> shopList = shopService.select(shop);
-		if(0<shopList.size()){
-			shop = shopList.get(0);
-			order.setShop_id(shop.getShop_id());
-		}
-		if("0".equals(type)){
-			order.setCurrent_status("2");
-		}else if("1".equals(type)){
-			order.setCurrent_status("3");
-		}
-		order.setOrdertime(date);
-		List<Order> orderList = orderService.select(order);
-		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
-		Map<String,Object> map = null;
-		Address address = null;
-		Goods goods = null;
-		if(0<orderList.size()){
-			for (int i = 0; i < orderList.size(); i++) {
-				map = new HashMap<String, Object>();
-				map.put("order", orderList.get(i));
-				address = addressService.selectByPrimaryKey(orderList.get(i).getAddress_id());
-				goods = goodsService.selectByPrimaryKey(orderList.get(i).getGoods_id());
-				map.put("address", address);
-				map.put("goods", goods);
-				list.add(map);
-			}
-		}
-		model.addAttribute("list", list);
-		return page;*/
 		String page = "order/manager";
 		User user = (User)request.getSession().getAttribute("user");
 		if(null==user){

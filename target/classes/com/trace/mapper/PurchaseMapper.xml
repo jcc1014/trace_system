@@ -14,7 +14,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     purchase_id, purchase_user, purchase_time,purchase_num,
-    purchase_video,purchase_parentid,purchase_grade,purchase_kind,purchase_price
+    purchase_video,purchase_parentid,purchase_grade,purchase_kind,purchase_price,purchase_spyb
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -43,6 +43,9 @@
     <if test="purchase_grade != null and purchase_grade != ''">
     	and p.purchase_grade = #{purchase_grade}
     </if>
+    <if test="purchase_spyb != null and purchase_spyb != ''">
+    	and p.purchase_spyb = #{purchase_spyb}
+    </if>
     <if test="purchase_parentid != null and purchase_parentid != ''">
     	and p.purchase_parentid = #{purchase_parentid}
     </if>
@@ -57,7 +60,7 @@
 		  <if test="purchase_price !=null and purchase_price !=0">purchase_price=#{purchase_price},</if>
 		  <if test="purchase_kind !=null and purchase_kind !=''">purchase_kind=#{purchase_kind},</if>
 		  <if test="purchase_grade !=null and purchase_grade !=''">purchase_grade=#{purchase_grade},</if>
-		  <if test="purchase_video !=null and purchase_video !=''">test_status=#{test_status},</if>
+		  <if test="purchase_video !=null and purchase_video !=''">purchase_video=#{purchase_video},</if>
 		  <if test="purchase_parentid !=null and purchase_parentid !=''">purchase_parentid=#{purchase_parentid},</if>
 		 </trim>
 	WHERE purchase_id=#{purchase_id}
@@ -71,7 +74,8 @@
 		  <if test="purchase_price !=null and purchase_price !=0">purchase_price=#{purchase_price},</if>
 		  <if test="purchase_kind !=null and purchase_kind !=''">purchase_kind=#{purchase_kind},</if>
 		  <if test="purchase_grade !=null and purchase_grade !=''">purchase_grade=#{purchase_grade},</if>
-		  <if test="purchase_video !=null and purchase_video !=''">test_status=#{test_status},</if>
+		  <if test="purchase_video !=null and purchase_video !=''">purchase_video=#{purchase_video},</if>
+		  <if test="purchase_spyb !=null and purchase_video !=''">purchase_spyb=#{purchase_spyb},</if>
 		 </trim>
 	WHERE purchase_parentid=#{purchase_parentid}
   </update>
@@ -106,6 +110,9 @@
       <if test="purchase_price != null and purchase_price != 0" >
         purchase_price,
       </if>
+      <if test="purchase_spyb != null and purchase_spyb != ''" >
+        purchase_spyb,
+      </if>
       </trim>
       <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="purchase_id != null and purchase_id != ''" >
@@ -134,6 +141,9 @@
       </if>
       <if test="purchase_price != null and purchase_price != 0" >
         #{purchase_price},
+      </if>
+      <if test="purchase_spyb != null and purchase_spyb != ''" >
+        #{purchase_spyb},
       </if>
       </trim>
   </insert>

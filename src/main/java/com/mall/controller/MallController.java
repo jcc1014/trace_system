@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.mall.dao.MallOrderMapper;
 import com.mall.po.*;
 import com.mall.service.*;
 import com.mall.utils.MD5Util;

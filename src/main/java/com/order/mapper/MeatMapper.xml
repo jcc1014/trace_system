@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.order.dao.MeatMapper" >
+  <resultMap id="BaseResultMap" type="com.order.po.Meat" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="pch" property="pch" jdbcType="VARCHAR" />
+    <result column="kind" property="kind" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="DOUBLE" />
+    <result column="remain" property="remain" jdbcType="DOUBLE" />
+    <result column="cgj" property="cgj" jdbcType="DOUBLE" />
+    <result column="cgr" property="cgr" jdbcType="VARCHAR" />
+    <result column="sccj" property="sccj" jdbcType="VARCHAR" />
+    <result column="rksj" property="rksj" jdbcType="VARCHAR" />
+    <result column="jcbg" property="jcbg" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="datetime" property="datetime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, pch, kind, grade, num, remain, sccj, rksj, jcbg, type, datetime,cgr,cgj
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.order.po.Meat" >
+    select 
+    <include refid="Base_Column_List" />
+    from meat
+    where 1=1
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+    <if test="grade != null and grade != ''">
+    	and grade = #{grade}
+    </if>
+    <if test="pch != null and pch != ''">
+    	and pch = #{pch}
+    </if>
+    <if test="rksj != null and rksj != ''">
+    	and rksj &gt; date_sub(now(), interval 24 hour)
+<!--     	and rksj like '%${rksj}%' -->
+    </if>
+    <if test="sccj != null and sccj != ''">
+    	and sccj = #{sccj}
+    </if>
+    <if test="type != null and type != ''">
+    	and type = #{type}
+    </if>
+    <if test="cgr != null and cgr != ''">
+    	and cgr = #{cgr}
+    </if>
+   
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from meat
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from meat
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.order.po.Meat" >
+    insert into meat (id, pch, kind, 
+      grade, num, remain, sccj, 
+      rksj, jcbg, type, datetime
+      )
+    values (#{id,jdbcType=VARCHAR}, #{pch,jdbcType=VARCHAR}, #{kind,jdbcType=VARCHAR}, 
+      #{grade,jdbcType=VARCHAR}, #{num,jdbcType=DOUBLE}, #{remain,jdbcType=DOUBLE}, #{sccj,jdbcType=VARCHAR}, 
+      #{rksj,jdbcType=VARCHAR}, #{jcbg,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{datetime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.order.po.Meat" >
+    insert into meat
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pch != null" >
+        pch,
+      </if>
+      <if test="kind != null" >
+        kind,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="remain != null" >
+        remain,
+      </if>
+      <if test="sccj != null" >
+        sccj,
+      </if>
+      <if test="rksj != null" >
+        rksj,
+      </if>
+      <if test="jcbg != null" >
+        jcbg,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="datetime != null" >
+        datetime,
+      </if>
+      <if test="cgr != null" >
+        cgr,
+      </if>
+      <if test="cgj != 0 " >
+        cgr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pch != null" >
+        #{pch,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null" >
+        #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=DOUBLE},
+      </if>
+      <if test="remain != null" >
+        #{remain,jdbcType=DOUBLE},
+      </if>
+      <if test="sccj != null" >
+        #{sccj,jdbcType=VARCHAR},
+      </if>
+      <if test="rksj != null" >
+        #{rksj,jdbcType=VARCHAR},
+      </if>
+      <if test="jcbg != null" >
+        #{jcbg,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=VARCHAR},
+      </if>
+      <if test="cgr != null" >
+        #{cgr,jdbcType=VARCHAR},
+      </if>
+      <if test="cgj != 0" >
+        #{cgj},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.order.po.Meat" >
+    update meat
+    <set >
+      <if test="pch != null" >
+        pch = #{pch,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null" >
+        kind = #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=DOUBLE},
+      </if>
+      <if test="remain != null" >
+        remain = #{remain,jdbcType=DOUBLE},
+      </if>
+      <if test="sccj != null" >
+        sccj = #{sccj,jdbcType=VARCHAR},
+      </if>
+      <if test="rksj != null" >
+        rksj = #{rksj,jdbcType=VARCHAR},
+      </if>
+      <if test="jcbg != null" >
+        jcbg = #{jcbg,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="datetime != null" >
+        datetime = #{datetime,jdbcType=VARCHAR},
+      </if>
+      <if test="cgr != null" >
+        cgr = #{cgr,jdbcType=VARCHAR},
+      </if>
+      <if test="cgj != 0" >
+        cgj = #{cgj},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.order.po.Meat" >
+    update meat
+    set pch = #{pch,jdbcType=VARCHAR},
+      kind = #{kind,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=VARCHAR},
+      num = #{num,jdbcType=DOUBLE},
+      remain = #{remain,jdbcType=DOUBLE},
+      sccj = #{sccj,jdbcType=VARCHAR},
+      rksj = #{rksj,jdbcType=VARCHAR},
+      jcbg = #{jcbg,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      datetime = #{datetime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

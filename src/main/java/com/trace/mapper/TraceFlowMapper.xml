@@ -61,6 +61,20 @@
     
   </select>
   
+  <select id="selectIdentifier" resultType="java.util.Map" parameterType="java.util.Map">
+  	SELECT * from trace_flow tf,purchase p where p.purchase_id = tf.purchase_id
+  	<if test="kind !=null and kind != ''">
+		and p.purchase_kind = #{kind} 
+  	</if>
+  	<if test="grade !=null and grade != ''">
+	and p.purchase_grade = #{grade} 
+	</if>
+	<if test="spyb !=null and spyb != ''">
+	and p.purchase_spyb = #{spyb}
+	</if>
+	and p.purchase_time &gt; date_sub(#{datetime}, interval 24 hour)
+  </select>
+  
   <select id="query" resultType="java.util.Map" parameterType="java.util.Map">
   	SELECT * from trace_flow tf,farmer f,purchase p,test t,transport tra,qrcode q WHERE
 	f.farmer_id = tf.farmer_id and p.purchase_id = tf.purchase_id

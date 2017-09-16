@@ -158,6 +158,9 @@ public class PurchaseController {
 		traceFlow.setTrace_status("6");
 		traceFlow.setIdentifier(DateUtils.getCurrentDate("yyyyMMddHHmmss"));
 		transportService.add(transport);
+		request.getSession().setAttribute("transport_user", transport.getTransport_user());
+		request.getSession().setAttribute("transport_truck", transport.getTransport_truck());
+		request.getSession().setAttribute("transport_desitination", transport.getTransport_destination());
 		Qrcode qrcode = new Qrcode();
 		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
 		String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";

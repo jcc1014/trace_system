@@ -169,7 +169,7 @@ function time(){
             + seperator2 + formatTime(date.getSeconds());
     var time = formatTime(date.getHours()) + seperator2 + formatTime(date.getMinutes())
     + seperator2 + formatTime(date.getSeconds());
-    if(time=="21:00:00"||time>"21:00:00"){
+    if(time=="24:00:00"||time>"24:00:00"){
     	$("#submit").attr("disabled",true).addClass("hide");
     	$("#add").attr("disabled",true).addClass("hide");
     }

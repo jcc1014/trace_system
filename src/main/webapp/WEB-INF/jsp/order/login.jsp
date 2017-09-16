@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>${mall}</title>
+<title>商城订单</title>
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -26,7 +26,7 @@ body p {
 </style>
 <script src="${path}/js/jquery-2.1.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-window.onload = function(){
+/* window.onload = function(){
 	var ua = navigator.userAgent.toLowerCase();
 	var isWeixin = ua.indexOf('micromessenger') != -1;
 	if (!isWeixin) {
@@ -34,7 +34,7 @@ window.onload = function(){
 		$("body").empty().append('<p>请在微信中打开</p>');
 
 	}
-}
+} */
 </script>
 <style type="text/css">
 	.dot {

@@ -86,17 +86,17 @@
 				<div class="form-group">
 					<label >运输员</label> <input
 						type="text" class="form-control" 
-						id="transport_user" name="transport_user">
+						id="transport_user" name="transport_user" value="${sessionScope.transport_user}">
 				</div>
 				<div class="form-group">
 					<label >运输车辆</label> <input
 						type="text" class="form-control" 
-						id="transport_truck" name="transport_truck" >
+						id="transport_truck" name="transport_truck" value="${sessionScope.transport_truck}">
 				</div>
 				<div class="form-group">
 					<label >目的地</label> <input
 						type="text" class="form-control" 
-						id="transport_destination" name="transport_destination">
+						id="transport_destination" name="transport_destination" value="${sessionScope.transport_destination}">
 				</div>
 				
 				<button type="button" class="btn btn-primary" id="submit_btn" onclick="submit();">提交</button>

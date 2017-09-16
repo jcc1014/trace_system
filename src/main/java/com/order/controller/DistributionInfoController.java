@@ -131,7 +131,17 @@ public class DistributionInfoController {
 	public String detail(HttpServletRequest request,Model model,String id){
 		String page = "orderModule/distribution/detail";
 		DistributionInfo distributionInfo = distributionInfoService.selectByPrimaryKey(id);
+		if(null!=distributionInfo){
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("kind", distributionInfo.getKind());
+			map.put("grade", distributionInfo.getGrade());
+			map.put("spyb", distributionInfo.getSpyb());
+			map.put("datetime", DateUtils.getCurrentDate());
+			List<Map<String, Object>> indentifierList = traceFlowService.selectIdentifier(map);
+			model.addAttribute("identifierList", indentifierList);
+		}
 		model.addAttribute("distribution", distributionInfo);
+		
 		return page;
 	}
 	

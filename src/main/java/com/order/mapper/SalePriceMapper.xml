@@ -26,7 +26,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </select>
   
-  <select id="selectByKindAndGrade" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByKindAndGrade" parameterType="java.util.Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from sale_price
@@ -34,6 +34,13 @@
     and grade = #{grade,jdbcType=VARCHAR}
     and spyb = #{spyb,jdbcType=VARCHAR}
     and createtime  like '%${datetime}%'
+  </select>
+ <select id="selectMeatPrice" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+     from sale_price 
+     where kind in (select kind from meat where  rksj like '%${date}%')
+     and grade in (select grade from meat where  rksj like '%${date}%')
   </select>
   
   <select id="select" resultMap="BaseResultMap" parameterType="com.order.po.SalePrice" >
@@ -174,7 +181,7 @@
       <if test="price != null and price != 0">
         #{price,jdbcType=DOUBLE},
       </if>
-      <if test="canteen_price != null and and canteen_price != 0">
+      <if test="canteen_price != null and canteen_price != 0">
         #{canteen_price,jdbcType=DOUBLE},
       </if>
       <if test="market_price != null and market_price != 0">
@@ -278,7 +285,7 @@
   	SELECT REPLACE(UUID(),'-',''),r.kind,r.grade,r.spyb,p.price,#{nowtime},'0'
 	FROM (SELECT kind,grade,spyb from require_info WHERE status='1' and createtime LIKE '%${datetime}%'
 	GROUP BY kind,grade,spyb)as r LEFT JOIN
-	(SELECT  purchase_kind,purchase_grade,purchase_spyb,purchase_time,SUM(purchase_price)/count(1) as price from purchase WHERE purchase_time &gt; date_sub(#{datetime2}, interval 24 hour)
+	(SELECT  purchase_kind,purchase_grade,purchase_spyb,purchase_time,SUM(purchase_price)/count(1) as price from purchase WHERE purchase_time &gt; date_sub(#{datetime2}, interval 15 hour)
 	GROUP BY purchase_kind,purchase_grade,purchase_spyb)as p 
 	on p.purchase_kind = r.kind and p.purchase_grade = r.grade
   </insert>

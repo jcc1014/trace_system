@@ -65,12 +65,6 @@
 			</div>
 		</div>
 		<div class="row">
-			<%-- <div class="col-md-6 col-xs-6">
-				<div class="item" style="border: 1px solid #515151;" onclick="gy();">
-					<img alt="供应单" src="${path}/images/orderModule/gongying.png" width="100%" height="85%;">
-					<div style="color: #EE7600;">供应单</div>
-				</div>
-			</div> --%>
 			<div class="col-md-6 col-xs-6">
 				<div class="item" style="border: 1px solid #66CDAA;" onclick="qh();">
 					<img alt="缺货单" src="${path}/images/orderModule/qh.png" width="100%" height="85%;">
@@ -98,9 +92,6 @@ function setup(){
 	window.location.href = '${path}/produce/setup.do'
 }
 
-function gy(){
-	window.location.href = '${path}/produce/todayProduceTotal.do';
-}
 function qh(){
 	window.location.href = '${path}/purchaseInfo/getQhd.do';
 }

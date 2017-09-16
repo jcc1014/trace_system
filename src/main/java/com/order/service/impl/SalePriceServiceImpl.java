@@ -75,4 +75,9 @@ public class SalePriceServiceImpl implements SalePriceService {
 		return salePriceMapper.selectByKindAndGrade(kind, grade,spyb,datetime);
 	}
 
+	@Override
+	public List<SalePrice> selectMeatPrice(Map<String, Object> map) {
+		return salePriceMapper.selectMeatPrice(map);
+	}
+
 }

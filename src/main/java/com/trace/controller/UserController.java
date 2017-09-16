@@ -60,6 +60,21 @@ public class UserController {
 		String rs = JSON.toJSONString(map);
 		return rs;
 	}
+	
+	@RequestMapping("checkName.do")
+	@ResponseBody
+	public String checkName(HttpServletRequest request,HttpSession session,String realname){
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("realname", realname);
+		List<User> list = userService.select(map);
+		if(0<list.size()){
+			map.put("code", -1);
+		}else{
+			map.put("code", 200);
+		}
+		String rs = JSON.toJSONString(map);
+		return rs;
+	}
 	@RequestMapping("logout.do")
 	@ResponseBody
 	public String logout(HttpServletRequest request,HttpSession session){

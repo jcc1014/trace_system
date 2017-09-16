@@ -83,6 +83,7 @@ public class RequireController {
 			
 		}
 		Goods goods = new Goods();
+		goods.setGoods_type("1");
 		List<Goods> goodsList = goodsService.select(goods); //所有的菜
 		List<Dict> dictList = dictService.selectByParentId("spyb");
 		model.addAttribute("goodsList", goodsList);

@@ -30,6 +30,14 @@
             	<option value="">--选择--</option>
             	<option value="1" <c:if test="${usertype eq '1'}">checked="checked""</c:if> >采购员</option>
             	<option value="2" <c:if test="${usertype eq '2'}">checked="checked""</c:if>>检验员</option>
+            	<option value="3" <c:if test="${usertype eq '3'}">checked="checked""</c:if>>店家</option>
+            	<option value="4" <c:if test="${usertype eq '4'}">checked="checked""</c:if>>会员</option>
+            	<option value="5" <c:if test="${usertype eq '5'}">checked="checked""</c:if>>采购主管</option>
+            	<option value="6" <c:if test="${usertype eq '6'}">checked="checked""</c:if>>销售主管</option>
+            	<option value="7" <c:if test="${usertype eq '7'}">checked="checked""</c:if>>运输员</option>
+            	<option value="8" <c:if test="${usertype eq '8'}">checked="checked""</c:if>>取样员</option>
+            	<option value="9" <c:if test="${usertype eq '9'}">checked="checked""</c:if>>配送员</option>
+            	<option value="A" <c:if test="${usertype eq 'A'}">checked="checked""</c:if>>基地负责人</option>
             </select>
           </div>
           <button class="layui-btn" id="search">搜索</button>
@@ -67,6 +75,18 @@
 	          			</c:if>
 	          			<c:if test="${user.usertype eq '4'}">
 	          			会员
+	          			</c:if>
+	          			<c:if test="${user.usertype eq '5'}">
+	          			采购主管
+	          			</c:if>
+	          			<c:if test="${user.usertype eq '6'}">
+	          			销售主管
+	          			</c:if>
+	          			<c:if test="${user.usertype eq '7'}">
+	          			运输员
+	          			</c:if>
+	          			<c:if test="${user.usertype eq '8'}">
+	          			配送员
 	          			</c:if>
           			</td>
           			<td>${user.phone}</td>

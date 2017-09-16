@@ -27,4 +27,6 @@ public interface ShopMapper {
     List<Shop> selectListAll(Map<String,Object> map);
     
     List<Shop> select(Shop shop);
+    
+    List<Shop> selectByCarry(Shop shop);
 }

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.order.dao.PsMeatMapper" >
+  <resultMap id="BaseResultMap" type="com.order.po.PsMeat" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="require_id" property="require_id" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="DOUBLE" />
+    <result column="psr" property="psr" jdbcType="VARCHAR" />
+    <result column="pch" property="pch" jdbcType="VARCHAR" />
+    <result column="xm" property="xm" jdbcType="VARCHAR" />
+    <result column="cph" property="cph" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="qrcode" property="qrcode" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.order.po.PsMeat" extends="BaseResultMap" >
+    <result column="sign" property="sign" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, require_id, num, psr, pch, xm, cph, code, qrcode, status
+  </sql>
+  <sql id="Blob_Column_List" >
+    sign
+  </sql>
+  <select id="select" resultMap="ResultMapWithBLOBs" parameterType="com.order.po.PsMeat" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ps_meat
+    where 1=1
+    <if test="require_id != null and require_id != ''">
+    	and require_id = #{require_id}
+    </if>
+    <if test="pch != null and pch != ''">
+    	and pch = #{pch}<!-- 批次号 -->
+    </if>
+    <if test="code != null and code != ''">
+    	and code = #{code}
+    </if>
+    <if test="require_id != null and require_id != ''">
+    	and require_id = #{require_id}
+    </if>
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ps_meat
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ps_meat
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.order.po.PsMeat" >
+    insert into ps_meat (id, require_id, num, 
+      psr, pch, xm, cph, 
+      code, qrcode, status, 
+      sign)
+    values (#{id,jdbcType=VARCHAR}, #{require_id,jdbcType=VARCHAR}, #{num,jdbcType=DOUBLE}, 
+      #{psr,jdbcType=VARCHAR}, #{pch,jdbcType=VARCHAR}, #{xm,jdbcType=VARCHAR}, #{cph,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{qrcode,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{sign,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.order.po.PsMeat" >
+    insert into ps_meat
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="require_id != null" >
+        require_id,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="psr != null" >
+        psr,
+      </if>
+      <if test="pch != null" >
+        pch,
+      </if>
+      <if test="xm != null" >
+        xm,
+      </if>
+      <if test="cph != null" >
+        cph,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="qrcode != null" >
+        qrcode,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sign != null" >
+        sign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="require_id != null" >
+        #{require_id,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=DOUBLE},
+      </if>
+      <if test="psr != null" >
+        #{psr,jdbcType=VARCHAR},
+      </if>
+      <if test="pch != null" >
+        #{pch,jdbcType=VARCHAR},
+      </if>
+      <if test="xm != null" >
+        #{xm,jdbcType=VARCHAR},
+      </if>
+      <if test="cph != null" >
+        #{cph,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcode != null" >
+        #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.order.po.PsMeat" >
+    update ps_meat
+    <set >
+      <if test="require_id != null" >
+        require_id = #{require_id,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=DOUBLE},
+      </if>
+      <if test="psr != null" >
+        psr = #{psr,jdbcType=VARCHAR},
+      </if>
+      <if test="pch != null" >
+        pch = #{pch,jdbcType=VARCHAR},
+      </if>
+      <if test="xm != null" >
+        xm = #{xm,jdbcType=VARCHAR},
+      </if>
+      <if test="cph != null" >
+        cph = #{cph,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcode != null" >
+        qrcode = #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.order.po.PsMeat" >
+    update ps_meat
+    set require_id = #{require_id,jdbcType=VARCHAR},
+      num = #{num,jdbcType=DOUBLE},
+      psr = #{psr,jdbcType=VARCHAR},
+      pch = #{pch,jdbcType=VARCHAR},
+      xm = #{xm,jdbcType=VARCHAR},
+      cph = #{cph,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      qrcode = #{qrcode,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.order.po.PsMeat" >
+    update ps_meat
+    set require_id = #{require_id,jdbcType=VARCHAR},
+      num = #{num,jdbcType=DOUBLE},
+      psr = #{psr,jdbcType=VARCHAR},
+      pch = #{pch,jdbcType=VARCHAR},
+      xm = #{xm,jdbcType=VARCHAR},
+      cph = #{cph,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      qrcode = #{qrcode,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -52,7 +52,7 @@ article{margin-top: 0.5rem;background-color: #eee;}
 					<span>订单号：${item.order.order_number }</span>
 					<span>订单时间：${item.order.ordertime }</span>
 					<span>商品名称：${item.goods.goods_name}</span>
-					 <span class="price price-cart">单价： ￥${item.order.amount}
+					 <span class="price price-cart">单价： ￥${item.order.price}
 						<div class="norms-content-t norms-content-two">
 							<span style="width: 8rem">数量：${item.order.number}	（斤）</span> 
 						</div>

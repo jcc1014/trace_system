@@ -139,7 +139,7 @@ public class CarryController {
 		model.addAttribute("shopList", shopList);
 		model.addAttribute("shopJson", JSON.toJSONString(shopList));
 		//加载有单子的
-		return "carry/index";
+		return "carry/index2";
 	}
 	
 	/**

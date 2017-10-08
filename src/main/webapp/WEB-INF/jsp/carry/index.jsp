@@ -79,7 +79,7 @@ body p {
 		<div style="height: 2.5rem;"></div>
 	</div>
 	<!--中间容器  -->
-	<div id="map" style="width:100%;height: 300px;">
+	<div id="map" style="width:100%;height: 600px;">
 	<div id="r-result" style="height: 300px;display: none;"></div>
 		
 		
@@ -100,6 +100,11 @@ body p {
 		</a>
 	</footer>
 	<script type="text/javascript">
+
+	$(function(){
+		getLocation();
+	})
+	
 	function getLocation() {
 		var options = {
 			enableHighAccuracy : true,
@@ -229,8 +234,6 @@ body p {
 	  map.addOverlay(marker);
 	}
 	
-	window.onload = getLocation;
-	
 	function selectShop(id){
 		//检查此店订单是否满足
 		$.ajax({
@@ -266,16 +269,6 @@ body p {
 		})
 	}
 	
-	function route(map,start,end){
-		/* var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: true}});
-		walking.search("祝甸西", "泉城广场");
-		layer.open({
-			type: 1,
-			title:'信息',
-			area:['90%','35%'],
-			content:$('#r-result'),
-		}); */
-	}
 	</script>
 </body>
 </html>

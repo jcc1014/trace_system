@@ -183,10 +183,27 @@ public class SendMessage {
 	public static void demoText(){
 		List<String> userList = new ArrayList<String>();
 		userList.add("erp-0000");
+		//userList.add("zhanghao");
 		TextMessageEntity textMessageEntity = new TextMessageEntity();
 		textMessageEntity.setTouser(userList);
 		Map<String, String> text = new HashMap<String, String>();
-		text.put("content", "hello");
+		text.put("content", "hellohello");
+		textMessageEntity.setText(text);
+		try {
+			JSONObject jsonObject = SendMessage.sendTextMessage(textMessageEntity);
+			Log4JUtils.getLogger().error(jsonObject.get("errcode"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void demoText2(String msg){
+		List<String> userList = new ArrayList<String>();
+		userList.add("erp-0000");
+		userList.add("zhanghao");
+		TextMessageEntity textMessageEntity = new TextMessageEntity();
+		textMessageEntity.setTouser(userList);
+		Map<String, String> text = new HashMap<String, String>();
+		text.put("content",msg);
 		textMessageEntity.setText(text);
 		try {
 			JSONObject jsonObject = SendMessage.sendTextMessage(textMessageEntity);
@@ -199,6 +216,7 @@ public class SendMessage {
 	public static void demoNews(){
 		List<String> userList = new ArrayList<String>();
 		userList.add("erp-0000");
+		userList.add("zhanghao");
 		NewsMsgEntity newsMsgEntity = new NewsMsgEntity();
 		newsMsgEntity.setTouser(userList);
 		Map<String,String> map = new HashMap<String, String>();

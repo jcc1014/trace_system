@@ -36,6 +36,7 @@ import com.trace.util.DateUtils;
 import com.trace.util.QRCodeUtil;
 import com.trace.util.ResultUtil;
 import com.utils.UUIDFactory;
+import com.wechat.util.SendMessage;
 
 @Controller
 @RequestMapping("distribution")
@@ -244,9 +245,15 @@ public class DistributionInfoController {
 		DistributionInfo distributionInfo = new DistributionInfo();
 		distributionInfo.setCreatetime(time);
 		distributionInfo.setBase_id(baseid);
+		List<Map<String, Object>> list = distributionInfoService.select(distributionInfo);
 		distributionInfo.setSignname(signname);
 		int r = distributionInfoService.updateSignName(distributionInfo);
 		if(0<r){
+			if(1==list.size()){
+				
+				String msg = "日期："+time+"\n需求名称："+list.get(0).get("require_name")+"\n 已确认收货";
+				SendMessage.demoText2(msg);
+			}
 			rs = ResultUtil.resultString(1);
 		}else{
 			rs = ResultUtil.resultString(0);

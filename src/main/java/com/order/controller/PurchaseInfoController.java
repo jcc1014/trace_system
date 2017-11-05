@@ -26,6 +26,7 @@ import com.trace.service.UserService;
 import com.trace.util.DateUtils;
 import com.trace.util.ResultUtil;
 import com.utils.UUIDFactory;
+import com.wechat.util.SendMessage;
 
 @Controller
 @RequestMapping("purchaseInfo")
@@ -183,6 +184,7 @@ public class PurchaseInfoController {
 		purchaseInfoService.updateByParnetid(purchaseInfo);
 		int r = totalInfoService.updateByPrimaryKeySelective(totalInfo);
 		String rs = ResultUtil.resultString(r);
+		SendMessage.sendMsg(" 已提交采购单信息！（"+DateUtils.getCurrentDate()+"）");
 		return rs;
 	}
 	

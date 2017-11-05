@@ -105,6 +105,13 @@
 		</div>
 	</div>
 <script type="text/javascript">
+$(function(){
+	if('0'=='${fn:length(identifierList)}'){
+		layer.msg('此种类没有采购不能配送！',{time:1000},function(){
+			window.history.go(-1);
+		})
+	}
+})
 function submit(){
 	var distribution_car = $("#distribution_car").val();
 	if(""==distribution_car||null==distribution_car){

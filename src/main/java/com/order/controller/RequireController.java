@@ -28,6 +28,7 @@ import com.trace.service.UserService;
 import com.trace.util.DateUtils;
 import com.trace.util.ResultUtil;
 import com.utils.UUIDFactory;
+import com.wechat.util.SendMessage;
 
 @Controller
 @RequestMapping("require")
@@ -126,6 +127,7 @@ public class RequireController {
 		requireInfoService.updateByParentid(requireInfo);
 		int r = totalInfoService.updateByPrimaryKeySelective(totalInfo);
 		rs = ResultUtil.resultString(r);
+		SendMessage.sendMsg(totalInfo.getName()+" 已提交需求单！（"+DateUtils.getCurrentDate()+"）");
 		return rs;
 		
 	}

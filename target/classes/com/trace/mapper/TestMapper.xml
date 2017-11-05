@@ -41,7 +41,8 @@
   <select id="getTestInfo" parameterType="java.util.Map" resultType="java.util.Map">
   	SELECT * from farmer f,trace_flow tf,test t where t.test_id = tf.test_id and tf.farmer_id = f.farmer_id
 	and t.test_status = '2' 
-	and t.test_time like '%${test_time}%'
+	<!-- and t.test_time like '%${test_time}%' -->
+	and t.test_time &gt; date_sub(#{test_time}, interval 8 hour)
 	and t.test_grade = #{grade} 
 	and t.test_kind=#{kind}
 	and t.test_spyb=#{spyb}

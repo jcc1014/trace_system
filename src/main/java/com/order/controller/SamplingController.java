@@ -29,6 +29,7 @@ import com.trace.service.TraceFlowService;
 import com.trace.util.DateUtils;
 import com.trace.util.ResultUtil;
 import com.utils.UUIDFactory;
+import com.wechat.util.SendMessage;
 
 @Controller
 @RequestMapping("sampling")
@@ -265,6 +266,9 @@ public class SamplingController {
 			test.setTest_status("1");
 			int r = testService.updateByNameAndTime(test);
 			rs = ResultUtil.resultString(r>0?1:0);
+			if(r>0){
+				SendMessage.sendMsg(" 已提交取样！（"+DateUtils.getCurrentDate()+"）");
+			}
 		}
 		return rs;
 	}
@@ -281,6 +285,9 @@ public class SamplingController {
 			test.setTest_status("1");
 			int r = testService.updateByNameAndTime(test);
 			rs = ResultUtil.resultString(r>0?1:0);
+			if(r>0){
+				SendMessage.sendMsg(" 已提交缺货取样！（"+DateUtils.getCurrentDate()+"）");
+			}
 		}
 		return rs;
 	}

@@ -114,6 +114,7 @@ public class PurchaseController {
 		test.put("grade", purchaseInfo.getGrade());
 		test.put("spyb", purchaseInfo.getSpyb());
 		test.put("result","1");
+		test.put("status", "2");
 		test.put("qh", "0");
 		List<Map<String, Object>> list = testService.getTestInfo(test);
 		model.addAttribute("list", list);
@@ -125,10 +126,11 @@ public class PurchaseController {
 		String page = "orderModule/purchase/addQhPurchase";
 		PurchaseInfo purchaseInfo = purchaseInfoService.selectByPrimaryKey(purchase_id);
 		Map<String,String> test = new HashMap<String, String>();
-		test.put("test_time",DateUtils.getCurrentDate("yyyy-MM-dd"));
+		test.put("test_time",DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
 		test.put("kind", purchaseInfo.getKind());
 		test.put("grade", purchaseInfo.getGrade());
 		test.put("spyb", purchaseInfo.getSpyb());
+		test.put("status", "2");
 		test.put("result", "1");
 		test.put("qh", "1");
 		List<Map<String, Object>> list = testService.getTestInfo(test);

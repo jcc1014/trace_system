@@ -196,7 +196,7 @@ public class SendMessage {
 			e.printStackTrace();
 		}
 	}
-	public static void demoText2(String msg){
+	public static void sendMsg(String msg){
 		List<String> userList = new ArrayList<String>();
 		userList.add("erp-0000");
 		userList.add("zhanghao");

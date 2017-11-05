@@ -252,7 +252,7 @@ public class DistributionInfoController {
 			if(1==list.size()){
 				
 				String msg = "日期："+time+"\n需求名称："+list.get(0).get("require_name")+"\n 已确认收货";
-				SendMessage.demoText2(msg);
+				SendMessage.sendMsg(msg);
 			}
 			rs = ResultUtil.resultString(1);
 		}else{

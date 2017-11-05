@@ -63,12 +63,14 @@
 			</tbody>
   		</table>
 		<div class="panel-footer" style="margin-top: 20px;">
-			<c:if test="${fn:length(list)>0 && list[0].test.test_status eq '0'  }">
+				<button type="button" class="btn btn-primary" onclick="submit();">提交</button>
+				<button type="button" class="btn btn-success" onclick="add();">增加</button>
+			<%-- <c:if test="${fn:length(list)>0 && list[0].test.test_status eq '0'  }">
 				<button type="button" class="btn btn-primary" onclick="submit();">提交</button>
 			</c:if>
 			<c:if test="${fn:length(list)==0 || list[0].test.test_status eq '0'  }">
 				<button type="button" class="btn btn-success" onclick="add();">增加</button>
-			</c:if>
+			</c:if> --%>
 			<!-- <button type="button" class="btn btn-success" onclick="add();">增加</button> -->
 			<button type="button" class="btn btn-default" onclick="window.location.href = '${path}/baseInfo/index.do';">返回</button>
 		</div>

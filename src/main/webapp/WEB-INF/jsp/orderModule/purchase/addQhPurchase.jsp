@@ -110,7 +110,14 @@
 			</form>
 		</div>
 	</div>
+<script src="${path}/layer/layer.js" type="text/javascript"></script>
 <script type="text/javascript">
+$(function(){
+	if('0'=='${fn:length(list)}'){
+		alert('该类别尚未检验合格，无法完成采购！');
+		window.history.go(-1);
+	}
+})
 layui.use(
 		[ 'element', 'form', 'upload', 'layedit', 'laydate' ],function() {
 		var element = layui.element(), 
@@ -172,12 +179,6 @@ layui.use(
 		})
 	})
 	
-})
-
-$(function(){
-	if('0'=='${fn:length(list)}'){
-		layer.msg('该类别尚未取样检验，无法完成采购！',{time:2000});
-	}
 })
 
 function submit(){

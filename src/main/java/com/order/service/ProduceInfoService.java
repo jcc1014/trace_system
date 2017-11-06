@@ -26,4 +26,5 @@ public interface ProduceInfoService {
     List<Map<String,Object>> select(ProduceInfo record);
     
     List<Map<String,Object>> selectTodayProduceTotal(String nowDay,String status);
+    
 }

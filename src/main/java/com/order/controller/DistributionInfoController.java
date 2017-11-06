@@ -72,7 +72,8 @@ public class DistributionInfoController {
 		String page = "orderModule/distribution/todayDistribution";
 		DistributionInfo distributionInfo = new DistributionInfo();
 		distributionInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
-		List<Map<String,Object>> list = distributionInfoService.select(distributionInfo);
+		List<Map<String,Object>> list = distributionInfoService.selectPurchaseed(distributionInfo);
+		//List<Map<String,Object>> list = distributionInfoService.select(distributionInfo);
 		if(0<list.size()){
 			model.addAttribute("list", list);
 		}else{
@@ -121,7 +122,8 @@ public class DistributionInfoController {
 						distributionInfoService.insertSelective(dInfo);
 					}
 				}
-				list = distributionInfoService.select(distributionInfo);
+				list = distributionInfoService.selectPurchaseed(distributionInfo);
+				//list = distributionInfoService.select(distributionInfo);
 				model.addAttribute("list", list);
 			}
 		}

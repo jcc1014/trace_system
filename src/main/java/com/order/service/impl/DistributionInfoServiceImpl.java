@@ -67,4 +67,10 @@ public class DistributionInfoServiceImpl implements DistributionInfoService {
 		return distributionInfoMapper.updateSignName(record);
 	}
 
+
+	@Override
+	public List<Map<String, Object>> selectPurchaseed(DistributionInfo record) {
+		return distributionInfoMapper.selectPurchaseed(record);
+	}
+
 }

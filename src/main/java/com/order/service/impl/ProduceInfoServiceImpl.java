@@ -74,4 +74,5 @@ public class ProduceInfoServiceImpl implements ProduceInfoService {
 		return produceInfoMapper.createCgdByProduceId(map);
 	}
 
+
 }

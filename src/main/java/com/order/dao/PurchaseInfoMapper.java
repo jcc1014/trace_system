@@ -26,6 +26,8 @@ public interface PurchaseInfoMapper {
     
     List<Map<String,Object>> select(PurchaseInfo record);
     
+    List<Map<String,Object>> selectTested(PurchaseInfo record);
+    
     List<Map<String,Object>> selectQh(PurchaseInfo record);
 
     List<Map<String,Object>> getCgAndXq(Map<String,Object> map);

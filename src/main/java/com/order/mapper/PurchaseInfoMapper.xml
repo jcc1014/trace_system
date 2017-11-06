@@ -51,6 +51,39 @@
     	and spyb = #{spyb}
     </if>
   </select>
+  <select id="selectTested" resultType="java.util.Map" parameterType="com.order.po.PurchaseInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from purchase_info p
+    where EXISTS 
+	(select 1 from test t where t.test_kind=p.kind  and t.test_grade=p.grade 
+	and t.test_spyb = p.spyb and t.test_result='1'
+	and t.isQh ='1' and t.test_status = '2' and LEFT(t.test_time,10)=left(now(),10))
+    <if test="createtime != null and createtime != ''">
+    	and p.createtime like '%${createtime}%'
+    </if>
+    <if test="createuser != null and createuser != ''">
+    	and p.createuser = #{createuser}
+    </if>
+    <if test="status != null and status != ''">
+    	and p.status = #{status}
+    </if>
+    <if test="parentid != null and parentid != ''">
+    	and p.parentid = #{parentid}
+    </if>
+    <if test="grade != null and grade != ''">
+    	and p.grade = #{grade}
+    </if>
+    <if test="kind != null and kind != ''">
+    	and p.kind = #{kind}
+    </if>
+    <if test="type != null and type != ''">
+    	and p.type = #{type}
+    </if>
+    <if test="spyb != null and spyb != ''">
+    	and p.spyb = #{spyb}
+    </if>
+  </select>
   <select id="selectQh" resultType="java.util.Map" parameterType="com.order.po.PurchaseInfo" >
     select 
     <include refid="Base_Column_List" />

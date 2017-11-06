@@ -45,6 +45,32 @@
     	and base_id = #{base_id}
     </if>
   </select>
+  <select id="selectPurchaseed" resultType="java.util.Map" parameterType="java.util.Map" >
+    select 
+    d.distribution_id, d.require_id, d.require_name, d.require_num, d.kind, d.yps, d.wps,d.spyb,
+    d.distribution_address,d.base_id,d.price,round(d.sum_price,2)as sum_price,d.createtime,d.grade,d.signname
+    from distribution_info d
+    where EXISTS (select 1 from purchase_info p where p.kind = d.kind and p.grade = d.grade and p.spyb= d.spyb
+	and p.createtime like concat(date_sub(curdate(),interval 1 day),'%') and p.number>p.remain_number)
+    <if test="kind != null and kind != ''">
+    	and d.kind = #{kind}
+    </if>
+    <if test="grade != null and grade != ''">
+    	and d.grade = #{grade}
+    </if>
+    <if test="spyb != null and spyb != ''">
+    	and d.spyb = #{spyb}
+    </if>
+    <if test="createtime != null and createtime != ''">
+    	and d.createtime like '%${createtime}%'
+    </if>
+    <if test="require_name != null and require_name != ''">
+    	and d.require_name like '%${require_name}%'
+    </if>
+    <if test="base_id != null and base_id != ''">
+    	and d.base_id = #{base_id}
+    </if>
+  </select>
   <select id="query" resultType="java.util.Map" parameterType="java.util.Map" >
     select 
     <include refid="Base_Column_List" />

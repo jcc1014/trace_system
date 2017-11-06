@@ -237,7 +237,7 @@ public class PurchaseController {
 		String page = "orderModule/purchase/purchaseDetail";
 		User user = (User)request.getSession().getAttribute("user");
 		purchase.setPurchase_time(DateUtils.getCurrentDate("yyyy-MM-dd"));
-		purchase.setPurchase_user(user==null?null:user.getRealname());
+		purchase.setPurchase_user(user==null?null:user.getUsername());
 		List<Map<String,Object>> list = purchaseService.selectPurchase(purchase);
 		model.addAttribute("list", list);
 		return page;

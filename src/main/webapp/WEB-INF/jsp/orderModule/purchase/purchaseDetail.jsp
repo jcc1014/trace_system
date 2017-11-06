@@ -88,7 +88,7 @@
 			  </ul>
 			</nav> -->
 		<div class="panel-footer" style="margin-top: 20px;">
-			<button type="button" class="btn btn-default" onclick="window.location.href = '${path}/baseInfo/index.do';">返回主页</button>
+			<button type="button" class="btn btn-default" onclick="window.history.go(-1);">返回主页</button>
 		</div>
 	</div>
 

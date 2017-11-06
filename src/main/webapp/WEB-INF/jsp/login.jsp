@@ -45,12 +45,12 @@ filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')
 	<header class="layui-elip">后台管理系统登录</header>
 		<div class="layui-form-item">
 			<div class="layui-input-inline">
-				<input name="username" lay-verify="required" placeholder="请输入登录用户名"  type="text" autocomplete="off" class="layui-input">
+				<input name="username" lay-verify="required" value="${username }" placeholder="请输入登录用户名"  type="text" autocomplete="off" class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<div class="layui-input-inline">
-				<input name="password" lay-verify="required" placeholder="请输入登录密码"  type="password" autocomplete="off" class="layui-input">
+				<input name="password" lay-verify="required" value="${password }" placeholder="请输入登录密码"  type="password" autocomplete="off" class="layui-input">
 			</div>
 		</div>
 		<div class="layui-input-inline login-btn">

@@ -25,6 +25,13 @@ public interface PurchaseInfoService {
 
 	List<Map<String, Object>> select(PurchaseInfo record);
 	
+	/**
+     * 选择检验通过的
+     * @param record
+     * @return
+     */
+    List<Map<String,Object>> selectTested(PurchaseInfo record);
+	
 	List<Map<String, Object>> selectQh(PurchaseInfo record);
 	
 	List<Map<String,Object>> getCgAndXq(Map<String,Object> map);

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.order.dao.PurchaseInfoMapper;
+import com.order.po.ProduceInfo;
 import com.order.po.PurchaseInfo;
 import com.order.service.PurchaseInfoService;
 
@@ -78,4 +79,8 @@ public class PurchaseInfoServiceImpl implements PurchaseInfoService {
 		return purchaseInfoMapper.deleteByParentId(parentid);
 	}
 
+	@Override
+	public List<Map<String, Object>> selectTested(PurchaseInfo record) {
+		return purchaseInfoMapper.selectTested(record);
+	}
 }

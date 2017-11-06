@@ -363,12 +363,20 @@ public class PurchaseInfoController {
 	@RequestMapping("getQhInfo")
 	public String getQhInfo(HttpServletRequest request,Model model,String id){
 		String page = "orderModule/purchase/todayQhInfo";
+		User user = (User)request.getSession().getAttribute("user");
 		PurchaseInfo purchaseInfo = new PurchaseInfo();
 		TotalInfo totalInfo = totalInfoService.selectByPrimaryKey(id);
 		if(null!=totalInfo){
 			model.addAttribute("totalInfo", totalInfo);
 			purchaseInfo.setParentid((String)totalInfo.getId());
-			List<Map<String, Object>> list = purchaseInfoService.select(purchaseInfo);
+			List<Map<String, Object>> list = null;
+			if(null!=user&&"1".equals(user.getUsertype())){
+				
+				list = purchaseInfoService.select(purchaseInfo);
+			}
+			else{
+				list = purchaseInfoService.select(purchaseInfo);
+			}
 			model.addAttribute("purchaseInfos", list);
 			model.addAttribute("qhd", "1");
 		}else{
@@ -388,7 +396,8 @@ public class PurchaseInfoController {
 		if(0<totalInfoList.size()){
 			model.addAttribute("totalInfo", totalInfoList.get(0));
 			purchaseInfo.setParentid((String)totalInfoList.get(0).get("id"));
-			List<Map<String, Object>> list = purchaseInfoService.select(purchaseInfo);
+			List<Map<String, Object>> list = purchaseInfoService.selectTested(purchaseInfo);
+			
 			model.addAttribute("purchaseInfos", list);
 			model.addAttribute("qhd", "1");
 		}else{

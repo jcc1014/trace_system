@@ -8,11 +8,14 @@
 package com.trace.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.trace.po.User;
 import com.trace.service.UserService;
+import com.utils.CommonUtils;
 
 /**
  * @Description
@@ -39,20 +43,44 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping("login.do")
-	public String login(){
+	public String login(HttpServletRequest request,Model model){
+		Cookie[] cookies = request.getCookies();
+		String username = null;
+		String password = null;
+		if(null!=cookies&&0<cookies.length){ //从cookie取值
+			for (int i = 0; i < cookies.length; i++) {
+				if("username".equals(cookies[i].getName())){
+					username = cookies[i].getValue();
+				}else if("password".equals(cookies[i].getName())){
+					password = cookies[i].getValue();
+				}
+			}
+		}
+		try {
+			if(null!=username){
+				model.addAttribute("username", URLDecoder.decode(username,"utf-8"));
+			}
+			else{
+				model.addAttribute("username", null);
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("password", password);
 		return "login";
 	}
 	
 	@RequestMapping("loginCheck.do")
 	@ResponseBody
-	public String loginCheck(HttpServletRequest request,HttpSession session,String username,String password){
+	public String loginCheck(HttpServletRequest request,HttpServletResponse response,HttpSession session,String username,String password){
 		Map<String,Object> map = new HashMap<String, Object>();
-		password = DigestUtils.md5Hex(password);
-		User user = userService.selectByusernameAndpassword(username, password);
+		String new_password = DigestUtils.md5Hex(password);
+		User user = userService.selectByusernameAndpassword(username, new_password);
 		if(null==user){
 			map.put("code", -1);
 			map.put("msg", "用户名或者密码错误！");
 		}else{
+			CommonUtils.rememberPass(username, password, response);
 			map.put("code", 200);
 			map.put("msg", "登陆成功！");
 		}

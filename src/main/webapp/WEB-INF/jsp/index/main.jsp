@@ -20,7 +20,7 @@
             <p>欢迎进入生鲜追溯后台管理系统
             </p>
         </blockquote>
-        <div><img alt="二维码列表" style="width: 150px;height: 150px;" src="${path}/images/qrcode-mini.png"></div>
+        <%-- <div><img alt="二维码列表" style="width: 150px;height: 150px;" src="${path}/images/qrcode-mini.png"></div> --%>
     </div>
 </div>
 </body>

@@ -127,7 +127,7 @@ layui.use(['element', 'laypage', 'layer', 'form'], function(){
         loading = layer.load(2, {
           shade: [0.2,'#000'] //0.2透明度的白色背景
         });
-        location.href = '${path}/user/menber_list.do?username='
+        location.href = '${path}/user/member_list.do?username='
         		+jq('#username').val()+'&page='+e.curr;
       }
     }

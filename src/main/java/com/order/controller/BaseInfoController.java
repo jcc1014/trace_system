@@ -213,13 +213,13 @@ public class BaseInfoController {
 				//检验
 				page = "orderModule/test_index";
 			}else if("rlcg".equals(user.getUsertype())){
-				//检验
+				//肉类采购
 				page = "orderModule/meat_purchase_index";
 			}else if("rlsj".equals(user.getUsertype())){
-				//检验
+				//肉类售价
 				page = "orderModule/meat_saleManage_index";
 			}else if("rlps".equals(user.getUsertype())){
-				//检验
+				//肉类配送
 				page = "orderModule/meat_distribution_index";
 			}else{
 				page = "404";

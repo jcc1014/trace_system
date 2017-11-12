@@ -21,6 +21,8 @@ public class TotalInfo {
     
     private String nowtime;
 
+    private String cgsc;
+    
     public String getId() {
         return id;
     }
@@ -100,5 +102,12 @@ public class TotalInfo {
 	public void setNowtime(String nowtime) {
 		this.nowtime = nowtime;
 	}
-    
+
+	public String getCgsc() {
+		return cgsc;
+	}
+
+	public void setCgsc(String cgsc) {
+		this.cgsc = cgsc;
+	}
 }

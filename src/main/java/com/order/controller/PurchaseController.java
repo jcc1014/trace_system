@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.order.po.BaseInfo;
 import com.order.po.PurchaseInfo;
@@ -59,6 +60,13 @@ public class PurchaseController {
 	@Autowired
 	private QrcodeService qrcodeService;
 	
+	/**
+	 * 采购列表
+	 * @param request
+	 * @param model
+	 * @param purchaseInfo
+	 * @return
+	 */
 	@RequestMapping("purchaseList")
 	public String purchaseList(HttpServletRequest request,Model model,PurchaseInfo purchaseInfo){
 		String page = "orderModule/purchase/purchaseList";
@@ -104,6 +112,13 @@ public class PurchaseController {
 		return page;
 	}
 	
+	/**
+	 * 新增采购
+	 * @param request
+	 * @param model
+	 * @param purchase_id
+	 * @return
+	 */
 	@RequestMapping("addPurchase")
 	public String addPurchase(HttpServletRequest request,Model model,String purchase_id){
 		String page = "orderModule/purchase/addPurchase";
@@ -121,6 +136,13 @@ public class PurchaseController {
 		model.addAttribute("purchaseInfo", purchaseInfo);
 		return page;
 	}
+	/**
+	 * 新增缺货采购
+	 * @param request
+	 * @param model
+	 * @param purchase_id
+	 * @return
+	 */
 	@RequestMapping("addQhPurchase")
 	public String addQhPurchase(HttpServletRequest request,Model model,String purchase_id){
 		String page = "orderModule/purchase/addQhPurchase";
@@ -139,6 +161,14 @@ public class PurchaseController {
 		return page;
 	}
 	
+	/**
+	 * 采购保存
+	 * @param request
+	 * @param trace_id
+	 * @param purchase
+	 * @param transport
+	 * @return
+	 */
 	@RequestMapping("addPurchaseSave")
 	public String addPurchaseSave(HttpServletRequest request,String trace_id,Purchase purchase,Transport transport){
 		String page = "redirect:purchaseList.do";
@@ -181,6 +211,61 @@ public class PurchaseController {
 		
 		return page;
 	}
+	
+	@RequestMapping("addPurchaseSave2")
+	@ResponseBody
+	public String addPurchaseSave2(HttpServletRequest request,String farmer_id,Purchase purchase,Transport transport){
+		purchase.setPurchase_id(UUIDFactory.getInstance().newUUID());
+		purchase.setPurchase_time(DateUtils.getCurrentDate());
+		TraceFlow traceFlow = new TraceFlow();
+		traceFlow.setTrace_id(UUIDFactory.getInstance().newUUID());
+		traceFlow.setPurchase_id(purchase.getPurchase_id());
+		traceFlow.setCreatetime(DateUtils.getCurrentDate());
+		traceFlow.setFarmer_id(farmer_id);
+		traceFlow.setIdentifier("qhcg"+DateUtils.getCurrentDate("yyyyMMddHHmmss"));
+		purchaseService.add(purchase);
+		PurchaseInfo purchaseInfo = new PurchaseInfo();
+		PurchaseInfo purchaseInfo2 = purchaseInfoService.selectByPrimaryKey(purchase.getPurchase_parentid());
+		purchaseInfo.setPurchase_id(purchase.getPurchase_parentid());
+		purchaseInfo.setRemain_number(purchaseInfo2.getRemain_number()-purchase.getPurchase_num());
+		if(0==purchaseInfo.getRemain_number()){
+			purchaseInfo.setStatus("1");
+		}
+		purchaseInfoService.updateByPrimaryKeySelective(purchaseInfo);
+		//增加运输信息
+		transport.setTransport_id(UUIDFactory.getInstance().newUUID());
+		traceFlow.setTransport_id(transport.getTransport_id());
+		traceFlow.setTrace_status("1");
+		transportService.add(transport);
+		request.getSession().setAttribute("transport_user", transport.getTransport_user());
+		request.getSession().setAttribute("transport_truck", transport.getTransport_truck());
+		request.getSession().setAttribute("transport_desitination", transport.getTransport_destination());
+		request.getSession().setAttribute("farmer_id", farmer_id);
+		Qrcode qrcode = new Qrcode();
+		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
+		String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
+		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
+		String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+		String filename = purchaseInfo2.getKind()+purchaseInfo2.getGrade()+DateUtils.getCurrentDate("yyMMddHHmmss");
+		try {
+			QRCodeUtil.encode(content, logoPath, path, filename, true);
+			qrcode.setQrcode_path(filename+".jpg");
+			qrcodeService.add(qrcode);
+			traceFlow.setQrcode(qrcode.getQrcode_id());
+			traceFlowService.add(traceFlow);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "1";
+	}
+	/**
+	 * 缺货采购保存
+	 * @param request
+	 * @param trace_id
+	 * @param purchase
+	 * @param transport
+	 * @return
+	 */
 	@RequestMapping("addQhPurchaseSave")
 	public String addQhPurchaseSave(HttpServletRequest request,String trace_id,Purchase purchase,Transport transport){
 		String page = "redirect:/purchaseInfo/getQhd.do";
@@ -220,6 +305,13 @@ public class PurchaseController {
 		return page;
 	}
 	
+	/**
+	 * 历史纪录
+	 * @param request
+	 * @param model
+	 * @param purchase
+	 * @return
+	 */
 	@RequestMapping("history")
 	public String history(HttpServletRequest request,Model model,Purchase purchase){
 		String page = "orderModule/purchase/purchaseHistory";
@@ -232,6 +324,13 @@ public class PurchaseController {
 		model.addAttribute("list", list);
 		return page;
 	}
+	/**
+	 * 查看采购详情
+	 * @param request
+	 * @param model
+	 * @param purchase
+	 * @return
+	 */
 	@RequestMapping("watchPurchaseDetail")
 	public String watchPurchaseDetail(HttpServletRequest request,Model model,Purchase purchase){
 		String page = "orderModule/purchase/purchaseDetail";
@@ -242,7 +341,13 @@ public class PurchaseController {
 		model.addAttribute("list", list);
 		return page;
 	}
-	
+	/**
+	 * 通过id查看单个采购详情
+	 * @param request
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("watchPurchaseDetailById")
 	public String watchPurchaseDetailById(HttpServletRequest request,Model model,String id){
 		String page = "orderModule/purchase/purchaseDetail";

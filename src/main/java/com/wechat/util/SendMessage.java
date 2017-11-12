@@ -187,7 +187,7 @@ public class SendMessage {
 		TextMessageEntity textMessageEntity = new TextMessageEntity();
 		textMessageEntity.setTouser(userList);
 		Map<String, String> text = new HashMap<String, String>();
-		text.put("content", "hellohello");
+		text.put("content", "hello\nhello");
 		textMessageEntity.setText(text);
 		try {
 			JSONObject jsonObject = SendMessage.sendTextMessage(textMessageEntity);

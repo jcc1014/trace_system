@@ -93,7 +93,8 @@ function setup(){
 }
 
 function qh(){
-	window.location.href = '${path}/purchaseInfo/getQhd.do';
+	//window.location.href = '${path}/purchaseInfo/getQhd.do';
+	window.location.href = '${path}/purchaseInfo/allQhcgd.do';
 }
 </script>
 </body>

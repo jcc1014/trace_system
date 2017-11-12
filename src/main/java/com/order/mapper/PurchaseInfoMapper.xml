@@ -13,12 +13,13 @@
     <result column="parentid" property="parentid" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="spyb" property="spyb" jdbcType="VARCHAR" />
+    <result column="cgdh" property="cgdh" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="supply_number" property="supply_number" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Base_Column_List" >
     purchase_id, kind, number, remain_number, grade, createtime, createuser, status, 
-    parentid, type,price,supply_number,spyb
+    parentid, type,price,supply_number,spyb,cgdh
   </sql>
   
   <select id="select" resultType="java.util.Map" parameterType="com.order.po.PurchaseInfo" >
@@ -49,6 +50,9 @@
     </if>
     <if test="spyb != null and spyb != ''">
     	and spyb = #{spyb}
+    </if>
+    <if test="cgdh != null and cgdh != ''">
+    	and cgdh = #{cgdh}
     </if>
   </select>
   <select id="selectTested" resultType="java.util.Map" parameterType="com.order.po.PurchaseInfo" >
@@ -83,6 +87,9 @@
     <if test="spyb != null and spyb != ''">
     	and p.spyb = #{spyb}
     </if>
+    <if test="cgdh != null and cgdh != ''">
+    	and p.cgdh = #{cgdh}
+    </if>
   </select>
   <select id="selectQh" resultType="java.util.Map" parameterType="com.order.po.PurchaseInfo" >
     select 
@@ -112,6 +119,9 @@
     </if>
     <if test="spyb != null and spyb != ''">
     	and spyb = #{spyb}
+    </if>
+    <if test="cgdh != null and cgdh != ''">
+    	and cgdh = #{cgdh}
     </if>
   </select>
   
@@ -144,6 +154,9 @@
     <if test="spyb != null and spyb != ''">
     	and spyb = #{type}
     </if>
+    <if test="cgdh != null and cgdh != ''">
+    	and cgdh = #{cgdh}
+    </if>
     limit ${index},${size}
     order by createtime desc
   </select>
@@ -175,6 +188,9 @@
     </if>
     <if test="spyb != null and spyb != ''">
     	and spyb = #{spyb}
+    </if>
+    <if test="cgdh != null and cgdh != ''">
+    	and cgdh = #{cgdh}
     </if>
   </select>
   
@@ -235,6 +251,9 @@
       <if test="spyb != null and spyb != ''" >
         spyb,
       </if>
+      <if test="cgdh != null and cgdh != ''" >
+        cgdh,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="purchase_id != null" >
@@ -275,6 +294,9 @@
       </if>
       <if test="spyb != null and spyb != ''" >
         #{spyb},
+      </if>
+      <if test="cgdh != null and cgdh != ''" >
+        #{cgdh},
       </if>
     </trim>
   </insert>
@@ -317,6 +339,9 @@
       <if test="spyb != null and spyb != ''" >
         spyb = #{spyb},
       </if>
+      <if test="cgdh != null and cgdh != ''" >
+        cgdh = #{cgdh},
+      </if>
     </set>
     where purchase_id = #{purchase_id,jdbcType=VARCHAR}
   </update>
@@ -355,6 +380,9 @@
       </if>
       <if test="spyb != null and spyb != ''" >
         spyb = #{spyb},
+      </if>
+      <if test="cgdh != null and cgdh != ''" >
+        cgdh = #{cgdh},
       </if>
     </set>
     where parentid = #{parentid,jdbcType=VARCHAR}

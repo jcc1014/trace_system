@@ -28,6 +28,7 @@ public class ProduceInfo {
     private String spyb; //三品一标
     
     private String nowtime; //当前时间
+    
 
     public String getProduce_id() {
         return produce_id;
@@ -140,5 +141,5 @@ public class ProduceInfo {
 	public void setNowtime(String nowtime) {
 		this.nowtime = nowtime;
 	}
-	
+
 }

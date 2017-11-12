@@ -12,8 +12,24 @@ package com.timer;
  */
 public interface TimerTask {
 	
+	/**
+	 * 提交今日需求单
+	 */
 	public void submitTodayRequire();  
 	
+	/**
+	 * 提交今日供应单
+	 */
 	public void submitTodayProduce();
+	
+	/**
+	 * 提交今日缺货单
+	 */
+	public void submitTodayQhd();
+	
+	/**
+	 * 提交今日采购单
+	 */
+	public void submitTodayCgd();
 	
 }

@@ -12,9 +12,10 @@
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
     <result column="video" property="video" jdbcType="VARCHAR" />
+    <result column="isdefault" property="isdefault" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, address, fzr, code, status, phone, type,createtime,video
+    id, name, address, fzr, code, status, phone, type,createtime,video,isdefault
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -36,6 +37,9 @@
     <if test="fzr != null and fzr != ''">
     	and fzr = #{fzr}
     </if>
+    <if test="isdefault != null and isdefault != ''">
+    	and isdefault = #{isdefault}
+    </if>
     order by status,type
   </select>
   <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map" >
@@ -48,6 +52,9 @@
     </if>
     <if test="type != null and type != ''">
     	and type = #{type}
+    </if>
+    <if test="isdefault != null and isdefault != ''">
+    	and isdefault = #{isdefault}
     </if>
     order by status,type
     limit ${index},8
@@ -63,11 +70,15 @@
     <if test="type != null and type != ''">
     	and type = #{type}
     </if>
+    <if test="isdefault != null and isdefault != ''">
+    	and isdefault = #{isdefault}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from base_info
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  
   <insert id="insertSelective" parameterType="com.order.po.BaseInfo" >
     insert into base_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -101,6 +112,9 @@
       <if test="video != null" >
         video,
       </if>
+      <if test="isdefault != null and isdefault != ''">
+    	isdefault
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -133,6 +147,9 @@
       <if test="video != null" >
         #{video,jdbcType=VARCHAR},
       </if>
+      <if test="isdefault != null" >
+        #{isdefault,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.order.po.BaseInfo" >
@@ -164,6 +181,9 @@
       </if>
       <if test="video != null" >
         video = #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="isdefault != null" >
+        isdefault = #{isdefault,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

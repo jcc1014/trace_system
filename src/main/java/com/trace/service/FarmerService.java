@@ -18,7 +18,7 @@ import com.trace.po.Farmer;
  * @Created 2017 2017年4月10日 下午10:15:06
  */
 public interface FarmerService {
-	List<Farmer> selectAllFarmer();
+	List<Farmer> selectAllFarmer(Farmer famer);
 	List<Farmer> selectByName(String farmer_name);
 	int add(Farmer farmer);
 	Farmer getById(String farmer_id);

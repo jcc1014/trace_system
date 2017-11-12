@@ -77,7 +77,7 @@
 	</div>
 <script type="text/javascript">
 function add(){
-	window.location.href = "${path}/sampling/addQhSampling.do"
+	window.location.href = "${path}/sampling/addQhSampling2.do"
 }
 
 function del(id){

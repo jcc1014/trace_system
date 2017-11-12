@@ -20,7 +20,7 @@ import com.trace.po.Farmer;
  * @Created 2017 
  */
 public interface FarmerDao {
-	List<Farmer> selectAllFarmer();
+	List<Farmer> selectAllFarmer(Farmer farmer);
 	List<Farmer> selectByName(@Param("farmer_name")String farmer_name);
 	int insert(Farmer farmer);
 	Farmer selectByPrimaryKey(@Param("farmer_id")String farmer_id);

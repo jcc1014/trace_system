@@ -28,7 +28,19 @@
     select 
     <include refid="Base_Column_List" />
     from farmer
-    <!--where userid = #{userid,jdbcType=VARCHAR} -->
+    where 1=1
+    <if test="farmer_name != null and farmer_name != ''">
+    	and farmer_name like '%${farmer_name}%'
+    </if>
+    <if test="farmer_phone != null and farmer_phone != ''">
+    	and farmer_phone = #{farmer_name}
+    </if>
+    <if test="farmer_hzs != null and farmer_hzs != ''">
+    	and farmer_hzs = #{farmer_hzs}
+    </if>
+    <if test="baseid != null and baseid != ''">
+    	and baseid = #{baseid}
+    </if>
   </select>
   
   <insert id="insert" parameterType="com.trace.po.Farmer">

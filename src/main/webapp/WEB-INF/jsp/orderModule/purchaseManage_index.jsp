@@ -86,6 +86,12 @@
 				</div>
 			</div> --%>
 			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #66CDAA;" onclick="qhcg();">
+					<img alt="缺货采购单" src="${path}/images/orderModule/qh.png" width="100%" height="85%;">
+					<div style="color: #d81e06;">缺货采购单</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-xs-6">
 				<div class="item" style="border: 1px solid #009688;" onclick="setup();">
 					<img alt="个人设置" src="${path}/images/orderModule/setup.png" width="100%" height="85%;">
 					<div style="color: #515151;">个人设置</div>
@@ -112,6 +118,10 @@ function gy(){
 function qh(){
 	//window.location.href = '${path}/purchaseInfo/getQhd.do';
 	window.location.href = '${path}/purchaseInfo/allQhd.do';
+}
+function qhcg(){
+	//window.location.href = '${path}/purchaseInfo/getQhd.do';
+	window.location.href = '${path}/purchaseInfo/allQhcgd.do';
 }
 function fy(){
 	window.location.href = '${path}/purchaseInfo/getFyd.do';

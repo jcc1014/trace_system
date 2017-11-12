@@ -27,6 +27,8 @@ public class PurchaseInfo {
     
     private String spyb;
 
+    private String cgdh;
+
     public String getPurchase_id() {
         return purchase_id;
     }
@@ -130,5 +132,11 @@ public class PurchaseInfo {
 	public void setSpyb(String spyb) {
 		this.spyb = spyb;
 	}
-	
+	public String getCgdh() {
+		return cgdh;
+	}
+
+	public void setCgdh(String cgdh) {
+		this.cgdh = cgdh;
+	}
 }

@@ -21,7 +21,9 @@ import com.order.service.ProduceInfoService;
 import com.order.service.PurchaseInfoService;
 import com.order.service.RemainPurchaseService;
 import com.order.service.TotalInfoService;
+import com.trace.po.Farmer;
 import com.trace.po.User;
+import com.trace.service.FarmerService;
 import com.trace.service.UserService;
 import com.trace.util.DateUtils;
 import com.trace.util.ResultUtil;
@@ -44,6 +46,8 @@ public class PurchaseInfoController {
 	private BaseInfoService baseInfoService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private FarmerService farmerService;
 	
 	/**
 	 * 创建采购单
@@ -167,7 +171,7 @@ public class PurchaseInfoController {
 	}
 	
 	/**
-	 * 提交
+	 * 提交采购单
 	 * @param request
 	 * @param id
 	 * @return
@@ -338,6 +342,13 @@ public class PurchaseInfoController {
 		return rs;
 	}
 	
+	/**
+	 * 所有的缺货单
+	 * @param request
+	 * @param model
+	 * @param size 页大小
+	 * @return
+	 */
 	@RequestMapping("allQhd")
 	public String allQhd(HttpServletRequest request,Model model,String size){
 		String page = "orderModule/purchase/allQhd";
@@ -359,7 +370,37 @@ public class PurchaseInfoController {
 		model.addAttribute("list", totalInfoList);
 		return page;
 	}
+	/**
+	 * 所有的缺货单
+	 * @param request
+	 * @param model
+	 * @param size 页大小
+	 * @return
+	 */
+	@RequestMapping("allQhcgd")
+	public String allQhcgd(HttpServletRequest request,Model model,String createtime,String size){
+		String page = "orderModule/purchase/allQhcgd";
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("type", "qhcgd");
+		map.put("index", 0);
+		map.put("createtime", DateUtils.getNDayBeforeCurrentDate(1,"yyyy-MM-dd"));
+		if(null!=size&&!"".equals(size)){
+			map.put("size", Double.parseDouble(size));
+		}else{
+			map.put("size", 20);
+		}
+		List<Map<String, Object>> totalInfoList = totalInfoService.query(map);
+		model.addAttribute("list", totalInfoList);
+		return page;
+	}
 	
+	/**
+	 * 获取缺货信息
+	 * @param request
+	 * @param model
+	 * @param id 缺货单id
+	 * @return
+	 */
 	@RequestMapping("getQhInfo")
 	public String getQhInfo(HttpServletRequest request,Model model,String id){
 		String page = "orderModule/purchase/todayQhInfo";
@@ -384,6 +425,43 @@ public class PurchaseInfoController {
 		}
 		return page;
 	}
+	/**
+	 * 获取缺货信息
+	 * @param request
+	 * @param model
+	 * @param id 缺货单id
+	 * @return
+	 */
+	@RequestMapping("getQhcgInfo")
+	public String getQhcgInfo(HttpServletRequest request,Model model,String id){
+		String page = "orderModule/purchase/todayQhcgInfo";
+		User user = (User)request.getSession().getAttribute("user");
+		PurchaseInfo purchaseInfo = new PurchaseInfo();
+		TotalInfo totalInfo = totalInfoService.selectByPrimaryKey(id);
+		if(null!=totalInfo){
+			BaseInfo bInfo = baseInfoService.selectByPrimaryKey(totalInfo.getCgsc());
+			model.addAttribute("bInfo", bInfo);
+			model.addAttribute("totalInfo", totalInfo);
+			Farmer farmer = new Farmer();
+			farmer.setBaseid(bInfo.getId());
+			List<Farmer> farmerList = farmerService.selectAllFarmer(farmer);
+			model.addAttribute("farmerList", farmerList);
+			purchaseInfo.setCgdh((String)totalInfo.getId());
+			List<Map<String, Object>> list = null;
+			if(null!=user&&"1".equals(user.getUsertype())){
+				
+				list = purchaseInfoService.select(purchaseInfo);
+			}
+			else{
+				list = purchaseInfoService.select(purchaseInfo);
+			}
+			model.addAttribute("purchaseInfos", list);
+			model.addAttribute("qhcgd", "1");
+		}else{
+			model.addAttribute("qhcgd", "0");
+		}
+		return page;
+	}
 	
 	@RequestMapping("getQhd")
 	public String getQhd(HttpServletRequest request,Model model){
@@ -391,6 +469,26 @@ public class PurchaseInfoController {
 		PurchaseInfo purchaseInfo = new PurchaseInfo();
 		TotalInfo totalInfo2 = new TotalInfo();
 		totalInfo2.setType("qhd");
+		totalInfo2.setCreatetime(DateUtils.getNDayBeforeCurrentDate(1, "yyyy-MM-dd"));
+		List<Map<String, Object>> totalInfoList = totalInfoService.select(totalInfo2);
+		if(0<totalInfoList.size()){
+			model.addAttribute("totalInfo", totalInfoList.get(0));
+			purchaseInfo.setParentid((String)totalInfoList.get(0).get("id"));
+			List<Map<String, Object>> list = purchaseInfoService.selectTested(purchaseInfo);
+			
+			model.addAttribute("purchaseInfos", list);
+			model.addAttribute("qhd", "1");
+		}else{
+			model.addAttribute("qhd", "0");
+		}
+		return page;
+	}
+	@RequestMapping("getQhcgd")
+	public String getQhcgd(HttpServletRequest request,Model model){
+		String page = "orderModule/purchase/cgy_todayQhcgInfo";
+		PurchaseInfo purchaseInfo = new PurchaseInfo();
+		TotalInfo totalInfo2 = new TotalInfo();
+		totalInfo2.setType("qhcgd");
 		totalInfo2.setCreatetime(DateUtils.getNDayBeforeCurrentDate(1, "yyyy-MM-dd"));
 		List<Map<String, Object>> totalInfoList = totalInfoService.select(totalInfo2);
 		if(0<totalInfoList.size()){

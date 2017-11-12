@@ -19,8 +19,8 @@ public class FarmerServiceImpl implements FarmerService {
 	private FarmerDao farmerDao;
 	
 	@Override
-	public List<Farmer> selectAllFarmer() {
-		return farmerDao.selectAllFarmer();
+	public List<Farmer> selectAllFarmer(Farmer farmer) {
+		return farmerDao.selectAllFarmer(farmer);
 	}
 
 	@Override

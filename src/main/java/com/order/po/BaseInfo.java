@@ -21,7 +21,9 @@ public class BaseInfo {
     
     private String createtime;
     
-    public String getId() {
+    private String isdefault;
+    
+	public String getId() {
         return id;
     }
 
@@ -101,5 +103,12 @@ public class BaseInfo {
 		this.createtime = createtime;
 	}
     
-    
+
+    public String getIsdefault() {
+		return isdefault;
+	}
+
+	public void setIsdefault(String isdefault) {
+		this.isdefault = isdefault;
+	}
 }

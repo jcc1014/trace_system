@@ -24,6 +24,7 @@ import com.trace.po.Test;
 import com.trace.po.TraceFlow;
 import com.trace.po.User;
 import com.trace.service.FarmerService;
+import com.trace.service.PurchaseService;
 import com.trace.service.TestService;
 import com.trace.service.TraceFlowService;
 import com.trace.util.DateUtils;
@@ -47,6 +48,8 @@ public class SamplingController {
 	private PurchaseInfoService purchaseInfoService;
 	@Autowired
 	private BaseInfoService baseInfoService;
+	@Autowired
+	private PurchaseService purchaseService;
 	
 	@RequestMapping("today_sampling")
 	public String today_sampling(HttpServletRequest request,Model model){
@@ -183,6 +186,30 @@ public class SamplingController {
 		model.addAttribute("baseList", baseList);
 		return page;
 	}
+	@RequestMapping("addQhSampling2")
+	public String addQhSampling2(HttpServletRequest request,Model model){
+		String page = "orderModule/sampling/todaySamplingList";
+		TraceFlow traceFlow = new TraceFlow();
+		traceFlow.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		traceFlow.setTrace_status("1");
+		List<TraceFlow> tList = traceFlowService.selectAllTraceFlow(traceFlow);
+		TraceFlow t = null;
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		if(0<tList.size()){
+			Map<String,Object> map =null;
+			for (int i = 0; i < tList.size(); i++) {
+				t = tList.get(i);
+				map = new HashMap<String, Object>();
+				map.put("trace_flow", t);
+				map.put("farmer", farmerService.getById(t.getFarmer_id()));
+				map.put("purchase", purchaseService.getById(t.getPurchase_id()));
+				map.put("qybh", "qhqy"+DateUtils.getCurrentDate("yyyyMMddHHmmss"));
+				list.add(map);
+			}
+		}
+		model.addAttribute("list", list);
+		return page;
+	}
 	@RequestMapping("addSamplingSave")
 	public String addSamplingSave(HttpServletRequest request,Test test,Farmer farmer){
 		User user = (User)request.getSession().getAttribute("user");
@@ -243,6 +270,24 @@ public class SamplingController {
 		traceFlowService.add(traceFlow);
 		testService.add(test);
 		//farmerService.add(farmer);
+		return page;
+	}
+	@RequestMapping("addQhSamplingSave2")
+	public String addQhSamplingSave2(HttpServletRequest request,Test test,Farmer farmer,String trace_id){
+		User user = (User)request.getSession().getAttribute("user");
+		String page = "redirect:addQhSampling2.do";
+		test.setTest_time(DateUtils.getCurrentDate());
+		test.setTest_id(UUIDFactory.getInstance().newUUID());
+		test.setTest_status("0");
+		test.setTest_name(user==null?null:user.getRealname());
+		test.setTest_type("0");
+		test.setIsQh("1");
+		TraceFlow traceFlow = new TraceFlow();
+		traceFlow.setTest_id(test.getTest_id());
+		traceFlow.setTrace_id(trace_id);
+		traceFlow.setTrace_status("6");
+		traceFlowService.update(traceFlow);
+		testService.add(test);
 		return page;
 	}
 	

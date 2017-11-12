@@ -229,6 +229,7 @@ public class ProduceController {
 			
 		}
 		Goods goods = new Goods();
+		goods.setGoods_type("1");
 		List<Goods> goodsList = goodsService.select(goods);
 		List<Dict> dictList = dictService.selectByParentId("spyb");
 		model.addAttribute("dictList", dictList);

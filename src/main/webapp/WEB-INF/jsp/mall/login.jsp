@@ -97,10 +97,10 @@ body p {
 
 <div class="aui-logon-con">
 	<div class="b-line">
-		<input type="text" id="username" placeholder="手机号">
+		<input type="text" id="username" value="${username}" placeholder="手机号">
 	</div>
 	<div class="b-line">
-		<input type="password" id="password" placeholder="密码">
+		<input type="password" id="password" value="${password}" placeholder="密码">
 	</div>
 	<div class="aui-login-l">
 		<a href="javascript:;" onclick="login();">登录</a>

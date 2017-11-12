@@ -1,12 +1,15 @@
 package com.mall.controller;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -31,6 +34,7 @@ import com.trace.po.User;
 import com.trace.service.UserService;
 import com.trace.util.DateUtils;
 import com.trace.util.ResultUtil;
+import com.utils.CommonUtils;
 
 @Controller
 @RequestMapping("mall")
@@ -218,6 +222,29 @@ public class MallController {
 	@RequestMapping("login")
 	public String login(HttpServletRequest request,Model model){
 		String page = "mall/login";
+		Cookie[] cookies = request.getCookies();
+		String username = null;
+		String password = null;
+		if(null!=cookies&&0<cookies.length){ //从cookie取值
+			for (int i = 0; i < cookies.length; i++) {
+				if("username".equals(cookies[i].getName())){
+					username = cookies[i].getValue();
+				}else if("password".equals(cookies[i].getName())){
+					password = cookies[i].getValue();
+				}
+			}
+		}
+		try {
+			if(null!=username){
+				model.addAttribute("username", URLDecoder.decode(username,"utf-8"));
+			}
+			else{
+				model.addAttribute("username", null);
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("password", password);
 		return page;
 	}
 	
@@ -231,17 +258,19 @@ public class MallController {
 	 */
 	@RequestMapping("loginCheck")
 	@ResponseBody
-	public String loginCheck(HttpServletRequest request,Model model,String username,String password){
+	public String loginCheck(HttpServletRequest request,HttpServletResponse response,Model model,String username,String password){
 		String rs = "";
 		User user = userService.selectByusernameAndpassword(username, DigestUtils.md5Hex(password));
 		if(null!=user){
 			Member member = memberService.selectByPrimaryKey(user.getUserid());
 			request.getSession().setAttribute("member", member);
 			request.getSession().setAttribute("user", user);
+			CommonUtils.rememberPass(username, password, response);
 			rs = ResultUtil.resultString(1);
 		}else{
 			rs = ResultUtil.resultString(0);
 		}
+		request.getSession().setAttribute("user", user);
 		return rs;
 	}
 	

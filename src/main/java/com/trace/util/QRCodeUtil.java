@@ -36,13 +36,13 @@ public class QRCodeUtil {
 	// 二维码尺寸
 	private static final int QRCODE_SIZE = 600;
 	// LOGO宽度
-	private static final int LOGO_WIDTH = 120;
+	private static final int LOGO_WIDTH = 100;
 	// LOGO高度
-	private static final int LOGO_HEIGHT = 120;
+	private static final int LOGO_HEIGHT = 100;
 
 	private static BufferedImage createImage(String content, String logoPath, boolean needCompress) throws Exception {
 		Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
-		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
 		hints.put(EncodeHintType.CHARACTER_SET, CHARSET);
 		hints.put(EncodeHintType.MARGIN, 1);
 		BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, QRCODE_SIZE, QRCODE_SIZE,
@@ -285,6 +285,6 @@ public class QRCodeUtil {
 		//含Logo，不指定二维码图片名
 		//QRCodeUtil.encode(text, "e:\\csdn.jpg", "e:\\", true);
 		//含Logo，指定二维码图片名
-		QRCodeUtil.encode(text, "e:\\csdn.jpg", "e:\\", "qrcode", true);
+		QRCodeUtil.encode(text, "C:\\Users\\jingcc\\Desktop\\车标\\bsj.png", "C:\\Users\\jingcc\\Desktop\\车标\\", "qrcode", true);
 	}
 }

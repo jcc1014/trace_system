@@ -40,6 +40,9 @@
     <if test="type != null and type != ''">
     	and type = #{type}
     </if>
+    <if test="source != null and source != ''">
+    	and source = #{source}
+    </if>
     <if test="cgsc != null and cgsc != ''">
     	and cgsc = #{cgsc}
     </if>

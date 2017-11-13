@@ -204,8 +204,13 @@ function purchase(kind,grade,spyb,number,rnum,pid){
 function checkNum(){
 	var purchase_num = $("#purchase_num").val();
 	if(""!=purchase_num&&!isNaN(purchase_num)){
-		if(parseFloat(purchase_num)>parseFloat($("#num").val())){
-			layer.msg('采购数量不能多于未采购量！',{time:1000});
+		if(parseFloat(purchase_num)>parseFloat($("#num").val())*1.1){
+			layer.msg('采购数量不能多于未采购量的10%！',{time:1000});
+			$("#purchase_num").val("").focus();
+			return;
+		}
+		if(parseFloat(purchase_num)<0){
+			layer.msg('采购数量不能小于0！',{time:1000});
 			$("#purchase_num").val("").focus();
 			return;
 		}
@@ -245,8 +250,9 @@ function modal_add_save(){
 		url:'${path}/purchase/addPurchaseSave2.do',
 		type:'post',
 		data:{'transport_user':transport_user,'transport_truck':transport_truck,'transport_destination':transport_destination,
-			'purchase_num':purchase_num,'purchase_kind':$("#kind").val(),'purchase_grade':$("#grade").val(),'purchase_spyb':$("#purchase_spyb").val(),
-			'number':$("#number").val(),'farmer_id':$("#farmer_name").val(),'purchase_parentid':$("#purchase_id").val()},
+			'purchase_num':purchase_num,'purchase_kind':$("#kind").val(),'purchase_grade':$("#grade").val(),'purchase_spyb':$("#spyb").val(),
+			'number':$("#number").val(),'farmer_id':$("#farmer_name").val(),'purchase_parentid':$("#purchase_id").val(),
+			'purchase_price':purchase_price},
 		success:function(rs){
 			layer.msg('新增成功！',{time:1000},function(){
 				window.location.reload();

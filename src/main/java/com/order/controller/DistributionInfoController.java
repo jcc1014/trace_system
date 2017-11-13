@@ -61,6 +61,18 @@ public class DistributionInfoController {
 	@Autowired
 	private QrcodeService qrcodeService;
 	
+	
+	@RequestMapping("distributionListPage")
+	public String distributionListPage(HttpServletRequest request,Model model){
+		TotalInfo totalInfo = new TotalInfo();
+		totalInfo.setCreatetime(DateUtils.getNDayBeforeCurrentDate(1, "yyyy-MM-dd"));
+		totalInfo.setType("xqd");
+		totalInfo.setStatus("1");
+		List<Map<String, Object>> list = totalInfoService.select(totalInfo);
+		model.addAttribute("list", list);
+		return "orderModule/distribution/distributionListPage";
+	}
+	
 	/**
 	 * 今日配送
 	 * @param request
@@ -68,10 +80,12 @@ public class DistributionInfoController {
 	 * @return
 	 */
 	@RequestMapping("todayDistribution")
-	public String todayDistribution(HttpServletRequest request,Model model){
+	public String todayDistribution(HttpServletRequest request,String id,String name,Model model){
 		String page = "orderModule/distribution/todayDistribution";
 		DistributionInfo distributionInfo = new DistributionInfo();
 		distributionInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		distributionInfo.setRequire_id(id);
+		//distributionInfo.setRequire_name(name);
 		List<Map<String,Object>> list = distributionInfoService.selectPurchaseed(distributionInfo);
 		//List<Map<String,Object>> list = distributionInfoService.select(distributionInfo);
 		if(0<list.size()){
@@ -81,6 +95,7 @@ public class DistributionInfoController {
 			RequireInfo requireInfo = new RequireInfo();
 			//requireInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
 			requireInfo.setCreatetime(DateUtils.getNDayBeforeCurrentDate(1, "yyyy-MM-dd"));
+			requireInfo.setParentid(id);
 			requireInfo.setStatus("1");
 			List<Map<String,Object>> requireList = requireInfoService.select(requireInfo);
 			Map<String,Object> map = null;
@@ -165,7 +180,8 @@ public class DistributionInfoController {
 		String path  = request.getSession().getServletContext().getRealPath("/")+"distribution\\";
 		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
 		//String content = basePath+"/trace/trace_detail?trace_id="+trace_id;
-		String content = "http://jingcc.xin:8080/trace_system/distribution/getInfo.do?id="+distributionDetail.getId();
+		//String content = "http://jingcc.xin:8080/trace_system/distribution/getInfo.do?id="+distributionDetail.getId();
+		String content = "http://119.188.168.205:8080/trace_system/distribution/getInfo.do?id="+distributionDetail.getId();
 		String filename = UUIDFactory.getInstance().newUUID();
 		qrcode.setQrcode_path(filename+".jpg");
 		try {

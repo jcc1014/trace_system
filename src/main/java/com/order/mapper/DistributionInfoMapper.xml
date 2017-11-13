@@ -67,6 +67,9 @@
     <if test="require_name != null and require_name != ''">
     	and d.require_name like '%${require_name}%'
     </if>
+    <if test="require_id != null and require_id != ''">
+    	and d.require_id = #{require_id}
+    </if>
     <if test="base_id != null and base_id != ''">
     	and d.base_id = #{base_id}
     </if>

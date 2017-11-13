@@ -1,5 +1,7 @@
 package com.order.controller;
 
+import java.awt.Font;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +34,7 @@ import com.trace.service.TraceFlowService;
 import com.trace.service.TransportService;
 import com.trace.service.UserService;
 import com.trace.util.DateUtils;
+import com.trace.util.FontImage;
 import com.trace.util.QRCodeUtil;
 import com.utils.UUIDFactory;
 
@@ -197,7 +200,8 @@ public class PurchaseController {
 		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
 		String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
 		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
-		String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+		String content = "http://119.188.168.205:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+//		String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
 		String filename = UUIDFactory.getInstance().newUUID();
 		try {
 			QRCodeUtil.encode(content, logoPath, path, filename, true);
@@ -212,6 +216,7 @@ public class PurchaseController {
 		return page;
 	}
 	
+	//现在在用
 	@RequestMapping("addPurchaseSave2")
 	@ResponseBody
 	public String addPurchaseSave2(HttpServletRequest request,String farmer_id,Purchase purchase,Transport transport){
@@ -244,10 +249,31 @@ public class PurchaseController {
 		Qrcode qrcode = new Qrcode();
 		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
 		String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
-		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
-		String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+		//String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+		String content = "http://119.188.168.205:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
 		String filename = purchaseInfo2.getKind()+purchaseInfo2.getGrade()+DateUtils.getCurrentDate("yyMMddHHmmss");
 		try {
+			String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo2.png";
+			int w = 0;
+			int h = 210;
+			int size = 60;
+			if(purchaseInfo2.getKind().length()==5){
+				w = 160;
+				h = 160;
+				size = 30;
+			}
+			else if(purchaseInfo2.getKind().length()==4){
+				w = 260;
+			}
+			else if(purchaseInfo2.getKind().length()==3){
+				w = 200;
+			}
+			else if(purchaseInfo2.getKind().length()==2){
+				w = 140;
+				h = 140;
+			}
+			FontImage.createImage(purchaseInfo2.getKind(), new Font("宋体", Font.BOLD, size), new File(  
+					logoPath), w, h); 
 			QRCodeUtil.encode(content, logoPath, path, filename, true);
 			qrcode.setQrcode_path(filename+".jpg");
 			qrcodeService.add(qrcode);
@@ -291,7 +317,8 @@ public class PurchaseController {
 		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
 		String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
 		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
-		String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+		String content = "http://119.188.168.205:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+		//String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
 		String filename = UUIDFactory.getInstance().newUUID();
 		try {
 			QRCodeUtil.encode(content, logoPath, path, filename, true);

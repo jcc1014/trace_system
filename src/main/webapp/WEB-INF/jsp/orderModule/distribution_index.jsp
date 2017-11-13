@@ -75,7 +75,8 @@
 	</div>
 <script type="text/javascript">
 function today(){
-	window.location.href = '${path}/distribution/todayDistribution.do';
+	//window.location.href = '${path}/distribution/todayDistribution.do';
+	window.location.href = '${path}/distribution/distributionListPage.do';
 }
 function rou(){
 	window.location.href = '${path}/meat/psList.do';

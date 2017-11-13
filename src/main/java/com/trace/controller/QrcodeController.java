@@ -29,12 +29,13 @@ public class QrcodeController {
 		//String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+urlpath;
 		Map<String,String> map = new HashMap<String, String>();
 		String path  = request.getSession().getServletContext().getRealPath("/")+configPath+"\\";
-		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
 		//String content = basePath+"/trace/trace_detail?trace_id="+trace_id;
 		trace_id = UUID.randomUUID().toString();
-		String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+trace_id;
+		//String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+trace_id;
+		String content = "http://119.188.168.205:8080/trace_system/trace/trace_detail.do?trace_id="+trace_id;
 		String filename = UUID.randomUUID().toString();
 		try {
+			String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo2.png";
 			QRCodeUtil.encode(content, logoPath, path, filename, true);
 			
 			map.put("code", "200");

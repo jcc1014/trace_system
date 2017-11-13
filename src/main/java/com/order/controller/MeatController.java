@@ -290,7 +290,8 @@ public class MeatController {
 		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
 		String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
 		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
-		String content = "http://jingcc.xin:8080/trace_system/meat/qrcode.do?id="+psMeat.getId();
+		//String content = "http://jingcc.xin:8080/trace_system/meat/qrcode.do?id="+psMeat.getId();
+		String content = "http://119.188.168.205:8080/trace_system/meat/qrcode.do?id="+psMeat.getId();
 		String filename = UUIDFactory.getInstance().newUUID();
 		try {
 			QRCodeUtil.encode(content, logoPath, path, filename, true);

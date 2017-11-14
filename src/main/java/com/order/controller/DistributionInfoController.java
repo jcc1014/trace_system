@@ -357,6 +357,11 @@ public class DistributionInfoController {
 		model.addAttribute("curr", page);
 		map.put("index", (Integer.parseInt(page)-1)*8);
  		List<Map<String,Object>> list = distributionDetailService.query(map);
+ 		DistributionInfo distributionInfo = null;
+ 		for (int i = 0; i < list.size(); i++) {
+			distributionInfo = distributionInfoService.selectByPrimaryKey(list.get(i).get("distribution_id").toString());
+			list.get(i).put("distributionInfo", distributionInfo);
+ 		}
  		model.addAttribute("list", list);
  		return p;
  	}

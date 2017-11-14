@@ -80,12 +80,11 @@ public class DistributionInfoController {
 	 * @return
 	 */
 	@RequestMapping("todayDistribution")
-	public String todayDistribution(HttpServletRequest request,String id,String name,Model model){
+	public String todayDistribution(HttpServletRequest request,String id,String pid,Model model){
 		String page = "orderModule/distribution/todayDistribution";
 		DistributionInfo distributionInfo = new DistributionInfo();
 		distributionInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
-		distributionInfo.setRequire_id(id);
-		//distributionInfo.setRequire_name(name);
+		distributionInfo.setBase_id(id);
 		List<Map<String,Object>> list = distributionInfoService.selectPurchaseed(distributionInfo);
 		//List<Map<String,Object>> list = distributionInfoService.select(distributionInfo);
 		if(0<list.size()){
@@ -95,7 +94,7 @@ public class DistributionInfoController {
 			RequireInfo requireInfo = new RequireInfo();
 			//requireInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
 			requireInfo.setCreatetime(DateUtils.getNDayBeforeCurrentDate(1, "yyyy-MM-dd"));
-			requireInfo.setParentid(id);
+			requireInfo.setParentid(pid);
 			requireInfo.setStatus("1");
 			List<Map<String,Object>> requireList = requireInfoService.select(requireInfo);
 			Map<String,Object> map = null;

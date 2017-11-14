@@ -1,5 +1,7 @@
 package com.order.controller;
 
+import java.awt.Font;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,7 @@ import com.trace.service.PurchaseService;
 import com.trace.service.QrcodeService;
 import com.trace.service.TraceFlowService;
 import com.trace.util.DateUtils;
+import com.trace.util.FontImage;
 import com.trace.util.QRCodeUtil;
 import com.trace.util.ResultUtil;
 import com.utils.UUIDFactory;
@@ -180,10 +183,31 @@ public class DistributionInfoController {
 		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
 		//String content = basePath+"/trace/trace_detail?trace_id="+trace_id;
 		//String content = "http://jingcc.xin:8080/trace_system/distribution/getInfo.do?id="+distributionDetail.getId();
-		String content = "http://119.188.168.205:8080/trace_system/distribution/getInfo.do?id="+distributionDetail.getId();
-		String filename = UUIDFactory.getInstance().newUUID();
+		String content = "http://qianzhide.net:8080/trace_system/distribution/getInfo.do?id="+distributionDetail.getId();
+		String filename = distributionInfo.getKind()+distributionInfo.getGrade()+"级"
+						+DateUtils.getCurrentDate("yyMMddHHmmss");
 		qrcode.setQrcode_path(filename+".jpg");
 		try {
+			int w = 0;
+			int h = 210;
+			int size = 60;
+			if(distributionInfo.getKind().length()==5){
+				w = 160;
+				h = 160;
+				size = 30;
+			}
+			else if(distributionInfo.getKind().length()==4){
+				w = 260;
+			}
+			else if(distributionInfo.getKind().length()==3){
+				w = 200;
+			}
+			else if(distributionInfo.getKind().length()==2){
+				w = 140;
+				h = 140;
+			}
+			FontImage.createImage(distributionInfo.getKind(), new Font("宋体", Font.BOLD, size), new File(  
+					logoPath), w, h);
 			QRCodeUtil.encode(content, logoPath, path, filename, true);
 		} catch (Exception e) {
 			e.printStackTrace();

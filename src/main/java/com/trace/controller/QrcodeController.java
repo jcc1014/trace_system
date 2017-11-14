@@ -32,7 +32,7 @@ public class QrcodeController {
 		//String content = basePath+"/trace/trace_detail?trace_id="+trace_id;
 		trace_id = UUID.randomUUID().toString();
 		//String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+trace_id;
-		String content = "http://119.188.168.205:8080/trace_system/trace/trace_detail.do?trace_id="+trace_id;
+		String content = "http://qianzhide.net:8080/trace_system/trace/trace_detail.do?trace_id="+trace_id;
 		String filename = UUID.randomUUID().toString();
 		try {
 			String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo2.png";

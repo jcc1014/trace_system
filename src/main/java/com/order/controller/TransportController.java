@@ -67,7 +67,7 @@ public class TransportController {
 		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
 		String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
 		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
-		String content = "http://119.188.168.205:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+		String content = "http://qianzhide.net:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
 		//String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
 		String filename = UUIDFactory.getInstance().newUUID();
 		try {

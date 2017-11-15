@@ -36,7 +36,7 @@
 				<div class="col-xs-4">菜名:</div>
 				<div class="col-xs-8">
 					<input
-					type="text" class="form-control" id="cm" onchange="getDataByKind();" >
+					type="text" class="form-control" id="cm" value="${cm}" onchange="getDataByKind();" >
 				</div>
 			</div>
 			<div class="row">

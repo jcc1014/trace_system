@@ -450,6 +450,7 @@ public class PurchaseInfoController {
 			if(null!=cm&&!"".equals(cm)){
 				purchaseInfo.setKind(cm);
 			}
+			model.addAttribute("cm", cm);
 			List<Map<String, Object>> list = null;
 			if(null!=user&&"1".equals(user.getUsertype())){
 				

@@ -206,7 +206,7 @@ public class DistributionInfoController {
 				w = 140;
 				h = 140;
 			}
-			FontImage.createImage(distributionInfo.getKind(), new Font("宋体", Font.BOLD, size), new File(  
+			FontImage.createImage(distributionInfo.getKind(), new Font("黑体", Font.BOLD, size), new File(  
 					logoPath), w, h);
 			QRCodeUtil.encode(content, logoPath, path, filename, true);
 		} catch (Exception e) {

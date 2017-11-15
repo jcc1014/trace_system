@@ -1,6 +1,7 @@
 package com.trace.util;
 
 import java.awt.BasicStroke;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -25,6 +26,7 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.order.po.DistributionInfo;
 
 /**
  * 二维码工具类
@@ -34,17 +36,18 @@ public class QRCodeUtil {
 	private static final String CHARSET = "utf-8";
 	private static final String FORMAT = "JPG";
 	// 二维码尺寸
-	private static final int QRCODE_SIZE = 600;
+	private static final int QRCODE_SIZE = 300;
 	// LOGO宽度
-	private static final int LOGO_WIDTH = 100;
+	private static final int LOGO_WIDTH = 60;
 	// LOGO高度
-	private static final int LOGO_HEIGHT = 100;
+	private static final int LOGO_HEIGHT = 60;
 
 	private static BufferedImage createImage(String content, String logoPath, boolean needCompress) throws Exception {
 		Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
-		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
 		hints.put(EncodeHintType.CHARACTER_SET, CHARSET);
 		hints.put(EncodeHintType.MARGIN, 1);
+		hints.put(EncodeHintType.PDF417_COMPACT, false);
 		BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, QRCODE_SIZE, QRCODE_SIZE,
 				hints);
 		int width = bitMatrix.getWidth();
@@ -285,6 +288,29 @@ public class QRCodeUtil {
 		//含Logo，不指定二维码图片名
 		//QRCodeUtil.encode(text, "e:\\csdn.jpg", "e:\\", true);
 		//含Logo，指定二维码图片名
-		QRCodeUtil.encode(text, "C:\\Users\\jingcc\\Desktop\\车标\\bsj.png", "C:\\Users\\jingcc\\Desktop\\车标\\", "qrcode", true);
+		int w = 0;
+		int h = 210;
+		int size = 60;
+		DistributionInfo distributionInfo = new DistributionInfo();
+		distributionInfo.setKind("大大大大白");
+		if(distributionInfo.getKind().length()==5){
+			w = 160;
+			h = 160;
+			size = 30;
+		}
+		else if(distributionInfo.getKind().length()==4){
+			w = 260;
+		}
+		else if(distributionInfo.getKind().length()==3){
+			w = 200;
+		}
+		else if(distributionInfo.getKind().length()==2){
+			w = 140;
+			h = 140;
+		}
+		String logoPath = "C:\\Users\\jingcc\\Desktop\\mysql安装\\aa.png";
+		FontImage.createImage(distributionInfo.getKind(), new Font("黑体", Font.BOLD, size), new File(  
+				logoPath ), w, h);
+		QRCodeUtil.encode(text, logoPath, "C:\\Users\\jingcc\\Desktop\\mysql安装\\", "qrcode", true);
 	}
 }

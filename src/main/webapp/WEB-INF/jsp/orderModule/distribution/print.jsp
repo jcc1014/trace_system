@@ -75,6 +75,6 @@ window.print();
 } 
 } 
 </script> 
-<!--startprint1--><c:if test="${qrcode.qrcode_path eq ''||qrcode.qrcode_path ==null}">暂时无法打印</c:if><c:if test="${qrcode.qrcode_path ne ''&&qrcode.qrcode_path !=null}"><table><tr><td rowspan="3"><img id="img" style="width: 3cm;height: 3cm;margin-top: -10px;margin-left: 20px;" src="${path}/distribution/${qrcode.qrcode_path}" /></td><td style="vertical-align: top;">县域电商</td></tr><tr><td style="vertical-align: top;">食安济阳</td></tr><tr><td style="vertical-align: top;">福德农科</td></tr></table></c:if><!--endprint1--> 
+<!--startprint1--><c:if test="${qrcode.qrcode_path eq ''||qrcode.qrcode_path ==null}">暂时无法打印</c:if><c:if test="${qrcode.qrcode_path ne ''&&qrcode.qrcode_path !=null}"><table><tr><td rowspan="4"><img id="img" style="width: 3cm;height: 3cm;margin-top: -10px;margin-left: 20px;" src="${path}/distribution/${qrcode.qrcode_path}" /></td><td style="vertical-align: top;">县域电商</td></tr><tr><td style="vertical-align: top;">食安济阳</td></tr><tr><td style="vertical-align: top;">福德农科</td></tr><tr><td style="vertical-align: top;">${fn:substring(qrcode.qrcode_path,0,fn:length(qrcode.qrcode_path)-18)}</td></tr></table></c:if><!--endprint1--> 
 </body> 
 </html> 

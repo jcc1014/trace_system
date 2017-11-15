@@ -43,7 +43,7 @@
     	and grade = #{grade}
     </if>
     <if test="kind != null and kind != ''">
-    	and kind = #{kind}
+    	and kind like '%${kind}%'
     </if>
     <if test="type != null and type != ''">
     	and type = #{type}

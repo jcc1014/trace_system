@@ -33,6 +33,13 @@
 		</div>
 		<div class="panel-body">
 			<div class="row">
+				<div class="col-xs-4">菜名:</div>
+				<div class="col-xs-8">
+					<input
+					type="text" class="form-control" id="cm" onchange="getDataByKind();" >
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-xs-4">采购人:</div>
 				<div class="col-xs-8">
 					<input
@@ -180,6 +187,18 @@ function detail(id){
 }
 function back(){
 	window.location.href = '${path}/purchaseInfo/allQhcgd.do';
+}
+function getDataByKind(){
+	var cm = $("#cm").val();
+	if(""!=cm){
+		window.location.href = '${path}/purchaseInfo/getQhcgInfo.do?id='+GetQueryString("id")+"&cm="+cm;
+	}
+}
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
 }
 /* function purchase(id){
 	window.location.href = '${path}/purchase/addQhPurchase.do?purchase_id='+id;

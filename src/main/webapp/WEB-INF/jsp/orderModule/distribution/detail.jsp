@@ -128,8 +128,8 @@ function submit(){
 		layer.msg('配送数量格式不正确！',{time:1000});
 		return;
 	}
-	if(parseFloat(distribution_num)>parseFloat('${sessionScope.remain}')){
-		layer.msg('配送数量不能多于可配送量！',{time:1000});
+	if(parseFloat(distribution_num)>parseFloat('${sessionScope.remain}')*1.1){
+		layer.msg('配送数量不能多于可配送量的10%！',{time:1000});
 		$("#distribution_num").val("").focus();
 		return;
 	}

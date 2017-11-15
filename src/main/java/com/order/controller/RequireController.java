@@ -127,7 +127,8 @@ public class RequireController {
 		requireInfoService.updateByParentid(requireInfo);
 		int r = totalInfoService.updateByPrimaryKeySelective(totalInfo);
 		rs = ResultUtil.resultString(r);
-		SendMessage.sendMsg(totalInfo.getName()+" 已提交需求单！（"+DateUtils.getCurrentDate()+"）");
+		BaseInfo baseInfo = (BaseInfo)request.getSession().getAttribute("baseInfo");
+		SendMessage.sendMsg(baseInfo.getName()+" 已提交需求单！（"+DateUtils.getCurrentDate()+"）");
 		return rs;
 		
 	}

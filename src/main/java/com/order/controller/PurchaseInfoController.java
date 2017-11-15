@@ -433,7 +433,7 @@ public class PurchaseInfoController {
 	 * @return
 	 */
 	@RequestMapping("getQhcgInfo")
-	public String getQhcgInfo(HttpServletRequest request,Model model,String id){
+	public String getQhcgInfo(HttpServletRequest request,Model model,String id,String cm){
 		String page = "orderModule/purchase/todayQhcgInfo";
 		User user = (User)request.getSession().getAttribute("user");
 		PurchaseInfo purchaseInfo = new PurchaseInfo();
@@ -447,6 +447,9 @@ public class PurchaseInfoController {
 			List<Farmer> farmerList = farmerService.selectAllFarmer(farmer);
 			model.addAttribute("farmerList", farmerList);
 			purchaseInfo.setCgdh((String)totalInfo.getId());
+			if(null!=cm&&!"".equals(cm)){
+				purchaseInfo.setKind(cm);
+			}
 			List<Map<String, Object>> list = null;
 			if(null!=user&&"1".equals(user.getUsertype())){
 				

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.order.dao.RequireFruitMapper" >
+  <resultMap id="BaseResultMap" type="com.order.po.RequireFruit" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="kind" property="kind" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="sccj" property="sccj" jdbcType="VARCHAR" />
+    <result column="datetime" property="datetime" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="confirm_time" property="confirm_time" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="DOUBLE" />
+    <result column="sum" property="sum" jdbcType="DOUBLE" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="remain" property="remain" jdbcType="DOUBLE" />
+    <result column="baseid" property="baseid" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, kind, grade, sccj, datetime, status, confirm_time, num, sum, price, remain, baseid,sign
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from require_fruit
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.order.po.RequireFruit" >
+    select 
+    <include refid="Base_Column_List" />
+    from require_fruit
+    where 1=1
+    <if test="kind != null and kind != ''">
+    	and kind = #{kind}
+    </if>
+    <if test="grade != null and grade != ''">
+    	and grade = #{grade}
+    </if>
+    <if test="sccj != null and sccj != ''">
+    	and sccj = #{sccj}
+    </if>
+    <if test="status != null and status != ''">
+    	and status = #{status}
+    </if>
+    <if test="baseid != null and baseid != ''">
+    	and baseid = #{baseid}
+    </if>
+    <if test="confirm_time != null and confirm_time != ''">
+    	and confirm_time = #{confirm_time}
+    </if>
+    <if test="datetime != null and datetime != ''">
+    	and datetime &gt; date_sub(now(), interval 24 hour)
+<!--     	and datetime = #{datetime} -->
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from require_fruit
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.order.po.RequireFruit" >
+    insert into require_fruit (id, kind, grade, 
+      sccj, datetime, status, 
+      confirm_time, num, sum, 
+      price, remain, baseid
+      )
+    values (#{id,jdbcType=VARCHAR}, #{kind,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, 
+      #{sccj,jdbcType=VARCHAR}, #{datetime,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{confirm_time,jdbcType=VARCHAR}, #{num,jdbcType=DOUBLE}, #{sum,jdbcType=DOUBLE}, 
+      #{price,jdbcType=DECIMAL}, #{remain,jdbcType=DOUBLE}, #{baseid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.order.po.RequireFruit" >
+    insert into require_fruit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="kind != null" >
+        kind,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="sccj != null" >
+        sccj,
+      </if>
+      <if test="datetime != null" >
+        datetime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="confirm_time != null" >
+        confirm_time,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="sum != null" >
+        sum,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="remain != null" >
+        remain,
+      </if>
+      <if test="baseid != null" >
+        baseid,
+      </if>
+      <if test="sign != null" >
+        sign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null" >
+        #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="sccj != null" >
+        #{sccj,jdbcType=VARCHAR},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="confirm_time != null" >
+        #{confirm_time,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=DOUBLE},
+      </if>
+      <if test="sum != null" >
+        #{sum,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="remain != null" >
+        #{remain,jdbcType=DOUBLE},
+      </if>
+      <if test="baseid != null" >
+        #{baseid,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.order.po.RequireFruit" >
+    update require_fruit
+    <set >
+      <if test="kind != null" >
+        kind = #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="sccj != null" >
+        sccj = #{sccj,jdbcType=VARCHAR},
+      </if>
+      <if test="datetime != null" >
+        datetime = #{datetime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="confirm_time != null" >
+        confirm_time = #{confirm_time,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=DOUBLE},
+      </if>
+      <if test="sum != null" >
+        sum = #{sum,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="remain != null" >
+        remain = #{remain,jdbcType=DOUBLE},
+      </if>
+      <if test="baseid != null" >
+        baseid = #{baseid,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByTimeAndBaseId" parameterType="com.order.po.RequireFruit" >
+    update require_fruit
+    set  status = #{status,jdbcType=VARCHAR},
+      confirm_time = #{confirm_time,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR}
+   where   baseid = #{baseid,jdbcType=VARCHAR}
+    and datetime = #{datetime,jdbcType=VARCHAR}
+  </update>
+  <update id="updateStatus" parameterType="com.order.po.RequireFruit" >
+    update require_fruit
+    set  status = #{status,jdbcType=VARCHAR}
+   where   baseid = #{baseid,jdbcType=VARCHAR}
+    and datetime = #{datetime,jdbcType=VARCHAR}
+    and status = '0'
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.order.po.RequireFruit" >
+    update require_fruit
+    set kind = #{kind,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=VARCHAR},
+      sccj = #{sccj,jdbcType=VARCHAR},
+      datetime = #{datetime,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      confirm_time = #{confirm_time,jdbcType=VARCHAR},
+      num = #{num,jdbcType=DOUBLE},
+      sum = #{sum,jdbcType=DOUBLE},
+      price = #{price,jdbcType=DECIMAL},
+      remain = #{remain,jdbcType=DOUBLE},
+      baseid = #{baseid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -55,8 +55,8 @@ public class FruitsController {
 		goods.setGoods_type("2");
 		List<Goods> goodsList = goodsService.select(goods);
 		model.addAttribute("goodsList", goodsList);
-		model.addAttribute("pch", "m"+DateUtils.getCurrentDate("yyMMddHHmmss"));
-		return "orderModule/meat/add";
+		model.addAttribute("pch", "f"+DateUtils.getCurrentDate("yyMMddHHmmss"));
+		return "orderModule/fruit/add";
 		
 	}
 	@RequestMapping("addSave")
@@ -87,7 +87,7 @@ public class FruitsController {
 	
 	@RequestMapping("list")
 	public String list(HttpServletRequest request,Model model,Fruit fruit){
-		String page = "orderModule/meat/list";
+		String page = "orderModule/fruit/list";
 		List<Fruit> list = fruitService.select(fruit);
 		model.addAttribute("list", list);
 		return page;
@@ -96,7 +96,7 @@ public class FruitsController {
 	
 	@RequestMapping("requireList")
 	public String requireList(HttpServletRequest request,Model model,RequireFruit requireFruit){
-		String page = "orderModule/meat/requireList";
+		String page = "orderModule/fruit/requireList";
 		requireFruit.setDatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
 		requireFruit.setStatus("0");
 		BaseInfo baseInfo = (BaseInfo)request.getSession().getAttribute("baseInfo");
@@ -116,7 +116,7 @@ public class FruitsController {
 		goods.setGoods_type("2");
 		List<Goods> goodsList = goodsService.select(goods);
 		model.addAttribute("goodsList", goodsList);
-		return "orderModule/meat/require_add";
+		return "orderModule/fruit/require_add";
 		
 	}
 	
@@ -150,10 +150,6 @@ public class FruitsController {
 	@RequestMapping("salePrice")
 	public String salePrice(HttpServletRequest request,SalePrice salePrice,Model model){
 		String page = "redirect:saleList.do";
-//		requireFruit requireFruit = new requireFruit();
-//		requireFruit.setDatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
-//		requireFruit.setStatus("0");
-//		List<requireFruit> list = requirefruitService.select(requireFruit);
 		Fruit fruit = new Fruit();
 		fruit.setRksj(DateUtils.getCurrentDate("yyyy-MM-dd"));
 		List<Fruit> list = fruitService.select(fruit);
@@ -182,7 +178,7 @@ public class FruitsController {
 		map.put("date", DateUtils.getCurrentDate("yyyy-MM-dd"));
 		List<SalePrice> salePriceList = salePriceService.selectMeatPrice(map);
 		model.addAttribute("salePriceList", salePriceList);
-		return "orderModule/meat/salePrice";
+		return "orderModule/fruit/salePrice";
 	}
 	
 	@RequestMapping("confirmList")
@@ -215,7 +211,7 @@ public class FruitsController {
 	
 	@RequestMapping("detail")
 	public String ps_detail(HttpServletRequest request,Model model,String id){
-		String page = "orderModule/meat/detail";
+		String page = "orderModule/fruit/detail";
 		PsFruit psFruit = new PsFruit();
 		psFruit.setRequire_id(id);
 		List<PsFruit> list = psFruitSevice.select(psFruit);
@@ -225,7 +221,7 @@ public class FruitsController {
 	
 	@RequestMapping("sign")
 	public String confirm(HttpServletRequest request,Model model,String time,String baseid){
-		String rs = "orderModule/meat/sign";
+		String rs = "orderModule/fruit/sign";
 		model.addAttribute("time", time);
 		model.addAttribute("baseid", baseid);
 		return rs;
@@ -233,7 +229,7 @@ public class FruitsController {
 	@RequestMapping("signSave")
 	@ResponseBody
 	public String signSave(HttpServletRequest request,Model model,String time,String baseid,String signname){
-		String rs = "orderModule/meat/requireList";
+		String rs = "orderModule/fruit/requireList";
 		RequireFruit requireFruit = new RequireFruit();
 		requireFruit.setDatetime(time);
 		requireFruit.setStatus("3");
@@ -259,7 +255,7 @@ public class FruitsController {
 	
 	@RequestMapping("ps")
 	public String ps(HttpServletRequest request,Model model,String id){
-		String page = "orderModule/meat/ps";
+		String page = "orderModule/fruit/ps";
 		RequireFruit requireFruit = requireFruitService.selectByPrimaryKey(id);
 		Fruit fruit = new Fruit();
 		fruit.setDatetime(requireFruit.getDatetime());
@@ -290,7 +286,6 @@ public class FruitsController {
 		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
 		String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
 		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
-		//String content = "http://jingcc.xin:8080/trace_system/meat/qrcode.do?id="+psMeat.getId();
 		String content = "http://119.188.168.205:8080/trace_system/fruit/qrcode.do?id="+psFruit.getId();
 		String filename = UUIDFactory.getInstance().newUUID();
 		try {

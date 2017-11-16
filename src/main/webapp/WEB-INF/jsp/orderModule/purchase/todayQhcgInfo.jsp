@@ -171,7 +171,7 @@
 			name="ycdzm" id="ycdzm">
 	</div>
 	<div class="form-group" style="text-align: center;">
-		<button type="button" class="btn btn-success"
+		<button type="button" class="btn btn-success" id="save"
 			onclick="modal_add_save();">保存</button>
 		<button type="button" class="btn btn-default"
 			onclick="closeModal();">关闭</button>
@@ -265,6 +265,7 @@ function modal_add_save(){
 		layer.msg('采购数量格式不正确！',{time:1000});
 		return;
 	}
+	$("#save").hide();
 	$.ajax({
 		url:'${path}/purchase/addPurchaseSave2.do',
 		type:'post',

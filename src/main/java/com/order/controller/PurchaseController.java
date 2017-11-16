@@ -198,13 +198,13 @@ public class PurchaseController {
 		request.getSession().setAttribute("transport_desitination", transport.getTransport_destination());
 		Qrcode qrcode = new Qrcode();
 		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
-		String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
-		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
-		String content = "http://119.188.168.205:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
-//		String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+		//String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
+		//String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
+		//String content = "http://119.188.168.205:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+		//String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
 		String filename = UUIDFactory.getInstance().newUUID();
 		try {
-			QRCodeUtil.encode(content, logoPath, path, filename, true);
+			//QRCodeUtil.encode(content, logoPath, path, filename, true);
 			qrcode.setQrcode_path(filename+".jpg");
 			qrcodeService.add(qrcode);
 			traceFlow.setQrcode(qrcode.getQrcode_id());
@@ -246,14 +246,14 @@ public class PurchaseController {
 		request.getSession().setAttribute("transport_truck", transport.getTransport_truck());
 		request.getSession().setAttribute("transport_desitination", transport.getTransport_destination());
 		request.getSession().setAttribute("farmer_id", farmer_id);
-		Qrcode qrcode = new Qrcode();
-		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
-		String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
+		//Qrcode qrcode = new Qrcode();
+		//qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
+		//String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
 		//String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
-		String content = "http://119.188.168.205:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
-		String filename = purchaseInfo2.getKind()+purchaseInfo2.getGrade()+DateUtils.getCurrentDate("yyMMddHHmmss");
+		//String content = "http://qianzhide.net:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+		//String filename = purchaseInfo2.getKind()+purchaseInfo2.getGrade()+DateUtils.getCurrentDate("yyMMddHHmmss");
 		try {
-			String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo2.png";
+			/*String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo2.png";
 			int w = 0;
 			int h = 210;
 			int size = 60;
@@ -277,7 +277,7 @@ public class PurchaseController {
 			QRCodeUtil.encode(content, logoPath, path, filename, true);
 			qrcode.setQrcode_path(filename+".jpg");
 			qrcodeService.add(qrcode);
-			traceFlow.setQrcode(qrcode.getQrcode_id());
+			traceFlow.setQrcode(qrcode.getQrcode_id());*/
 			traceFlowService.add(traceFlow);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -313,21 +313,21 @@ public class PurchaseController {
 		traceFlow.setTrace_status("6");
 		traceFlow.setIdentifier(DateUtils.getCurrentDate("yyyyMMddHHmmss"));
 		transportService.add(transport);
-		Qrcode qrcode = new Qrcode();
-		qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
-		String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
-		String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
-		String content = "http://119.188.168.205:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
+		//Qrcode qrcode = new Qrcode();
+		//qrcode.setQrcode_id(UUIDFactory.getInstance().newUUID());
+		//String path  = request.getSession().getServletContext().getRealPath("/")+"qrcode\\";
+		//String logoPath  = request.getSession().getServletContext().getRealPath("/")+"\\images\\qrcode_logo.png";
+		//String content = "http://119.188.168.205:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
 		//String content = "http://jingcc.xin:8080/trace_system/trace/trace_detail.do?trace_id="+traceFlow.getTrace_id();
-		String filename = UUIDFactory.getInstance().newUUID();
-		try {
+		//String filename = UUIDFactory.getInstance().newUUID();
+		/*try {
 			QRCodeUtil.encode(content, logoPath, path, filename, true);
-			qrcode.setQrcode_path(filename+".jpg");
+			setQrcode_path(filename+".jpg");
 			qrcodeService.add(qrcode);
 			traceFlow.setQrcode(qrcode.getQrcode_id());
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		traceFlowService.update(traceFlow);
 		return page;
 	}

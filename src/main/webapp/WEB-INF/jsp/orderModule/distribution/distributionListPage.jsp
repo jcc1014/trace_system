@@ -49,7 +49,7 @@
 						<tr>
 							<td>${item.name }</td>
 							<td>
-							<a href="javascript:;" onclick="watch('${item.id}','${item.name}');">查看</a>
+							<a href="javascript:;" onclick="watch('${item.source}','${item.id}');">查看</a>
 							<%-- <a href="javascript:;" onclick="confirm('${item.distribution_id}');">确认</a> --%>
 							</td>
 						</tr>
@@ -68,8 +68,8 @@
 	function back(){
 		window.location.href = '${path}/baseInfo/index.do';
 	}
-	function watch(id,name){
-		window.location.href = '${path}/distribution/todayDistribution.do?id='+id+"&name="+name;
+	function watch(id,pid){
+		window.location.href = '${path}/distribution/todayDistribution.do?id='+id+"&pid="+pid;
 	}
 
 	

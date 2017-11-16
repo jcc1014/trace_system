@@ -51,6 +51,8 @@
           <thead>
             <tr>
               <td align="center">日期</td>
+              <td align="center">名称</td>
+              <td align="center">数量</td>
               <td align="center">配送码</td>
               <td align="center">蔬菜编码</td>
               <td align="center">二维码</td>
@@ -60,6 +62,10 @@
           	<c:forEach var="item" items="${list}" varStatus="index">
           		<tr id="${item.id}" align="center">
           			<td align="center">${item.createtime}</td>
+          			<td align="center">
+          			${item.distributionInfo.kind}${item.distributionInfo.grade}级${item.distributionInfo.spyb}
+          			</td>
+          			<td align="center">${item.distribution_num}</td>
           			<td align="center">${item.psbh}</td>
           			<td align="center">${item.trace_id}</td>
           			<td align="center" width="60">
@@ -72,7 +78,7 @@
           </tbody>
           <thead>
             <tr>
-              <th colspan="4"><div id="page"></div></th>
+              <th colspan="6"><div id="page"></div></th>
             </tr> 
           </thead>
         </table>

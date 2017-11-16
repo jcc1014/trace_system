@@ -42,6 +42,13 @@
      where kind in (select kind from meat where  rksj like '%${date}%')
      and grade in (select grade from meat where  rksj like '%${date}%')
   </select>
+ <select id="selectFruitPrice" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+     from sale_price 
+     where kind in (select kind from fruit where  rksj like '%${date}%')
+     and grade in (select grade from fruit where  rksj like '%${date}%')
+  </select>
   
   <select id="select" resultMap="BaseResultMap" parameterType="com.order.po.SalePrice" >
     select 

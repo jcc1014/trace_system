@@ -32,4 +32,5 @@ public interface SalePriceMapper {
     int insertByRequireAndPurchase(Map<String,Object> map);
     
     List<SalePrice> selectMeatPrice(Map<String,Object> map);
+    List<SalePrice> selectFruitPrice(Map<String,Object> map);
 }

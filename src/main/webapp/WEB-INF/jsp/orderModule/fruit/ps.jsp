@@ -45,15 +45,15 @@
 				<div class="form-group">
 					<label >种类</label> 
 					<input type="text" class="form-control" name="kind" 
-					value="${requireMeat.kind}" readonly="readonly" id="kind"
+					value="${requireFruit.kind}" readonly="readonly" id="kind"
 					>
 					<input type="hidden" name="require_id" id="require_id"
-					value="${requireMeat.id }"> 
+					value="${requireFruit.id }"> 
 				</div>
 				<div class="form-group">
 					<label >品级</label> 
 					<input type="text" class="form-control" name="grade" 
-					value="${requireMeat.grade}" readonly="readonly" id="grade"
+					value="${requireFruit.grade}" readonly="readonly" id="grade"
 					>
 				</div>
 				<div class="form-group">
@@ -64,7 +64,7 @@
 					<select  class="form-control" name="pch" 
 					 id="pch" onchange="geteRemain();">
 						<option value="">请选择批次号</option>
-						<c:forEach var="item" items="${meatList}">
+						<c:forEach var="item" items="${fruitList}">
 							<option value="${item.pch }">${item.pch}</option>
 						</c:forEach>
 					</select>
@@ -73,7 +73,7 @@
 					</div>
 				<div class="form-group">
 					<label >配送量</label> <input
-						type="number" class="form-control" name="num" id="num" >
+						type="number" class="form-control" name="num" id="num" onblur="compare();">
 				</div>
 				<div class="form-group">
 					<label >姓名</label> <input
@@ -184,7 +184,7 @@ function submitD(){
 	$("#submit_btn").hide();
 	$.ajax({
 		type:'post',
-		url:'${path}/meat/psSave.do',
+		url:'${path}/fruit/psSave.do',
 		dataType:'json',
 		data:$("#form").serialize(),
 		success:function(rs){
@@ -210,7 +210,7 @@ function geteRemain(){
 	}
 	$.ajax({
 		type:'post',
-		url:'${path}/meat/getRemain.do',
+		url:'${path}/fruit/getRemain.do',
 		dataType:'json',
 		data:{'pch':pch},
 		success:function(rs){
@@ -232,9 +232,14 @@ function geteRemain(){
 function compare(){
 	var remain = $("#r_num").val();
 	var num = $("#num").val();
-	if(parseFloat(remain)<parseFloat(num)){
-		layer.msg('数量不能大于剩余量！',{time:1000});
-		$("#num").focus();
+	if(""==num||"0"==num){
+		layer.msg('数量不能为空！',{time:1000});
+		$("#num").val("").focus();
+		return;
+	}
+	if((parseFloat(remain)*1.1)<parseFloat(num)){
+		layer.msg('数量不能大于剩余量的10%！',{time:1000});
+		$("#num").val("").focus();
 		return;
 	}
 }

@@ -94,6 +94,20 @@
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #1296db;" onclick="fruit();">
+					<img alt="需求单" src="${path}/images/orderModule/today.png" width="100%" height="85%;">
+					<div style="color: #009688;">水果需求单</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #515151;" onclick="fruitsh();">
+					<img alt="收货列表" src="${path}/images/orderModule/sh.png" width="100%" height="85%;">
+					<div style="color: #EE7600;">水果收货列表</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 col-xs-6">
 				<div class="item" style="border: 1px solid #EE7600;" onclick="fl();">
 					<img alt="蔬菜分类" src="${path}/images/orderModule/type.png" width="100%" height="85%;">
 					<div style="color: #8968CD;">蔬菜分类查询</div>
@@ -134,6 +148,12 @@ function rou(){
 }
 function rsh(){
 	window.location.href = "${path}/meat/confirmList.do";
+}
+function fruit(){
+	window.location.href = "${path}/fruit/requireList.do";
+}
+function fruitsh(){
+	window.location.href = "${path}/fruit/confirmList.do";
 }
 </script>
 </body>

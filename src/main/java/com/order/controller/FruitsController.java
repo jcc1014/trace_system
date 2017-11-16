@@ -52,7 +52,7 @@ public class FruitsController {
 	@RequestMapping("add")
 	public String add(HttpServletRequest request,Model model){
 		Goods goods = new Goods();
-		goods.setGoods_type("2");
+		goods.setGoods_type("00f9667f-976a-4728-b122-2c6d7ef7d3b8");
 		List<Goods> goodsList = goodsService.select(goods);
 		model.addAttribute("goodsList", goodsList);
 		model.addAttribute("pch", "f"+DateUtils.getCurrentDate("yyMMddHHmmss"));
@@ -113,7 +113,7 @@ public class FruitsController {
 	@RequestMapping("require_add")
 	public String require_add(HttpServletRequest request,Model model){
 		Goods goods = new Goods();
-		goods.setGoods_type("2");
+		goods.setGoods_type("00f9667f-976a-4728-b122-2c6d7ef7d3b8"); //水果
 		List<Goods> goodsList = goodsService.select(goods);
 		model.addAttribute("goodsList", goodsList);
 		return "orderModule/fruit/require_add";
@@ -176,14 +176,14 @@ public class FruitsController {
 	public String saleList(HttpServletRequest request,Model model){
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("date", DateUtils.getCurrentDate("yyyy-MM-dd"));
-		List<SalePrice> salePriceList = salePriceService.selectMeatPrice(map);
+		List<SalePrice> salePriceList = salePriceService.selectFruitPrice(map);
 		model.addAttribute("salePriceList", salePriceList);
 		return "orderModule/fruit/salePrice";
 	}
 	
 	@RequestMapping("confirmList")
 	public String confirmList(HttpServletRequest request,Model model,RequireFruit requireFruit){
-		String page = "orderModule/meat/confirm_list";
+		String page = "orderModule/fruit/confirm_list";
 		requireFruit.setDatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
 		requireFruit.setStatus("2");
 		BaseInfo baseInfo = (BaseInfo)request.getSession().getAttribute("baseInfo");
@@ -213,7 +213,7 @@ public class FruitsController {
 	public String ps_detail(HttpServletRequest request,Model model,String id){
 		String page = "orderModule/fruit/detail";
 		PsFruit psFruit = new PsFruit();
-		psFruit.setRequire_id(id);
+		//psFruit.setRequire_id(id);
 		List<PsFruit> list = psFruitSevice.select(psFruit);
 		model.addAttribute("list", list);
 		return page;
@@ -274,7 +274,23 @@ public class FruitsController {
 		requireFruit.setDatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
 		requireFruit.setStatus("1");
 		List<RequireFruit> list1 = requireFruitService.select(requireFruit);
-		model.addAttribute("list", list1);
+		requireFruit.setStatus("2");
+		List<RequireFruit> list2 = requireFruitService.select(requireFruit);
+		List<RequireFruit> list = new ArrayList<RequireFruit>();
+		list.addAll(list1);
+		list.addAll(list2);
+		model.addAttribute("list", list);
+		return page;
+	}
+	@RequestMapping("psDetailList")
+	public String psDetailList(HttpServletRequest request,Model model,String id){
+		String page = "orderModule/fruit/ps_detail_list";
+		RequireFruit requireFruit = requireFruitService.selectByPrimaryKey(id);
+		PsFruit psFruit = new PsFruit();
+		psFruit.setRequire_id(id);
+		List<PsFruit> list = psFruitSevice.select(psFruit);
+		model.addAttribute("list", list);
+		model.addAttribute("requireFruit", requireFruit);
 		return page;
 	}
 	@RequestMapping("psSave")

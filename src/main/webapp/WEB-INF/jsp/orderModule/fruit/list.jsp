@@ -73,16 +73,16 @@ function add(){
 		closeBtn:1,
 		area: ['90%','90%'],
 		shadeClose: true,
-		content: ['${path}/meat/add.do']
+		content: ['${path}/fruit/add.do']
 	})
 }
 function closeModal(){
 	layer.closeAll();
-	window.location.href = "${path}/meat/list.do";
+	window.location.href = "${path}/fruit/list.do";
 }
 function del(id){
 	$.ajax({
-		url:'${path}/meat/delete.do',
+		url:'${path}/fruit/delete.do',
 		type:'post',
 		dataType:'json',
 		data:{'id':id},
@@ -90,7 +90,7 @@ function del(id){
 			if(""!=rs){
 				rs = $.parseJSON(rs);
 				layer.msg('删除成功！',{time:1000},function(){
-					location.href = '${path}/meat/list.do';
+					location.href = '${path}/fruit/list.do';
 				})
 			}
 		}

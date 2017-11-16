@@ -34,27 +34,26 @@
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th>种类</th><th>品级</th><th>厂家</th><th>数量</th><th>未配</th><th>操作</th>
+						<th>名称</th><th>配送号</th><th>数量</th><th>编号</th><th>状态</th>
 					</tr>
 				</thead>
 				<tbody id="tbody">
 					<c:if test="${null==list || fn:length(list)==0 }">
-						<tr><td colspan="7">暂无数据</td></tr>
+						<tr><td colspan="5">暂无数据</td></tr>
 					</c:if>
 					<c:if test="${null!=list  }">
 					<c:forEach var="item" items="${list}">
 						<tr>
-							<td>${item.kind}</td>
-							<td>${item.grade}</td>
-							<td>${item.sccj}</td>
+							<td>${requireFruit.kind}${requireFruit.grade}级</td>
+							<td>${item.pch}</td>
 							<td>${item.num}</td>
-							<td>${item.remain}</td>
+							<td>${item.code}</td>
 							<td>
 							<c:if test="${item.status eq '1' }">
-								<a href="javascript:;" onclick="ps('${item.id}');">配送</a>
+								未收货
 							</c:if>
 							<c:if test="${item.status eq '2' }">
-								<a href="javascript:;" onclick="detail('${item.id}');">查看</a>
+								已收货
 							</c:if>
 							</td>
 						</tr>

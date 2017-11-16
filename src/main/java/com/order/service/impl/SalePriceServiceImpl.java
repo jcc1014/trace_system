@@ -76,6 +76,10 @@ public class SalePriceServiceImpl implements SalePriceService {
 	}
 
 	@Override
+	public List<SalePrice> selectFruitPrice(Map<String, Object> map) {
+		return salePriceMapper.selectFruitPrice(map);
+	}
+	@Override
 	public List<SalePrice> selectMeatPrice(Map<String, Object> map) {
 		return salePriceMapper.selectMeatPrice(map);
 	}

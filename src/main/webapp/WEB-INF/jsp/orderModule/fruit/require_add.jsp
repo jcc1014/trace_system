@@ -167,7 +167,7 @@ function submitD(){
 	//$("#submit_btn").hide();
 	$.ajax({
 		type:'post',
-		url:'${path}/meat/addRequire.do',
+		url:'${path}/fruit/addRequire.do',
 		dataType:'json',
 		data:{'kind':kind,'grade':grade,'num':num,'sccj':sccj},
 		success:function(rs){

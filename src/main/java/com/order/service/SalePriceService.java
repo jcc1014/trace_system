@@ -25,6 +25,7 @@ public interface SalePriceService {
     int updateByParentid(SalePrice salePrice);
     
     List<SalePrice> selectMeatPrice(Map<String,Object> map);
+    List<SalePrice> selectFruitPrice(Map<String,Object> map);
     
     SalePrice selectByKindAndGrade(String kind,String grade,String spyb,String datetime);
 

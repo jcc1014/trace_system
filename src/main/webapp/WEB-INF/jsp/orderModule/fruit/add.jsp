@@ -236,7 +236,7 @@ function submitD(){
 	//$("#submit_btn").hide();
 	$.ajax({
 		type:'post',
-		url:'${path}/meat/addSave.do',
+		url:'${path}/fruit/addSave.do',
 		dataType:'json',
 		data:{'pch':$("#pch").val(),'kind':kind,'grade':grade,'num':num,
 			'sccj':sccj,'jcbg':jcbg,'cgr':$("#cgr").val(),

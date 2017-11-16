@@ -76,7 +76,7 @@ function add(){
 		closeBtn:1,
 		area: ['90%','90%'],
 		shadeClose: true,
-		content: ['${path}/meat/add.do']
+		content: ['${path}/fruit/add.do']
 	})
 }
 function closeModal(){
@@ -96,7 +96,7 @@ function confirm(id,time){
 		closeBtn:1,
 		area: ['90%','70%'],
 		shadeClose: true,
-		content: '${path}/meat/sign.do?baseid='+id+"&time="+time
+		content: '${path}/fruit/sign.do?baseid='+id+"&time="+time
 	})
 }
 
@@ -112,7 +112,7 @@ function watch(){
 }
 
 function detail(id){
-	window.location.href = "${path}/meat/detail.do?id="+id;
+	window.location.href = "${path}/fruit/detail.do?id="+id;
 }
 </script>
 </body>

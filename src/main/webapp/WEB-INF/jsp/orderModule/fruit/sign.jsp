@@ -59,14 +59,10 @@ $(document).on('ready', function() {
 	 
 	function saveSignature() {
 	  var dataUrl = $('.js-signature').jqSignature('getDataURL');
-	  //$('#signature').empty();
-	  //var img = $('<img>').attr('src', dataUrl);
-	  //$('#signature').append($('<p>').text("Here's your signature:"));
-	  //$('#signature').append(img);
 	  if(""!=dataUrl){
 		  $.ajax({
 			  type:'post',
-			  url:'${path}/meat/signSave.do',
+			  url:'${path}/fruit/signSave.do',
 			  data:{'time':'${time}','baseid':'${baseid}','signname':dataUrl},
 			  dataType:'json',
 			  success:function(rs){

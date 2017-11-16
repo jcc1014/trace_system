@@ -221,7 +221,14 @@ public class BaseInfoController {
 			}else if("rlps".equals(user.getUsertype())){
 				//肉类配送
 				page = "orderModule/meat_distribution_index";
-			}else{
+			}else if("sgps".equals(user.getUsertype())){
+				//肉类配送
+				page = "orderModule/fruit_distribution_index";
+			}else if("fruit".equals(user.getUsertype())){
+				//肉类配送
+				page = "orderModule/fruit_manage_index";
+			}
+			else{
 				page = "404";
 			}
 		}

@@ -291,7 +291,7 @@ public class TimerTaskImpl implements TimerTask {
 		
 	}
 
-	@Scheduled(cron="0 0 22 * * ?" ) 
+	@Scheduled(cron="0 0 22,23 * * ?" ) 
 	@Override
 	public void remindRequire() {
 		Map<String,Object> map = new HashMap<String, Object>();
@@ -306,7 +306,8 @@ public class TimerTaskImpl implements TimerTask {
 		}else{
 			msg += "各单位需求单都已提交！";
 		}
-		SendMessage.sendMsgTest(msg);
+		SendMessage.sendMsg(msg);
 	}
+	
 
 }

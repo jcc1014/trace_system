@@ -118,7 +118,7 @@ body {
 				</div>
 				<div class="form-group">
 					<label >检验结果</label> 
-					<input type="text" class="form-control" value="合格" readonly="readonly">
+					<input type="text" class="form-control" value="农残检验合格" readonly="readonly">
 				</div>
 				<div class="form-group">
 					<label >供应商</label> 

@@ -51,6 +51,7 @@
           <thead>
             <tr>
               <td align="center">日期</td>
+              <td align="center">需求方</td>
               <td align="center">名称</td>
               <td align="center">数量</td>
               <td align="center">配送码</td>
@@ -62,6 +63,7 @@
           	<c:forEach var="item" items="${list}" varStatus="index">
           		<tr id="${item.id}" align="center">
           			<td align="center">${item.createtime}</td>
+          			<td align="center">${item.distributionInfo.require_name}</td>
           			<td align="center">
           			${item.distributionInfo.kind}${item.distributionInfo.grade}级${item.distributionInfo.spyb}
           			</td>
@@ -78,7 +80,7 @@
           </tbody>
           <thead>
             <tr>
-              <th colspan="6"><div id="page"></div></th>
+              <th colspan="7"><div id="page"></div></th>
             </tr> 
           </thead>
         </table>

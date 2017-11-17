@@ -53,8 +53,8 @@
 				<label for="test_result">是否合格</label> 
 				<select id="test_result" name="test_result" class="form-control">
 								<option value="">--选择--</option>
-								<option value="1">合格</option>
-								<option value="2">不合格</option>
+								<option value="1">农残检验合格</option>
+								<option value="2">农残检验不合格</option>
 				</select>
 			</div>
 			<div class="form-group">

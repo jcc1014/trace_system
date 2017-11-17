@@ -273,7 +273,7 @@
 				<label class="layui-form-label">检验结果:</label>
 				<div class="layui-input-inline">
 					<input type="text" name="title" required
-						value="合格" disabled="disabled"
+						value="农残检验合格" disabled="disabled"
 						class="layui-input">
 				</div>
 			</div>

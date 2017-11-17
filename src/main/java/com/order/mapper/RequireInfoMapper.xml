@@ -107,6 +107,7 @@
     	and status = #{status}
     </if>
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from require_info
     where id = #{id,jdbcType=VARCHAR}

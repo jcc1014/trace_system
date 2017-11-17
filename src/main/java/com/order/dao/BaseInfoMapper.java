@@ -20,5 +20,7 @@ public interface BaseInfoMapper {
     List<BaseInfo> query(Map<String,Object> map);
     
     List<BaseInfo> select(Map<String,Object> map);
+    
+    List<Map<String,Object>> remindRequire(Map<String,Object> map);
 
 }

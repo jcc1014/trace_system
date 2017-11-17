@@ -42,6 +42,7 @@
     </if>
     order by status,type
   </select>
+  
   <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map" >
     select 
     <include refid="Base_Column_List" />
@@ -74,6 +75,17 @@
     	and isdefault = #{isdefault}
     </if>
   </select>
+  
+  <select id="remindRequire" resultType="java.util.Map" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from base_info where type ='2' and 
+	not exists 
+	(select 1 from total_info where total_info.source=base_info.id 
+	and total_info.createtime like '${time}%' 
+	and total_info.type ='xqd' and total_info.status ='1')
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from base_info
     where id = #{id,jdbcType=VARCHAR}

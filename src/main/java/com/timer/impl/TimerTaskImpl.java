@@ -24,10 +24,8 @@ import com.order.service.RemainPurchaseService;
 import com.order.service.RequireInfoService;
 import com.order.service.TotalInfoService;
 import com.timer.TimerTask;
-import com.trace.po.User;
 import com.trace.util.DateUtils;
 import com.trace.util.Log4JUtils;
-import com.trace.util.ResultUtil;
 import com.utils.UUIDFactory;
 import com.wechat.util.SendMessage;
 
@@ -293,6 +291,22 @@ public class TimerTaskImpl implements TimerTask {
 		
 	}
 
-	
-	  
+	@Scheduled(cron="0 0 22 * * ?" ) 
+	@Override
+	public void remindRequire() {
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("time", DateUtils.getCurrentDate("yyyy-MM-dd"));
+		List<Map<String,Object>> list = baseInfoService.remindRequire(map);
+		String msg = "截止到"+DateUtils.getCurrentDate()+"\n";
+		if(0!=list.size()){
+			for (int i = 0; i < list.size(); i++) {
+				msg += list.get(i).get("name")+"（ "+list.get(i).get("phone")+"）\n";
+			}
+			msg = msg+"还未提交"+DateUtils.getCurrentDate("yyyy-MM-dd")+"的需求单！";
+		}else{
+			msg += "各单位需求单都已提交！";
+		}
+		SendMessage.sendMsgTest(msg);
+	}
+
 }

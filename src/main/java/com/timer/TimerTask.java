@@ -32,4 +32,9 @@ public interface TimerTask {
 	 */
 	public void submitTodayCgd();
 	
+	/**
+	 * 需求单提醒
+	 */
+	public void remindRequire();
+	
 }

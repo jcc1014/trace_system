@@ -54,5 +54,10 @@ public class BaseInfoServiceImpl implements BaseInfoService {
 		return baseInfoMapper.select(map);
 	}
 
+	@Override
+	public List<Map<String, Object>> remindRequire(Map<String, Object> map) {
+		return baseInfoMapper.remindRequire(map);
+	}
+
 
 }

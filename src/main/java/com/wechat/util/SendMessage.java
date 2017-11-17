@@ -212,6 +212,21 @@ public class SendMessage {
 			e.printStackTrace();
 		}
 	}
+	public static void sendMsgTest(String msg){
+		List<String> userList = new ArrayList<String>();
+		userList.add("erp-0000");
+		TextMessageEntity textMessageEntity = new TextMessageEntity();
+		textMessageEntity.setTouser(userList);
+		Map<String, String> text = new HashMap<String, String>();
+		text.put("content",msg);
+		textMessageEntity.setText(text);
+		try {
+			JSONObject jsonObject = SendMessage.sendTextMessage(textMessageEntity);
+			Log4JUtils.getLogger().error(jsonObject.get("errcode"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public static void demoNews(){
 		List<String> userList = new ArrayList<String>();

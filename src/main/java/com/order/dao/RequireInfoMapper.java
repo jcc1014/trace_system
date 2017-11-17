@@ -21,4 +21,6 @@ public interface RequireInfoMapper {
     int count(Map<String,Object> map);
     
     List<Map<String,Object>> select(RequireInfo record);
+    
+    
 }

@@ -26,7 +26,7 @@
 <body>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">今日需求单（请在今日20:00之前提交需求单)</h3>
+			<h3 class="panel-title">今日需求单（请在今日21:00之前提交需求单)</h3>
 		</div>
 		<div class="panel-body">
 			<div><h4>需求单信息</h4></div>
@@ -169,7 +169,7 @@ function time(){
             + seperator2 + formatTime(date.getSeconds());
     var time = formatTime(date.getHours()) + seperator2 + formatTime(date.getMinutes())
     + seperator2 + formatTime(date.getSeconds());
-    if(time=="24:00:00"||time>"24:00:00"){
+    if(time=="22:30:00"||time>"22:30:00"){
     	$("#submit").attr("disabled",true).addClass("hide");
     	$("#add").attr("disabled",true).addClass("hide");
     }

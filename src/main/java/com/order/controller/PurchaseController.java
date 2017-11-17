@@ -1,7 +1,5 @@
 package com.order.controller;
 
-import java.awt.Font;
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +32,6 @@ import com.trace.service.TraceFlowService;
 import com.trace.service.TransportService;
 import com.trace.service.UserService;
 import com.trace.util.DateUtils;
-import com.trace.util.FontImage;
-import com.trace.util.QRCodeUtil;
 import com.utils.UUIDFactory;
 
 @Controller

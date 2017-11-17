@@ -223,8 +223,8 @@ function purchase(kind,grade,spyb,number,rnum,pid){
 function checkNum(){
 	var purchase_num = $("#purchase_num").val();
 	if(""!=purchase_num&&!isNaN(purchase_num)){
-		if(parseFloat(purchase_num)>parseFloat($("#num").val())*1.1){
-			layer.msg('采购数量不能多于未采购量的10%！',{time:1000});
+		if(parseFloat(purchase_num)>parseFloat($("#num").val())*2){
+			layer.msg('采购数量不能多于未采购量的2倍！',{time:1000});
 			$("#purchase_num").val("").focus();
 			return;
 		}

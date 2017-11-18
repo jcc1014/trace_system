@@ -44,12 +44,12 @@
 		<table class="table table-striped table-bordered table-condensed">
 			<thead>
 				<tr>
-					<th>种类</th><th>品级</th><th>三品一标</th><th>供应量</th><th>价格</th><th>操作</th>
+					<th>种类</th><th>品级</th><th>三品一标</th><th>供应量</th><th>单位</th><th>价格</th><th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:if test="${fn:length(produceInfos)==0 }">
-					<tr><td colspan="6">暂无数据</td></tr>
+					<tr><td colspan="7">暂无数据</td></tr>
 				</c:if>
 				<c:forEach var="item" items="${produceInfos}">
 					<tr>
@@ -57,6 +57,7 @@
 						<td>${item.grade }</td>
 						<td>${item.spyb }</td>
 						<td>${item.supply_number }</td>
+						<td>${item.dw }</td>
 						<td>${item.price }</td>
 						<td>
 							<c:if test="${item.status eq '0' }">
@@ -141,6 +142,16 @@
   <div class="form-group">
     <label for="modal_add_supply_number">供应量</label>
     <input type="number" class="form-control" id="modal_add_supply_number" placeholder="供应量（斤或包）">
+  </div>
+  <div class="form-group">
+	<label >单位</label> 
+	<select name="modal_add_dw" id="modal_add_dw" class="form-control" >
+			<option value="">--请选择--</option>
+			<option value="斤">斤</option>
+			<option value="箱">箱</option>
+			<option value="包">包</option>
+			<option value="袋">袋</option>
+	</select>
   </div>
   <div class="form-group">
     <label for="modal_add_price">价格</label>
@@ -352,7 +363,8 @@ function modal_add_save(){
 	$.ajax({
 		type:'post',
 		url:'${path}/produce/addProduceSave.do',
-		data:{'parent_id':'${totalInfo.id}','type':type,'grade':grade,'spyb':spyb,'supply_number':parseFloat(supply_number),'price':parseFloat(price)},
+		data:{'parent_id':'${totalInfo.id}','type':type,'grade':grade,'spyb':spyb,
+			'supply_number':parseFloat(supply_number),'price':parseFloat(price),'dw':$("#modal_add_dw").val()},
 		dataType:'json',
 		success:function(rs){
 			if(null!=rs&&""!=rs){

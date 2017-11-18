@@ -14,12 +14,14 @@
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="spyb" property="spyb" jdbcType="VARCHAR" />
     <result column="cgdh" property="cgdh" jdbcType="VARCHAR" />
+    <result column="dw" property="dw" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="supply_number" property="supply_number" jdbcType="DOUBLE" />
+    
   </resultMap>
   <sql id="Base_Column_List" >
     purchase_id, kind, number, remain_number, grade, createtime, createuser, status, 
-    parentid, type,price,supply_number,spyb,cgdh
+    parentid, type,price,supply_number,spyb,cgdh,dw
   </sql>
   
   <select id="select" resultType="java.util.Map" parameterType="com.order.po.PurchaseInfo" >
@@ -254,6 +256,9 @@
       <if test="cgdh != null and cgdh != ''" >
         cgdh,
       </if>
+      <if test="dw != null and dw != ''" >
+        dw,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="purchase_id != null" >
@@ -297,6 +302,9 @@
       </if>
       <if test="cgdh != null and cgdh != ''" >
         #{cgdh},
+      </if>
+      <if test="dw != null and dw != ''" >
+        #{dw},
       </if>
     </trim>
   </insert>
@@ -342,6 +350,9 @@
       <if test="cgdh != null and cgdh != ''" >
         cgdh = #{cgdh},
       </if>
+      <if test="dw != null and dw != ''" >
+        dw = #{dw},
+      </if>
     </set>
     where purchase_id = #{purchase_id,jdbcType=VARCHAR}
   </update>
@@ -384,28 +395,31 @@
       <if test="cgdh != null and cgdh != ''" >
         cgdh = #{cgdh},
       </if>
+      <if test="dw != null and dw != ''" >
+        dw = #{dw},
+      </if>
     </set>
     where parentid = #{parentid,jdbcType=VARCHAR}
   </update>
   
   <select id="getCgAndXq" resultType="java.util.Map" parameterType="java.util.Map">
 		SELECT kind,number,grade,spyb,createtime,
-	kind1,num,grade1,createtime1,spyb1
+	kind1,num,grade1,createtime1,spyb1,dw
 	 from 
-		(SELECT kind,sum(number) as number,grade,createtime,spyb
+		(SELECT kind,sum(number) as number,grade,createtime,spyb,dw
 		from purchase_info 
 		WHERE createtime like '%${date1}%' and status ='1' and type='0' GROUP BY kind,grade,spyb)as cg  LEFT JOIN
-		(SELECT kind as kind1,sum(num)as num,grade as grade1,createtime as createtime1,spyb as spyb1
+		(SELECT kind as kind1,sum(num)as num,grade as grade1,createtime as createtime1,spyb as spyb1,dw as dw1
 		from require_info WHERE  createtime like '%${date2}%' GROUP BY kind,grade,spyb) as xq
 		on cg.kind = xq.kind1 and cg.grade = xq.grade1 and cg.spyb = xq.spyb1
 		UNION
 		SELECT kind,number,grade,spyb,createtime,
-	kind1,num,grade1,createtime1,spyb1
+	kind1,num,grade1,createtime1,spyb1,dw1
 	 from 
-		(SELECT kind,sum(number) as number,grade,createtime,spyb
+		(SELECT kind,sum(number) as number,grade,createtime,spyb,dw
 		from purchase_info 
 		WHERE createtime like '%${date1}%' and status ='1' and type='0' GROUP BY kind,grade,spyb)as cg  RIGHT JOIN
-		(SELECT kind as kind1,sum(num)as num,grade as grade1,createtime as createtime1,spyb as spyb1
+		(SELECT kind as kind1,sum(num)as num,grade as grade1,createtime as createtime1,spyb as spyb1,dw as dw1
 		from require_info WHERE  createtime like '%${date2}%' GROUP BY kind,grade,spyb) as xq
 		on cg.kind = xq.kind1 and cg.grade = xq.grade1 and cg.spyb = xq.spyb1
 		

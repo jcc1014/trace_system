@@ -9,9 +9,10 @@
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="parentid" property="parentid" jdbcType="VARCHAR" />
+    <result column="dw" property="dw" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, kind, num, grade, createtime, status, parentid
+    id, kind, num, grade, createtime, status, parentid,dw
   </sql>
   
   <select id="select" resultType="java.util.Map" parameterType="com.order.po.PurchaseInfo" >
@@ -116,6 +117,9 @@
       <if test="parentid != null" >
         parentid,
       </if>
+      <if test="dw != null" >
+        dw,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -138,6 +142,9 @@
       </if>
       <if test="parentid != null" >
         #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="dw != null" >
+        #{dw,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

@@ -43,12 +43,12 @@
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th>种类</th><th>品级</th><th>三品一标</th><th>供应价</th><th>供应量</th><th>采购量</th><th>操作</th>
+						<th>种类</th><th>品级</th><th>三品一标</th><th>供应价</th><th>供应量</th><th>采购量</th><th>单位</th><th>操作</th>
 					</tr>
 				</thead>
 				<tbody id="tbody">
 					<c:if test="${fn:length(purchaseInfos)==0 }">
-						<tr><td colspan="7">暂无数据</td></tr>
+						<tr><td colspan="8">暂无数据</td></tr>
 					</c:if>
 					<c:forEach var="item" items="${purchaseInfos}">
 						<tr>
@@ -58,6 +58,7 @@
 							<td>${item.price }</td>
 							<td>${item.supply_number}</td>
 							<td>${item.number }</td>
+							<td>${item.dw }</td>
 							<td>
 							<c:if test="${item.status eq '0' }">
 							<a href="javascript:;" onclick="edit('${item.purchase_id}','${item.supply_number}');"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>

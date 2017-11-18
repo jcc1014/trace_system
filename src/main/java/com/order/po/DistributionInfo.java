@@ -30,6 +30,8 @@ public class DistributionInfo {
     private String createtime;
     
     private String signname;
+    
+    private String dw; //单位
 
     public String getDistribution_id() {
         return distribution_id;
@@ -149,6 +151,14 @@ public class DistributionInfo {
 
 	public void setSpyb(String spyb) {
 		this.spyb = spyb;
+	}
+
+	public String getDw() {
+		return dw;
+	}
+
+	public void setDw(String dw) {
+		this.dw = dw;
 	}
 	
 }

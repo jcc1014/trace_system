@@ -199,7 +199,7 @@ public class SendMessage {
 	public static void sendMsg(String msg){
 		List<String> userList = new ArrayList<String>();
 		userList.add("erp-0000");
-		userList.add("zhanghao");
+		//userList.add("zhanghao");
 		TextMessageEntity textMessageEntity = new TextMessageEntity();
 		textMessageEntity.setTouser(userList);
 		Map<String, String> text = new HashMap<String, String>();

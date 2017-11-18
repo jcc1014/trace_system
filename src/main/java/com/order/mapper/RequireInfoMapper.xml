@@ -14,9 +14,10 @@
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="grade" property="grade" jdbcType="VARCHAR" />
     <result column="spyb" property="spyb" jdbcType="VARCHAR" />
+    <result column="dw" property="dw" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, dwid, dwmc, creater, kind, num, source, createtime, parentid, status,grade,spyb
+    id, dwid, dwmc, creater, kind, num, source, createtime, parentid, status,grade,spyb,dw
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -151,6 +152,9 @@
       <if test="spyb != null" >
         spyb,
       </if>
+      <if test="dw != null" >
+        dw,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -188,6 +192,9 @@
       </if>
       <if test="spyb != null" >
         #{spyb,jdbcType=VARCHAR},
+      </if>
+      <if test="dw != null" >
+        #{dw,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -227,6 +234,9 @@
       <if test="spyb != null" >
         spyb = #{spyb,jdbcType=VARCHAR},
       </if>
+      <if test="dw != null" >
+        dw = #{dw,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -265,6 +275,9 @@
       </if>
       <if test="spyb != null" >
         spyb = #{spyb,jdbcType=VARCHAR},
+      </if>
+      <if test="dw != null" >
+        dw = #{dw,jdbcType=VARCHAR},
       </if>
     </set>
     where parentid = #{parentid,jdbcType=VARCHAR}

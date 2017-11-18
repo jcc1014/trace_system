@@ -94,12 +94,12 @@
 		<table class="table table-striped table-bordered table-condensed">
 			<thead>
 				<tr>
-					<th>种类</th><th>品级</th><th>三品一标</th><th>采购量</th><th>未采量</th><th>操作</th>
+					<th>种类</th><th>品级</th><th>三品一标</th><th>采购量</th><th>未采量</th><th>单位</th><th>操作</th>
 				</tr>
 			</thead>
 			<tbody id="tbody">
 				<c:if test="${fn:length(purchaseInfos)==0 }">
-					<tr><td colspan="6">暂无数据</td></tr>
+					<tr><td colspan="7">暂无数据</td></tr>
 				</c:if>
 				<c:forEach var="item" items="${purchaseInfos}">
 					<tr>
@@ -108,12 +108,13 @@
 						<td>${item.spyb }</td>
 						<td>${item.number }</td>
 						<td>${item.remain_number}</td>
+						<td>${item.dw}</td>
 						<td>
 						<c:if test="${sessionScope.user.usertype eq '1' && item.remain_number != 0 }">
 						<%-- <a href="javascript:;" onclick="purchase('${item.purchase_id}');">采购</a> --%>
 						<a href="javascript:;" 
 						onclick="purchase('${item.kind}','${item.grade}','${item.spyb}','${item.number}',
-						'${item.remain_number }','${item.purchase_id }');">采购</a>
+						'${item.remain_number }','${item.purchase_id }','${item.dw }');">采购</a>
 						</c:if> 
 						<c:if test="${sessionScope.user.usertype ne '1' && item.remain_number != 0 }">
 							暂无
@@ -150,7 +151,12 @@
     <label for="modal_add_num">本次采购量</label>
     <input type="number" class="form-control" id="purchase_num" placeholder="采购量" onblur="checkNum();">
   </div>
-	<div class="form-group">
+		<div class="form-group">
+			<label>单位</label> 
+			<input type="text" class="form-control"
+			value="" name="dw" id="dw" readonly="readonly">
+		</div>
+			<div class="form-group">
 		<label>采购价</label> <input type="number" class="form-control"
 			value="" name="purchase_price" id="purchase_price">
 	</div>
@@ -203,7 +209,7 @@ function GetQueryString(name)
 /* function purchase(id){
 	window.location.href = '${path}/purchase/addQhPurchase.do?purchase_id='+id;
 } */
-function purchase(kind,grade,spyb,number,rnum,pid){
+function purchase(kind,grade,spyb,number,rnum,pid,dw){
 	$("#num").val(rnum);
 	$("#kind").val(kind);
 	$("#grade").val(grade);
@@ -211,6 +217,7 @@ function purchase(kind,grade,spyb,number,rnum,pid){
 	$("#number").val(number);
 	$("#name").val(grade+"级"+kind+spyb);
 	$("#purchase_id").val(pid);
+	$("#dw").val(dw);
 	layer.open({
 		type:'1',
 		title:'新增采购',
@@ -272,7 +279,7 @@ function modal_add_save(){
 		data:{'transport_user':transport_user,'transport_truck':transport_truck,'transport_destination':transport_destination,
 			'purchase_num':purchase_num,'purchase_kind':$("#kind").val(),'purchase_grade':$("#grade").val(),'purchase_spyb':$("#spyb").val(),
 			'number':$("#number").val(),'farmer_id':$("#farmer_name").val(),'purchase_parentid':$("#purchase_id").val(),
-			'purchase_price':purchase_price},
+			'purchase_price':purchase_price,'dw':$("#dw").val()},
 		success:function(rs){
 			layer.msg('新增成功！',{time:1000},function(){
 				window.location.reload();

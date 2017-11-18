@@ -29,6 +29,8 @@ public class ProduceInfo {
     
     private String nowtime; //当前时间
     
+    private String dw; //单位
+    
 
     public String getProduce_id() {
         return produce_id;
@@ -142,4 +144,13 @@ public class ProduceInfo {
 		this.nowtime = nowtime;
 	}
 
+	public String getDw() {
+		return dw;
+	}
+
+	public void setDw(String dw) {
+		this.dw = dw;
+	}
+
+	
 }

@@ -43,12 +43,12 @@
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th>种类</th><th>品级</th><th>三品一标</th><th>采购量</th><th>未采量</th><th>操作</th>
+						<th>种类</th><th>品级</th><th>三品一标</th><th>采购量</th><th>未采量</th><th>单位</th><th>操作</th>
 					</tr>
 				</thead>
 				<tbody id="tbody">
 					<c:if test="${fn:length(purchaseInfos)==0 }">
-						<tr><td colspan="6">暂无数据</td></tr>
+						<tr><td colspan="7">暂无数据</td></tr>
 					</c:if>
 					<c:forEach var="item" items="${purchaseInfos}">
 						<tr>
@@ -57,6 +57,7 @@
 							<td>${item.spyb }</td>
 							<td>${item.number }</td>
 							<td>${item.remain_number}</td>
+							<td>${item.dw}</td>
 							<td>
 							<c:if test="${item.remain_number > 0}">
 							<a href="javascript:;" onclick="purchase('${item.purchase_id}','${item.test }');">采购</a>

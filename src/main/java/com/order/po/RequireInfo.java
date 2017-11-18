@@ -24,6 +24,8 @@ public class RequireInfo {
     private String grade;
 
     private String spyb;
+    
+    private String dw; //单位
 
     public String getId() {
         return id;
@@ -119,6 +121,14 @@ public class RequireInfo {
 
 	public void setSpyb(String spyb) {
 		this.spyb = spyb;
+	}
+
+	public String getDw() {
+		return dw;
+	}
+
+	public void setDw(String dw) {
+		this.dw = dw;
 	}
     
 }

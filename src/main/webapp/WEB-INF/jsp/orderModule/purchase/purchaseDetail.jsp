@@ -52,12 +52,12 @@
 		<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
-					<th>农户</th><th>种类</th><th>品级</th><th>三品一标</th><th>采购量</th><th>价格</th><th>编号</th>
+					<th>农户</th><th>种类</th><th>品级</th><th>三品一标</th><th>采购量</th><th>单位</th><th>价格</th><th>编号</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:if test="${fn:length(list)==0 }">
-					<tr><td colspan="7">暂无数据</td></tr>
+					<tr><td colspan="8">暂无数据</td></tr>
 				</c:if>
 				<c:forEach var="item" items="${list}">
 					<tr>
@@ -66,6 +66,7 @@
 						<td>${item.purchase_grade }</td>
 						<td>${item.purchase_spyb }</td>
 						<td>${item.purchase_num}</td>
+						<td>${item.dw}</td>
 						<td>${item.purchase_price }</td>
 						<td>${item.identifier }</td>
 					</tr>

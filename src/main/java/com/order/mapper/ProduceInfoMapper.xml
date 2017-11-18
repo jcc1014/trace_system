@@ -16,10 +16,11 @@
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="parent_id" property="parent_id" jdbcType="VARCHAR" />
     <result column="nowtime" property="nowtime" jdbcType="VARCHAR" />
+    <result column="dw" property="dw" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     produce_id, produce_name, produce_place, type, grade, supply_number, price, produce_infoer, 
-    status, createtime, phone,parent_id,spyb,nowtime
+    status, createtime, phone,parent_id,spyb,nowtime,dw
   </sql>
   <select id="select" resultType="java.util.Map" parameterType="com.order.po.ProduceInfo" >
     select 
@@ -97,7 +98,7 @@
   
   <select id="selectTodayProduceTotal" resultType="java.util.Map" parameterType="java.lang.String" >
     SELECT max(type)as type,max(grade) as grade,max(spyb)as spyb,sum(supply_number)as supply_number,AVG(price) as price,
-	left(MAX(createtime),10)as createtime,max(status) as status
+	left(MAX(createtime),10)as createtime,max(status) as status,max(dw) as dw
 	from produce_info
 	where createtime like '%${nowDay}%' and status = #{status}
 	and parent_id = #{parentid}
@@ -105,8 +106,8 @@
   </select>
   
   <insert id="createCgdByProduceId" parameterType="java.util.Map">
-  	insert into purchase_info (purchase_id,kind,supply_number,grade,spyb,createtime,status,parentid,type,price)
-	select replace(UUID(),'-',''),type,supply_number,grade,spyb,now(),'0',#{cg_parentid},'0',price from produce_info
+  	insert into purchase_info (purchase_id,kind,supply_number,grade,spyb,createtime,status,parentid,type,price,dw)
+	select replace(UUID(),'-',''),type,supply_number,grade,spyb,now(),'0',#{cg_parentid},'0',price,dw from produce_info
 	WHERE parent_id = #{gy_parentid}
   </insert>
   
@@ -165,6 +166,9 @@
       <if test="nowtime != null and nowtime !=''" >
         nowtime,
       </if>
+      <if test="dw != null and dw !=''" >
+        dw,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="produce_id != null" >
@@ -208,6 +212,9 @@
       </if>
       <if test="nowtime != null and nowtime != ''" >
         #{nowtime,jdbcType=VARCHAR},
+      </if>
+      <if test="dw != null and dw != ''" >
+        #{dw,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -253,6 +260,9 @@
       <if test="nowtime != null and nowtime != ''" >
         nowtime = #{nowtime,jdbcType=VARCHAR},
       </if>
+      <if test="dw != null and dw != ''" >
+        dw = #{dw,jdbcType=VARCHAR},
+      </if>
     </set>
     where produce_id = #{produce_id,jdbcType=VARCHAR}
   </update>
@@ -297,6 +307,9 @@
       </if>
       <if test="nowtime != null and nowtime != ''" >
         nowtime = #{nowtime,jdbcType=VARCHAR},
+      </if>
+      <if test="dw != null and dw != ''" >
+        dw = #{dw,jdbcType=VARCHAR},
       </if>
     </set>
     where parent_id = #{parent_id,jdbcType=VARCHAR}

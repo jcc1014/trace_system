@@ -16,10 +16,11 @@
     <result column="base_id" property="base_id" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
     <result column="signname" property="signname" jdbcType="VARCHAR" />
+    <result column="dw" property="dw" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     distribution_id, require_id, require_name, require_num, kind, yps, wps,spyb,
-    distribution_address,base_id,price,round(sum_price,2)as sum_price,createtime,grade,signname
+    distribution_address,base_id,price,round(sum_price,2)as sum_price,createtime,grade,signname,dw
   </sql>
   <select id="select" resultType="java.util.Map" parameterType="java.util.Map" >
     select 
@@ -49,7 +50,7 @@
     select 
     d.distribution_id, d.require_id, d.require_name, d.require_num, d.kind, d.yps, d.wps,d.spyb,
     d.distribution_address,d.base_id,d.price,round(d.sum_price,2)as sum_price,d.createtime,d.grade,d.signname
-    from distribution_info d
+    d.dw from distribution_info d
     where EXISTS (select 1 from purchase_info p where p.kind = d.kind and p.grade = d.grade and p.spyb= d.spyb
 	and p.createtime like concat(date_sub(curdate(),interval 1 day),'%') and p.number>p.remain_number)
     <if test="kind != null and kind != ''">
@@ -179,6 +180,9 @@
       <if test="sum_price != null and sum_price != 0" >
         sum_price,
       </if>
+      <if test="dw != null and dw != ''" >
+        dw,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="distribution_id != null" >
@@ -222,6 +226,9 @@
       </if>
       <if test="sum_price != null and sum_price != 0" >
         #{sum_price},
+      </if>
+      <if test="dw != null and dw != ''" >
+        #{dw},
       </if>
     </trim>
   </insert>
@@ -270,6 +277,9 @@
       <if test="signname != null and signname != ''" >
         signname = #{signname},
       </if>
+      <if test="dw != null and dw != ''" >
+        dw = #{dw},
+      </if>
     </set>
     where distribution_id = #{distribution_id,jdbcType=VARCHAR}
   </update>
@@ -311,6 +321,9 @@
       </if>
       <if test="signname != null and signname != ''" >
         signname = #{signname},
+      </if>
+      <if test="dw != null and dw != ''" >
+        dw = #{dw},
       </if>
     </set>
     where createtime like '${createtime}%' and base_id = #{base_id}

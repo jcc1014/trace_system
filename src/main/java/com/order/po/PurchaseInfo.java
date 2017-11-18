@@ -28,6 +28,8 @@ public class PurchaseInfo {
     private String spyb;
 
     private String cgdh;
+    
+    private String dw; //单位
 
     public String getPurchase_id() {
         return purchase_id;
@@ -139,4 +141,14 @@ public class PurchaseInfo {
 	public void setCgdh(String cgdh) {
 		this.cgdh = cgdh;
 	}
+
+	public String getDw() {
+		return dw;
+	}
+
+	public void setDw(String dw) {
+		this.dw = dw;
+	}
+	
+	
 }

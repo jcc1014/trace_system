@@ -46,7 +46,7 @@
 		<table class="table table-striped table-bordered table-condensed">
 			<thead>
 				<tr>
-					<th>种类</th><th>品级</th><th>三品一标</th><th>需求量</th><th>操作</th>
+					<th>种类</th><th>品级</th><th>三品一标</th><th>需求量</th><th>单位</th><th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -59,6 +59,7 @@
 						<td>${item.grade }</td>
 						<td>${item.spyb }</td>
 						<td>${item.num }</td>
+						<td>${item.dw }</td>
 						<td>
 							<c:if test="${item.status eq '0' }">
 							<a href="javascript:;" onclick="edit('${item.id}');"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
@@ -102,6 +103,10 @@
     <label for="modal_edit_num">需求量</label>
     <input type="number" class="form-control" id="modal_edit_num" placeholder="需求量">
   </div>
+  <div class="form-group">
+	<label >单位</label> 
+	<input type="text" class="form-control" id="modal_edit_dw" placeholder="dw">
+  </div>
   <div class="form-group" style="text-align: center;">
 	  <button type="button" class="btn btn-success" onclick="modal_edit_save();">修改</button>
 	  <button type="button" class="btn btn-default" onclick="closeModal();">关闭</button>
@@ -140,6 +145,16 @@
   <div class="form-group">
     <label for="modal_add_num">需求量</label>
     <input type="number" class="form-control" id="modal_add_num" placeholder="需求量">
+  </div>
+  <div class="form-group">
+	<label >单位</label> 
+	<select name="dw" id="modal_add_dw" class="form-control" >
+			<option value="">--请选择--</option>
+			<option value="斤">斤</option>
+			<option value="箱">箱</option>
+			<option value="包">包</option>
+			<option value="袋">袋</option>
+	</select>
   </div>
   <div class="form-group" style="text-align: center;">
 	  <button type="button" class="btn btn-success" onclick="modal_add_save();">保存</button>
@@ -251,6 +266,7 @@ function edit(id){
 				$("#modal_edit_grade").val(rs.grade);
 				$("#modal_edit_num").val(rs.num);
 				$("#modal_edit_spyb").val(rs.spyb);
+				$("#modal_edit_dw").val(rs.dw);
 				layer.open({
 					type:'1',
 					title:'编辑',
@@ -324,7 +340,7 @@ function modal_add_save(){
 	$.ajax({
 		type:'post',
 		url:'${path}/require/addRequireSave.do',
-		data:{'parentid':'${totalInfo.id}','kind':kind,'grade':grade,'num':parseFloat(num),'spyb':spyb},
+		data:{'parentid':'${totalInfo.id}','kind':kind,'grade':grade,'num':parseFloat(num),'spyb':spyb,'dw':$("#modal_add_dw").val()},
 		dataType:'json',
 		success:function(rs){
 			if(null!=rs&&""!=rs){

@@ -47,12 +47,13 @@
             <tr>
               <td align="center" width="10%">日期</td>
               <td align="center" width="15%">基地名称</td>
-              <td align="center" width="20%">基地地址</td>
+              <td align="center" width="15%">基地地址</td>
               <td align="center" width="10%">种类</td>
               <td align="center" width="10%">品级</td>
               <td align="center" width="10%">供应量</td>
+              <td align="center" width="10%">单位</td>
               <td align="center" width="10%">价格</td>
-              <td align="center" width="15%">操作</td>
+              <td align="center" width="10%">操作</td>
             </tr> 
           </thead>
           <tbody>
@@ -64,6 +65,7 @@
           			<td align="center">${item.type}</td>
           			<td align="center">${item.grade} </td>
           			<td align="center">${item.supply_number}</td>
+          			<td align="center">${item.dw}</td>
           			<td align="center">${item.price}</td>
           			<td style="text-align: center;">
           				<!-- <a class="layui-btn layui-btn-small layui-btn-warm detail_btn" title="详细信息" 
@@ -89,6 +91,7 @@
           			</td>
           			<td align="center"><input type="text" class="grade" placeholder="品级"/></td>
           			<td align="center"><input type="number" class="supply_number" placeholder="供应量"/></td>
+          			<td align="center"><input type="text" class="dw" placeholder="单位"/></td>
           			<td align="center"><input type="number" class="price" placeholder="价格"/></td>
           			<td style="text-align: center;">
 			          <a class="layui-btn layui-btn-small layui-btn-danger del_btn"
@@ -163,12 +166,13 @@ function save(obj){
 	var grade = tr.find(".grade").val();
 	var supply_number = tr.find(".supply_number").val();
 	var price = tr.find(".price").val();
+	var dw = tr.find(".dw").val();
 	$.ajax({
 		type:'post',
 		url:'${path}/produce/addSave.do',
 		dataType:'json',
 		data:{'produce_name':produce_name,'produce_place':produce_place,'type':type,
-			'grade':grade,'supply_number':supply_number,'price':price},
+			'grade':grade,'supply_number':supply_number,'price':price,'dw':dw},
 		success:function(rs){
 			if(""!=rs){
 				rs = $.parseJSON(rs);

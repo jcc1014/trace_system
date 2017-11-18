@@ -76,6 +76,16 @@
 					 name="purchase_num" id="purchase_num" onblur="checkNum();"
 					 placeholder="还有${purchaseInfo.remain_number }未采购">
 				</div>
+				<div class="form-group">
+					<label >单位</label> 
+					<select name="dw" id="dw" class="form-control" >
+							<option value="">--请选择--</option>
+							<option value="斤">斤</option>
+							<option value="箱">箱</option>
+							<option value="包">包</option>
+							<option value="袋">袋</option>
+					</select>
+				</div>
 				<div class="form-group" style="display: none;">
 					<label >采购视频</label> 
 					<input type="file" name="file" id="upload" lay-type="video" class="layui-upload-file">

@@ -14,10 +14,11 @@
     <result column="psbh" property="psbh" jdbcType="VARCHAR" />
     <result column="trace_id" property="trace_id" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="dw" property="dw" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, distribution_id, distribution_num, price, distribution_car, distribution_user, 
-    phone, distribution_qrcode, status, psbh,trace_id,createtime
+    phone, distribution_qrcode, status, psbh,trace_id,createtime,dw
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -130,6 +131,9 @@
       <if test="trace_id != null" >
         trace_id,
       </if>
+      <if test="dw != null" >
+        dw,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -168,6 +172,9 @@
       <if test="trace_id != null" >
         #{trace_id,jdbcType=VARCHAR},
       </if>
+      <if test="dw != null" >
+        #{dw,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.order.po.DistributionDetail" >
@@ -205,6 +212,9 @@
       </if>
       <if test="trace_id != null and trace_id !=''" >
         trace_id = #{trace_id,jdbcType=VARCHAR},
+      </if>
+      <if test="dw != null and dw !=''" >
+        dw = #{dw,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

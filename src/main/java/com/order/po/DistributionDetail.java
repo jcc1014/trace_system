@@ -7,6 +7,8 @@ public class DistributionDetail {
 
     private Double distribution_num; //配送数量
 
+    private String dw; //单位
+    
     private String price; //价格
 
     private String distribution_car; //配送车辆
@@ -120,4 +122,13 @@ public class DistributionDetail {
 	public void setCreatetime(String createtime) {
 		this.createtime = createtime;
 	}
+
+	public String getDw() {
+		return dw;
+	}
+
+	public void setDw(String dw) {
+		this.dw = dw;
+	}
+	
 }

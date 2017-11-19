@@ -1,5 +1,6 @@
 package com.order.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -273,7 +274,8 @@ public class PurchaseInfoController {
 					purchaseInfo.setParentid(qhd.getId());
 					purchaseInfo.setRemain_number((double)rmap.get("num"));
 					purchaseInfo.setStatus("1");
-					purchaseInfo.setType("1");
+					purchaseInfo.setType("1");//缺货
+					purchaseInfo.setDw((String)rmap.get("dw"));
 					purchaseInfoService.insertSelective(purchaseInfo);
 					qhd_f = true;
 				}
@@ -295,6 +297,7 @@ public class PurchaseInfoController {
 						purchaseInfo.setRemain_number((double)rmap.get("num")-(double)rmap.get("number"));
 						purchaseInfo.setStatus("1");
 						purchaseInfo.setType("1");
+						purchaseInfo.setDw((String)rmap.get("dw"));
 						purchaseInfoService.insertSelective(purchaseInfo);
 						qhd_f = true;
 						
@@ -309,6 +312,7 @@ public class PurchaseInfoController {
 						remainPurchase.setNum((double)rmap.get("number")-(double)rmap.get("num"));
 						remainPurchase.setParentid(fyd.getId());
 						remainPurchase.setStatus("1");
+						remainPurchase.setDw((String) rmap.get("dw"));
 						fyd_f = true;
 						remainPurchaseService.insertSelective(remainPurchase);
 						
@@ -325,6 +329,7 @@ public class PurchaseInfoController {
 					remainPurchase.setNum((double)rmap.get("number"));
 					remainPurchase.setParentid(fyd.getId());
 					remainPurchase.setStatus("1");
+					remainPurchase.setDw((String) rmap.get("dw"));
 					fyd_f = true;
 					remainPurchaseService.insertSelective(remainPurchase);
 				}
@@ -465,6 +470,89 @@ public class PurchaseInfoController {
 			model.addAttribute("qhcgd", "0");
 		}
 		return page;
+	}
+	
+	@RequestMapping("setQhsc")
+	public String setQhscPage(HttpServletRequest request,Model model,String id,String date){
+		String page = "orderModule/purchase/setQhsc";
+		if(null==date||"".equals(date)) date = DateUtils.getCurrentDate("yyyy-MM-dd");
+		User user = (User)request.getSession().getAttribute("user");
+		PurchaseInfo purchaseInfo = new PurchaseInfo();
+		TotalInfo totalInfo = totalInfoService.selectByPrimaryKey(id);
+		if(null!=totalInfo){
+			model.addAttribute("totalInfo", totalInfo);
+			purchaseInfo.setParentid((String)totalInfo.getId());
+			List<Map<String, Object>> list = null;
+			if(null!=user&&"1".equals(user.getUsertype())){ 
+				
+				list = purchaseInfoService.select(purchaseInfo);
+			}
+			else{
+				list = purchaseInfoService.select(purchaseInfo);
+			}
+			List<Map<String, Object>> new_list = new ArrayList<Map<String,Object>>();
+			for (int i = 0; i < list.size(); i++) {
+				if(null==list.get(i).get("cgdh")||"".equals(list.get(i).get("cgdh"))){
+					new_list.add(list.get(i));
+				}
+			}
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("type", "A");
+			List<BaseInfo> baseList = baseInfoService.select(map);
+			model.addAttribute("purchaseInfos", new_list);
+			model.addAttribute("baseList", baseList);
+			model.addAttribute("qhd", "1");
+		}else{
+			model.addAttribute("qhd", "0");
+		}
+		return page;
+	}
+	
+	@RequestMapping("saveQhsc")
+	@ResponseBody
+	public String saveQhsc(HttpServletRequest request,String ids,String sc){
+		String[] array = ids.split(",");
+		String rs = null;
+		BaseInfo baseInfo = baseInfoService.selectByPrimaryKey(sc);
+		TotalInfo t = new TotalInfo();
+		t.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+		t.setType("qhd");
+		List<Map<String,Object>> qhList = totalInfoService.select(t);
+		Map<String,Object> qhMap = null;
+		User user = (User)request.getSession().getAttribute("user");
+		if(0<qhList.size()){
+			qhMap = qhList.get(0);
+			TotalInfo totalInfo = new TotalInfo();
+			totalInfo.setStatus("1");
+			String cgid = UUIDFactory.getInstance().newUUID();
+			totalInfo.setId(cgid);
+			totalInfo.setCreatetime(DateUtils.getCurrentDate("yyyy-MM-dd"));
+			totalInfo.setCreateuser(user.getRealname());
+			totalInfo.setStatus("0");//提交状态
+			totalInfo.setSource(qhMap.get("id").toString());//缺货单id
+			totalInfo.setName(DateUtils.getCurrentDate("yyyyMMdd")+baseInfo.getName()+"采购单");
+			totalInfo.setSource_name(qhMap.get("name").toString());//
+			totalInfo.setType("qhcgd");
+			totalInfo.setNowtime(DateUtils.getCurrentDate());
+			totalInfo.setSource_type("3");//来自缺货
+			totalInfo.setCgsc(baseInfo.getId());
+			int r = totalInfoService.insertSelective(totalInfo);
+			PurchaseInfo purchaseInfo = null;
+			int num = 0;
+			for (int i = 0; i < array.length; i++) {
+				purchaseInfo = new PurchaseInfo();
+				purchaseInfo.setPurchase_id(array[i]);
+				purchaseInfo.setCgdh(sc);
+				num += purchaseInfoService.updateByPrimaryKeySelective(purchaseInfo);
+			}
+			if(num==array.length){
+				rs = ResultUtil.resultString(r);
+			}else{
+				totalInfoService.deleteByPrimaryKey(cgid);
+				rs = ResultUtil.resultString(0);
+			}
+		}
+		return rs;
 	}
 	
 	@RequestMapping("getQhd")

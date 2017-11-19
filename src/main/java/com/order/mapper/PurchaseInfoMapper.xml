@@ -404,7 +404,7 @@
   
   <select id="getCgAndXq" resultType="java.util.Map" parameterType="java.util.Map">
 		SELECT kind,number,grade,spyb,createtime,
-	kind1,num,grade1,createtime1,spyb1,dw
+	kind1,num,grade1,createtime1,spyb1,dw,dw1
 	 from 
 		(SELECT kind,sum(number) as number,grade,createtime,spyb,dw
 		from purchase_info 
@@ -414,7 +414,7 @@
 		on cg.kind = xq.kind1 and cg.grade = xq.grade1 and cg.spyb = xq.spyb1
 		UNION
 		SELECT kind,number,grade,spyb,createtime,
-	kind1,num,grade1,createtime1,spyb1,dw1
+	kind1,num,grade1,createtime1,spyb1,dw1,dw
 	 from 
 		(SELECT kind,sum(number) as number,grade,createtime,spyb,dw
 		from purchase_info 

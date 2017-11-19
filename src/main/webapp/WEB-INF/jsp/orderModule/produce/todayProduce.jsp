@@ -117,7 +117,7 @@
     <select class="form-control" id="modal_add_type">
     	<option value="">请选择</option>
     	<c:forEach items="${goodsList}" var ="item">
-	    	<option value="${item.goods_name}">${item.goods_name}</option>
+	    	<option value="${item.goods_name}_${item.dw}">${item.goods_name}/${item.dw}</option>
     	</c:forEach>
     </select>
   </div>
@@ -143,7 +143,7 @@
     <label for="modal_add_supply_number">供应量</label>
     <input type="number" class="form-control" id="modal_add_supply_number" placeholder="供应量（斤或包）">
   </div>
-  <div class="form-group">
+  <!-- <div class="form-group">
 	<label >单位</label> 
 	<select name="modal_add_dw" id="modal_add_dw" class="form-control" >
 			<option value="">--请选择--</option>
@@ -152,7 +152,7 @@
 			<option value="包">包</option>
 			<option value="袋">袋</option>
 	</select>
-  </div>
+  </div> -->
   <div class="form-group">
     <label for="modal_add_price">价格</label>
     <input type="number" class="form-control" id="modal_add_price" placeholder="价格">
@@ -332,6 +332,8 @@ function modal_add_save(){
 		layer.msg('请填写种类！',{time:1000});
 		return;
 	}
+	var dw = type.split("_")[1];
+	type = type.split("_")[0];
 	var grade = $("#modal_add_grade").val();
 	if(""==grade){
 		layer.msg('请填写品级！',{time:1000});
@@ -364,7 +366,7 @@ function modal_add_save(){
 		type:'post',
 		url:'${path}/produce/addProduceSave.do',
 		data:{'parent_id':'${totalInfo.id}','type':type,'grade':grade,'spyb':spyb,
-			'supply_number':parseFloat(supply_number),'price':parseFloat(price),'dw':$("#modal_add_dw").val()},
+			'supply_number':parseFloat(supply_number),'price':parseFloat(price),'dw':dw},
 		dataType:'json',
 		success:function(rs){
 			if(null!=rs&&""!=rs){

@@ -46,6 +46,7 @@
 						<th>品级</th>
 						<th>价格</th>
 						<th>数量</th>
+						<th>单位</th>
 						<th>总价</th>
 						<th>操作</th>
 					</tr>
@@ -61,6 +62,7 @@
 							<td>${item.grade }</td>
 							<td>${item.price }</td>
 							<td>${item.yps }</td>
+							<td>${item.dw }</td>
 							<td>${item.sum_price }</td>
 							<td>
 							<c:if test="${signname eq '未签名确认' }">

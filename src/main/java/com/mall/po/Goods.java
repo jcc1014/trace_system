@@ -18,6 +18,8 @@ public class Goods {
     private Float old_price;
 
     private String create_time;
+    
+    private String dw;
 
     public String getGoods_id() {
         return goods_id;
@@ -87,4 +89,13 @@ public class Goods {
         }
         this.create_time = create_time;
     }
+
+	public String getDw() {
+		return dw;
+	}
+
+	public void setDw(String dw) {
+		this.dw = dw;
+	}
+    
 }

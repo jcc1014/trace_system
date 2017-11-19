@@ -47,6 +47,9 @@
 							<td>缺货单</td>
 							<td>
 							<a href="javascript:;" onclick="watch('${item.id}');">查看</a>
+							<c:if test="${today eq '1' }">
+								<a href="javascript:;" onclick="setCgsc('${item.id}');">设置采购市场</a>
+							</c:if>
 							</td>
 						</tr>
 					</c:forEach>
@@ -60,6 +63,9 @@
 <script type="text/javascript">
 function watch(id){
 	window.location.href = '${path}/purchaseInfo/getQhInfo.do?id='+id;
+}
+function setCgsc(id){
+	window.location.href = '${path}/purchaseInfo/setQhsc.do?id='+id;
 }
 function back(){
 	window.location.href = '${path}/baseInfo/index.do';

@@ -51,7 +51,7 @@
 			</thead>
 			<tbody>
 				<c:if test="${fn:length(requireList)==0 }">
-					<tr><td colspan="5">暂无数据</td></tr>
+					<tr><td colspan="6">暂无数据</td></tr>
 				</c:if>
 				<c:forEach var="item" items="${requireList}">
 					<tr>
@@ -103,10 +103,6 @@
     <label for="modal_edit_num">需求量</label>
     <input type="number" class="form-control" id="modal_edit_num" placeholder="需求量">
   </div>
-  <div class="form-group">
-	<label >单位</label> 
-	<input type="text" class="form-control" id="modal_edit_dw" placeholder="dw">
-  </div>
   <div class="form-group" style="text-align: center;">
 	  <button type="button" class="btn btn-success" onclick="modal_edit_save();">修改</button>
 	  <button type="button" class="btn btn-default" onclick="closeModal();">关闭</button>
@@ -120,7 +116,7 @@
     <select class="form-control" id="modal_add_kind">
     	<option value="">请选择</option>
     	<c:forEach items="${goodsList}" var ="item">
-	    	<option value="${item.goods_name}">${item.goods_name}</option>
+	    	<option value="${item.goods_name}_${item.dw}">${item.goods_name}/${item.dw}</option>
     	</c:forEach>
     </select>
   </div>
@@ -146,7 +142,7 @@
     <label for="modal_add_num">需求量</label>
     <input type="number" class="form-control" id="modal_add_num" placeholder="需求量">
   </div>
-  <div class="form-group">
+  <!-- <div class="form-group">
 	<label >单位</label> 
 	<select name="dw" id="modal_add_dw" class="form-control" >
 			<option value="">--请选择--</option>
@@ -155,7 +151,7 @@
 			<option value="包">包</option>
 			<option value="袋">袋</option>
 	</select>
-  </div>
+  </div> -->
   <div class="form-group" style="text-align: center;">
 	  <button type="button" class="btn btn-success" onclick="modal_add_save();">保存</button>
 	  <button type="button" class="btn btn-default" onclick="closeModal();">关闭</button>
@@ -318,6 +314,8 @@ function modal_add_save(){
 		layer.msg('请填写种类！',{time:1000});
 		return;
 	}
+	var dw = kind.split("_")[1];
+	kind = kind.split("_")[0];
 	var grade = $("#modal_add_grade").val();
 	if(""==grade){
 		layer.msg('请填写品级！',{time:1000});
@@ -340,7 +338,7 @@ function modal_add_save(){
 	$.ajax({
 		type:'post',
 		url:'${path}/require/addRequireSave.do',
-		data:{'parentid':'${totalInfo.id}','kind':kind,'grade':grade,'num':parseFloat(num),'spyb':spyb,'dw':$("#modal_add_dw").val()},
+		data:{'parentid':'${totalInfo.id}','kind':kind,'grade':grade,'num':parseFloat(num),'spyb':spyb,'dw':dw},
 		dataType:'json',
 		success:function(rs){
 			if(null!=rs&&""!=rs){

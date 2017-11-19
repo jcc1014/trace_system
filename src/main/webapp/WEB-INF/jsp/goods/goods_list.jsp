@@ -49,6 +49,7 @@
               <th>序号</th>
               <th>名称</th>
               <th>类型</th>
+              <th>单位</th>
               <th>商品描述</th>
               <th>最新价格（单位：元）</th>
               <th>历史价格（单位：元）</th>
@@ -68,6 +69,9 @@
           					</c:if>
           				</c:forEach>
           			</td>
+          			<td>
+          				${goods.dw}
+          			</td>
           			<td>${goods.goods_description}</td>
           			<td>${goods.new_price}</td>
           			<td>${goods.old_price}</td>
@@ -86,7 +90,7 @@
           <thead>
             <tr>
                <!-- <th><button class="layui-btn layui-btn-small" lay-submit lay-filter="delete">删除</button></th> -->
-              <th colspan="8"><div id="page"></div></th>
+              <th colspan="9"><div id="page"></div></th>
             </tr> 
           </thead>
         </table>
@@ -136,7 +140,7 @@ layui.use(['element', 'laypage', 'layer', 'form'], function(){
 	  url = '${path}/goods/edit.do?goods_id=' + goods_id;
 	  jq('.admin-iframe', window.parent.document).attr('src',url);
   });
-
+  
   laypage({
     cont: 'page'
     ,skip: true

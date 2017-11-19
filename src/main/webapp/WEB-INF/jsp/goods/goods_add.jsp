@@ -43,6 +43,18 @@
 						</div>
 					</div>
 					<div class="layui-form-item">
+						<label class="layui-form-label">商品类型</label>
+						<div class="layui-input-inline input-custom-width">
+							<select name="dw" id="dw" required lay-verify="required">
+								<option value="">--选择--</option>
+								<option value="斤" <c:if test="${goods.dw eq '斤'}">selected="selected"</c:if> >斤</option>
+								<option value="箱" <c:if test="${goods.dw eq '箱'}">selected="selected"</c:if> >箱</option>
+								<option value="包" <c:if test="${goods.dw eq '包'}">selected="selected"</c:if> >包</option>
+								<option value="袋" <c:if test="${goods.dw eq '袋'}">selected="selected"</c:if> >袋</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
 						<label class="layui-form-label">商品描述</label>
 						<div class="layui-input-inline input-custom-width">
 							<textarea required lay-verify="required" name="goods_description" placeholder="请输入商品描述" class="layui-textarea">${goods.goods_description}</textarea>

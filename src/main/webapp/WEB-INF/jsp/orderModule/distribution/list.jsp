@@ -184,7 +184,7 @@ function batchPrint(){
 		  shade: 0.8,
 		  closeBtn: 1,
 		  shadeClose: true,
-		  content: '${path}/distribution/batchprint.do?datetime=2017-11-18'
+		  content: '${path}/distribution/batchprint.do'
 		});
 }
 </script>

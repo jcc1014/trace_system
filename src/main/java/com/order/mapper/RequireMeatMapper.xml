@@ -52,6 +52,7 @@
     	and datetime &gt; date_sub(now(), interval 24 hour)
 <!--     	and datetime = #{datetime} -->
     </if>
+    order by kind asc,datetime desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from require_meat

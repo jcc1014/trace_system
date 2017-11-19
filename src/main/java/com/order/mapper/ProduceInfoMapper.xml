@@ -44,7 +44,7 @@
     <if test="nowtime != null and nowtime != ''">
     	and nowtime = #{nowtime} 
     </if>
-    
+    order by type asc, createtime desc
   </select>
   <select id="query" resultType="java.util.Map" parameterType="java.util.Map" >
     select 
@@ -68,7 +68,7 @@
     <if test="nowtime != null and nowtime != ''">
     	and nowtime = #{nowtime} 
     </if>
-    order by parentid, createtime desc
+    order by type asc, createtime desc
     limit ${index},8
     
   </select>

@@ -34,6 +34,7 @@
     and grade = #{grade,jdbcType=VARCHAR}
     and spyb = #{spyb,jdbcType=VARCHAR}
     and createtime  like '%${datetime}%'
+    order by kind asc,createtime desc
   </select>
  <select id="selectMeatPrice" parameterType="java.util.Map" resultMap="BaseResultMap">
     SELECT 
@@ -48,6 +49,7 @@
      from sale_price 
      where kind in (select kind from fruit where  rksj like '%${date}%')
      and grade in (select grade from fruit where  rksj like '%${date}%')
+     order by kind asc
   </select>
   
   <select id="select" resultMap="BaseResultMap" parameterType="com.order.po.SalePrice" >
@@ -73,6 +75,7 @@
     <if test="createtime != null and createtime !=''">
     	and createtime like '%${createtime}%'
     </if>
+    order by kind asc,createtime desc
   </select>
   <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map" >
     select 
@@ -98,7 +101,7 @@
     	and createtime like '%${createtime}%'
     </if>
     limit ${index},8
-    order by createtime desc,status desc
+    order by kind asc,createtime desc,status desc
   </select>
   <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map" >
     select 

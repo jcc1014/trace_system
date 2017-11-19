@@ -51,7 +51,11 @@
 						<tr><td colspan="7">暂无数据</td></tr>
 					</c:if>
 					<c:forEach var="item" items="${purchaseInfos}">
-						<tr>
+						<tr 
+							<c:if test="${item.remain_number <= 0 }">
+								style="color:green;"
+							</c:if>
+						>
 							<td>${item.kind }</td>
 							<td>${item.grade }</td>
 							<td>${item.spyb }</td>
@@ -62,7 +66,7 @@
 							<c:if test="${item.remain_number > 0}">
 							<a href="javascript:;" onclick="purchase('${item.purchase_id}','${item.test }');">采购</a>
 							</c:if>
-							<c:if test="${item.remain_number == 0 }">
+							<c:if test="${item.remain_number <= 0 }">
 								已完成
 							</c:if>
 						</td>

@@ -389,6 +389,24 @@ public class DistributionInfoController {
 		model.addAttribute("qrcode", qrcode);
 		return "orderModule/distribution/print";
 	}
+	@RequestMapping("batchprint")
+	public String batchprint(HttpServletRequest request,Model model,String datetime){
+		if(null==datetime||"".equals(datetime)){
+			datetime = DateUtils.getCurrentDate("yyyy-MM-dd");
+		}
+		DistributionDetail detail = new DistributionDetail();
+		detail.setCreatetime(datetime);
+		List<Map<String,Object>> list = distributionDetailService.select(detail);
+		if(0<list.size()){
+			Qrcode qrcode = null;
+			for (int i = 0; i < list.size(); i++) {
+				qrcode = qrcodeService.getById(list.get(i).get("distribution_qrcode").toString());
+				list.get(i).put("qrcode", qrcode);
+			}
+		}
+		model.addAttribute("list", list);
+		return "orderModule/distribution/batchprint";
+	}
 	
 	@RequestMapping("modifyNum")
 	@ResponseBody

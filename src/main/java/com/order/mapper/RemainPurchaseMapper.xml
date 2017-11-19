@@ -35,6 +35,7 @@
     <if test="kind != null and kind != ''">
     	and kind = #{kind}
     </if>
+    order by kind asc,createtime desc
   </select>
   
   <select id="query" resultType="java.util.Map" parameterType="java.util.Map" >
@@ -58,7 +59,7 @@
     	and kind = #{kind}
     </if>
     limit ${index},8
-    order by createtime desc
+    order by kind asc,createtime desc
   </select>
   <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map" >
     select 

@@ -56,6 +56,7 @@
     <if test="cgdh != null and cgdh != ''">
     	and cgdh = #{cgdh}
     </if>
+    order by kind asc,createtime desc
   </select>
   <select id="selectTested" resultType="java.util.Map" parameterType="com.order.po.PurchaseInfo" >
     select 
@@ -92,6 +93,7 @@
     <if test="cgdh != null and cgdh != ''">
     	and p.cgdh = #{cgdh}
     </if>
+    order by kind asc,createtime desc
   </select>
   <select id="selectQh" resultType="java.util.Map" parameterType="com.order.po.PurchaseInfo" >
     select 
@@ -125,6 +127,7 @@
     <if test="cgdh != null and cgdh != ''">
     	and cgdh = #{cgdh}
     </if>
+    order by kind asc,createtime desc
   </select>
   
   <select id="query" resultType="java.util.Map" parameterType="java.util.Map" >
@@ -160,7 +163,7 @@
     	and cgdh = #{cgdh}
     </if>
     limit ${index},${size}
-    order by createtime desc
+    order by kind asc,createtime desc
   </select>
   <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map" >
     select 

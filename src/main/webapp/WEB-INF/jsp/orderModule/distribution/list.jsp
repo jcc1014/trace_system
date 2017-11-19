@@ -30,20 +30,20 @@
       <!-- 搜索 -->
       <form class="layui-form layui-form-pane search-form" method="post" action="${path}/distribution/psList.do" id="form">
         <div class="layui-form-item">
-          <label class="layui-form-label">日期</label>
+          <label class="layui-form-label" style="width:80px;">日期</label>
           <div class="layui-input-inline">
-            <input class="layui-input" name="createtime" id="createtime" placeholder="日期" >
+            <input class="layui-input" name="createtime" id="createtime" placeholder="日期">
           </div>
           <label class="layui-form-label">蔬菜编码</label>
           <div class="layui-input-inline">
             <input class="layui-input" name="trace_id" id="trace_id" placeholder="蔬菜编码" >
           </div>
-          <label class="layui-form-label">配送码</label>
+          <label class="layui-form-label" style="width:80px;">配送码</label>
           <div class="layui-input-inline">
             <input class="layui-input" name="psbh" id="psbh" placeholder="配送码" >
           </div>
           <button class="layui-btn" id="search" type="submit">搜索</button>
-         <!--  <button class="layui-btn" type="button" id="add">新增</button> -->
+          <button class="layui-btn" type="button" onclick="batchPrint();">打印</button>
         </div>
       </form>
       <form class="layui-form">
@@ -174,6 +174,17 @@ function qrcode(id){
 		  closeBtn: 1,
 		  shadeClose: true,
 		  content: '${path}/distribution/print.do?id='+id
+		});
+}
+function batchPrint(){
+	layer.open({
+		  type: 2,
+		  title: "打印",
+		  area: ['250px','480px'],
+		  shade: 0.8,
+		  closeBtn: 1,
+		  shadeClose: true,
+		  content: '${path}/distribution/batchprint.do?datetime=2017-11-18'
 		});
 }
 </script>

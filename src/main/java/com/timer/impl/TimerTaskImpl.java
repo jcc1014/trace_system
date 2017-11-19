@@ -291,7 +291,7 @@ public class TimerTaskImpl implements TimerTask {
 		
 	}
 
-	@Scheduled(cron="0 0 22,23 * * ?" ) 
+	@Scheduled(cron="0 0 21,22 * * ?" ) 
 	@Override
 	public void remindRequire() {
 		Map<String,Object> map = new HashMap<String, Object>();

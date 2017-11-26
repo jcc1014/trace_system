@@ -88,6 +88,23 @@
       </div>
     </div>
 </div>
+<div style="display:none;padding: 5%;" id="modal" >
+<form>
+  <div class="form-group">
+    <label for="modal_add_market">超市</label>
+    <select class="form-control" id="market">
+    	<option value="">请选择</option>
+    	<c:forEach items="${marketList}" var ="item">
+	    	<option value="${item.id}">${item.name}</option>
+    	</c:forEach>
+    </select>
+  </div>
+  <div class="form-group" style="text-align: center;">
+	  <button type="button" class="btn btn-success" onclick="modalSave();">确定</button>
+	  <button type="button" class="btn btn-default" onclick="closeModal();">关闭</button>
+  </div>
+</form>
+</div>
 <script type="text/javascript">
 var num = parseInt('${num}');
 var curr = parseInt('${curr}');
@@ -176,16 +193,41 @@ function qrcode(id){
 		  content: '${path}/distribution/print.do?id='+id
 		});
 }
-function batchPrint(){
+function batchPrint(market){
+	
 	layer.open({
-		  type: 2,
-		  title: "打印",
-		  area: ['250px','480px'],
+		  type: 1,
+		  title: "选择超市",
+		  area: ['250px','200px'],
 		  shade: 0.8,
 		  closeBtn: 1,
 		  shadeClose: true,
-		  content: '${path}/distribution/batchprint.do'
+		  content: $('#modal')
 		});
+	
+}
+
+function modalSave(){
+	var market = $("#market").val();
+	if(null==market||""==market){
+		layer.msg('请选择超市！',{time:1000});
+		return;
+	}else{
+		layer.closeAll();
+		layer.open({
+			  type: 2,
+			  title: "打印",
+			  area: ['250px','480px'],
+			  shade: 0.8,
+			  closeBtn: 1,
+			  shadeClose: true,
+			  content: '${path}/distribution/batchprint.do?market='+market
+			});
+	}
+}
+
+function closeModal(){
+	layer.closeAll();
 }
 </script>
 </body>

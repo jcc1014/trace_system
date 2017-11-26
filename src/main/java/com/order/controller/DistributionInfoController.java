@@ -362,7 +362,11 @@ public class DistributionInfoController {
 			distributionInfo = distributionInfoService.selectByPrimaryKey(list.get(i).get("distribution_id").toString());
 			list.get(i).put("distributionInfo", distributionInfo);
  		}
+ 		Map<String,Object> marketMap = new HashMap<String, Object>();
+ 		marketMap.put("type", "2");
+ 		List<BaseInfo> marketList = baseInfoService.select(marketMap);
  		model.addAttribute("list", list);
+ 		model.addAttribute("marketList", marketList);
  		return p;
  	}
  	
@@ -390,7 +394,7 @@ public class DistributionInfoController {
 		return "orderModule/distribution/print";
 	}
 	@RequestMapping("batchprint")
-	public String batchprint(HttpServletRequest request,Model model,String datetime){
+	public String batchprint(HttpServletRequest request,Model model,String datetime,String market){
 		if(null==datetime||"".equals(datetime)){
 			datetime = DateUtils.getCurrentDate("yyyy-MM-dd");
 		}
@@ -399,9 +403,14 @@ public class DistributionInfoController {
 		List<Map<String,Object>> list = distributionDetailService.select(detail);
 		if(0<list.size()){
 			Qrcode qrcode = null;
+			DistributionInfo distributionInfo = null;
 			for (int i = 0; i < list.size(); i++) {
 				qrcode = qrcodeService.getById(list.get(i).get("distribution_qrcode").toString());
 				list.get(i).put("qrcode", qrcode);
+				distributionInfo = distributionInfoService.selectByPrimaryKey(list.get(i).get("distribution_id").toString());
+				if(!(null!=distributionInfo&&distributionInfo.getBase_id().equals(market))){
+					list.remove(i);
+				}
 			}
 		}
 		model.addAttribute("list", list);

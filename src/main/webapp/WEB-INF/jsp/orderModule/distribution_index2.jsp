@@ -52,11 +52,19 @@
 	<div class="container-fluid main" >
 		<div class="row">
 			<div class="col-md-6 col-xs-6">
-				<div class="item" style="border: 1px solid #1296db;" onclick="rou();">
+				<div class="item" style="border: 1px solid #1296db;" onclick="today();">
 					<img alt="今日配送" src="${path}/images/orderModule/today.png" width="100%" height="85%;">
-					<div style="color: #009688;">水果配送</div>
+					<div style="color: #009688;">今日配送</div>
 				</div>
 			</div>
+			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #EE7600;" onclick="history();">
+					<img alt="取样列表" src="${path}/images/orderModule/history.png" width="100%" height="85%;">
+					<div style="color: #1296db;">配送列表</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
 			<div class="col-md-6 col-xs-6">
 				<div class="item" style="border: 1px solid #009688;" onclick="setup();">
 					<img alt="个人设置" src="${path}/images/orderModule/setup.png" width="100%" height="85%;">
@@ -67,7 +75,8 @@
 	</div>
 <script type="text/javascript">
 function today(){
-	window.location.href = '${path}/distribution/todayDistribution.do';
+	//window.location.href = '${path}/distribution/todayDistribution.do';
+	window.location.href = '${path}/distribution/distributionListPage.do';
 }
 function rou(){
 	window.location.href = '${path}/meat/psList.do';

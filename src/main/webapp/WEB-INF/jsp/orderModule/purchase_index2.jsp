@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>配送中心</title>
+<title>采购</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -37,7 +37,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="${path}/baseInfo/index.do">配送中心</a>
+				<a class="navbar-brand" href="${path}/baseInfo/index.do">后台管理系统</a>
 			</div>
 		</div>
 		<div class="collapse navbar-collapse"
@@ -52,9 +52,23 @@
 	<div class="container-fluid main" >
 		<div class="row">
 			<div class="col-md-6 col-xs-6">
-				<div class="item" style="border: 1px solid #1296db;" onclick="rou();">
-					<img alt="今日配送" src="${path}/images/orderModule/today.png" width="100%" height="85%;">
-					<div style="color: #009688;">水果配送</div>
+				<div class="item" style="border: 1px solid #1296db;" onclick="today();">
+					<img alt="采购单" src="${path}/images/orderModule/today.png" width="100%" height="85%;">
+					<div style="color: #009688;">采购单</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #EE7600;" onclick="history();">
+					<img alt="采购历史" src="${path}/images/orderModule/history.png" width="100%" height="85%;">
+					<div style="color: #1296db;">采购历史</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #66CDAA;" onclick="qh();">
+					<img alt="缺货单" src="${path}/images/orderModule/qh.png" width="100%" height="85%;">
+					<div style="color: #d81e06;">缺货单</div>
 				</div>
 			</div>
 			<div class="col-md-6 col-xs-6">
@@ -67,22 +81,20 @@
 	</div>
 <script type="text/javascript">
 function today(){
-	window.location.href = '${path}/distribution/todayDistribution.do';
-}
-function rou(){
-	window.location.href = '${path}/meat/psList.do';
+	window.location.href = '${path}/purchase/purchaseList.do';
 }
 
 function history(){
-	window.location.href = '${path}/sampling/history.do'
+	window.location.href = '${path}/purchase/history.do'
 }
 
 function setup(){
 	window.location.href = '${path}/produce/setup.do'
-} 
+}
 
-function jd(){
-	window.location.href = '${path}/produce/info.do';
+function qh(){
+	//window.location.href = '${path}/purchaseInfo/getQhd.do';
+	window.location.href = '${path}/purchaseInfo/allQhcgd.do';
 }
 </script>
 </body>

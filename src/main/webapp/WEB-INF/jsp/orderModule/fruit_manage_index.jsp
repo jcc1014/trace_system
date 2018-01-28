@@ -4,103 +4,103 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>水果管理</title>
-	<meta name="renderer" content="webkit">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black"> 
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="format-detection" content="telephone=no">
-	<link href="${path}/css/bootstrap.css" rel="stylesheet" media="screen">
-	<script src="${path}/js/jquery-2.1.1.min.js" type="text/javascript"></script>
-	<script src="${path}/js/bootstrap.min.js" type="text/javascript"></script>
-	<style type="text/css">
-		body{background-color: #eee;}
-		.main{margin-top: 10rem !important;}
-		.row{height:20rem;}
-		.item{border: 1px solid #eee;background-color: #E0EEEE;height: 18rem;padding: 1rem;border-radius:15px}
-		.item div{text-align: center;font-size: 2rem;line-height: 2rem;
-		.navbar-brand{color: #009688 !important;}
-		width: 100%;padding-top: 0.5rem;}
-	</style>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+   <title>协同采购平台</title>
+   <link rel="stylesheet" href="${cg}/fonts/iconfont.css"/>
+   <link rel="stylesheet" href="${cg}/css/font.css"/>
+   <link rel="stylesheet" href="${cg}/css/mui.css"/>
+   <link rel="stylesheet" href="${cg}/css/weui.min.css"/>
+   <link rel="stylesheet" href="${cg}/css/jquery-weui.min.css"/>
+   <link rel="stylesheet" href="${cg}/css/animate.css"/>
+   <link rel="stylesheet" href="${cg}/css/pages/app.css"/>
+   <style type="text/css">
+   		.app-wrap{min-height:82px !important;}
+   		h4{border-top: 1px solid #d9d9d9;}
+   </style>
+   <script>
+        (function (doc, win) {
+          var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function () {
+              var clientWidth = docEl.clientWidth;
+              if (!clientWidth) return;
+              docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+            };
+
+          if (!doc.addEventListener) return;
+          win.addEventListener(resizeEvt, recalc, false);
+          doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
 </head>
 <body>
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-					aria-expanded="false">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="${path}/baseInfo/index.do">销售管理</a>
-			</div>
-		</div>
-		<div class="collapse navbar-collapse"
-			id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<!-- <li><a href="#">我的消息</a></li> -->
-				<li><a href="${path}/baseInfo/logout.do">退出登录</a></li>
-			</ul>
-		</div>
-		<!-- /.navbar-collapse -->
-	</nav>
-	<div class="container-fluid main" >
-		<div class="row">
-			<div class="col-md-6 col-xs-6">
-				<div class="item" style="border: 1px solid #1296db;" onclick="rou();">
-					<img alt="销售价" src="${path}/images/orderModule/today.png" width="100%" height="85%;">
-					<div style="color: #009688;">水果销售价</div>
-				</div>
-			</div> 
-			<div class="col-md-6 col-xs-6">
-				<div class="item" style="border: 1px solid #1296db;" onclick="ps();">
-					<img alt="今日配送" src="${path}/images/orderModule/today.png" width="100%" height="85%;">
-					<div style="color: #009688;">水果配送</div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6 col-xs-6">
-				<div class="item" style="border: 1px solid #d81e06;" onclick="meat();">
-					<img alt="肉类" src="${path}/images/orderModule/fruit.png" width="100%" height="85%;">
-					<div style="color: #d81e06;">水果采购</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-xs-6">
-				<div class="item" style="border: 1px solid #009688;" onclick="setup();">
-					<img alt="个人设置" src="${path}/images/orderModule/setup.png" width="100%" height="85%;">
-					<div style="color: #515151;">个人设置</div>
-				</div>
-			</div>
-		</div>
-	</div>
-<script type="text/javascript">
-function today(){
-	window.location.href = '${path}/salePrice/todaySalePrice.do';
-}
-
-function history(){
-	window.location.href = '${path}/salePrice/history.do'
-}
-function rou(){
-	window.location.href = '${path}/fruit/saleList.do'
-}
-
-function setup(){
-	window.location.href = '${path}/produce/setup.do'
-} 
-
-function ps(){
-	window.location.href = '${path}/fruit/psList.do';
-}
-function meat(){
-	window.location.href = '${path}/fruit/list.do';
-}
-</script>
+    <header>
+        <div class="titlebar reverse" style="background-color: #0498a1;">
+           
+           <h1>协同采购平台</h1>
+       </div>
+   </header>
+   <article style="padding-bottom: 54px;padding-top:44px;">
+       <div class="list-wrap">
+           <h4>肉食管理</h4>
+           <ul class="app-list">
+               <li>
+                   <div class="app-wrap">
+                       <a href="${path}/fruit/list.do">
+                           <img src="${path}/images/orderModule/fruit.png" class="iconfont"/>
+                           <span>水果采购</span>
+                       </a>
+                   </div>
+               </li>
+               <li>
+                   <div class="app-wrap">
+                       <a href="${path}/salePrice/todaySalePrice.do">
+                           <img src="${path}/images/orderModule/dingjia.png" class="iconfont"/>
+                           <span>水果售价</span>
+                       </a>
+                   </div>
+               </li>
+               <li>
+                   <div class="app-wrap">
+                       <a href="${path}/fruit/psList.do">
+                           <img src="${path}/images/orderModule/peisong.png" class="iconfont"/>
+                           <span>水果配送</span>
+                       </a>
+                   </div>
+                   
+               </li>
+           </ul>
+       </div>
+       <div class="list-wrap">
+           <h4>系统管理</h4>
+           <ul class="app-list">
+               <li>
+                   <div class="app-wrap">
+                       <a href="${path}/produce/setup.do">
+                           <img src="${path}/images/orderModule/setup.png" class="iconfont"/>
+                           <span>系统设置</span>
+                       </a>
+                   </div>
+               </li>
+               <%-- <li>
+                   <div class="app-wrap">
+                       <a href="${path}/baseInfo/logout.do">
+                           <img src="${path}/images/orderModule/mine.png" class="iconfont"/>
+                           <span>个人中心</span>
+                       </a>
+                   </div>
+               </li> --%>
+               <li>
+                   <div class="app-wrap">
+                       <a href="${path}/baseInfo/logout.do">
+                           <img src="${path}/images/orderModule/exit.png" class="iconfont"/>
+                           <span>退出</span>
+                       </a>
+                   </div>
+               </li>
+           </ul>
+       </div>
+   </article>
 </body>
 </html>

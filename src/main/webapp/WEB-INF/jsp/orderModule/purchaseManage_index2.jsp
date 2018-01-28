@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>配送中心</title>
+<title>采购主管</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -17,7 +17,7 @@
 	<script src="${path}/js/bootstrap.min.js" type="text/javascript"></script>
 	<style type="text/css">
 		body{background-color: #eee;}
-		.main{margin-top: 10rem !important;}
+		.main{margin-top: 5rem !important;}
 		.row{height:20rem;}
 		.item{border: 1px solid #eee;background-color: #E0EEEE;height: 18rem;padding: 1rem;border-radius:15px}
 		.item div{text-align: center;font-size: 2rem;line-height: 2rem;
@@ -37,7 +37,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="${path}/baseInfo/index.do">配送中心</a>
+				<a class="navbar-brand" href="${path}/baseInfo/index.do">后台管理系统</a>
 			</div>
 		</div>
 		<div class="collapse navbar-collapse"
@@ -52,9 +52,43 @@
 	<div class="container-fluid main" >
 		<div class="row">
 			<div class="col-md-6 col-xs-6">
-				<div class="item" style="border: 1px solid #1296db;" onclick="rou();">
-					<img alt="今日配送" src="${path}/images/orderModule/today.png" width="100%" height="85%;">
-					<div style="color: #009688;">水果配送</div>
+				<div class="item" style="border: 1px solid #1296db;" onclick="today();">
+					<img alt="采购单" src="${path}/images/orderModule/today.png" width="100%" height="85%;">
+					<div style="color: #009688;">采购</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #EE7600;" onclick="history();">
+					<img alt="采购历史" src="${path}/images/orderModule/history.png" width="100%" height="85%;">
+					<div style="color: #1296db;">采购历史</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #66CDAA;" onclick="qh();">
+					<img alt="供应单" src="${path}/images/orderModule/qh.png" width="100%" height="85%;">
+					<div style="color: #d81e06;">缺货单</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #d81e06;" onclick="fy();">
+					<img alt="供应单" src="${path}/images/orderModule/fy.png" width="100%" height="85%;">
+					<div style="color: #66CDAA;">富余单</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<%-- <div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #515151;" onclick="gy();">
+					<img alt="供应单" src="${path}/images/orderModule/gongying.png" width="100%" height="85%;">
+					<div style="color: #EE7600;">供应单</div>
+				</div>
+			</div> --%>
+			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #66CDAA;" onclick="qhcg();">
+					<img alt="缺货采购单" src="${path}/images/orderModule/qh.png" width="100%" height="85%;">
+					<div style="color: #d81e06;">缺货采购单</div>
 				</div>
 			</div>
 			<div class="col-md-6 col-xs-6">
@@ -67,22 +101,28 @@
 	</div>
 <script type="text/javascript">
 function today(){
-	window.location.href = '${path}/distribution/todayDistribution.do';
-}
-function rou(){
-	window.location.href = '${path}/meat/psList.do';
+	window.location.href = '${path}/purchaseInfo/todayCgd.do';
 }
 
 function history(){
-	window.location.href = '${path}/sampling/history.do'
+	window.location.href = '${path}/purchaseInfo/history.do'
 }
 
 function setup(){
 	window.location.href = '${path}/produce/setup.do'
-} 
+}
 
-function jd(){
-	window.location.href = '${path}/produce/info.do';
+function gy(){
+	window.location.href = '${path}/produce/todayProduceTotal.do';
+}
+function qh(){
+	window.location.href = '${path}/purchaseInfo/allQhd.do';
+}
+function qhcg(){
+	window.location.href = '${path}/purchaseInfo/allQhcgd.do';
+}
+function fy(){
+	window.location.href = '${path}/purchaseInfo/getFyd.do';
 }
 </script>
 </body>

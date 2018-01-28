@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>配送中心</title>
+<title>生产基地</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -17,7 +17,7 @@
 	<script src="${path}/js/bootstrap.min.js" type="text/javascript"></script>
 	<style type="text/css">
 		body{background-color: #eee;}
-		.main{margin-top: 10rem !important;}
+		.main{margin-top: 5rem !important;}
 		.row{height:20rem;}
 		.item{border: 1px solid #eee;background-color: #E0EEEE;height: 18rem;padding: 1rem;border-radius:15px}
 		.item div{text-align: center;font-size: 2rem;line-height: 2rem;
@@ -37,7 +37,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="${path}/baseInfo/index.do">配送中心</a>
+				<a class="navbar-brand" href="${path}/baseInfo/index.do">后台管理系统</a>
 			</div>
 		</div>
 		<div class="collapse navbar-collapse"
@@ -52,9 +52,23 @@
 	<div class="container-fluid main" >
 		<div class="row">
 			<div class="col-md-6 col-xs-6">
-				<div class="item" style="border: 1px solid #1296db;" onclick="rou();">
-					<img alt="今日配送" src="${path}/images/orderModule/today.png" width="100%" height="85%;">
-					<div style="color: #009688;">水果配送</div>
+				<div class="item" style="border: 1px solid #1296db;" onclick="today();">
+					<img alt="供应单" src="${path}/images/orderModule/today.png" width="100%" height="85%;">
+					<div style="color: #009688;">供应单</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #EE7600;" onclick="history();">
+					<img alt="历史单" src="${path}/images/orderModule/history.png" width="100%" height="85%;">
+					<div style="color: #1296db;">历史单</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #515151;" onclick="jd();">
+					<img alt="基地信息" src="${path}/images/orderModule/market.png" width="100%" height="85%;">
+					<div style="color: #EE7600;">基地信息</div>
 				</div>
 			</div>
 			<div class="col-md-6 col-xs-6">
@@ -64,25 +78,34 @@
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-md-6 col-xs-6">
+				<div class="item" style="border: 1px solid #EE7600;" onclick="fl();">
+					<img alt="蔬菜分类" src="${path}/images/orderModule/type.png" width="100%" height="85%;">
+					<div style="color: #8968CD;">蔬菜分类查询</div>
+				</div>
+			</div>
+		</div>
 	</div>
 <script type="text/javascript">
 function today(){
-	window.location.href = '${path}/distribution/todayDistribution.do';
-}
-function rou(){
-	window.location.href = '${path}/meat/psList.do';
+	window.location.href = '${path}/produce/today_produce.do';
 }
 
 function history(){
-	window.location.href = '${path}/sampling/history.do'
+	window.location.href = '${path}/produce/history.do'
 }
 
 function setup(){
 	window.location.href = '${path}/produce/setup.do'
-} 
+}
 
 function jd(){
 	window.location.href = '${path}/produce/info.do';
+}
+
+function fl(){
+	window.location.href = "${path}/sczl/query.do";
 }
 </script>
 </body>

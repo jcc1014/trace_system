@@ -227,6 +227,9 @@ public class BaseInfoController {
 			}else if("fruit".equals(user.getUsertype())){
 				//肉类配送
 				page = "orderModule/fruit_manage_index";
+			}else if("0".equals(user.getUsertype())){
+				//肉类配送
+				page = "orderModule/index";
 			}
 			else{
 				page = "404";

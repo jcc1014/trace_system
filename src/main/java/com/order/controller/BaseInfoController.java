@@ -200,19 +200,6 @@ public class BaseInfoController {
 			CommonUtils.rememberPass(username, password, response);
 			rsMap.put("code", "200");
 			rsMap.put("msg", "登录成功！");
-			/*List<String> userList = new ArrayList<String>();
-			userList.add("erp-0000");
-			TextMessageEntity textMessageEntity = new TextMessageEntity();
-			textMessageEntity.setTouser(userList);
-			Map<String, String> text = new HashMap<String, String>();
-			text.put("content", "时间："+DateUtils.getCurrentDate()+"\n用户："+user.getUsername()+"\n操作：登录");
-			textMessageEntity.setText(text);
-			try {
-				JSONObject jsonObject = SendMessage.sendTextMessage(textMessageEntity);
-				Log4JUtils.getLogger().error(jsonObject.get("errcode"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}*/
 		}else{
 			rsMap.put("code", "-1");
 			rsMap.put("msg", "登录失败！</br>请检查用户名和密码是否正确！");

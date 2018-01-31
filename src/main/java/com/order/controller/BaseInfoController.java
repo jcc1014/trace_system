@@ -179,6 +179,47 @@ public class BaseInfoController {
 		
 		return JSON.toJSONString(rsMap);
 	}
+	@RequestMapping("syncLogin")
+	@ResponseBody
+	public String syncLogin(HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> rsMap = new HashMap<String, Object>();
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String new_password = DigestUtils.md5Hex(password);
+		User user  = userService.selectByusernameAndpassword(username, new_password);
+		if(null!=user){
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("fzr", user.getUserid());
+			List<BaseInfo> list = baseInfoService.select(map);
+			BaseInfo baseInfo = null;
+			if(null!=list&&0<list.size()){
+				baseInfo = list.get(0);
+			}
+			request.getSession().setAttribute("user", user);
+			request.getSession().setAttribute("baseInfo", baseInfo);
+			CommonUtils.rememberPass(username, password, response);
+			rsMap.put("code", "200");
+			rsMap.put("msg", "登录成功！");
+			/*List<String> userList = new ArrayList<String>();
+			userList.add("erp-0000");
+			TextMessageEntity textMessageEntity = new TextMessageEntity();
+			textMessageEntity.setTouser(userList);
+			Map<String, String> text = new HashMap<String, String>();
+			text.put("content", "时间："+DateUtils.getCurrentDate()+"\n用户："+user.getUsername()+"\n操作：登录");
+			textMessageEntity.setText(text);
+			try {
+				JSONObject jsonObject = SendMessage.sendTextMessage(textMessageEntity);
+				Log4JUtils.getLogger().error(jsonObject.get("errcode"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}*/
+		}else{
+			rsMap.put("code", "-1");
+			rsMap.put("msg", "登录失败！</br>请检查用户名和密码是否正确！");
+		}
+		
+		return JSON.toJSONString(rsMap);
+	}
 	@RequestMapping("index")
 	public String index(HttpServletRequest request){
 		String page = "redirect:login.do"; //生产基地

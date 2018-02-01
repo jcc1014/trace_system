@@ -183,6 +183,7 @@ public class BaseInfoController {
 	@ResponseBody
 	public String syncLogin(HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> rsMap = new HashMap<String, Object>();
+		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String new_password = DigestUtils.md5Hex(password);

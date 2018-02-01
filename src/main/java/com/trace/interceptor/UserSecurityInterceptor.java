@@ -51,6 +51,9 @@ public class UserSecurityInterceptor implements HandlerInterceptor{
         HttpSession session = arg0.getSession();
         if (session.getAttribute("user") == null) {
             Log4JUtils.getLogger().info(requestUri);
+            if(requestUri.contains("sync")){
+            	return true;
+            }
             if(requestUri.contains("mall")){
             	arg1.sendRedirect(arg0.getContextPath() + "/mall/login.do");
             }else if(requestUri.contains("baseInfo")||

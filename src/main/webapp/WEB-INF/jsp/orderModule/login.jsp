@@ -14,6 +14,10 @@
    <link rel="stylesheet" href="${cg}/css/jquery-weui.min.css"/>
    <link rel="stylesheet" href="${cg}/css/animate.css"/>
    <link rel="stylesheet" href="${cg}/css/pages/login.css"/>
+   <style type="text/css">
+   	.header{border-top: 0rem solid #0498a1;}
+   	
+   </style>
    <script>(function (doc, win) {
      var docEl = doc.documentElement,
        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
@@ -87,7 +91,6 @@ function login(){
 				}else{
 					layer.msg(rs.msg,{time:1000});
 				}
-				
 			}
 		}
 	})

@@ -181,7 +181,7 @@ public class BaseInfoController {
 	}
 	@RequestMapping("syncLogin")
 	@ResponseBody
-	public String syncLogin(HttpServletRequest request,HttpServletResponse response){
+	public Map<String,Object> syncLogin(HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 		
 		String username = request.getParameter("username");
@@ -195,18 +195,21 @@ public class BaseInfoController {
 			BaseInfo baseInfo = null;
 			if(null!=list&&0<list.size()){
 				baseInfo = list.get(0);
+				rsMap.put("code", "success");
+				rsMap.put("msg", "登录成功！");
+				rsMap.put("baseid", baseInfo.getId());
+				rsMap.put("baseName", baseInfo.getName());
+				rsMap.put("userid", user.getUserid());
+			}else{
+				rsMap.put("code", "fail");
+				rsMap.put("msg", "登录失败，用户类型不正确！");
 			}
-			request.getSession().setAttribute("user", user);
-			request.getSession().setAttribute("baseInfo", baseInfo);
-			CommonUtils.rememberPass(username, password, response);
-			rsMap.put("code", "200");
-			rsMap.put("msg", "登录成功！");
 		}else{
-			rsMap.put("code", "-1");
-			rsMap.put("msg", "登录失败！</br>请检查用户名和密码是否正确！");
+			rsMap.put("code", "fail");
+			rsMap.put("msg", "登录失败，用户名或密码不正确！");
 		}
 		
-		return JSON.toJSONString(rsMap);
+		return rsMap;
 	}
 	@RequestMapping("index")
 	public String index(HttpServletRequest request){

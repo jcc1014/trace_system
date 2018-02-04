@@ -17,11 +17,13 @@
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
     <result column="signname" property="signname" jdbcType="VARCHAR" />
     <result column="dw" property="dw" jdbcType="VARCHAR" />
+    <result column="issale" property="issale" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     distribution_id, require_id, require_name, require_num, kind, yps, wps,spyb,
-    distribution_address,base_id,price,round(sum_price,2)as sum_price,createtime,grade,signname,dw
+    distribution_address,base_id,price,round(sum_price,2)as sum_price,createtime,grade,signname,dw,issale
   </sql>
+  
   <select id="select" resultType="java.util.Map" parameterType="java.util.Map" >
     select 
     <include refid="Base_Column_List" />
@@ -44,6 +46,44 @@
     </if>
     <if test="base_id != null and base_id != ''">
     	and base_id = #{base_id}
+    </if>
+    <if test="issale != null and issale != ''">
+    	and issale = #{issale}
+    </if>
+    <if test="issale == '0'">
+    	and not EXISTS(select 1 from distribution_info di where di.kind=d.kind and di.base_id = d.base_id and di.issale = '1' )
+    </if>
+  </select>
+  <select id="selectSyncData" resultType="java.util.Map" parameterType="java.util.Map" >
+    select 
+    d.distribution_id, d.require_id, d.require_name, d.require_num, d.kind, d.yps, d.wps,d.spyb,
+    d.distribution_address,d.base_id,d.price,round(d.sum_price,2)as sum_price,d.createtime,d.grade,
+    d.signname,d.dw,d.issale,(select hh from goods where goods_name = d.kind)as hh
+    from distribution_info d,goods
+    where goods_name = d.kind 
+    <if test="kind != null and kind != ''">
+    	and d.kind = #{kind}
+    </if>
+    <if test="grade != null and grade != ''">
+    	and d.grade = #{grade}
+    </if>
+    <if test="spyb != null and spyb != ''">
+    	and d.spyb = #{spyb}
+    </if>
+    <if test="createtime != null and createtime != ''">
+    	and d.createtime like '%${createtime}%'
+    </if>
+    <if test="require_name != null and require_name != ''">
+    	and d.require_name like '%${require_name}%'
+    </if>
+    <if test="base_id != null and base_id != ''">
+    	and d.base_id = #{base_id}
+    </if>
+    <if test="issale != null and issale != ''">
+    	and d.issale = #{issale}
+    </if>
+    <if test="issale == '0'">
+    	and not EXISTS(select 1 from distribution_info di where di.kind=d.kind and di.base_id = d.base_id and di.issale = '1' )
     </if>
   </select>
   <select id="selectPurchaseed" resultType="java.util.Map" parameterType="java.util.Map" >
@@ -183,6 +223,9 @@
       <if test="dw != null and dw != ''" >
         dw,
       </if>
+      <if test="issale != null and issale != ''" >
+        issale,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="distribution_id != null" >
@@ -229,6 +272,9 @@
       </if>
       <if test="dw != null and dw != ''" >
         #{dw},
+      </if>
+      <if test="issale != null and issale != ''" >
+        #{issale},
       </if>
     </trim>
   </insert>
@@ -279,6 +325,9 @@
       </if>
       <if test="dw != null and dw != ''" >
         dw = #{dw},
+      </if>
+      <if test="issale != null and issale != ''" >
+        issale = #{issale},
       </if>
     </set>
     where distribution_id = #{distribution_id,jdbcType=VARCHAR}

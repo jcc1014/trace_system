@@ -73,4 +73,10 @@ public class DistributionInfoServiceImpl implements DistributionInfoService {
 		return distributionInfoMapper.selectPurchaseed(record);
 	}
 
+
+	@Override
+	public List<Map<String, Object>> selectSyncData(DistributionInfo record) {
+		return distributionInfoMapper.selectSyncData(record);
+	}
+
 }

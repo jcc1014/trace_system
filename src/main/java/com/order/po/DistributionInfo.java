@@ -32,6 +32,8 @@ public class DistributionInfo {
     private String signname;
     
     private String dw; //单位
+    
+    private String issale; //单位
 
     public String getDistribution_id() {
         return distribution_id;
@@ -159,6 +161,14 @@ public class DistributionInfo {
 
 	public void setDw(String dw) {
 		this.dw = dw;
+	}
+
+	public String getIssale() {
+		return issale;
+	}
+
+	public void setIssale(String issale) {
+		this.issale = issale;
 	}
 	
 }

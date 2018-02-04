@@ -179,6 +179,7 @@ public class BaseInfoController {
 		
 		return JSON.toJSONString(rsMap);
 	}
+	
 	@RequestMapping("syncLogin")
 	@ResponseBody
 	public Map<String,Object> syncLogin(HttpServletRequest request,HttpServletResponse response){
@@ -211,6 +212,7 @@ public class BaseInfoController {
 		
 		return rsMap;
 	}
+	
 	@RequestMapping("index")
 	public String index(HttpServletRequest request){
 		String page = "redirect:login.do"; //生产基地

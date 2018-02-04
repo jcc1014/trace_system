@@ -22,6 +22,8 @@ public interface DistributionInfoMapper {
     
     List<Map<String,Object>> select(DistributionInfo record);
     
+    List<Map<String,Object>> selectSyncData(DistributionInfo record);
+    
     List<Map<String,Object>> selectPurchaseed(DistributionInfo record);
 
     List<Map<String,Object>> getDeliverData(Map<String,Object> map);

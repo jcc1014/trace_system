@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -445,5 +446,74 @@ public class DistributionInfoController {
 		BaseInfo xsdw = baseInfoService.selectByPrimaryKey(distributionInfo.getBase_id());
 		model.addAttribute("xsdw", xsdw);
 		return page;
+	}
+	
+	@RequestMapping("syncGetData")
+	@ResponseBody
+	public List<Map<String,Object>> syncGetData(HttpServletRequest request,HttpServletResponse response){
+		
+		String type = request.getParameter("type");
+		String name = request.getParameter("name");
+		String baseid = request.getParameter("baseid");
+		DistributionInfo distributionInfo = new DistributionInfo();
+		distributionInfo.setBase_id(baseid);
+		distributionInfo.setKind(name);
+		distributionInfo.setIssale(type);
+		List<Map<String,Object>> list = distributionInfoService.selectSyncData(distributionInfo);
+		return list;
+	}
+	@RequestMapping("syncPutOn")
+	@ResponseBody
+	public Map<String,Object> syncPutOn(HttpServletRequest request,HttpServletResponse response){
+		String id = request.getParameter("id");
+		int num = 0;
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(null!=id&&0<id.length()){
+			DistributionInfo distributionInfo = null;
+			String[] ids = id.split(",");
+			for (int i = 0; i < ids.length; i++) {
+				if(!"".equals(ids[i])){
+					distributionInfo = new DistributionInfo();
+					distributionInfo.setDistribution_id(ids[i]);
+					distributionInfo.setIssale("1");
+					num += distributionInfoService.updateByPrimaryKeySelective(distributionInfo);
+				}
+			}
+			
+		}
+		if(num>0){
+			map.put("code", "success");
+			map.put("num", num);
+		}else{
+			map.put("code", "fail");
+		}
+		return map;
+	}
+	@RequestMapping("syncPutOff")
+	@ResponseBody
+	public Map<String,Object> syncPutOff(HttpServletRequest request,HttpServletResponse response){
+		String id = request.getParameter("id");
+		int num = 0;
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(null!=id&&0<id.length()){
+			DistributionInfo distributionInfo = null;
+			String[] ids = id.split(",");
+			for (int i = 0; i < ids.length; i++) {
+				if(!"".equals(ids[i])){
+					distributionInfo = new DistributionInfo();
+					distributionInfo.setDistribution_id(id);
+					distributionInfo.setIssale("2");
+					num += distributionInfoService.updateByPrimaryKeySelective(distributionInfo);
+				}
+			}
+			
+		}
+		if(num>0){
+			map.put("code", "success");
+			map.put("num", num);
+		}else{
+			map.put("code", "fail");
+		}
+		return map;
 	}
 }
